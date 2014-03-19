@@ -1,4 +1,4 @@
-games-java
+OhHeckYeah
 ==========
 
-The OhHeckYeah video games
+The OhHeckYeah video games, written with Java & Procesing, built on top of Haxademic.
