@@ -11,25 +11,19 @@
 	<classpathentry kind="lib" path="lib/oscP5/library/oscP5.jar"/>
 	<classpathentry kind="lib" path="lib/OBJLoader/library/OBJLoader.jar"/>
 	<classpathentry kind="lib" path="lib/hemesh/library/apfloat.jar"/>
-	<classpathentry kind="lib" path="lib/hemesh/library/hemesh.jar"/>
 	<classpathentry kind="lib" path="lib/hemesh/library/javolution-5.5.1.jar"/>
 	<classpathentry kind="lib" path="lib/hemesh/library/quickhull3d.jar"/>
 	<classpathentry kind="lib" path="lib/geomerative/library/batikfont.jar"/>
 	<classpathentry kind="lib" path="lib/geomerative/library/geomerative.jar"/>
 	<classpathentry kind="lib" path="lib/SimpleOpenNI/library/SimpleOpenNI.jar"/>
 	<classpathentry kind="lib" path="lib/blobDetection/library/blobDetection.jar"/>
-	<classpathentry kind="lib" path="lib/Filters/dist/Filters.jar" sourcepath="lib/Filters/src"/>
 	<classpathentry kind="lib" path="lib/super-csv/super-csv-2.1.0.jar"/>
-	<classpathentry kind="lib" path="lib/joons/library/janino.jar"/>
-	<classpathentry kind="lib" path="lib/joons/library/sunflow73.jar"/>
 	<classpathentry kind="lib" path="lib/processing-2.0/libraries/minim/library/jl1.0.jar"/>
 	<classpathentry kind="lib" path="lib/processing-2.0/libraries/minim/library/jsminim.jar"/>
 	<classpathentry kind="lib" path="lib/processing-2.0/libraries/minim/library/minim.jar"/>
 	<classpathentry kind="lib" path="lib/processing-2.0/libraries/minim/library/mp3spi1.9.4.jar"/>
 	<classpathentry kind="lib" path="lib/processing-2.0/libraries/minim/library/tritonus_aos.jar"/>
 	<classpathentry kind="lib" path="lib/processing-2.0/libraries/minim/library/tritonus_share.jar"/>
-	<classpathentry kind="lib" path="lib/newhull/library/newhull.jar"/>
-	<classpathentry kind="lib" path="lib/ProGAL/ProGAL.jar"/>
 	<classpathentry kind="lib" path="lib/processing-2.0/core/core.jar"/>
 	<classpathentry kind="lib" path="lib/processing-2.0/core/gluegen-rt.jar"/>
 	<classpathentry kind="lib" path="lib/processing-2.0/core/jogl-all.jar"/>
@@ -43,14 +37,13 @@
 			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="haxademic-2/lib/LeapMotionForProcessing/library/macosx"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="lib/processing-2.0/libraries/pdf/library/itext.jar"/>
-	<classpathentry kind="lib" path="lib/processing-2.0/libraries/pdf/library/pdf.jar"/>
 	<classpathentry kind="lib" path="lib/itext/itext-2.0.7.jar"/>
 	<classpathentry kind="lib" path="lib/UMovieMaker/library/monte-cc.jar"/>
 	<classpathentry kind="lib" path="lib/UMovieMaker/library/UMovieMaker.jar"/>
-	<classpathentry kind="lib" path="lib/poly2tri/poly2tri-core-0.1.1.jar"/>
-	<classpathentry kind="lib" path="lib/poly2tri/slf4j-api-1.6.3.jar"/>
 	<classpathentry kind="lib" path="lib/controlP5/library/controlP5.jar"/>
+	<classpathentry kind="lib" path="lib/joons/library/janino.jar"/>
+	<classpathentry kind="lib" path="lib/joons/library/sunflow73.jar"/>
+	<classpathentry kind="lib" path="lib/Filters/dist/Filters.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/J2SE-1.5"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
