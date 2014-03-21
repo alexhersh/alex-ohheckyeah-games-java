@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.ohheckyeah.games.catchy.assets.CatchyColors;
 import org.ohheckyeah.games.catchy.assets.CatchyGraphics;
 import org.ohheckyeah.games.catchy.game.CatchyGamePlay;
+import org.ohheckyeah.games.catchy.game.CatchyGameTimer;
 
 import processing.core.PApplet;
 
@@ -12,6 +13,7 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.audio.AudioPool;
 import com.haxademic.core.draw.color.ColorGroup;
+import com.haxademic.core.draw.util.DrawUtil;
 import com.haxademic.core.hardware.kinect.KinectRegionGrid;
 import com.haxademic.core.system.FileUtil;
 import com.haxademic.core.system.TimeFactoredFps;
@@ -61,9 +63,8 @@ extends PAppletHax
 	public static String PADDLE_BOUNCE = "PADDLE_BOUNCE";
 	
 	// game state
-	protected int _curMode;
 	protected ColorGroup _gameColors;
-	public static int NUM_PLAYERS = 3;
+	public static int NUM_PLAYERS = 2;
 	protected KinectRegionGrid _kinectGrid;
 	protected ArrayList<CatchyGamePlay> _gamePlays;
 	
@@ -80,6 +81,7 @@ extends PAppletHax
 	public static int GAME_COUNTDOWN = 7;
 	
 	public TimeFactoredFps timeFactor;
+	public CatchyGameTimer gameTimer;
 	
 	public void setup() {
 		_customPropsFile = FileUtil.getHaxademicDataPath() + "properties/catchy.properties";
@@ -125,6 +127,10 @@ extends PAppletHax
 		//		}
 		
 		timeFactor = new TimeFactoredFps( p, 60 );
+		
+		// for testing atm
+		gameTimer = new CatchyGameTimer();
+		gameTimer.startTimer();
 	}
 		
 	protected void loadMedia() {
@@ -201,8 +207,10 @@ extends PAppletHax
 	public void drawApp() {
 		p.background(45);
 
-		// update controls
+		// update controls & timing
 		_kinectGrid.update();
+		timeFactor.update();
+		gameTimer.update();
 		
 		// update gamePlays
 		CatchyGamePlay gamePlay = null;
@@ -213,19 +221,23 @@ extends PAppletHax
 			p.image( gamePlay.pg, _gameWidth * i, 0, _gameWidth, p.height);
 		}
 		
-		// draw dividers
+		// draw dividers & timers
 		for( int i=0; i < NUM_PLAYERS; i++ ) {
-			// draw white borders
 			if(i > 0) {
+				// draw white borders
 				p.fill(255);
 				p.noStroke();
 				float dividerX = _gameWidth * i - gameGraphics.divider.width * 0.5f;
 				float dividerH = ( gameScaleV > 1 ) ? gameGraphics.divider.height * gameScaleV : gameGraphics.divider.height;
 				p.shape( gameGraphics.divider, dividerX, 0, gameGraphics.divider.width, dividerH );
+				// draw timers
+				p.pushMatrix();
+				p.translate( dividerX - 50, 30 );
+				gameTimer.drawTimer();
+				p.popMatrix();
 			}
 		}
 
-		timeFactor.update();
 		// P.println("target_fps: "+timeFactor.targetFps()+" / actual_fps: "+timeFactor.actualFps()+" / timeFactor: "+timeFactor.multiplier());
 		
 				
