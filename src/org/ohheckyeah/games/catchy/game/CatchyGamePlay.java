@@ -15,24 +15,41 @@ public class CatchyGamePlay {
 	
 	protected Catchy p;
 	public int gameWidth;
+	public int gameHalfWidth;
 	public int gameIndex;
 	protected EasingFloat _easedControlX;
+	protected float _autoControl;
 	
 	protected KinectRegion _kinectRegion;
 	public PGraphics pg;
 	
 	protected PShape _character;
+	protected float _mountainX;
+	protected float _mountainH;
+	protected float _bushSmallX;
+	protected float _bushLargeX;
 	
 	public CatchyGamePlay( int gameIndex, int gameWidth, KinectRegion kinectRegion ) {
 		p = (Catchy) P.p;
 		this.gameIndex = gameIndex;
 		this.gameWidth = gameWidth;
+		this.gameHalfWidth = Math.round( gameWidth / 2f );
 		_kinectRegion = kinectRegion;
 
 		pg = p.createGraphics( gameWidth, p.height, P.OPENGL );
 		
 		_easedControlX = new EasingFloat( 0.5f, 6f );
+		_autoControl = p.random(0.0001f, 0.001f);
+		reset();
+	}
+	
+	public void reset() {
 		_character = p.gameGraphics.characters.get( gameIndex % p.gameGraphics.characters.size() );
+		_mountainX = p.random( 0, gameWidth );
+		_mountainH = p.random( 0, gameWidth );
+		_bushSmallX = p.random( 0, gameWidth );
+		_bushLargeX = p.random( 0, gameWidth );
+
 	}
 	
 	public void update() {
@@ -44,15 +61,26 @@ public class CatchyGamePlay {
 		
 		DrawUtil.setDrawCenter(pg);
 		
-		_easedControlX.setTarget( _kinectRegion.controlX() );
-		_easedControlX.update();
-		float curControlX = _easedControlX.value();
+		// update and ease controls
+		float curControlX;
+		if( p.kinectWrapper != null ) {
+			_easedControlX.setTarget( _kinectRegion.controlX() );
+			_easedControlX.update();
+			curControlX = _easedControlX.value() - 0.5f;
+		} else {
+			curControlX = 0.5f * P.sin(p.millis() * _autoControl);
+		}
+		float playerOffset = gameWidth * 0.9f * curControlX;
 		
-		pg.shape( p.gameGraphics.grass, pg.width * 0.5f * curControlX * 0.5f, pg.height + 2 - p.gameGraphics.grass.height * p.gameScaleV * 0.5f );
-		pg.shape( _character, pg.width * curControlX, pg.height - 22 - _character.height * p.gameScaleV * 0.5f, _character.width * p.gameScaleV, _character.height * p.gameScaleV );
+		// draw graphics layers
+		pg.shape( p.gameGraphics.mountain, _mountainX + playerOffset * 0.2f, pg.height + 2 - p.gameGraphics.mountain.height * p.gameScaleV * 0.5f );
+		pg.shape( p.gameGraphics.grass, gameHalfWidth + playerOffset * 0.5f, pg.height + 2 - p.gameGraphics.grass.height * p.gameScaleV * 0.5f );
+		pg.shape( _character, gameHalfWidth + playerOffset, pg.height - 22 - _character.height * p.gameScaleV * 0.5f, _character.width * p.gameScaleV, _character.height * p.gameScaleV );
+		pg.shape( p.gameGraphics.bushSmall, _bushSmallX + playerOffset * 1.6f, pg.height + 10 - p.gameGraphics.bushSmall.height * p.gameScaleV * 0.5f );
+		pg.shape( p.gameGraphics.bushLarge, _bushLargeX + playerOffset * 1.8f, pg.height + 10 - p.gameGraphics.bushLarge.height * p.gameScaleV * 0.5f );
 		
 
-		_kinectRegion.controlZ();
+		
 		
 		pg.endDraw();
 	}
