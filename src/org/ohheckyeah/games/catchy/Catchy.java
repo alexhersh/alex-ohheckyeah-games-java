@@ -110,7 +110,7 @@ extends PAppletHax
 		
 		// build gameplay objects
 		_kinectGrid = new KinectRegionGrid(p, NUM_PLAYERS, 1, (int)KINECT_MIN_DIST, (int)KINECT_MAX_DIST, 200, (int)KINECT_TOP, (int)KINECT_BOTTOM);
-		_gameWidth = Math.round( p.width / (float) NUM_PLAYERS );
+		_gameWidth = P.ceil( p.width / (float) NUM_PLAYERS );
 		_gamePlays = new ArrayList<CatchyGamePlay>();
 		for( int i=0; i < NUM_PLAYERS; i++ ) {
 			_gamePlays.add( new CatchyGamePlay( i, _gameWidth, _kinectGrid.getRegion(i) ) );
