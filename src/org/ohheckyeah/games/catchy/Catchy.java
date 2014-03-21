@@ -210,15 +210,20 @@ extends PAppletHax
 			gamePlay = _gamePlays.get(i); 
 			gamePlay.update();
 			p.image( gamePlay.pg, _gameWidth * i, 0, _gameWidth, p.height);
-
+		}
+		
+		// draw dividers
+		for( int i=0; i < NUM_PLAYERS; i++ ) {
 			// draw white borders
 			if(i > 0) {
 				p.fill(255);
 				p.noStroke();
-				p.shape( gameGraphics.divider, _gameWidth * i - gameGraphics.divider.width * 0.5f, 0, gameGraphics.divider.width, gameGraphics.divider.height * gameScaleV );
+				float dividerX = _gameWidth * i - gameGraphics.divider.width * 0.5f;
+				float dividerH = ( gameScaleV > 1 ) ? gameGraphics.divider.height * gameScaleV : gameGraphics.divider.height;
+				p.shape( gameGraphics.divider, dividerX, 0, gameGraphics.divider.width, dividerH );
 			}
 		}
-		
+
 
 		
 				
