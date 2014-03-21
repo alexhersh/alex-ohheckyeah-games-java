@@ -7,15 +7,14 @@ import org.ohheckyeah.games.catchy.assets.CatchyGraphics;
 import org.ohheckyeah.games.catchy.game.CatchyGamePlay;
 
 import processing.core.PApplet;
-import processing.core.PGraphics;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.audio.AudioPool;
 import com.haxademic.core.draw.color.ColorGroup;
-import com.haxademic.core.draw.util.DrawUtil;
 import com.haxademic.core.hardware.kinect.KinectRegionGrid;
 import com.haxademic.core.system.FileUtil;
+import com.haxademic.core.system.TimeFactoredFps;
 
 public class Catchy
 extends PAppletHax  
@@ -80,6 +79,7 @@ extends PAppletHax
 	public static int GAME_INSTRUCTIONS = 6;
 	public static int GAME_COUNTDOWN = 7;
 	
+	public TimeFactoredFps timeFactor;
 	
 	public void setup() {
 		_customPropsFile = FileUtil.getHaxademicDataPath() + "properties/catchy.properties";
@@ -124,6 +124,7 @@ extends PAppletHax
 		//			setGameMode( GAME_INTRO );
 		//		}
 		
+		timeFactor = new TimeFactoredFps( p, 60 );
 	}
 		
 	protected void loadMedia() {
@@ -224,7 +225,8 @@ extends PAppletHax
 			}
 		}
 
-
+		timeFactor.update();
+		// P.println("target_fps: "+timeFactor.targetFps()+" / actual_fps: "+timeFactor.actualFps()+" / timeFactor: "+timeFactor.multiplier());
 		
 				
 //		if( _gameState != _gameStateQueued ) swapGameMode();
@@ -290,5 +292,5 @@ extends PAppletHax
 		}
 		_gameColors.setRandomGroup();
 	}
-
+	
 }
