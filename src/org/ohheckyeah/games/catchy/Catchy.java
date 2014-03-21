@@ -2,19 +2,19 @@ package org.ohheckyeah.games.catchy;
 
 import java.util.ArrayList;
 
-import org.ohheckyeah.games.catchy.assets.CatchyCharacters;
 import org.ohheckyeah.games.catchy.assets.CatchyColors;
-import org.ohheckyeah.games.kacheout.game.GamePlay;
+import org.ohheckyeah.games.catchy.assets.CatchyGraphics;
+import org.ohheckyeah.games.catchy.game.CatchyGamePlay;
 
 import processing.core.PApplet;
-import processing.core.PConstants;
+import processing.core.PGraphics;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.audio.AudioPool;
 import com.haxademic.core.draw.color.ColorGroup;
 import com.haxademic.core.draw.util.DrawUtil;
-import com.haxademic.core.draw.util.OpenGLUtil;
+import com.haxademic.core.hardware.kinect.KinectRegionGrid;
 import com.haxademic.core.system.FileUtil;
 
 public class Catchy
@@ -30,7 +30,7 @@ extends PAppletHax
 	 * @param args
 	 */
 	public static void main(String args[]) {
-		_isFullScreen = true;
+		//		_isFullScreen = true;
 		PApplet.main(new String[] { "--hide-stop", "--bgcolor=000000", "org.ohheckyeah.games.catchy.Catchy" });
 	}
 
@@ -38,9 +38,7 @@ extends PAppletHax
 	public static float KINECT_MIN_DIST = 1500;
 	public static float KINECT_MAX_DIST = 2000;
 	public static int KINECT_TOP = 0;
-	public static int KINECT_BOTTOM = 150;
-	public static float KINECT_GAP_PERCENT = 0.5f;
-	protected boolean _isDebuggingKinect = false;
+	public static int KINECT_BOTTOM = 480;
 
 	// audio
 	public AudioPool sounds;
@@ -50,10 +48,12 @@ extends PAppletHax
 	protected boolean _isDebugging = false;
 	
 	// dimensions
+	protected float _gameOrigHeight = 680.0f;
+	public float gameScaleV = 1;
 	protected int _gameWidth = 0;
 
 	// graphics
-	public CatchyCharacters characters;
+	public CatchyGraphics gameGraphics;
 	
 	// mesh IDs
 	public static String WIN_TEXT = "WIN_TEXT";
@@ -64,10 +64,9 @@ extends PAppletHax
 	// game state
 	protected int _curMode;
 	protected ColorGroup _gameColors;
-	protected final int NUM_PLAYERS = 2;
-	protected ArrayList<GamePlay> _gamePlays;
-	protected GamePlay _player1;
-	protected GamePlay _player2;
+	public static int NUM_PLAYERS = 3;
+	protected KinectRegionGrid _kinectGrid;
+	protected ArrayList<CatchyGamePlay> _gamePlays;
 	
 	// non-gameplay screens
 //	protected IntroScreen _screenIntro;
@@ -89,9 +88,10 @@ extends PAppletHax
 	}
 
 	public void initGame() {
-		p.smooth(OpenGLUtil.SMOOTH_HIGH);
+		p.smooth(); // OpenGLUtil.SMOOTH_HIGH
 		
-		_gameWidth = p.width / NUM_PLAYERS;
+		gameScaleV = p.height / _gameOrigHeight;
+		P.println("gameScaleV = "+gameScaleV);
 				
 		loadMedia();
 		
@@ -106,13 +106,24 @@ extends PAppletHax
 		KINECT_MAX_DIST = _appConfig.getInt( "kinect_max_mm", 2000 );
 		KINECT_TOP = _appConfig.getInt( "kinect_top_pixel", 240 );
 		KINECT_BOTTOM = _appConfig.getInt( "kinect_bottom_pixel", 400 );
-				
+		NUM_PLAYERS = _appConfig.getInt( "num_players", 2 );
+		
+		// build gameplay objects
+		_kinectGrid = new KinectRegionGrid(p, NUM_PLAYERS, 1, (int)KINECT_MIN_DIST, (int)KINECT_MAX_DIST, 200, (int)KINECT_TOP, (int)KINECT_BOTTOM);
+		_gameWidth = Math.round( p.width / (float) NUM_PLAYERS );
+		_gamePlays = new ArrayList<CatchyGamePlay>();
+		for( int i=0; i < NUM_PLAYERS; i++ ) {
+			_gamePlays.add( new CatchyGamePlay( i, _gameWidth, _kinectGrid.getRegion(i) ) );
+		}
+		
+		
 		//		// it's opposite day, since game mode triggers the next action
 		//		if( _appConfig.getBoolean( "starts_on_game", true ) == true ) {
 		//			setGameMode( GAME_INSTRUCTIONS );
 		//		} else {
 		//			setGameMode( GAME_INTRO );
 		//		}
+		
 	}
 		
 	protected void loadMedia() {
@@ -123,7 +134,8 @@ extends PAppletHax
 //		loader.createMeshPool();
 //		loader.loadAudio( sounds );	
 		
-		characters = new CatchyCharacters();
+		gameGraphics = new CatchyGraphics();
+		gameGraphics.shuffleCharacters();
 	}
 	
 	// INPUT --------------------------------------------------------------------------------------
@@ -182,38 +194,33 @@ extends PAppletHax
 		//		}
 	}
 		
-	// MOVE TO ColorUtil =========	
-	public int colorFromHex( String hex ) {
-		return P.unhex("FF"+hex.substring(1));
-	}
-
 	
 	// FRAME LOOP --------------------------------------------------------------------------------------
 	
 	public void drawApp() {
-		DrawUtil.resetGlobalProps( p );
-//		DrawUtil.setCenter( p );
+		p.background(45);
 
-//		p.shininess(1000f); 
-//		p.lights();
-		p.background(0);
+		// update controls
+		_kinectGrid.update();
 		
-		// set game bg
-		int bgColor = colorFromHex("#E7E867");
-		p.background(bgColor);
-		
-		// test draw
-		p.fill(90);
-		p.noStroke();
+		// update gamePlays
+		CatchyGamePlay gamePlay = null;
+		for( int i=0; i < NUM_PLAYERS; i++ ) {
+			// update gameplays
+			gamePlay = _gamePlays.get(i); 
+			gamePlay.update();
+			p.image( gamePlay.pg, _gameWidth * i, 0, _gameWidth, p.height);
 
-//		P.println(characters.blueSquid.width+","+characters.blueSquid.height);
-		DrawUtil.setDrawCenter(p);
-		p.shapeMode(PConstants.CENTER);
-		p.shape( characters.blueSquid, p.width * 0.25f + P.sin( p.millis() * 0.001f ) * 100, p.height * 0.5f, characters.blueSquid.width, characters.blueSquid.height );
-		p.shape( characters.greenPanner, p.width * 0.75f + P.sin( p.millis() * 0.001f ) * -100, p.height * 0.5f, characters.greenPanner.width, characters.greenPanner.height );
+			// draw white borders
+			if(i > 0) {
+				p.fill(255);
+				p.noStroke();
+				p.shape( gameGraphics.divider, _gameWidth * i - gameGraphics.divider.width * 0.5f, 0, gameGraphics.divider.width, gameGraphics.divider.height * gameScaleV );
+			}
+		}
 		
-		DrawUtil.setDrawCorner(p);
-		p.rect(10,10,10,100);
+
+		
 				
 //		if( _gameState != _gameStateQueued ) swapGameMode();
 //		if( _gameState == GAME_INTRO ) {
@@ -231,7 +238,7 @@ extends PAppletHax
 	protected void checkGameStart() {
 		boolean gameIsReady = true;
 		for( int i=0; i < NUM_PLAYERS; i++ ) {
-			if( _gamePlays.get( i ).isPlayerReady() == false ) gameIsReady = false;
+//			if( _gamePlays.get( i ).isPlayerReady() == false ) gameIsReady = false;
 		}
 		if( gameIsReady == true ) {
 			setGameMode( GAME_COUNTDOWN );
@@ -242,17 +249,17 @@ extends PAppletHax
 		// update all games before checking for complete. also take screenshot if the game's over and the time is right
 		boolean takeScreenShot = false;
 		for( int i=0; i < NUM_PLAYERS; i++ ) {
-			_gamePlays.get( i ).update( i );
-			if( _gamePlays.get( i ).shouldTakeScreenshot() == true ) takeScreenShot = true;
+//			_gamePlays.get( i ).update( i );
+//			if( _gamePlays.get( i ).shouldTakeScreenshot() == true ) takeScreenShot = true;
 		}
 		if( takeScreenShot == true ) {
 			// PhotoBooth.snapGamePhoto( p, _stageWidth, _stageHeight );
 		}
 		// check for complete
 		for( int i=0; i < NUM_PLAYERS; i++ ) {
-			if( _gamePlays.get( i ).hasClearedBoard() == true && _gameState == GAME_ON ) {
-				setGameMode( GAME_OVER );
-			}
+//			if( _gamePlays.get( i ).hasClearedBoard() == true && _gameState == GAME_ON ) {
+//				setGameMode( GAME_OVER );
+//			}
 		}
 	}
 	
