@@ -8,6 +8,7 @@ import processing.core.PShape;
 import com.haxademic.core.app.P;
 import com.haxademic.core.draw.color.ColorUtil;
 import com.haxademic.core.draw.util.DrawUtil;
+import com.haxademic.core.draw.util.OpenGLUtil;
 import com.haxademic.core.hardware.kinect.KinectRegion;
 import com.haxademic.core.math.easing.EasingFloat;
 
@@ -23,6 +24,7 @@ public class CatchyGamePlay {
 	protected KinectRegion _kinectRegion;
 	public PGraphics pg;
 	
+	protected int _bgColor;
 	protected CatchyCharacter _character;
 	protected float _mountainX;
 	protected float _mountainH;
@@ -37,6 +39,7 @@ public class CatchyGamePlay {
 		_kinectRegion = kinectRegion;
 
 		pg = p.createGraphics( gameWidth, p.height, P.OPENGL );
+		pg.smooth(OpenGLUtil.SMOOTH_HIGH);
 		
 		_easedControlX = new EasingFloat( 0.5f, 6f );
 		_autoControl = p.random(0.0001f, 0.001f);
@@ -47,6 +50,7 @@ public class CatchyGamePlay {
 	}
 	
 	public void reset() {
+		_bgColor = ColorUtil.colorFromHex("#E7E867");
 		_character.reset();
 		_mountainX = p.random( 0, gameWidth );
 		_mountainH = p.random( 0, gameWidth );
@@ -59,8 +63,7 @@ public class CatchyGamePlay {
 		pg.beginDraw();
 		
 		// set game bg
-		int bgColor = ColorUtil.colorFromHex("#E7E867");
-		pg.background(bgColor);
+		pg.background( _bgColor );
 		
 		DrawUtil.setDrawCenter(pg);
 		
@@ -73,7 +76,7 @@ public class CatchyGamePlay {
 		} else {
 			curControlX = 0.5f * P.sin(p.millis() * _autoControl);
 		}
-		float playerOffset = gameWidth * 0.9f * curControlX;
+		float playerOffset = gameWidth * curControlX;
 		
 		// draw graphics layers
 		pg.shape( p.gameGraphics.mountain, _mountainX + playerOffset * 0.2f, pg.height + 2 - p.gameGraphics.mountain.height * p.gameScaleV * 0.5f );
