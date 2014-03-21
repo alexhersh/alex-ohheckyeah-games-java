@@ -11,7 +11,7 @@ import com.haxademic.core.system.FileUtil;
 public class CatchyGraphics {
 	
 	public ArrayList<PShape> characters;
-	public PShape blueSquid, pinkEye, wheelieRobot;
+	public PShape blueSquid, pinkEye, wheelieRobot, birdie, bowl, greenPanner;
 	public PShape grass, bushSmall, bushLarge, mountain, shadow;
 	public PShape divider;
 	
@@ -20,11 +20,17 @@ public class CatchyGraphics {
 		blueSquid = P.p.loadShape( FileUtil.getHaxademicDataPath() + "games/catchy/svg/characters/blue-squid.svg" );
 		pinkEye = P.p.loadShape( FileUtil.getHaxademicDataPath() + "games/catchy/svg/characters/pink-eye.svg" );
 		wheelieRobot = P.p.loadShape( FileUtil.getHaxademicDataPath() + "games/catchy/svg/characters/wheelie-robot.svg" );
+		birdie = P.p.loadShape( FileUtil.getHaxademicDataPath() + "games/catchy/svg/characters/birdie.svg" );
+		bowl = P.p.loadShape( FileUtil.getHaxademicDataPath() + "games/catchy/svg/characters/bowl.svg" );
+		greenPanner = P.p.loadShape( FileUtil.getHaxademicDataPath() + "games/catchy/svg/characters/green-panner.svg" );
 		
 		characters = new ArrayList<PShape>();
 		characters.add(blueSquid);
 		characters.add(pinkEye);
 		characters.add(wheelieRobot);
+		characters.add(birdie);
+		characters.add(bowl);
+		characters.add(greenPanner);
 		
 		// scene
 		grass = P.p.loadShape( FileUtil.getHaxademicDataPath() + "games/catchy/svg/scene/grass.svg" );
