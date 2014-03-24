@@ -13,13 +13,13 @@ public class CatchyGameTimer {
 	protected Catchy p;
 	protected int _gameStartTime = 0;
 	protected int _curGameTime = 0;
-	protected int GAME_LENGTH = 60 * 1000;
+	protected int GAME_LENGTH = 3 * 1000;
 	protected CustomFontText2D _timerFontRenderer;
 
 	public CatchyGameTimer() {
 		p = (Catchy)P.p;
 		String timerFont = FileUtil.getHaxademicDataPath() + "fonts/coders_crux.ttf";
-		_timerFontRenderer = new CustomFontText2D( p, timerFont, 40.0f, ColorUtil.colorFromHex("#ffffff"), CustomFontText2D.ALIGN_LEFT, 250, 80 );
+		_timerFontRenderer = new CustomFontText2D( p, timerFont, 40.0f, ColorUtil.colorFromHex("#000000"), CustomFontText2D.ALIGN_LEFT, 250, 80 );
 	}
 	
 	public void startTimer() {
@@ -29,7 +29,9 @@ public class CatchyGameTimer {
 	
 	public void update() {
 		_curGameTime = GAME_LENGTH - ( p.millis() - _gameStartTime );
-//		drawTimer();
+		if( _curGameTime <= 0 ) {
+			p.setGameMode( Catchy.GAME_OVER );
+		}
 	}
 	
 	/**

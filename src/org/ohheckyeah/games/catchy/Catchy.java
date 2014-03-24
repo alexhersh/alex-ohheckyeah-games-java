@@ -13,7 +13,7 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.audio.AudioPool;
 import com.haxademic.core.draw.color.ColorGroup;
-import com.haxademic.core.draw.util.DrawUtil;
+import com.haxademic.core.draw.util.OpenGLUtil;
 import com.haxademic.core.hardware.kinect.KinectRegionGrid;
 import com.haxademic.core.system.FileUtil;
 import com.haxademic.core.system.TimeFactoredFps;
@@ -67,10 +67,7 @@ extends PAppletHax
 	public static int NUM_PLAYERS = 2;
 	protected KinectRegionGrid _kinectGrid;
 	protected ArrayList<CatchyGamePlay> _gamePlays;
-	
-	// non-gameplay screens
-//	protected IntroScreen _screenIntro;
-	
+
 	// game state
 	protected int _gameState;
 	protected int _gameStateQueued;	// wait until beginning on the next frame to switch modes to avoid mid-frame conflicts
@@ -80,8 +77,15 @@ extends PAppletHax
 	public static int GAME_INSTRUCTIONS = 6;
 	public static int GAME_COUNTDOWN = 7;
 	
-	public TimeFactoredFps timeFactor;
+	// timers
 	public CatchyGameTimer gameTimer;
+	protected int _gameOverTime = 0;
+	
+	// non-gameplay screens
+//	protected IntroScreen _screenIntro;
+	
+	
+	public TimeFactoredFps timeFactor;
 	
 	public void setup() {
 		_customPropsFile = FileUtil.getHaxademicDataPath() + "properties/catchy.properties";
@@ -90,7 +94,7 @@ extends PAppletHax
 	}
 
 	public void initGame() {
-		p.smooth(); // OpenGLUtil.SMOOTH_HIGH
+		p.smooth(OpenGLUtil.SMOOTH_HIGH);
 		
 		gameScaleV = p.height / _gameOrigHeight;
 		P.println("gameScaleV = "+gameScaleV);
@@ -119,12 +123,12 @@ extends PAppletHax
 		}
 		
 		
-		//		// it's opposite day, since game mode triggers the next action
-		//		if( _appConfig.getBoolean( "starts_on_game", true ) == true ) {
-		//			setGameMode( GAME_INSTRUCTIONS );
-		//		} else {
-		//			setGameMode( GAME_INTRO );
-		//		}
+		// it's opposite day, since game mode triggers the next action
+//		if( _appConfig.getBoolean( "starts_on_game", true ) == true ) {
+//			setGameMode( GAME_INSTRUCTIONS );
+//		} else {
+			setGameMode( GAME_ON );
+//		}
 		
 		timeFactor = new TimeFactoredFps( p, 60 );
 		
@@ -164,7 +168,7 @@ extends PAppletHax
 	public ColorGroup gameColors() { return _gameColors; }
 	public boolean isDebugging() { return _isDebugging; }
 		
-	// GAME LOGIC --------------------------------------------------------------------------------------
+	// GAME STATE --------------------------------------------------------------------------------------
 	
 	public void setGameMode( int mode ) {
 		P.println("next mode: "+mode);
@@ -183,40 +187,82 @@ extends PAppletHax
 //			soundtrack.stop();
 //			sounds.playSound( SFX_DOWN );
 //			soundtrack.playInstructions();
-		} 
 		//		else if( _gameState == GAME_COUNTDOWN ) {
 		//			for( int i=0; i < NUM_PLAYERS; i++ ) {
 		//				_gamePlays.get( i ).startCountdown();
 		//			}
 		//			soundtrack.stop();
-		//		} else if( _gameState == GAME_ON ) {
-		//			for( int i=0; i < NUM_PLAYERS; i++ ) {
-		//				_gamePlays.get( i ).launchBall();
-		//			}
-		//			soundtrack.playNext();
-		//		} else if( _gameState == GAME_OVER ) {
-		//			for( int i=0; i < NUM_PLAYERS; i++ ) _gamePlays.get( i ).gameOver();
-		//			soundtrack.stop();
-		//			sounds.playSound( WIN_SOUND );
-		//		}
+		} else if( _gameState == GAME_ON ) {
+			for( int i=0; i < NUM_PLAYERS; i++ ) {
+				_gamePlays.get( i ).reset();
+				_gamePlays.get( i ).gameStart();
+			}
+			gameTimer.startTimer();
+			// soundtrack.playNext();
+		} else if( _gameState == GAME_OVER ) {
+			for( int i=0; i < NUM_PLAYERS; i++ ) {
+				_gamePlays.get( i ).gameOver();
+			}
+			_gameOverTime = p.millis();
+			// soundtrack.stop();
+			// sounds.playSound( WIN_SOUND );
+		}
 	}
+	
+	protected void handleGameState() {
+		if( _gameState != _gameStateQueued ) swapGameMode();
 		
+		if( _gameState == GAME_ON ) {
+			_kinectGrid.update();
+			gameTimer.update();
+			updateGameplays();
+		} else if( _gameState == GAME_OVER ) {
+			updateGameplays();
+			if( p.millis() > _gameOverTime + 2000 ) {
+				setGameMode( GAME_ON );
+			}
+		}
+		
+//		if( _gameState == GAME_INTRO ) {
+////			_screenIntro.update();
+//		} else {
+//			p.pushMatrix();
+//			if( _gameState == GAME_INSTRUCTIONS ) checkGameStart();
+//			updateGames();
+//			p.popMatrix();
+//		}
+//		
+
+	}
+	
+	protected void checkGameStart() {
+		boolean gameIsReady = true;
+		for( int i=0; i < NUM_PLAYERS; i++ ) {
+//			if( _gamePlays.get( i ).isPlayerReady() == false ) gameIsReady = false;
+		}
+		if( gameIsReady == true ) {
+			setGameMode( GAME_COUNTDOWN );
+		}
+	}
+	
 	
 	// FRAME LOOP --------------------------------------------------------------------------------------
 	
 	public void drawApp() {
 		p.background(45);
 
-		// update controls & timing
-		_kinectGrid.update();
+		// update timing
 		timeFactor.update();
-		gameTimer.update();
+		// P.println("target_fps: "+timeFactor.targetFps()+" / actual_fps: "+timeFactor.actualFps()+" / timeFactor: "+timeFactor.multiplier());
 		
-		// update gamePlays
-		CatchyGamePlay gamePlay = null;
+		handleGameState();
+//		if( _isDebugging == true ) displayDebug();
+	}
+	
+	protected void updateGameplays() {
+		// update and draw gamePlays
 		for( int i=0; i < NUM_PLAYERS; i++ ) {
-			// update gameplays
-			gamePlay = _gamePlays.get(i); 
+			CatchyGamePlay gamePlay = _gamePlays.get(i); 
 			gamePlay.update();
 			p.image( gamePlay.pg, _gameWidth * i, 0, _gameWidth, p.height);
 		}
@@ -236,34 +282,17 @@ extends PAppletHax
 				gameTimer.drawTimer();
 				p.popMatrix();
 			}
+			if(i == 0 && NUM_PLAYERS == 1) {
+				// draw timers
+				p.pushMatrix();
+				p.translate( p.width - 150, 30 );
+				gameTimer.drawTimer();
+				p.popMatrix();
+			}
 		}
+	}
+	
 
-		// P.println("target_fps: "+timeFactor.targetFps()+" / actual_fps: "+timeFactor.actualFps()+" / timeFactor: "+timeFactor.multiplier());
-		
-				
-//		if( _gameState != _gameStateQueued ) swapGameMode();
-//		if( _gameState == GAME_INTRO ) {
-////			_screenIntro.update();
-//		} else {
-//			p.pushMatrix();
-//			if( _gameState == GAME_INSTRUCTIONS ) checkGameStart();
-//			updateGames();
-//			p.popMatrix();
-//		}
-//		
-//		if( _isDebugging == true ) displayDebug();
-	}
-	
-	protected void checkGameStart() {
-		boolean gameIsReady = true;
-		for( int i=0; i < NUM_PLAYERS; i++ ) {
-//			if( _gamePlays.get( i ).isPlayerReady() == false ) gameIsReady = false;
-		}
-		if( gameIsReady == true ) {
-			setGameMode( GAME_COUNTDOWN );
-		}
-	}
-	
 	protected void updateGames(){
 		// update all games before checking for complete. also take screenshot if the game's over and the time is right
 		boolean takeScreenShot = false;

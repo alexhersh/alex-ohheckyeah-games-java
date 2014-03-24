@@ -19,6 +19,7 @@ public class CatchyGamePlay {
 	public int gameIndex;
 	protected EasingFloat _easedControlX;
 	protected float _autoControl;
+	protected boolean _controlsActive = false;
 	
 	protected KinectRegion _kinectRegion;
 	public PGraphics pg;
@@ -55,7 +56,6 @@ public class CatchyGamePlay {
 		_mountainH = p.random( 0, gameWidth );
 		_bushSmallX = p.random( 0, gameWidth );
 		_bushLargeX = p.random( 0, gameWidth );
-
 	}
 	
 	public void update() {
@@ -67,14 +67,15 @@ public class CatchyGamePlay {
 		DrawUtil.setDrawCenter(pg);
 		
 		// update and ease controls
-		float curControlX;
-		if( p.kinectWrapper != null ) {
-			_easedControlX.setTarget( _kinectRegion.controlX() );
-			_easedControlX.update();
-			curControlX = _easedControlX.value() - 0.5f;
-		} else {
-			curControlX = 0.5f * P.sin(p.millis() * _autoControl);
+		if( _controlsActive == true ) {
+			if( p.kinectWrapper != null ) {
+				_easedControlX.setTarget( _kinectRegion.controlX() );
+			} else {
+				_easedControlX.setTarget( 0.5f + 0.5f * P.sin(p.millis() * _autoControl) );
+			}
 		}
+		_easedControlX.update();
+		float curControlX = _easedControlX.value() - 0.5f;
 		float playerOffset = gameWidth * curControlX;
 		
 		// draw graphics layers
@@ -85,8 +86,15 @@ public class CatchyGamePlay {
 		pg.shape( p.gameGraphics.bushLarge, _bushLargeX + playerOffset * 1.8f, pg.height + 10 - p.gameGraphics.bushLarge.height * p.gameScaleV * 0.5f );
 		
 
-		
-		
 		pg.endDraw();
 	}
+	
+	public void gameStart() {
+		_controlsActive = true;
+	}
+	
+	public void gameOver() {
+		_controlsActive = false;
+	}
+	
 }
