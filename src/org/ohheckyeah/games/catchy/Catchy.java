@@ -6,6 +6,7 @@ import org.ohheckyeah.games.catchy.assets.CatchyColors;
 import org.ohheckyeah.games.catchy.assets.CatchyGraphics;
 import org.ohheckyeah.games.catchy.game.CatchyGamePlay;
 import org.ohheckyeah.games.catchy.game.CatchyGameTimer;
+import org.ohheckyeah.games.catchy.screens.CatchyTitleScreen;
 
 import processing.core.PApplet;
 
@@ -13,6 +14,8 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.audio.AudioPool;
 import com.haxademic.core.draw.color.ColorGroup;
+import com.haxademic.core.draw.color.ColorUtil;
+import com.haxademic.core.draw.util.DrawUtil;
 import com.haxademic.core.draw.util.OpenGLUtil;
 import com.haxademic.core.hardware.kinect.KinectRegionGrid;
 import com.haxademic.core.system.FileUtil;
@@ -54,6 +57,7 @@ extends PAppletHax
 	protected int _gameWidth = 0;
 
 	// graphics
+	protected int _bgColor;
 	public CatchyGraphics gameGraphics;
 	
 	// mesh IDs
@@ -77,15 +81,15 @@ extends PAppletHax
 	public static int GAME_INSTRUCTIONS = 6;
 	public static int GAME_COUNTDOWN = 7;
 	
-	// timers
+	// timers/timing
+	public TimeFactoredFps timeFactor;
 	public CatchyGameTimer gameTimer;
 	protected int _gameOverTime = 0;
 	
 	// non-gameplay screens
-//	protected IntroScreen _screenIntro;
+	protected CatchyTitleScreen _logoScreen;
 	
 	
-	public TimeFactoredFps timeFactor;
 	
 	public void setup() {
 		_customPropsFile = FileUtil.getHaxademicDataPath() + "properties/catchy.properties";
@@ -95,13 +99,14 @@ extends PAppletHax
 
 	public void initGame() {
 		p.smooth(OpenGLUtil.SMOOTH_HIGH);
-		
+		_bgColor = ColorUtil.colorFromHex("#E7E867");
+
 		gameScaleV = p.height / _gameOrigHeight;
 		P.println("gameScaleV = "+gameScaleV);
 				
 		loadMedia();
 		
-//		_screenIntro = new IntroScreen( _appConfig.getString("sponsor_images", "" ) );
+		_logoScreen = new CatchyTitleScreen();
 		
 		// set flags and props	
 		pickNewColors();
@@ -127,7 +132,7 @@ extends PAppletHax
 //		if( _appConfig.getBoolean( "starts_on_game", true ) == true ) {
 //			setGameMode( GAME_INSTRUCTIONS );
 //		} else {
-			setGameMode( GAME_ON );
+			setGameMode( GAME_INTRO );
 //		}
 		
 		timeFactor = new TimeFactoredFps( p, 60 );
@@ -178,7 +183,7 @@ extends PAppletHax
 	public void swapGameMode() {
 		_gameState = _gameStateQueued;
 		if( _gameState == GAME_INTRO ) {
-//			_screenIntro.reset();
+			_logoScreen.reset();
 //			soundtrack.playIntro();
 		} else if( _gameState == GAME_INSTRUCTIONS ) {
 			for( int i=0; i < NUM_PLAYERS; i++ ) {
@@ -212,27 +217,19 @@ extends PAppletHax
 	protected void handleGameState() {
 		if( _gameState != _gameStateQueued ) swapGameMode();
 		
-		if( _gameState == GAME_ON ) {
+		if( _gameState == GAME_INTRO ) {
+			_logoScreen.update();
+			p.image( _logoScreen.pg, (p.width - _logoScreen.pg.width)/2f, (p.height - _logoScreen.pg.height)/2f, _logoScreen.pg.width, _logoScreen.pg.height);
+		} else if( _gameState == GAME_ON ) {
 			_kinectGrid.update();
 			gameTimer.update();
 			updateGameplays();
 		} else if( _gameState == GAME_OVER ) {
 			updateGameplays();
 			if( p.millis() > _gameOverTime + 2000 ) {
-				setGameMode( GAME_ON );
+				setGameMode( GAME_INTRO );
 			}
 		}
-		
-//		if( _gameState == GAME_INTRO ) {
-////			_screenIntro.update();
-//		} else {
-//			p.pushMatrix();
-//			if( _gameState == GAME_INSTRUCTIONS ) checkGameStart();
-//			updateGames();
-//			p.popMatrix();
-//		}
-//		
-
 	}
 	
 	protected void checkGameStart() {
@@ -249,7 +246,7 @@ extends PAppletHax
 	// FRAME LOOP --------------------------------------------------------------------------------------
 	
 	public void drawApp() {
-		p.background(45);
+		p.background(_bgColor);
 
 		// update timing
 		timeFactor.update();
@@ -273,9 +270,9 @@ extends PAppletHax
 				// draw white borders
 				p.fill(255);
 				p.noStroke();
-				float dividerX = _gameWidth * i - gameGraphics.divider.width * 0.5f;
-				float dividerH = ( gameScaleV > 1 ) ? gameGraphics.divider.height * gameScaleV : gameGraphics.divider.height;
-				p.shape( gameGraphics.divider, dividerX, 0, gameGraphics.divider.width, dividerH );
+				float dividerX = _gameWidth * i - gameGraphics.gameDivider.width * 0.5f;
+				float dividerH = ( gameScaleV > 1 ) ? gameGraphics.gameDivider.height * gameScaleV : gameGraphics.gameDivider.height;
+				p.shape( gameGraphics.gameDivider, dividerX, 0, gameGraphics.gameDivider.width, dividerH );
 				// draw timers
 				p.pushMatrix();
 				p.translate( dividerX - 50, 30 );

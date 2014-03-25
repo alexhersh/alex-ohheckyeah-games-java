@@ -13,7 +13,7 @@ public class CatchyGraphics {
 	public ArrayList<PShape> characters;
 	public PShape blueSquid, pinkEye, wheelieRobot, birdie, bowl, greenPanner;
 	public PShape grass, bushSmall, bushLarge, mountain, shadow;
-	public PShape divider;
+	public PShape gameDivider, catchyLogo, logoConfetti;
 	
 	public CatchyGraphics() {
 		// characters
@@ -40,7 +40,9 @@ public class CatchyGraphics {
 		shadow = P.p.loadShape( FileUtil.getHaxademicDataPath() + "games/catchy/svg/scene/shadow.svg" );
 		
 		// shell
-		divider = P.p.loadShape( FileUtil.getHaxademicDataPath() + "games/catchy/svg/shell/game-divider-line.svg" );
+		gameDivider = P.p.loadShape( FileUtil.getHaxademicDataPath() + "games/catchy/svg/shell/game-divider-line.svg" );
+		catchyLogo = P.p.loadShape( FileUtil.getHaxademicDataPath() + "games/catchy/svg/shell/catchy-logo.svg" );
+		logoConfetti = P.p.loadShape( FileUtil.getHaxademicDataPath() + "games/catchy/svg/shell/logo-confetti.svg" );
 	}
 	
 	public void shuffleCharacters() {
