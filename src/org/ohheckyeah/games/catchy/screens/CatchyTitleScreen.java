@@ -22,7 +22,7 @@ public class CatchyTitleScreen {
 	protected int _bgColor;
 	protected int _borderColor;
 	
-	protected ElasticFloat _logoScale = new ElasticFloat(0, 0.8f, 0.45f);
+	protected ElasticFloat _logoScale = new ElasticFloat(0, 0.87f, 0.08f);
 	
 	protected ArrayList<ConfettiParticle> _confetti;
 	protected int _confettiLaunchTime = 0;
