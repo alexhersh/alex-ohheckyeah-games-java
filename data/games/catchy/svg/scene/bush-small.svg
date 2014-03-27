@@ -3,15 +3,7 @@
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.0//EN" "http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd">
 <svg version="1.0" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
 	 width="110.613px" height="54px" viewBox="0 0 110.613 54" enable-background="new 0 0 110.613 54" xml:space="preserve">
-<!-- <linearGradient id="SVGID_1_" gradientUnits="userSpaceOnUse" x1="-900.1934" y1="571.9238" x2="-899.1934" y2="571.9238" gradientTransform="matrix(110.6136 0 0 -110.6136 99573.6719 63289.5469)">
-	<stop  offset="0" style="stop-color:#C1D82F"/>
-	<stop  offset="0.4389" style="stop-color:#6ABD45"/>
-	<stop  offset="0.8219" style="stop-color:#00AC4E"/>
-	<stop  offset="1" style="stop-color:#00A651"/>
-</linearGradient>
-<path fill="url(#SVGID_1_)" d="M55.306,0C25.194,0,0.703,24.057,0,54h110.613C109.909,24.057,85.418,0,55.306,0z"/>
- -->
-<path fill="#14923C" d="M55.306,0C25.194,0,0.703,24.057,0,54h110.613C109.909,24.057,85.418,0,55.306,0z"/>
+<path fill="#ffffff" d="M55.306,0C25.194,0,0.703,24.057,0,54h110.613C109.909,24.057,85.418,0,55.306,0z"/>
 <path fill="#E7E867" d="M21.012,27.753c1.296,1.098,1.458,3.039,0.36,4.335c-1.098,1.297-3.039,1.458-4.335,0.36
 	c-1.297-1.099-1.458-3.039-0.36-4.335C17.774,26.815,19.715,26.655,21.012,27.753"/>
 <path fill="#E7E867" d="M30.95,16.016c1.296,1.098,1.458,3.039,0.36,4.335c-1.098,1.297-3.039,1.458-4.335,0.359
