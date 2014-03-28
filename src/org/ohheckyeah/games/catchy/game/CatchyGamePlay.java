@@ -64,29 +64,76 @@ public class CatchyGamePlay {
 		// set game bg
 		pg.background( _bgColor );
 		
-		DrawUtil.setDrawCenter(pg);
 		
 		// update and ease controls
 		if( _controlsActive == true ) {
 			if( p.kinectWrapper != null ) {
-				_easedControlX.setTarget( _kinectRegion.controlX() );
+				_easedControlX.setTarget( _kinectRegion.controlX() * 2f );
 			} else {
-				_easedControlX.setTarget( 0.5f + 0.5f * P.sin(p.millis() * _autoControl) );
+				_easedControlX.setTarget( 0.5f * P.sin(p.millis() * _autoControl) );
 			}
 		}
 		_easedControlX.update();
-		float curControlX = _easedControlX.value() - 0.5f;
-		float playerOffset = gameWidth * curControlX;
+		float curControlX = _easedControlX.value();
+		float playerOffset = gameHalfWidth * curControlX;
 		
 		// draw graphics layers
-		pg.shape( p.gameGraphics.mountain, _mountainX + playerOffset * 0.2f, pg.height + 2 - p.gameGraphics.mountain.height * p.gameScaleV * 0.5f );
-		pg.shape( p.gameGraphics.grass, gameHalfWidth + playerOffset * 0.5f, pg.height + 2 - p.gameGraphics.grass.height * p.gameScaleV * 0.5f );
+		DrawUtil.setDrawCorner(pg);
+		drawMountain(playerOffset);
+		drawGrass(playerOffset);
 		_character.update(playerOffset);
-		pg.shape( p.gameGraphics.bushSmall, _bushSmallX + playerOffset * 1.6f, pg.height + 10 - p.gameGraphics.bushSmall.height * p.gameScaleV * 0.5f );
-		pg.shape( p.gameGraphics.bushLarge, _bushLargeX + playerOffset * 1.8f, pg.height + 10 - p.gameGraphics.bushLarge.height * p.gameScaleV * 0.5f );
-		
+		DrawUtil.setDrawCorner(pg);
+		drawBushes(playerOffset);
 
 		pg.endDraw();
+	}
+	
+	protected void drawMountain( float playerOffset ) {
+		float mountainW = p.gameGraphics.mountain.width * p.gameScaleV;
+		float mountainH = p.gameGraphics.mountain.height * p.gameScaleV;
+		pg.shape( 
+				p.gameGraphics.mountain, 
+				_mountainX - mountainW/2f + playerOffset * 0.2f, 
+				pg.height - mountainH, 
+				mountainW, 
+				mountainH
+		);
+	}
+	
+	protected void drawGrass( float playerOffset ) {
+		float grassW = p.gameGraphics.grass.width * p.gameScaleV;
+		float grassH = p.gameGraphics.grass.height * p.gameScaleV;
+		pg.shape( 
+				p.gameGraphics.grass, 
+				gameHalfWidth - grassW/2f + playerOffset * 0.5f, 
+				pg.height - grassH,
+				grassW, 
+				grassH
+		);
+	}
+	
+	protected void drawBushes( float playerOffset ) {
+		// small
+		float bushSmallW = p.gameGraphics.bushSmall.width * p.gameScaleV;
+		float bushSmallH = p.gameGraphics.bushSmall.height * p.gameScaleV;
+		pg.shape( 
+				p.gameGraphics.bushSmall, 
+				_bushSmallX - bushSmallW/2f + playerOffset * 1.6f, 
+				pg.height - bushSmallH, 
+				bushSmallW, 
+				bushSmallH
+		);
+		// large
+		float bushLargeW = p.gameGraphics.bushLarge.width * p.gameScaleV;
+		float bushLargeH = p.gameGraphics.bushLarge.height * p.gameScaleV;
+		pg.shape( 
+				p.gameGraphics.bushLarge, 
+				_bushLargeX - bushLargeW/2f + playerOffset * 1.8f, 
+				pg.height - bushLargeH, 
+				bushLargeW, 
+				bushLargeH
+		);
+
 	}
 	
 	public void gameStart() {

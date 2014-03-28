@@ -129,11 +129,11 @@ extends PAppletHax
 		
 		
 		// it's opposite day, since game mode triggers the next action
-//		if( _appConfig.getBoolean( "starts_on_game", true ) == true ) {
-//			setGameMode( GAME_INSTRUCTIONS );
-//		} else {
+		if( _appConfig.getBoolean( "starts_on_game", true ) == true ) {
+			setGameMode( GAME_ON );
+		} else {
 			setGameMode( GAME_INTRO );
-//		}
+		}
 		
 		timeFactor = new TimeFactoredFps( p, 60 );
 		
@@ -185,6 +185,7 @@ extends PAppletHax
 		if( _gameState == GAME_INTRO ) {
 			_logoScreen.reset();
 //			soundtrack.playIntro();
+			gameGraphics.shuffleCharacters();
 		} else if( _gameState == GAME_INSTRUCTIONS ) {
 			for( int i=0; i < NUM_PLAYERS; i++ ) {
 //				_gamePlays.get( i ).reset();
@@ -218,8 +219,9 @@ extends PAppletHax
 		if( _gameState != _gameStateQueued ) swapGameMode();
 		
 		if( _gameState == GAME_INTRO ) {
+			DrawUtil.setDrawCenter(p);
 			_logoScreen.update();
-			p.image( _logoScreen.pg, (p.width - _logoScreen.pg.width)/2f, (p.height - _logoScreen.pg.height)/2f, _logoScreen.pg.width, _logoScreen.pg.height);
+			p.image( _logoScreen.pg, p.width/2f, p.height/2f, _logoScreen.pg.width, _logoScreen.pg.height);
 		} else if( _gameState == GAME_ON ) {
 			_kinectGrid.update();
 			gameTimer.update();
@@ -258,6 +260,7 @@ extends PAppletHax
 	
 	protected void updateGameplays() {
 		// update and draw gamePlays
+		DrawUtil.setDrawCorner(p);
 		for( int i=0; i < NUM_PLAYERS; i++ ) {
 			CatchyGamePlay gamePlay = _gamePlays.get(i); 
 			gamePlay.update();
@@ -268,21 +271,24 @@ extends PAppletHax
 		for( int i=0; i < NUM_PLAYERS; i++ ) {
 			if(i > 0) {
 				// draw white borders
+				DrawUtil.setDrawCorner(p);
 				p.fill(255);
 				p.noStroke();
 				float dividerX = _gameWidth * i - gameGraphics.gameDivider.width * 0.5f;
 				float dividerH = ( gameScaleV > 1 ) ? gameGraphics.gameDivider.height * gameScaleV : gameGraphics.gameDivider.height;
 				p.shape( gameGraphics.gameDivider, dividerX, 0, gameGraphics.gameDivider.width, dividerH );
 				// draw timers
+				DrawUtil.setDrawCenter(p);
 				p.pushMatrix();
-				p.translate( dividerX - 50, 30 );
+				p.translate( dividerX, p.height - (gameGraphics.timerBanner.height * gameScaleV) / 1.7f );
 				gameTimer.drawTimer();
 				p.popMatrix();
 			}
 			if(i == 0 && NUM_PLAYERS == 1) {
 				// draw timers
+				DrawUtil.setDrawCenter(p);
 				p.pushMatrix();
-				p.translate( p.width - 150, 30 );
+				p.translate( p.width - 100 * gameScaleV, 30 );
 				gameTimer.drawTimer();
 				p.popMatrix();
 			}

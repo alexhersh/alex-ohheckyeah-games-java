@@ -28,12 +28,14 @@ public class CatchyCharacter {
 	
 	public void update( float playerOffset ) {
 		
+		float bottomPadding = 22 * p.gameScaleV;
+		
 		// position character & shadow
 		float characterX = catchyGamePlay.gameHalfWidth + playerOffset;
-		float characterY = pg.height - 22 - _character.height * p.gameScaleV * 0.5f;
+		float characterY = pg.height - bottomPadding - _character.height * p.gameScaleV * 0.5f;
 		float characterWidth = _character.width * p.gameScaleV;
 		float characterHeight = _character.height * p.gameScaleV;
-		float characterShadowY = pg.height - 22 + p.gameScaleV;
+		float characterShadowY = pg.height - bottomPadding;
 		float characterShadowWidth = p.gameGraphics.shadow.width * p.gameScaleV;
 		float characterShadowHeight = p.gameGraphics.shadow.height * p.gameScaleV;
 		float characterSpeed = playerOffset - lastPlayerOffset;

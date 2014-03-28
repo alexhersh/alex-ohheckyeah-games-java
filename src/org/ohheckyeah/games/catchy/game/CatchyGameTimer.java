@@ -13,13 +13,13 @@ public class CatchyGameTimer {
 	protected Catchy p;
 	protected int _gameStartTime = 0;
 	protected int _curGameTime = 0;
-	protected int GAME_LENGTH = 3 * 1000;
+	protected int GAME_LENGTH = 60 * 1000;
 	protected CustomFontText2D _timerFontRenderer;
 
 	public CatchyGameTimer() {
 		p = (Catchy)P.p;
-		String timerFont = FileUtil.getHaxademicDataPath() + "fonts/coders_crux.ttf";
-		_timerFontRenderer = new CustomFontText2D( p, timerFont, 40.0f, ColorUtil.colorFromHex("#000000"), CustomFontText2D.ALIGN_LEFT, 250, 80 );
+		String timerFont = FileUtil.getHaxademicDataPath() + "fonts/AlegreyaSans-Bold.ttf";
+		_timerFontRenderer = new CustomFontText2D( p, timerFont, 60.0f, ColorUtil.colorFromHex("#000000"), CustomFontText2D.ALIGN_CENTER, (int) p.gameGraphics.timerBanner.width, 80 );
 	}
 	
 	public void startTimer() {
@@ -38,8 +38,9 @@ public class CatchyGameTimer {
 	 * Draws the current game's time elapsed
 	 */
 	public void drawTimer() {
+		p.shape( p.gameGraphics.timerBanner, 0, 0, p.gameGraphics.timerBanner.width * p.gameScaleV, p.gameGraphics.timerBanner.height * p.gameScaleV );
 		_timerFontRenderer.updateText( StringFormatter.timeFromMilliseconds( _curGameTime, false) );
-		p.image( _timerFontRenderer.getTextPImage(), 0, 0 );
+		p.image( _timerFontRenderer.getTextPImage(), 14f * p.gameScaleV, 0 * p.gameScaleV, _timerFontRenderer.getTextPImage().width * p.gameScaleV, _timerFontRenderer.getTextPImage().height * p.gameScaleV );
 	}
 		
 	/**
