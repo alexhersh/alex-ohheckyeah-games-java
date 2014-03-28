@@ -26,6 +26,7 @@ public class CatchyGamePlay {
 	
 	protected int _bgColor;
 	protected CatchyCharacter _character;
+	protected CatchyDropper _dropper;
 	protected float _mountainX;
 	protected float _mountainH;
 	protected float _bushSmallX;
@@ -45,6 +46,7 @@ public class CatchyGamePlay {
 		_autoControl = p.random(0.0001f, 0.001f);
 		
 		_character = new CatchyCharacter(this);
+		_dropper = new CatchyDropper(this);
 		
 		reset();
 	}
@@ -81,7 +83,9 @@ public class CatchyGamePlay {
 		DrawUtil.setDrawCorner(pg);
 		drawMountain(playerOffset);
 		drawGrass(playerOffset);
+		DrawUtil.setDrawCenter(pg);
 		_character.update(playerOffset);
+		_dropper.update();
 		DrawUtil.setDrawCorner(pg);
 		drawBushes(playerOffset);
 

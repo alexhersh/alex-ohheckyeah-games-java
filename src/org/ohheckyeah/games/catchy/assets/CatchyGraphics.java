@@ -12,7 +12,7 @@ public class CatchyGraphics {
 	
 	public ArrayList<PShape> characters;
 	public PShape blueSquid, pinkEye, wheelieRobot, birdie, bowl, greenPanner;
-	public PShape grass, bushSmall, bushLarge, mountain, shadow;
+	public PShape grass, bushSmall, bushLarge, mountain, shadow, dropper;
 	public PShape gameDivider, catchyLogo, logoConfetti, timerBanner;
 	
 	public CatchyGraphics() {
@@ -38,6 +38,7 @@ public class CatchyGraphics {
 		bushLarge = P.p.loadShape( FileUtil.getHaxademicDataPath() + "games/catchy/svg/scene/bush-large.svg" );
 		mountain = P.p.loadShape( FileUtil.getHaxademicDataPath() + "games/catchy/svg/scene/mountain.svg" );
 		shadow = P.p.loadShape( FileUtil.getHaxademicDataPath() + "games/catchy/svg/scene/shadow.svg" );
+		dropper = P.p.loadShape( FileUtil.getHaxademicDataPath() + "games/catchy/svg/scene/dropper.svg" );
 		
 		// shell
 		gameDivider = P.p.loadShape( FileUtil.getHaxademicDataPath() + "games/catchy/svg/shell/game-divider-line.svg" );
