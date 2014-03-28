@@ -38,7 +38,7 @@ public class CatchyGamePlay {
 	protected ArrayList<CatchyDroppable> _droppables;
 	protected int _droppableIndex = 0;
 	
-	protected int _score = 0;
+	protected CatchyScoreDisplay _score;
 	
 	public CatchyGamePlay( int gameIndex, int gameWidth, KinectRegion kinectRegion ) {
 		p = (Catchy) P.p;
@@ -59,6 +59,7 @@ public class CatchyGamePlay {
 		for( int i=0; i < 30; i++ ) {
 			_droppables.add( new CatchyDroppable(this) );
 		}
+		_score = new CatchyScoreDisplay(this);
 		
 		reset();
 	}
@@ -75,12 +76,12 @@ public class CatchyGamePlay {
 	public void reset() {
 		_bgColor = ColorUtil.colorFromHex("#E7E867");
 		_character.reset();
+		_score.reset( _character.color() );
 		_mountainX = p.random( 0, gameWidth );
 		_mountainH = p.random( 0, gameWidth );
 		_bushSmallX = p.random( 0, gameWidth );
 		_bushLargeX = p.random( 0, gameWidth );
 		
-		_score = 0;
 	}
 	
 	public void launchNewDroppable( float x ) {
@@ -92,17 +93,19 @@ public class CatchyGamePlay {
 	public void checkCatch( CatchyDroppable droppable, float x, float y ) {
 		if( _character.checkCatch(x, y) == true ) {
 			droppable.catchSuccess();
-			_score += 10;
+			_score.addScore(10);
 		}
 	}
 	
 	public void update() {
 		pg.beginDraw();
-		
-		// set game bg
 		pg.background( _bgColor );
-		
-		// update and ease controls
+		updateControls();
+		drawGraphicsLayers();
+		pg.endDraw();
+	}
+	
+	protected void updateControls() {
 		if( _controlsActive == true ) {
 			if( p.kinectWrapper != null ) {
 				_easedControlX.setTarget( _kinectRegion.controlX() * 2f );
@@ -113,8 +116,10 @@ public class CatchyGamePlay {
 		_easedControlX.update();
 		float curControlX = _easedControlX.value();
 		_playerOffset = gameHalfWidth * curControlX;
-		
-		// draw graphics layers
+	}
+	
+	// draw graphics ------------------------------------------------------------------
+	protected void drawGraphicsLayers() {
 		DrawUtil.setDrawCorner(pg);
 		drawMountain();
 		drawGrass();
@@ -124,11 +129,9 @@ public class CatchyGamePlay {
 		_dropper.update();
 		DrawUtil.setDrawCorner(pg);
 		drawBushes();
-
-		pg.endDraw();
+		_score.drawScore();
 	}
 	
-	// draw graphics ------------------------------------------------------------------
 	protected void drawMountain() {
 		float mountainW = p.gameGraphics.mountain.width * p.gameScaleV;
 		float mountainH = p.gameGraphics.mountain.height * p.gameScaleV;

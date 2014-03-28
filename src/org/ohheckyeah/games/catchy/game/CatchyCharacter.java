@@ -15,7 +15,9 @@ public class CatchyCharacter {
 	protected Catchy p;
 	protected CatchyGamePlay catchyGamePlay;
 	protected PGraphics pg;
+	
 	protected PShape _character;
+	protected int _color;
 	
 	protected float lastPlayerOffset = 0;
 	protected EasingFloat _rotation;
@@ -28,7 +30,9 @@ public class CatchyCharacter {
 		p = (Catchy)P.p;
 		this.catchyGamePlay = catchyGamePlay;
 		pg = catchyGamePlay.pg;
+		
 		_rotation = new EasingFloat(0,4);
+		_color = p.color(240,150,190);
 	}
 	
 	public void update( float playerOffset ) {
@@ -73,5 +77,9 @@ public class CatchyCharacter {
 	
 	public void reset() {
 		_character = p.gameGraphics.characters.get( catchyGamePlay.gameIndex % p.gameGraphics.characters.size() );
+	}
+	
+	public int color() {
+		return _color;
 	}
 }
