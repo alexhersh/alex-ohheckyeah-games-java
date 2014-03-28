@@ -21,11 +21,14 @@ public class CatchyScoreDisplay {
 	protected int _score;
 	protected EasingFloat _scoreEaser;
 	protected int _color;
+	
+	protected boolean _isRightSide = false;
 
 	public CatchyScoreDisplay( CatchyGamePlay catchyGamePlay ) {
 		p = (Catchy)P.p;
 		this.catchyGamePlay = catchyGamePlay;
 		pg = catchyGamePlay.pg;
+		
 		
 		String timerFont = FileUtil.getHaxademicDataPath() + "fonts/AlegreyaSans-Bold.ttf";
 		_scoreFontRenderer = new CustomFontText2D( p, timerFont, 36.0f, ColorUtil.colorFromHex("#000000"), CustomFontText2D.ALIGN_CENTER, 80, 80 );
@@ -50,7 +53,7 @@ public class CatchyScoreDisplay {
 	public void update() {
 	}
 	
-	public void drawScore() {
+	public void easeScore() {
 		_scoreEaser.update();
 		int roundedScore = P.round( _scoreEaser.value() );
 		if( roundedScore != _score ) {
@@ -58,12 +61,21 @@ public class CatchyScoreDisplay {
 		} else {
 			_scoreFontRenderer.updateText( _score+"" );
 		}
-
+	}
+	public void drawScore() {
+		// check to see if we're on the right side
+		if( p.isLastGameplay(catchyGamePlay) == true ) _isRightSide = true;
+		
+		easeScore();
 		
 		DrawUtil.setDrawCenter( pg );
 		pg.pushMatrix();
 		
-		pg.translate( 71f * p.gameScaleV, 68f * p.gameScaleV );
+		if( _isRightSide == false ) {
+			pg.translate( 71f * p.gameScaleV, 68f * p.gameScaleV );
+		} else {
+			pg.translate( pg.width - 71f * p.gameScaleV, 68f * p.gameScaleV );
+		}
 		pg.noStroke();
 		
 		// draw shadow

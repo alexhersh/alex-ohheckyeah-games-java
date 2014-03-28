@@ -170,6 +170,14 @@ extends PAppletHax
 	public int gameState() { return _gameState; }
 	public ColorGroup gameColors() { return _gameColors; }
 	public boolean isDebugging() { return _isDebugging; }
+	
+	public boolean isLastGameplay( CatchyGamePlay gameplay ) {
+		if( gameplay == _gamePlays.get( _gamePlays.size() - 1) ) {
+			return true;
+		} else {
+			return false;
+		}
+	}
 		
 	// GAME STATE --------------------------------------------------------------------------------------
 	
