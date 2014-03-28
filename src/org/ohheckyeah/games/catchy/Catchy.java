@@ -16,7 +16,6 @@ import com.haxademic.core.audio.AudioPool;
 import com.haxademic.core.draw.color.ColorGroup;
 import com.haxademic.core.draw.color.ColorUtil;
 import com.haxademic.core.draw.util.DrawUtil;
-import com.haxademic.core.draw.util.OpenGLUtil;
 import com.haxademic.core.hardware.kinect.KinectRegionGrid;
 import com.haxademic.core.system.FileUtil;
 import com.haxademic.core.system.TimeFactoredFps;
@@ -98,7 +97,7 @@ extends PAppletHax
 	}
 
 	public void initGame() {
-		p.smooth(OpenGLUtil.SMOOTH_HIGH);
+		p.noSmooth(); //smooth(OpenGLUtil.SMOOTH_LOW);
 		_bgColor = ColorUtil.colorFromHex("#E7E867");
 
 		timeFactor = new TimeFactoredFps( p, 60 );

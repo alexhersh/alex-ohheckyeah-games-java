@@ -48,7 +48,7 @@ public class CatchyGamePlay {
 		_kinectRegion = kinectRegion;
 
 		pg = p.createGraphics( gameWidth, p.height, P.OPENGL );
-		pg.smooth(OpenGLUtil.SMOOTH_HIGH);
+		pg.smooth(OpenGLUtil.SMOOTH_MEDIUM);
 		
 		_easedControlX = new EasingFloat( 0.5f, 6f );
 		_autoControl = p.random(0.0001f, 0.001f);
