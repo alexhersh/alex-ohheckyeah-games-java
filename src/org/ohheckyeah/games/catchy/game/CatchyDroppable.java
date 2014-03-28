@@ -33,13 +33,27 @@ public class CatchyDroppable {
 	
 	public void update( float playerOffset ) {
 		if( _active == false ) return;
+		
+		// draw & move -----
 		DrawUtil.setDrawCenter(pg);
 //		pg.shape( p.gameGraphics.shadow, _x, dropperShadowY, dropperShadowWidth, dropperShadowHeight );
 		pg.shape( _graphic, _x, _y, _graphic.width * p.gameScaleV, _graphic.height * p.gameScaleV );
 		_y += _dropSpeed * p.gameScaleV;
+		
+		// recycle if we hit the ground -------
 		if( _y > pg.height - 20 * p.gameScaleV ) {
 			_active = false;
 		}
+		
+		// check for a catch -------
+		if( _y > pg.height/2f ) {
+			catchyGamePlay.checkCatch( this, _x, _y );
+		}
+	}
+	
+	public void catchSuccess() {
+		_active = false;
+		
 	}
 	
 	public void reset( float x, float y ) {

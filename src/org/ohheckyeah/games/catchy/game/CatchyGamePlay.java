@@ -38,6 +38,8 @@ public class CatchyGamePlay {
 	protected ArrayList<CatchyDroppable> _droppables;
 	protected int _droppableIndex = 0;
 	
+	protected int _score = 0;
+	
 	public CatchyGamePlay( int gameIndex, int gameWidth, KinectRegion kinectRegion ) {
 		p = (Catchy) P.p;
 		this.gameIndex = gameIndex;
@@ -77,13 +79,21 @@ public class CatchyGamePlay {
 		_mountainH = p.random( 0, gameWidth );
 		_bushSmallX = p.random( 0, gameWidth );
 		_bushLargeX = p.random( 0, gameWidth );
+		
+		_score = 0;
 	}
 	
 	public void launchNewDroppable( float x ) {
-		// P.println(gameIndex+" :: "+ x);
 		CatchyDroppable droppable = _droppables.get( _droppableIndex );
 		_droppableIndex = ( _droppableIndex < _droppables.size() - 1 ) ? _droppableIndex + 1 : 0;
 		droppable.reset( x, 10f * p.gameScaleV );
+	}
+	
+	public void checkCatch( CatchyDroppable droppable, float x, float y ) {
+		if( _character.checkCatch(x, y) == true ) {
+			droppable.catchSuccess();
+			_score += 10;
+		}
 	}
 	
 	public void update() {
@@ -91,7 +101,6 @@ public class CatchyGamePlay {
 		
 		// set game bg
 		pg.background( _bgColor );
-		
 		
 		// update and ease controls
 		if( _controlsActive == true ) {
