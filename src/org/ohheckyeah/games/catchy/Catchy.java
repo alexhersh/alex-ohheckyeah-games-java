@@ -101,6 +101,7 @@ extends PAppletHax
 		p.smooth(OpenGLUtil.SMOOTH_HIGH);
 		_bgColor = ColorUtil.colorFromHex("#E7E867");
 
+		timeFactor = new TimeFactoredFps( p, 60 );
 		gameScaleV = p.height / _gameOrigHeight;
 		P.println("gameScaleV = "+gameScaleV);
 				
@@ -110,7 +111,13 @@ extends PAppletHax
 		
 		// set flags and props	
 		pickNewColors();
-		
+		setKinectProperties();
+		buildGameplays();
+		buildGameTimer();
+		setInitialGameState();
+	}
+	
+	protected void setKinectProperties() {
 		// default kinect camera distance is for up-close indoor testing. not good for real games - suggested use is 2300-3300
 		// default pixel rows are the center 200 kinect data rows
 		KINECT_MIN_DIST = _appConfig.getInt( "kinect_min_mm", 1500 );
@@ -118,30 +125,22 @@ extends PAppletHax
 		KINECT_TOP = _appConfig.getInt( "kinect_top_pixel", 240 );
 		KINECT_BOTTOM = _appConfig.getInt( "kinect_bottom_pixel", 400 );
 		NUM_PLAYERS = _appConfig.getInt( "num_players", 2 );
+	}	
 		
-		// build gameplay objects
+	protected void buildGameTimer() {
+		gameTimer = new CatchyGameTimer();
+		gameTimer.startTimer();
+	}
+	
+	protected void buildGameplays() {
 		_kinectGrid = new KinectRegionGrid(p, NUM_PLAYERS, 1, (int)KINECT_MIN_DIST, (int)KINECT_MAX_DIST, 200, (int)KINECT_TOP, (int)KINECT_BOTTOM);
 		_gameWidth = P.ceil( p.width / (float) NUM_PLAYERS );
 		_gamePlays = new ArrayList<CatchyGamePlay>();
 		for( int i=0; i < NUM_PLAYERS; i++ ) {
 			_gamePlays.add( new CatchyGamePlay( i, _gameWidth, _kinectGrid.getRegion(i) ) );
 		}
-		
-		
-		// it's opposite day, since game mode triggers the next action
-		if( _appConfig.getBoolean( "starts_on_game", true ) == true ) {
-			setGameMode( GAME_ON );
-		} else {
-			setGameMode( GAME_INTRO );
-		}
-		
-		timeFactor = new TimeFactoredFps( p, 60 );
-		
-		// for testing atm
-		gameTimer = new CatchyGameTimer();
-		gameTimer.startTimer();
 	}
-		
+	
 	protected void loadMedia() {
 		sounds = new AudioPool( p, _minim );
 //		soundtrack = new Soundtrack();
@@ -174,6 +173,14 @@ extends PAppletHax
 	public boolean isDebugging() { return _isDebugging; }
 		
 	// GAME STATE --------------------------------------------------------------------------------------
+	
+	public void setInitialGameState() {
+		if( _appConfig.getBoolean( "starts_on_game", true ) == true ) {
+			setGameMode( GAME_ON );
+		} else {
+			setGameMode( GAME_INTRO );
+		}
+	}
 	
 	public void setGameMode( int mode ) {
 		P.println("next mode: "+mode);
@@ -255,7 +262,6 @@ extends PAppletHax
 		// P.println("target_fps: "+timeFactor.targetFps()+" / actual_fps: "+timeFactor.actualFps()+" / timeFactor: "+timeFactor.multiplier());
 		
 		handleGameState();
-//		if( _isDebugging == true ) displayDebug();
 	}
 	
 	protected void updateGameplays() {
