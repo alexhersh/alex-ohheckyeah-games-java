@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 15.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" id="svgcontent" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 width="66.027px" height="71.45px" viewBox="0 0 66.027 71.45" enable-background="new 0 0 66.027 71.45" xml:space="preserve">
+<path id="path847" fill="#FFE200" stroke="#000000" stroke-linejoin="round" d="M45.67,6.462c-4.226-1.711,3.107-7.048,4.544-6.408
+	c1.965,0.188-0.847,2.032-0.061,3.416s3.658,9.205,5.457,8.974c1.799-0.231,4.422,0.423,5.254,2.514
+	c10.258,10.942,4.389,54.453-50.03,55.492c-1.066-0.303-7.636-3.748-8.95-4.678c-0.989-1.303-3.017-4.615-1.065-6.844
+	c18.778-14.004,47.473-12.57,48.435-42.263C49.344,11.542,45.67,6.462,45.67,6.462L45.67,6.462z"/>
+<linearGradient id="path849_1_" gradientUnits="userSpaceOnUse" x1="-367.0232" y1="-82.9985" x2="-366.8306" y2="-83.1128" gradientTransform="matrix(323.2513 -67.776 -67.7754 179.6639 113031.5938 -9916.8691)">
+	<stop  offset="0" style="stop-color:#FFFFFF;stop-opacity:0.525"/>
+	<stop  offset="1" style="stop-color:#FFFFFF;stop-opacity:0"/>
+</linearGradient>
+<path id="path849" fill="url(#path849_1_)" d="M2.389,61.695L1.968,59.44c12.775-11.859,45.644-10.631,48.555-42.553
+	C51.27,38.391,44.005,54.602,2.389,61.695L2.389,61.695z"/>
+<path id="path851" fill="#442400" d="M44.938,5.858c-0.694-3.134,3.552-4.915,4.691-5.536C51.69-0.193,48.527,4.916,44.938,5.858z"
+	/>
+<path id="path852" fill="#442400" d="M1.562,64.958c-1.374-3.014-1.93-3.967-0.601-5.67C2.177,60.147,3.463,63.792,1.562,64.958z"/>
+<linearGradient id="path853_1_" gradientUnits="userSpaceOnUse" x1="-367.551" y1="-83.6562" x2="-367.3764" y2="-83.6562" gradientTransform="matrix(306.8073 -34.3911 -34.3905 233.9482 109907.75 6975.0923)">
+	<stop  offset="0" style="stop-color:#FFFFFF;stop-opacity:0"/>
+	<stop  offset="1" style="stop-color:#5F0E00;stop-opacity:0.4167"/>
+</linearGradient>
+<path id="path853" fill="url(#path853_1_)" d="M22.157,68.614c39.377-4.992,42.312-32.925,42.273-39.33
+	c1.014-8.154-4.225-14.792-4.225-14.792C68.981,37.165,53.151,64.532,22.157,68.614z"/>
+</svg>

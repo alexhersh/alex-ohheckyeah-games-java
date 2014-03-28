@@ -12,6 +12,8 @@ public class CatchyGraphics {
 	
 	public ArrayList<PShape> characters;
 	public PShape blueSquid, pinkEye, wheelieRobot, birdie, bowl, greenPanner;
+	public ArrayList<PShape> droppables;
+	public PShape apple, banana;
 	public PShape grass, bushSmall, bushLarge, mountain, shadow, dropper;
 	public PShape gameDivider, catchyLogo, logoConfetti, timerBanner;
 	
@@ -32,6 +34,14 @@ public class CatchyGraphics {
 		characters.add(bowl);
 		characters.add(greenPanner);
 		
+		// droppables
+		apple = P.p.loadShape( FileUtil.getHaxademicDataPath() + "games/catchy/svg/droppables/temp-apple.svg" );
+		banana = P.p.loadShape( FileUtil.getHaxademicDataPath() + "games/catchy/svg/droppables/temp-banana.svg" );
+
+		droppables = new ArrayList<PShape>();
+		droppables.add(apple);
+		droppables.add(banana);
+
 		// scene
 		grass = P.p.loadShape( FileUtil.getHaxademicDataPath() + "games/catchy/svg/scene/grass.svg" );
 		bushSmall = P.p.loadShape( FileUtil.getHaxademicDataPath() + "games/catchy/svg/scene/bush-small.svg" );
