@@ -68,7 +68,7 @@ public class CatchyCharacter {
 	}
 	
 	public boolean checkCatch( float x, float y ) {
-		if( MathUtil.getDistance(x, y, _characterX, _characterTopY) < 20f * p.gameScaleV ) {
+		if( MathUtil.getDistance(x, y, _characterX, _characterTopY) < 30f * p.gameScaleV ) {
 			return true;
 		} else {
 			return false;
