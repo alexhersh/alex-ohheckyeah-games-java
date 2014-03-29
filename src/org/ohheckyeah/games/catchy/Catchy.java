@@ -100,7 +100,7 @@ extends PAppletHax
 		p.noSmooth(); //smooth(OpenGLUtil.SMOOTH_LOW);
 		_bgColor = ColorUtil.colorFromHex("#E7E867");
 
-		timeFactor = new TimeFactoredFps( p, 60 );
+		timeFactor = new TimeFactoredFps( p, 50 );
 		gameScaleV = p.height / _gameOrigHeight;
 		P.println("gameScaleV = "+gameScaleV);
 				
