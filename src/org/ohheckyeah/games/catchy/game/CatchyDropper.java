@@ -7,6 +7,7 @@ import processing.core.PShape;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.draw.util.DrawUtil;
+import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.math.easing.EasingFloat;
 
 public class CatchyDropper {
@@ -22,6 +23,10 @@ public class CatchyDropper {
 	protected final int DROP_INTERVAL = 1 * 1000;
 	protected float _screenSplitX = 0;
 	protected boolean _droppedAtPosition = false;
+	protected int _numColumns = 5;
+	protected int _numColsOutward = 0;
+	protected float _columnWidth;
+	protected int _curColumn = 0;
 
 	public CatchyDropper( CatchyGamePlay catchyGamePlay ) {
 		p = (Catchy)P.p;
@@ -30,6 +35,9 @@ public class CatchyDropper {
 		_positionX = new EasingFloat(0,6);
 		_positionY = new EasingFloat(0,4);
 		_dropper = p.gameGraphics.dropper;
+		
+		_columnWidth = (catchyGamePlay.gameWidth * 0.75f) / _numColumns;
+		_numColsOutward = (int) ((_numColumns-1) / 2f);
 	}
 
 	public void update() {
@@ -48,7 +56,18 @@ public class CatchyDropper {
 		
 		// move to next drop position
 		if( p.millis() > _lastDropTime + DROP_INTERVAL ) {
-			_positionX.setTarget( p.random(-0.5f * catchyGamePlay.gameHalfWidth, 0.5f * catchyGamePlay.gameHalfWidth) );
+			if( MathUtil.randRange(0, 100) > 25 ) {
+				if( MathUtil.randBoolean(p) == true ) {
+					_curColumn++;
+					if( _curColumn > _numColsOutward ) _curColumn -= _numColsOutward;
+				} else {
+					_curColumn--;
+					if( _curColumn < -_numColsOutward ) _curColumn += _numColsOutward;
+				}
+			} else {
+				// do nothing - stay in place
+			}
+			_positionX.setTarget( _curColumn * _columnWidth );
 			_lastDropTime = p.millis();
 		}
 		// drop!
@@ -79,6 +98,7 @@ public class CatchyDropper {
 	}
 
 	public void reset() {
+		_curColumn = 0;
 		// _dropper = p.gameGraphics.dropper.get( catchyGamePlay.gameIndex % p.gameGraphics.dropper.size() );
 	}
 }

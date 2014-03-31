@@ -5,13 +5,15 @@ import java.util.ArrayList;
 import processing.core.PShape;
 
 import com.haxademic.core.app.P;
+import com.haxademic.core.draw.color.ColorUtil;
 import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.system.FileUtil;
 
 public class CatchyGraphics {
 	
-	public ArrayList<PShape> characters;
-	public PShape blueSquid, pinkEye, wheelieRobot, birdie, bowl, greenPanner;
+	public ArrayList<CatchyCharacterDef> characterDefs;
+	public CatchyCharacterDef blueSquid, greenPanner, pinkEye, wheelieRobot, birdie, bowl;
+	
 	public ArrayList<PShape> droppables;
 	public PShape apple, banana, spikeBall;
 	public PShape grass, bushSmall, bushLarge, mountain, shadow, dropper;
@@ -19,21 +21,21 @@ public class CatchyGraphics {
 	
 	public CatchyGraphics() {
 		// characters
-		blueSquid = P.p.loadShape( FileUtil.getHaxademicDataPath() + "games/catchy/svg/characters/blue-squid.svg" );
-		pinkEye = P.p.loadShape( FileUtil.getHaxademicDataPath() + "games/catchy/svg/characters/pink-eye.svg" );
-		wheelieRobot = P.p.loadShape( FileUtil.getHaxademicDataPath() + "games/catchy/svg/characters/wheelie-robot.svg" );
-		birdie = P.p.loadShape( FileUtil.getHaxademicDataPath() + "games/catchy/svg/characters/birdie.svg" );
-		bowl = P.p.loadShape( FileUtil.getHaxademicDataPath() + "games/catchy/svg/characters/bowl.svg" );
-		greenPanner = P.p.loadShape( FileUtil.getHaxademicDataPath() + "games/catchy/svg/characters/green-panner.svg" );
+		blueSquid = new CatchyCharacterDef("blue-squid", ColorUtil.colorFromHex("#107DAE"));
+		greenPanner = new CatchyCharacterDef("green-panner", ColorUtil.colorFromHex("#708424"));
+		pinkEye = new CatchyCharacterDef("pink-eye", ColorUtil.colorFromHex("#D47AA3"));
+		wheelieRobot = new CatchyCharacterDef("wheelie-robot", ColorUtil.colorFromHex("#97B1BF"));
+		birdie = new CatchyCharacterDef("birdie", ColorUtil.colorFromHex("#F2CA18"));
+		bowl = new CatchyCharacterDef("bowl", ColorUtil.colorFromHex("#A02134"));
 		
-		characters = new ArrayList<PShape>();
-		characters.add(blueSquid);
-		characters.add(pinkEye);
-		characters.add(wheelieRobot);
-		characters.add(birdie);
-		characters.add(bowl);
-		characters.add(greenPanner);
-		
+		characterDefs = new ArrayList<CatchyCharacterDef>();
+		characterDefs.add(blueSquid);
+		characterDefs.add(greenPanner);
+		characterDefs.add(pinkEye);
+		characterDefs.add(wheelieRobot);
+		characterDefs.add(birdie);
+		characterDefs.add(bowl);
+				
 		// droppables
 		apple = P.p.loadShape( FileUtil.getHaxademicDataPath() + "games/catchy/svg/droppables/temp-apple.svg" );
 		banana = P.p.loadShape( FileUtil.getHaxademicDataPath() + "games/catchy/svg/droppables/temp-banana.svg" );
@@ -60,16 +62,27 @@ public class CatchyGraphics {
 	}
 	
 	public void shuffleCharacters() {
-		PShape cur = null;
-		PShape temp = null;
+		CatchyCharacterDef cur = null;
+		CatchyCharacterDef temp = null;
 		int swapIndex = 0;
-		for( int i=0; i < characters.size(); i++ ) {
-			swapIndex = MathUtil.randRange(0, characters.size() - 1);
-			temp = characters.get( swapIndex );
-			cur = characters.get( i );
-			characters.set( swapIndex, cur );
-			characters.set( i, temp );
+		for( int i=0; i < characterDefs.size(); i++ ) {
+			swapIndex = MathUtil.randRange(0, characterDefs.size() - 1);
+			temp = characterDefs.get( swapIndex );
+			cur = characterDefs.get( i );
+			characterDefs.set( swapIndex, cur );
+			characterDefs.set( i, temp );
 		}
 
+	}
+	
+	public class CatchyCharacterDef {
+		
+		public PShape characterDefault;
+		public int characterColor;
+		
+		public CatchyCharacterDef( String characterName, int color ) {
+			characterDefault = P.p.loadShape( FileUtil.getHaxademicDataPath() + "games/catchy/svg/characters/"+ characterName +".svg" );
+			characterColor = color;
+		}
 	}
 }

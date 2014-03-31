@@ -1,6 +1,7 @@
 package org.ohheckyeah.games.catchy.game;
 
 import org.ohheckyeah.games.catchy.Catchy;
+import org.ohheckyeah.games.catchy.assets.CatchyGraphics.CatchyCharacterDef;
 
 import processing.core.PGraphics;
 import processing.core.PShape;
@@ -16,6 +17,7 @@ public class CatchyCharacter {
 	protected CatchyGamePlay catchyGamePlay;
 	protected PGraphics pg;
 	
+	protected CatchyCharacterDef _characterDef;
 	protected PShape _character;
 	protected int _color;
 	
@@ -76,10 +78,11 @@ public class CatchyCharacter {
 	}
 	
 	public void reset() {
-		_character = p.gameGraphics.characters.get( catchyGamePlay.gameIndex % p.gameGraphics.characters.size() );
+		_characterDef = p.gameGraphics.characterDefs.get( catchyGamePlay.gameIndex % p.gameGraphics.characterDefs.size() );
+		_character = _characterDef.characterDefault;
 	}
 	
 	public int color() {
-		return _color;
+		return _characterDef.characterColor;
 	}
 }
