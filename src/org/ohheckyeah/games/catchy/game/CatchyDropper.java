@@ -32,7 +32,7 @@ public class CatchyDropper {
 		p = (Catchy)P.p;
 		this.catchyGamePlay = catchyGamePlay;
 		pg = catchyGamePlay.pg;
-		_positionX = new EasingFloat(0,6);
+		_positionX = new EasingFloat(0,5);
 		_positionY = new EasingFloat(0,4);
 		_dropper = p.gameGraphics.dropper;
 		
@@ -71,8 +71,8 @@ public class CatchyDropper {
 			_lastDropTime = p.millis();
 		}
 		// drop!
-		float animDownTime = _lastDropTime + DROP_INTERVAL - 200;
-		float animUpTime = _lastDropTime + DROP_INTERVAL - 100;
+		float animDownTime = _lastDropTime + DROP_INTERVAL - 500;
+		float animUpTime = _lastDropTime + DROP_INTERVAL - 400;
 		if( p.millis() > animDownTime && p.millis() < animUpTime ) {
 			_positionY.setTarget( p.scaleV(20) );
 			_droppedAtPosition = false;
