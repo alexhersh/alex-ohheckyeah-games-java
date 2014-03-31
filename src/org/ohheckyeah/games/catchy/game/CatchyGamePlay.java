@@ -122,13 +122,13 @@ public class CatchyGamePlay {
 	protected void drawGraphicsLayers() {
 		DrawUtil.setDrawCorner(pg);
 		drawMountain();
+		drawBushes();
 		drawGrass();
 		drawDroppables();
 		DrawUtil.setDrawCenter(pg);
 		_character.update(_playerOffset);
 		_dropper.update();
 		DrawUtil.setDrawCorner(pg);
-		drawBushes();
 		_score.drawScore();
 	}
 	
