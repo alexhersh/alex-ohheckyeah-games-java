@@ -19,7 +19,7 @@ public class CatchyGameTimer {
 	public CatchyGameTimer() {
 		p = (Catchy)P.p;
 		String timerFont = FileUtil.getHaxademicDataPath() + "fonts/AlegreyaSans-Bold.ttf";
-		_timerFontRenderer = new CustomFontText2D( p, timerFont, 60.0f, ColorUtil.colorFromHex("#000000"), CustomFontText2D.ALIGN_LEFT, (int) p.gameGraphics.timerBanner.width, 80 );
+		_timerFontRenderer = new CustomFontText2D( p, timerFont, 60 * p.gameScaleV, ColorUtil.colorFromHex("#000000"), CustomFontText2D.ALIGN_LEFT, (int) (p.gameGraphics.timerBanner.width * p.gameScaleV), (int)(80 * p.gameScaleV) );
 	}
 	
 	public void startTimer() {
@@ -40,7 +40,7 @@ public class CatchyGameTimer {
 	public void drawTimer() {
 		p.shape( p.gameGraphics.timerBanner, 0, 0, p.gameGraphics.timerBanner.width * p.gameScaleV, p.gameGraphics.timerBanner.height * p.gameScaleV );
 		_timerFontRenderer.updateText( StringFormatter.timeFromMilliseconds( _curGameTime, false) );
-		p.image( _timerFontRenderer.getTextPImage(), 54f * p.gameScaleV, 0 * p.gameScaleV, _timerFontRenderer.getTextPImage().width * p.gameScaleV, _timerFontRenderer.getTextPImage().height * p.gameScaleV );
+		p.image( _timerFontRenderer.getTextPImage(), 55 * p.gameScaleV, 9 * p.gameScaleV, _timerFontRenderer.getTextPImage().width, _timerFontRenderer.getTextPImage().height );
 	}
 		
 	/**
