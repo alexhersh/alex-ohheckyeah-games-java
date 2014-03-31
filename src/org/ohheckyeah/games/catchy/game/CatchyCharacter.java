@@ -19,6 +19,7 @@ public class CatchyCharacter {
 	
 	protected CatchyCharacterDef _characterDef;
 	protected PShape _character;
+	protected PShape _characterCatch;
 	protected int _color;
 	
 	protected float lastPlayerOffset = 0;
@@ -27,6 +28,8 @@ public class CatchyCharacter {
 	protected float _characterX;
 	protected float _characterY;
 	protected float _characterTopY;
+
+	protected int _catchTime = 0;
 	
 	public CatchyCharacter( CatchyGamePlay catchyGamePlay ) {
 		p = (Catchy)P.p;
@@ -65,12 +68,14 @@ public class CatchyCharacter {
 		// draw rotated character
 		pg.translate( _characterX, _characterY, 0 );
 		pg.rotateZ( _rotation.value() );
-		pg.shape( _character, 0, 0, characterWidth, characterHeight );
+		PShape curCharacterState = (p.millis() < _catchTime + 300) ? _characterCatch : _character;
+		pg.shape( curCharacterState, 0, 0, characterWidth, characterHeight );
 		pg.popMatrix();
 	}
 	
 	public boolean checkCatch( float x, float y ) {
 		if( MathUtil.getDistance(x, y, _characterX, _characterTopY) < p.scaleV(30f) ) {
+			_catchTime = p.millis();
 			return true;
 		} else {
 			return false;
@@ -80,6 +85,7 @@ public class CatchyCharacter {
 	public void reset() {
 		_characterDef = p.gameGraphics.characterDefs.get( catchyGamePlay.gameIndex % p.gameGraphics.characterDefs.size() );
 		_character = _characterDef.characterDefault;
+		_characterCatch = _characterDef.characterCatch;
 	}
 	
 	public int color() {
