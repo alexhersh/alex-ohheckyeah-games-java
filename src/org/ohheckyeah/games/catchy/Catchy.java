@@ -102,7 +102,6 @@ extends PAppletHax
 
 		timeFactor = new TimeFactoredFps( p, 50 );
 		gameScaleV = p.height / _gameOrigHeight;
-		P.println("gameScaleV = "+gameScaleV);
 				
 		loadMedia();
 		
@@ -124,7 +123,11 @@ extends PAppletHax
 		KINECT_TOP = _appConfig.getInt( "kinect_top_pixel", 240 );
 		KINECT_BOTTOM = _appConfig.getInt( "kinect_bottom_pixel", 400 );
 		NUM_PLAYERS = _appConfig.getInt( "num_players", 2 );
-	}	
+	}
+	
+	public float scaleV( float input ) {
+		return input * gameScaleV;
+	}
 		
 	protected void buildGameTimer() {
 		gameTimer = new CatchyGameTimer();
@@ -288,12 +291,12 @@ extends PAppletHax
 				p.fill(255);
 				p.noStroke();
 				float dividerX = _gameWidth * i - gameGraphics.gameDivider.width * 0.5f;
-				float dividerH = ( gameScaleV > 1 ) ? gameGraphics.gameDivider.height * gameScaleV : gameGraphics.gameDivider.height;
+				float dividerH = ( gameScaleV > 1 ) ? scaleV( gameGraphics.gameDivider.height ) : gameGraphics.gameDivider.height;
 				p.shape( gameGraphics.gameDivider, dividerX, 0, gameGraphics.gameDivider.width, dividerH );
 				// draw timers
 				DrawUtil.setDrawCenter(p);
 				p.pushMatrix();
-				p.translate( dividerX, p.height - (gameGraphics.timerBanner.height * gameScaleV) / 1.7f );
+				p.translate( dividerX, p.height - ( scaleV(gameGraphics.timerBanner.height) ) / 1.7f );
 				gameTimer.drawTimer();
 				p.popMatrix();
 			}
@@ -301,7 +304,7 @@ extends PAppletHax
 				// draw timers
 				DrawUtil.setDrawCenter(p);
 				p.pushMatrix();
-				p.translate( p.width - 100 * gameScaleV, 30 );
+				p.translate( p.width - scaleV(100), 30 );
 				gameTimer.drawTimer();
 				p.popMatrix();
 			}

@@ -39,17 +39,17 @@ public class CatchyCharacter {
 	
 	public void update( float playerOffset ) {
 		
-		float bottomPadding = 22 * p.gameScaleV;
+		float bottomPadding = p.scaleV(22);
 		
 		// position character & shadow
 		_characterX = catchyGamePlay.gameHalfWidth + playerOffset;
-		_characterY = pg.height - bottomPadding - _character.height * 0.5f * p.gameScaleV;
-		_characterTopY = _characterY - _character.height * 0.5f * p.gameScaleV;
-		float characterWidth = _character.width * p.gameScaleV;
-		float characterHeight = _character.height * p.gameScaleV;
+		_characterY = pg.height - bottomPadding - _character.height * p.scaleV(0.5f);
+		_characterTopY = _characterY - _character.height * p.scaleV(0.5f);
+		float characterWidth = p.scaleV(_character.width);
+		float characterHeight = p.scaleV(_character.height);
 		float characterShadowY = pg.height - bottomPadding;
-		float characterShadowWidth = p.gameGraphics.shadow.width * p.gameScaleV;
-		float characterShadowHeight = p.gameGraphics.shadow.height * p.gameScaleV;
+		float characterShadowWidth = p.scaleV(p.gameGraphics.shadow.width);
+		float characterShadowHeight = p.scaleV(p.gameGraphics.shadow.height);
 		float characterSpeed = playerOffset - lastPlayerOffset;
 
 
@@ -70,7 +70,7 @@ public class CatchyCharacter {
 	}
 	
 	public boolean checkCatch( float x, float y ) {
-		if( MathUtil.getDistance(x, y, _characterX, _characterTopY) < 30f * p.gameScaleV ) {
+		if( MathUtil.getDistance(x, y, _characterX, _characterTopY) < p.scaleV(30f) ) {
 			return true;
 		} else {
 			return false;

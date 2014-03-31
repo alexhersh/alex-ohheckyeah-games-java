@@ -76,7 +76,7 @@ public class CatchyTitleScreen {
 		}
 		// launch new confetti
 		if( p.millis() > _confettiLaunchTime + 1000 ) {
-			float spacing = 200 * p.gameScaleV;
+			float spacing = p.scaleV(200);
 			for( float x = -spacing; x < pg.width + spacing; x += spacing ) {
 				// cycle confetti index
 				_confettiLaunchIndex++;
@@ -94,7 +94,7 @@ public class CatchyTitleScreen {
 	protected void drawLogo() {
 		DrawUtil.setDrawCenter(pg);
 		_logoScale.update();
-		pg.shape( p.gameGraphics.catchyLogo, pg.width * 0.5f, pg.height * 0.5f, p.gameGraphics.catchyLogo.width * _logoScale.val() * p.gameScaleV, p.gameGraphics.catchyLogo.height * _logoScale.val() * p.gameScaleV );
+		pg.shape( p.gameGraphics.catchyLogo, pg.width * 0.5f, pg.height * 0.5f, p.gameGraphics.catchyLogo.width * p.scaleV(_logoScale.val()), p.gameGraphics.catchyLogo.height * p.scaleV(_logoScale.val()) );
 	}
 	
 	protected void drawBorder() {
@@ -119,8 +119,8 @@ public class CatchyTitleScreen {
 		protected float scaledH;
 		
 		public ConfettiParticle() {
-			scaledW = p.gameGraphics.logoConfetti.width * p.gameScaleV;
-			scaledH = p.gameGraphics.logoConfetti.height * p.gameScaleV;
+			scaledW = p.scaleV(p.gameGraphics.logoConfetti.width);
+			scaledH = p.scaleV(p.gameGraphics.logoConfetti.height);
 		}
 		
 		public void launchAt( float x, float y ) {

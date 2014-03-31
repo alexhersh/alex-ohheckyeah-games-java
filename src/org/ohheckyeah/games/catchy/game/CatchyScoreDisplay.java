@@ -31,7 +31,7 @@ public class CatchyScoreDisplay {
 		
 		
 		String timerFont = FileUtil.getHaxademicDataPath() + "fonts/AlegreyaSans-Bold.ttf";
-		_scoreFontRenderer = new CustomFontText2D( p, timerFont, 36 * p.gameScaleV, ColorUtil.colorFromHex("#000000"), CustomFontText2D.ALIGN_CENTER, (int)(80 * p.gameScaleV), (int)(80 * p.gameScaleV) );
+		_scoreFontRenderer = new CustomFontText2D( p, timerFont, p.scaleV(36), ColorUtil.colorFromHex("#000000"), CustomFontText2D.ALIGN_CENTER, (int)p.scaleV(80), (int)p.scaleV(80) );
 		_scoreEaser = new EasingFloat(0,5);
 		reset( p.color(0) );
 	}
@@ -72,27 +72,27 @@ public class CatchyScoreDisplay {
 		pg.pushMatrix();
 		
 		if( _isRightSide == false ) {
-			pg.translate( 71f * p.gameScaleV, 68f * p.gameScaleV );
+			pg.translate( p.scaleV(71f), p.scaleV(68f) );
 		} else {
-			pg.translate( pg.width - 71f * p.gameScaleV, 68f * p.gameScaleV );
+			pg.translate( pg.width - p.scaleV(71f), p.scaleV(68f) );
 		}
 		pg.noStroke();
 		
 		// draw shadow
 		pg.fill(0, 25);
-		pg.ellipse( -6 * p.gameScaleV, 11 * p.gameScaleV, 80 * p.gameScaleV, 80 * p.gameScaleV );
+		pg.ellipse( p.scaleV(-6), p.scaleV(11), p.scaleV(80), p.scaleV(80) );
 		
 		// draw large bg
 		pg.fill( _color );
-		pg.ellipse( 0, 0, 80 * p.gameScaleV, 80 * p.gameScaleV );
+		pg.ellipse( 0, 0, p.scaleV(80), p.scaleV(80) );
 		
 		// draw small shadow
 		pg.fill(0, 25);
-		pg.ellipse( 0, 3 * p.gameScaleV, 60 * p.gameScaleV, 60 * p.gameScaleV );
+		pg.ellipse( 0, p.scaleV(3), p.scaleV(60), p.scaleV(60) );
 		
 		// draw small shadow
 		pg.fill(255);
-		pg.ellipse( 0, 0, 60 * p.gameScaleV, 60 * p.gameScaleV );
+		pg.ellipse( 0, 0, p.scaleV(60), p.scaleV(60) );
 		
 		// draw text score
 		pg.image( 

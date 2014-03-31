@@ -37,11 +37,11 @@ public class CatchyDroppable {
 		// draw & move -----
 		DrawUtil.setDrawCenter(pg);
 //		pg.shape( p.gameGraphics.shadow, _x, dropperShadowY, dropperShadowWidth, dropperShadowHeight );
-		pg.shape( _graphic, _x, _y, _graphic.width * p.gameScaleV, _graphic.height * p.gameScaleV );
-		_y += _dropSpeed * p.gameScaleV * p.timeFactor.multiplier();
+		pg.shape( _graphic, _x, _y, p.scaleV(_graphic.width), p.scaleV(_graphic.height) );
+		_y += p.scaleV(_dropSpeed) * p.timeFactor.multiplier();
 		
 		// recycle if we hit the ground -------
-		if( _y > pg.height - 20 * p.gameScaleV ) {
+		if( _y > pg.height - p.scaleV(20) ) {
 			_active = false;
 		}
 		

@@ -87,7 +87,7 @@ public class CatchyGamePlay {
 	public void launchNewDroppable( float x ) {
 		CatchyDroppable droppable = _droppables.get( _droppableIndex );
 		_droppableIndex = ( _droppableIndex < _droppables.size() - 1 ) ? _droppableIndex + 1 : 0;
-		droppable.reset( x, 10f * p.gameScaleV );
+		droppable.reset( x, p.scaleV(10f) );
 	}
 	
 	public void checkCatch( CatchyDroppable droppable, float x, float y ) {
@@ -133,8 +133,8 @@ public class CatchyGamePlay {
 	}
 	
 	protected void drawMountain() {
-		float mountainW = p.gameGraphics.mountain.width * p.gameScaleV;
-		float mountainH = p.gameGraphics.mountain.height * p.gameScaleV;
+		float mountainW = p.scaleV(p.gameGraphics.mountain.width);
+		float mountainH = p.scaleV(p.gameGraphics.mountain.height);
 		pg.shape( 
 				p.gameGraphics.mountain, 
 				_mountainX - mountainW/2f + _playerOffset * 0.2f, 
@@ -145,8 +145,8 @@ public class CatchyGamePlay {
 	}
 	
 	protected void drawGrass() {
-		float grassW = p.gameGraphics.grass.width * p.gameScaleV;
-		float grassH = p.gameGraphics.grass.height * p.gameScaleV;
+		float grassW = p.scaleV(p.gameGraphics.grass.width);
+		float grassH = p.scaleV(p.gameGraphics.grass.height);
 		pg.shape( 
 				p.gameGraphics.grass, 
 				gameHalfWidth - grassW/2f + _playerOffset * 0.5f, 
@@ -164,8 +164,8 @@ public class CatchyGamePlay {
 	
 	protected void drawBushes() {
 		// small
-		float bushSmallW = p.gameGraphics.bushSmall.width * p.gameScaleV;
-		float bushSmallH = p.gameGraphics.bushSmall.height * p.gameScaleV;
+		float bushSmallW = p.scaleV(p.gameGraphics.bushSmall.width);
+		float bushSmallH = p.scaleV(p.gameGraphics.bushSmall.height);
 		pg.shape( 
 				p.gameGraphics.bushSmall, 
 				_bushSmallX - bushSmallW/2f + _playerOffset * 1.6f, 
@@ -174,8 +174,8 @@ public class CatchyGamePlay {
 				bushSmallH
 		);
 		// large
-		float bushLargeW = p.gameGraphics.bushLarge.width * p.gameScaleV;
-		float bushLargeH = p.gameGraphics.bushLarge.height * p.gameScaleV;
+		float bushLargeW = p.scaleV(p.gameGraphics.bushLarge.width);
+		float bushLargeH = p.scaleV(p.gameGraphics.bushLarge.height);
 		pg.shape( 
 				p.gameGraphics.bushLarge, 
 				_bushLargeX - bushLargeW/2f + _playerOffset * 1.8f, 

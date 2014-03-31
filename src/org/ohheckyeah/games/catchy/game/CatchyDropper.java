@@ -42,17 +42,17 @@ public class CatchyDropper {
 
 	public void update() {
 
-		float topPadding = -22 * p.gameScaleV;
-		float shadowPadding = -22 * p.gameScaleV;
+		float topPadding = p.scaleV(-22);
+		float shadowPadding = p.scaleV(-22);
 
 		// position dropper & shadow
 		float dropperX = catchyGamePlay.gameHalfWidth + _positionX.value();
 		float dropperY = 0 + topPadding;
-		float dropperWidth = _dropper.width * p.gameScaleV;
-		float dropperHeight = _dropper.height * p.gameScaleV;
+		float dropperWidth = p.scaleV(_dropper.width);
+		float dropperHeight = p.scaleV(_dropper.height);
 		float dropperShadowY = pg.height - shadowPadding;
-		float dropperShadowWidth = p.gameGraphics.shadow.width * p.gameScaleV;
-		float dropperShadowHeight = p.gameGraphics.shadow.height * p.gameScaleV;
+		float dropperShadowWidth = p.scaleV(p.gameGraphics.shadow.width);
+		float dropperShadowHeight = p.scaleV(p.gameGraphics.shadow.height);
 		
 		// move to next drop position
 		if( p.millis() > _lastDropTime + DROP_INTERVAL ) {
@@ -74,7 +74,7 @@ public class CatchyDropper {
 		float animDownTime = _lastDropTime + DROP_INTERVAL - 200;
 		float animUpTime = _lastDropTime + DROP_INTERVAL - 100;
 		if( p.millis() > animDownTime && p.millis() < animUpTime ) {
-			_positionY.setTarget( 20  * p.gameScaleV );
+			_positionY.setTarget( p.scaleV(20) );
 			_droppedAtPosition = false;
 		} else if( p.millis() > animUpTime ) {
 			if( _droppedAtPosition == false ) {
@@ -92,7 +92,7 @@ public class CatchyDropper {
 		DrawUtil.setDrawCenter(pg);
 		// draw shadow
 		pg.shape( p.gameGraphics.shadow, dropperX, dropperShadowY, dropperShadowWidth, dropperShadowHeight );
-		pg.translate( dropperX, dropperY + (_positionY.value() * p.gameScaleV), 0 );
+		pg.translate( dropperX, dropperY + p.scaleV(_positionY.value()), 0 );
 		pg.shape( _dropper, 0, 0, dropperWidth, dropperHeight );
 		pg.popMatrix();
 	}
