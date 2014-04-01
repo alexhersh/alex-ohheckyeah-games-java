@@ -1,11 +1,11 @@
 package org.ohheckyeah.games.catchy.game;
 
 import org.ohheckyeah.games.catchy.Catchy;
+import org.ohheckyeah.games.catchy.assets.CatchyGraphics;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.draw.color.ColorUtil;
 import com.haxademic.core.draw.text.CustomFontText2D;
-import com.haxademic.core.system.FileUtil;
 import com.haxademic.core.text.StringFormatter;
 
 public class CatchyGameTimer {
@@ -19,8 +19,7 @@ public class CatchyGameTimer {
 
 	public CatchyGameTimer() {
 		p = (Catchy)P.p;
-		String timerFont = FileUtil.getHaxademicDataPath() + "fonts/AlegreyaSans-Bold.ttf";
-		_timerFontRenderer = new CustomFontText2D( p, timerFont, p.scaleV(60), ColorUtil.colorFromHex("#000000"), CustomFontText2D.ALIGN_LEFT, (int) p.scaleV(p.gameGraphics.timerBanner.width), (int)p.scaleV(80) );
+		_timerFontRenderer = new CustomFontText2D( p, p.gameGraphics.font, p.scaleV(60), ColorUtil.colorFromHex("#000000"), CustomFontText2D.ALIGN_LEFT, (int) p.scaleV(p.gameGraphics.timerBanner.width), (int)p.scaleV(80) );
 	}
 	
 	public void startTimer() {

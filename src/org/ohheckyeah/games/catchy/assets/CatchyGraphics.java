@@ -19,6 +19,8 @@ public class CatchyGraphics {
 	public PShape grass, bushSmall, bushLarge, mountain, shadow, dropper, waitingSpinner;
 	public PShape gameDivider, catchyLogo, logoConfetti, timerBanner;
 	
+	public String font;
+	
 	public CatchyGraphics() {
 		// characters
 		blueSquid = new CatchyCharacterDef("blue-squid", ColorUtil.colorFromHex("#107DAE"));
@@ -60,6 +62,9 @@ public class CatchyGraphics {
 		catchyLogo = P.p.loadShape( FileUtil.getHaxademicDataPath() + "games/catchy/svg/shell/catchy-logo.svg" );
 		logoConfetti = P.p.loadShape( FileUtil.getHaxademicDataPath() + "games/catchy/svg/shell/logo-confetti.svg" );
 		timerBanner = P.p.loadShape( FileUtil.getHaxademicDataPath() + "games/catchy/svg/shell/timer-banner.svg" );
+		
+		// add fonts
+		font = FileUtil.getHaxademicDataPath() + "fonts/AlegreyaSans-Bold.ttf";
 	}
 	
 	public void shuffleCharacters() {

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import org.ohheckyeah.games.catchy.assets.CatchyColors;
 import org.ohheckyeah.games.catchy.assets.CatchyGraphics;
+import org.ohheckyeah.games.catchy.game.CatchyGameMessages;
 import org.ohheckyeah.games.catchy.game.CatchyGamePlay;
 import org.ohheckyeah.games.catchy.game.CatchyGameTimer;
 import org.ohheckyeah.games.catchy.screens.CatchyTitleScreen;
@@ -88,6 +89,7 @@ extends PAppletHax
 	
 	// non-gameplay screens
 	protected CatchyTitleScreen _logoScreen;
+	protected CatchyGameMessages _gameMessages;
 	
 	
 	
@@ -107,6 +109,7 @@ extends PAppletHax
 		loadMedia();
 		
 		_logoScreen = new CatchyTitleScreen();
+		_gameMessages = new CatchyGameMessages();
 		
 		// set flags and props	
 		pickNewColors();
@@ -209,6 +212,7 @@ extends PAppletHax
 				_gamePlays.get( i ).reset();
 				_gamePlays.get( i ).startPlayerDetection();
 			}
+			_gameMessages.show();
 //			soundtrack.stop();
 //			sounds.playSound( SFX_DOWN );
 //			soundtrack.playInstructions();
@@ -241,7 +245,6 @@ extends PAppletHax
 			_logoScreen.update();
 			p.image( _logoScreen.pg, p.width/2f, p.height/2f, _logoScreen.pg.width, _logoScreen.pg.height );
 		} else if( _gameState == GAME_WAITING_FOR_PLAYERS ) {
-			_kinectGrid.update();
 			updateGameplays();
 			// if we have all players, then start!
 			boolean hasPlayers = true;
@@ -250,9 +253,11 @@ extends PAppletHax
 					hasPlayers = false;
 				}
 			}
-			if( hasPlayers == true ) setGameMode( GAME_PLAYING );
+			if( hasPlayers == true ) {
+				setGameMode( GAME_PLAYING );
+				_gameMessages.hide();
+			}
 		} else if( _gameState == GAME_PLAYING || _gameState == GAME_FINISHING ) {
-			_kinectGrid.update();
 			gameTimer.update();
 			updateGameplays();
 		} else if( _gameState == GAME_OVER ) {
@@ -287,6 +292,8 @@ extends PAppletHax
 	}
 	
 	protected void updateGameplays() {
+		_kinectGrid.update();
+
 		// update and draw gamePlays
 		DrawUtil.setDrawCorner(p);
 		for( int i=0; i < NUM_PLAYERS; i++ ) {
@@ -321,6 +328,9 @@ extends PAppletHax
 				p.popMatrix();
 			}
 		}
+
+		// draw in-game messages
+		_gameMessages.update();
 	}
 	
 
