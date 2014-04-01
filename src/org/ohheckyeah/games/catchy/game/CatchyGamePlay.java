@@ -69,6 +69,10 @@ public class CatchyGamePlay {
 		_controlsActive = true;
 	}
 	
+	public void stopDropping() {
+		_dropper.stopDropping();
+	}
+	
 	public void gameOver() {
 		_controlsActive = false;
 	}
@@ -77,6 +81,7 @@ public class CatchyGamePlay {
 		_bgColor = ColorUtil.colorFromHex("#E7E867");
 		_character.reset();
 		_score.reset( _character.color() );
+		_dropper.reset();
 		_mountainX = p.random( 0, gameWidth );
 		_mountainH = p.random( 0, gameWidth );
 		_bushSmallX = p.random( 0, gameWidth );

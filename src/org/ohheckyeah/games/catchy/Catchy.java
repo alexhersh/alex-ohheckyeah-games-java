@@ -75,6 +75,7 @@ extends PAppletHax
 	protected int _gameState;
 	protected int _gameStateQueued;	// wait until beginning on the next frame to switch modes to avoid mid-frame conflicts
 	public static int GAME_ON = 3;
+	public static int GAME_FINISHING = 8;
 	public static int GAME_OVER = 4;
 	public static int GAME_INTRO = 5;
 	public static int GAME_INSTRUCTIONS = 6;
@@ -222,6 +223,10 @@ extends PAppletHax
 			}
 			gameTimer.startTimer();
 			// soundtrack.playNext();
+		} else if( _gameState == GAME_FINISHING ) {
+			for( int i=0; i < NUM_PLAYERS; i++ ) {
+				_gamePlays.get( i ).stopDropping();
+			}
 		} else if( _gameState == GAME_OVER ) {
 			for( int i=0; i < NUM_PLAYERS; i++ ) {
 				_gamePlays.get( i ).gameOver();
@@ -239,7 +244,7 @@ extends PAppletHax
 			DrawUtil.setDrawCenter(p);
 			_logoScreen.update();
 			p.image( _logoScreen.pg, p.width/2f, p.height/2f, _logoScreen.pg.width, _logoScreen.pg.height);
-		} else if( _gameState == GAME_ON ) {
+		} else if( _gameState == GAME_ON || _gameState == GAME_FINISHING ) {
 			_kinectGrid.update();
 			gameTimer.update();
 			updateGameplays();

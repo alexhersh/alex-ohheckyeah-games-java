@@ -27,6 +27,7 @@ public class CatchyDropper {
 	protected int _numColsOutward = 0;
 	protected float _columnWidth;
 	protected int _curColumn = 0;
+	protected boolean _active = false;
 
 	public CatchyDropper( CatchyGamePlay catchyGamePlay ) {
 		p = (Catchy)P.p;
@@ -35,7 +36,7 @@ public class CatchyDropper {
 		_positionX = new EasingFloat(0,5);
 		_positionY = new EasingFloat(0,4);
 		_dropper = p.gameGraphics.dropper;
-		
+		// calculate columns for horizontal dropping spread 
 		_columnWidth = (catchyGamePlay.gameWidth * 0.75f) / _numColumns;
 		_numColsOutward = (int) ((_numColumns-1) / 2f);
 	}
@@ -55,33 +56,36 @@ public class CatchyDropper {
 		float dropperShadowHeight = p.scaleV(p.gameGraphics.shadow.height);
 		
 		// move to next drop position
-		if( p.millis() > _lastDropTime + DROP_INTERVAL ) {
-			if( MathUtil.randRange(0, 100) > 25 ) {
-				if( MathUtil.randBoolean(p) == true ) {
-					_curColumn++;
-					if( _curColumn > _numColsOutward ) _curColumn -= _numColsOutward;
+		if( _active == true ) {
+			if( p.millis() > _lastDropTime + DROP_INTERVAL ) {
+				if( MathUtil.randRange(0, 100) > 25 ) {
+					if( MathUtil.randBoolean(p) == true ) {
+						_curColumn++;
+						if( _curColumn > _numColsOutward ) _curColumn -= _numColsOutward;
+					} else {
+						_curColumn--;
+						if( _curColumn < -_numColsOutward ) _curColumn += _numColsOutward;
+					}
 				} else {
-					_curColumn--;
-					if( _curColumn < -_numColsOutward ) _curColumn += _numColsOutward;
+					// do nothing - stay in place
 				}
-			} else {
-				// do nothing - stay in place
+				_positionX.setTarget( _curColumn * _columnWidth );
+				_lastDropTime = p.millis();
 			}
-			_positionX.setTarget( _curColumn * _columnWidth );
-			_lastDropTime = p.millis();
-		}
-		// drop!
-		float animDownTime = _lastDropTime + DROP_INTERVAL - 500;
-		float animUpTime = _lastDropTime + DROP_INTERVAL - 400;
-		if( p.millis() > animDownTime && p.millis() < animUpTime ) {
-			_positionY.setTarget( p.scaleV(20) );
-			_droppedAtPosition = false;
-		} else if( p.millis() > animUpTime ) {
-			if( _droppedAtPosition == false ) {
-				catchyGamePlay.launchNewDroppable( dropperX );
-				_droppedAtPosition = true;
+			// drop!
+		
+			float animDownTime = _lastDropTime + DROP_INTERVAL - 500;
+			float animUpTime = _lastDropTime + DROP_INTERVAL - 400;
+			if( p.millis() > animDownTime && p.millis() < animUpTime ) {
+				_positionY.setTarget( p.scaleV(20) );
+				_droppedAtPosition = false;
+			} else if( p.millis() > animUpTime ) {
+				if( _droppedAtPosition == false ) {
+					catchyGamePlay.launchNewDroppable( dropperX );
+					_droppedAtPosition = true;
+				}
+				_positionY.setTarget(0);
 			}
-			_positionY.setTarget(0);
 		}
 		
 		_positionX.update();
@@ -96,9 +100,14 @@ public class CatchyDropper {
 		pg.shape( _dropper, 0, 0, dropperWidth, dropperHeight );
 		pg.popMatrix();
 	}
+	
+	public void stopDropping() {
+		_active = false;
+	}
 
 	public void reset() {
 		_curColumn = 0;
+		_active = true;
 		// _dropper = p.gameGraphics.dropper.get( catchyGamePlay.gameIndex % p.gameGraphics.dropper.size() );
 	}
 }
