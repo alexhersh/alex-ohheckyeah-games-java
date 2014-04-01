@@ -23,13 +23,18 @@ public class CatchyGamePlay {
 	protected float _playerOffset = 0;
 	protected float _autoControl;
 	protected boolean _controlsActive = false;
+	protected boolean _gameIsActive = false;
 	
 	protected KinectRegion _kinectRegion;
+	protected boolean _hasPlayer = false;
+	protected boolean _detectedPlayer = false;
+	protected int _detectedPlayerTime = 0;
 	public PGraphics pg;
 	
 	protected int _bgColor;
 	protected CatchyCharacter _character;
 	protected CatchyDropper _dropper;
+	protected CatchyWaitingSpinner _waitingSpinner;
 	protected float _mountainX;
 	protected float _mountainH;
 	protected float _bushSmallX;
@@ -60,13 +65,23 @@ public class CatchyGamePlay {
 			_droppables.add( new CatchyDroppable(this) );
 		}
 		_score = new CatchyScoreDisplay(this);
+		_waitingSpinner = new CatchyWaitingSpinner(this);
 		
 		reset();
 	}
 	
 	// public methods ------------------------------------------------------------------
-	public void gameStart() {
+	public void startPlayerDetection() {
 		_controlsActive = true;
+		_hasPlayer = false;
+		_detectedPlayer = false;
+		_detectedPlayerTime = 0;
+		_waitingSpinner.show();
+	}
+	
+	public void startGame() {
+		_gameIsActive = true;
+		_dropper.startDropping();
 	}
 	
 	public void stopDropping() {
@@ -75,6 +90,10 @@ public class CatchyGamePlay {
 	
 	public void gameOver() {
 		_controlsActive = false;
+	}
+	
+	public boolean hasPlayer() {
+		return _hasPlayer;
 	}
 	
 	public void reset() {
@@ -86,7 +105,7 @@ public class CatchyGamePlay {
 		_mountainH = p.random( 0, gameWidth );
 		_bushSmallX = p.random( 0, gameWidth );
 		_bushLargeX = p.random( 0, gameWidth );
-		
+		_gameIsActive = false;
 	}
 	
 	public void launchNewDroppable( float x ) {
@@ -113,14 +132,40 @@ public class CatchyGamePlay {
 	protected void updateControls() {
 		if( _controlsActive == true ) {
 			if( p.kinectWrapper != null ) {
-				_easedControlX.setTarget( _kinectRegion.controlX() * 2f );
+				// update player control for character
+				if( _gameIsActive == false ) {
+					detectKinectPlayers();
+				} else {
+					_easedControlX.setTarget( _kinectRegion.controlX() * 2f );					
+				}
 			} else {
+				// fake test controls
 				_easedControlX.setTarget( 0.5f * P.sin(p.millis() * _autoControl) );
 			}
 		}
 		_easedControlX.update();
 		float curControlX = _easedControlX.value();
 		_playerOffset = gameHalfWidth * curControlX;
+	}
+	
+	protected void detectKinectPlayers() {
+		if( _detectedPlayer == false ) {
+			if( _kinectRegion.pixelCount() >= 20 ) {
+				_detectedPlayerTime = p.millis();
+				_detectedPlayer = true;
+				_waitingSpinner.playerEntered();
+			}
+		} else {
+			if( _kinectRegion.pixelCount() < 20 ) {
+				_detectedPlayer = false;
+				_hasPlayer = false;
+				_waitingSpinner.playerLeft();
+			}
+		}
+		if( _detectedPlayer == true && p.millis() - _detectedPlayerTime > 2000 ) {
+			_hasPlayer = true;
+			_waitingSpinner.playerDetected();
+		}
 	}
 	
 	// draw graphics ------------------------------------------------------------------
@@ -133,6 +178,7 @@ public class CatchyGamePlay {
 		DrawUtil.setDrawCenter(pg);
 		_character.update(_playerOffset);
 		_dropper.update();
+		_waitingSpinner.update();
 		DrawUtil.setDrawCorner(pg);
 		_score.drawScore();
 	}

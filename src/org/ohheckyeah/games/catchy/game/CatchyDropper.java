@@ -101,13 +101,16 @@ public class CatchyDropper {
 		pg.popMatrix();
 	}
 	
+	public void startDropping() {
+		_active = true;
+	}
+
 	public void stopDropping() {
 		_active = false;
 	}
-
+	
 	public void reset() {
 		_curColumn = 0;
-		_active = true;
 		// _dropper = p.gameGraphics.dropper.get( catchyGamePlay.gameIndex % p.gameGraphics.dropper.size() );
 	}
 }

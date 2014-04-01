@@ -65,7 +65,7 @@ public class CatchyTitleScreen {
 		pg.endDraw();
 		
 		if( p.millis() > _introScreenStartTime + 3000 ) {
-			p.setGameMode( Catchy.GAME_ON );
+			p.setGameMode( Catchy.GAME_WAITING_FOR_PLAYERS );
 		}
 	}
 	
