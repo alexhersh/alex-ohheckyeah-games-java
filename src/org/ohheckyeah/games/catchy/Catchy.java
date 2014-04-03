@@ -226,11 +226,12 @@ extends PAppletHax
 		} else if( _gameState == GAME_COUNTDOWN ) {
 			_countdownStartTime = p.millis();
 			for( int i=0; i < NUM_PLAYERS; i++ ) {
-				_gamePlays.get( i ).updateCountdown( _countdownSeconds );
+				_gamePlays.get( i ).showCountdown( _countdownSeconds );
 			}
 			_gameMessages.showCountdown();
 		} else if( _gameState == GAME_PLAYING ) {
 			for( int i=0; i < NUM_PLAYERS; i++ ) {
+				_gamePlays.get( i ).hideCountdown();
 				_gamePlays.get( i ).startGame();
 			}
 			gameTimer.startTimer();
@@ -264,7 +265,6 @@ extends PAppletHax
 			if( hasPlayers == true ) {
 				setGameMode( GAME_COUNTDOWN );
 				_gameMessages.hideWaiting();
-				_gameMessages.showCountdown();
 			}
 		} else if( _gameState == GAME_COUNTDOWN ) {
 			updateGameplays();

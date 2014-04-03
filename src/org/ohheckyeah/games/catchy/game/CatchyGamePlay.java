@@ -29,6 +29,8 @@ public class CatchyGamePlay {
 	protected boolean _hasPlayer = false;
 	protected boolean _detectedPlayer = false;
 	protected int _detectedPlayerTime = 0;
+	protected int _countdownTime = 0;
+	protected boolean _countdownShowing = false;
 	
 	public PGraphics pg;
 	
@@ -36,6 +38,7 @@ public class CatchyGamePlay {
 	protected CatchyCharacter _character;
 	protected CatchyDropper _dropper;
 	protected CatchyWaitingSpinner _waitingSpinner;
+	protected CatchyCountdownDisplay _countdownDisplay;
 	protected float _mountainX;
 	protected float _mountainH;
 	protected float _bushSmallX;
@@ -67,6 +70,7 @@ public class CatchyGamePlay {
 		}
 		_score = new CatchyScoreDisplay(this);
 		_waitingSpinner = new CatchyWaitingSpinner(this);
+		_countdownDisplay = new CatchyCountdownDisplay(this);
 		
 		reset();
 	}
@@ -98,11 +102,16 @@ public class CatchyGamePlay {
 	}
 	
 	public void showCountdown( int countdownTime ) {
-		P.println("Countdown time: "+countdownTime);
+		_countdownTime = countdownTime;
+		_countdownDisplay.show();
+	}
+	
+	public void hideCountdown() {
+		_countdownDisplay.hide();
 	}
 	
 	public void updateCountdown( int countdownTime ) {
-		P.println("Countdown time: "+countdownTime);
+		_countdownTime = countdownTime;
 	}
 	
 	public void reset() {
@@ -188,6 +197,7 @@ public class CatchyGamePlay {
 		_character.update(_playerOffset);
 		_dropper.update();
 		_waitingSpinner.update();
+		_countdownDisplay.updateWithNumber(_countdownTime);
 		DrawUtil.setDrawCorner(pg);
 		_score.drawScore();
 	}
