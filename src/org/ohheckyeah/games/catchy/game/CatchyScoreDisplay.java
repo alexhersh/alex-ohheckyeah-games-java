@@ -30,8 +30,7 @@ public class CatchyScoreDisplay {
 		pg = catchyGamePlay.pg;
 		
 		
-		String timerFont = FileUtil.getHaxademicDataPath() + "fonts/AlegreyaSans-Bold.ttf";
-		_scoreFontRenderer = new CustomFontText2D( p, timerFont, p.scaleV(36), ColorUtil.colorFromHex("#000000"), CustomFontText2D.ALIGN_CENTER, (int)p.scaleV(80), (int)p.scaleV(80) );
+		_scoreFontRenderer = new CustomFontText2D( p, p.gameGraphics.font, p.scaleV(36), ColorUtil.colorFromHex("#000000"), CustomFontText2D.ALIGN_CENTER, (int)p.scaleV(80), (int)p.scaleV(80) );
 		_scoreEaser = new EasingFloat(0,5);
 		reset( p.color(0) );
 	}
