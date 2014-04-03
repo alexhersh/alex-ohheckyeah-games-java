@@ -86,7 +86,9 @@ extends PAppletHax
 	public TimeFactoredFps timeFactor;
 	public CatchyGameTimer gameTimer;
 	protected int _gameOverTime = 0;
-	
+	protected int _countdownStartTime = 0;
+	protected int _countdownSeconds = 3;
+
 	// non-gameplay screens
 	protected CatchyTitleScreen _logoScreen;
 	protected CatchyGameMessages _gameMessages;
@@ -212,7 +214,7 @@ extends PAppletHax
 				_gamePlays.get( i ).reset();
 				_gamePlays.get( i ).startPlayerDetection();
 			}
-			_gameMessages.show();
+			_gameMessages.showWaiting();
 //			soundtrack.stop();
 //			sounds.playSound( SFX_DOWN );
 //			soundtrack.playInstructions();
@@ -221,6 +223,12 @@ extends PAppletHax
 		//				_gamePlays.get( i ).startCountdown();
 		//			}
 		//			soundtrack.stop();
+		} else if( _gameState == GAME_COUNTDOWN ) {
+			_countdownStartTime = p.millis();
+			for( int i=0; i < NUM_PLAYERS; i++ ) {
+				_gamePlays.get( i ).updateCountdown( _countdownSeconds );
+			}
+			_gameMessages.showCountdown();
 		} else if( _gameState == GAME_PLAYING ) {
 			for( int i=0; i < NUM_PLAYERS; i++ ) {
 				_gamePlays.get( i ).startGame();
@@ -254,8 +262,21 @@ extends PAppletHax
 				}
 			}
 			if( hasPlayers == true ) {
+				setGameMode( GAME_COUNTDOWN );
+				_gameMessages.hideWaiting();
+				_gameMessages.showCountdown();
+			}
+		} else if( _gameState == GAME_COUNTDOWN ) {
+			updateGameplays();
+			int countdownSecondsElapsed = P.ceil( ( p.millis() - _countdownStartTime ) / 1000 );
+			int countdownTime = _countdownSeconds - countdownSecondsElapsed;
+			if( countdownTime > 0 ) {
+				for( int i=0; i < NUM_PLAYERS; i++ ) {
+					_gamePlays.get(i).updateCountdown( countdownTime );
+				}
+			} else {
+				_gameMessages.hideCountdown();
 				setGameMode( GAME_PLAYING );
-				_gameMessages.hide();
 			}
 		} else if( _gameState == GAME_PLAYING || _gameState == GAME_FINISHING ) {
 			gameTimer.update();

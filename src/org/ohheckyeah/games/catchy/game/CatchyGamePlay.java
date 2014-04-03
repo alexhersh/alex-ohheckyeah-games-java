@@ -29,6 +29,7 @@ public class CatchyGamePlay {
 	protected boolean _hasPlayer = false;
 	protected boolean _detectedPlayer = false;
 	protected int _detectedPlayerTime = 0;
+	
 	public PGraphics pg;
 	
 	protected int _bgColor;
@@ -94,6 +95,14 @@ public class CatchyGamePlay {
 	
 	public boolean hasPlayer() {
 		return _hasPlayer;
+	}
+	
+	public void showCountdown( int countdownTime ) {
+		P.println("Countdown time: "+countdownTime);
+	}
+	
+	public void updateCountdown( int countdownTime ) {
+		P.println("Countdown time: "+countdownTime);
 	}
 	
 	public void reset() {
