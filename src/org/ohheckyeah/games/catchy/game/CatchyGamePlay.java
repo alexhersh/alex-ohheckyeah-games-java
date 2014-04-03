@@ -36,6 +36,7 @@ public class CatchyGamePlay {
 	
 	protected int _bgColor;
 	protected CatchyCharacter _character;
+	protected CatchyGrass _grass;
 	protected CatchyDropper _dropper;
 	protected CatchyWaitingSpinner _waitingSpinner;
 	protected CatchyCountdownDisplay _countdownDisplay;
@@ -63,6 +64,7 @@ public class CatchyGamePlay {
 		_autoControl = p.random(0.0001f, 0.001f);
 		
 		_character = new CatchyCharacter(this);
+		_grass = new CatchyGrass(this);
 		_dropper = new CatchyDropper(this);
 		_droppables = new ArrayList<CatchyDroppable>();
 		for( int i=0; i < 30; i++ ) {
@@ -75,13 +77,14 @@ public class CatchyGamePlay {
 		reset();
 	}
 	
-	// public methods ------------------------------------------------------------------
+	// start/end game methods ------------
 	public void startPlayerDetection() {
 		_controlsActive = true;
 		_hasPlayer = false;
 		_detectedPlayer = false;
 		_detectedPlayerTime = 0;
 		_waitingSpinner.show();
+		_grass.setWaitingState();
 	}
 	
 	public void startGame() {
@@ -95,12 +98,14 @@ public class CatchyGamePlay {
 	
 	public void gameOver() {
 		_controlsActive = false;
+		_grass.setWinState();
 	}
 	
 	public boolean hasPlayer() {
 		return _hasPlayer;
 	}
 	
+	// handle countdown timer ------------
 	public void showCountdown( int countdownTime ) {
 		_countdownTime = countdownTime;
 		_countdownDisplay.show();
@@ -114,9 +119,11 @@ public class CatchyGamePlay {
 		_countdownTime = countdownTime;
 	}
 	
+	// handle game states ----------------
 	public void animateToGameState() {
 		_score.show();
 		_dropper.showDropper();
+		_grass.setGameplayState();
 	}
 	
 	public void animateToWinState() {
@@ -200,9 +207,9 @@ public class CatchyGamePlay {
 		DrawUtil.setDrawCorner(pg);
 		drawMountain();
 		drawBushes();
-		drawGrass();
-		drawDroppables();
 		DrawUtil.setDrawCenter(pg);
+		_grass.update(_playerOffset);
+		drawDroppables();
 		_character.update(_playerOffset);
 		_dropper.update();
 		_waitingSpinner.update();
@@ -220,18 +227,6 @@ public class CatchyGamePlay {
 				pg.height - mountainH, 
 				mountainW, 
 				mountainH
-		);
-	}
-	
-	protected void drawGrass() {
-		float grassW = p.scaleV(p.gameGraphics.grass.width);
-		float grassH = p.scaleV(p.gameGraphics.grass.height);
-		pg.shape( 
-				p.gameGraphics.grass, 
-				gameHalfWidth - grassW/2f + _playerOffset * 0.5f, 
-				pg.height - grassH,
-				grassW, 
-				grassH
 		);
 	}
 	

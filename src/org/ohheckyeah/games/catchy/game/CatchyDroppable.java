@@ -35,7 +35,6 @@ public class CatchyDroppable {
 		if( _active == false ) return;
 		
 		// draw & move -----
-		DrawUtil.setDrawCenter(pg);
 //		pg.shape( p.gameGraphics.shadow, _x, dropperShadowY, dropperShadowWidth, dropperShadowHeight );
 		pg.shape( _graphic, _x, _y, p.scaleV(_graphic.width), p.scaleV(_graphic.height) );
 		_y += p.scaleV(_dropSpeed) * p.timeFactor.multiplier();
