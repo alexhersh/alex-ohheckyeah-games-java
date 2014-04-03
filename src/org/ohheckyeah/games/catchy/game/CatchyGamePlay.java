@@ -114,6 +114,15 @@ public class CatchyGamePlay {
 		_countdownTime = countdownTime;
 	}
 	
+	public void animateToGameState() {
+		_score.show();
+		_dropper.showDropper();
+	}
+	
+	public void animateToWinState() {
+		_score.hide();
+	}
+	
 	public void reset() {
 		_bgColor = ColorUtil.colorFromHex("#E7E867");
 		_character.reset();
@@ -199,7 +208,7 @@ public class CatchyGamePlay {
 		_waitingSpinner.update();
 		_countdownDisplay.updateWithNumber(_countdownTime);
 		DrawUtil.setDrawCorner(pg);
-		_score.drawScore();
+		_score.update();
 	}
 	
 	protected void drawMountain() {

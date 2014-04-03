@@ -19,6 +19,11 @@ public class CatchyDropper {
 
 	protected EasingFloat _positionX;
 	protected EasingFloat _positionY;
+	
+	protected EasingFloat _offsetY;
+	protected float _offsetYShowing;
+	protected float _offsetYHiding;
+	
 	protected int _lastDropTime = 0;
 	protected final int DROP_INTERVAL = 1 * 1000;
 	protected float _screenSplitX = 0;
@@ -36,6 +41,11 @@ public class CatchyDropper {
 		_positionX = new EasingFloat(0,5);
 		_positionY = new EasingFloat(0,4);
 		_dropper = p.gameGraphics.dropper;
+		
+		_offsetYShowing = 0;
+		_offsetYHiding = p.scaleV(-100f);
+		_offsetY = new EasingFloat(_offsetYHiding,7);
+		
 		// calculate columns for horizontal dropping spread 
 		_columnWidth = (catchyGamePlay.gameWidth * 0.75f) / _numColumns;
 		_numColsOutward = (int) ((_numColumns-1) / 2f);
@@ -90,27 +100,34 @@ public class CatchyDropper {
 		
 		_positionX.update();
 		_positionY.update();
+		_offsetY.update();
 
 		// draw
 		pg.pushMatrix();
 		DrawUtil.setDrawCenter(pg);
 		// draw shadow
 		pg.shape( p.gameGraphics.shadow, dropperX, dropperShadowY, dropperShadowWidth, dropperShadowHeight );
-		pg.translate( dropperX, dropperY + p.scaleV(_positionY.value()), 0 );
+		pg.translate( dropperX, dropperY + p.scaleV(_positionY.value() + _offsetY.value()), 0 );
 		pg.shape( _dropper, 0, 0, dropperWidth, dropperHeight );
 		pg.popMatrix();
 	}
 	
+	public void showDropper() {
+		_offsetY.setTarget( _offsetYShowing );
+	}
+
 	public void startDropping() {
 		_active = true;
 	}
-
+	
 	public void stopDropping() {
 		_active = false;
+		_offsetY.setTarget( _offsetYHiding );
 	}
 	
 	public void reset() {
 		_curColumn = 0;
+		_positionX.setTarget(0);
 		// _dropper = p.gameGraphics.dropper.get( catchyGamePlay.gameIndex % p.gameGraphics.dropper.size() );
 	}
 }

@@ -21,6 +21,10 @@ public class CatchyScoreDisplay {
 	protected int _score;
 	protected EasingFloat _scoreEaser;
 	protected int _color;
+
+	protected EasingFloat _scoreY;
+	protected float _scoreYShowing;
+	protected float _scoreYHiding;
 	
 	protected boolean _isRightSide = false;
 
@@ -32,6 +36,11 @@ public class CatchyScoreDisplay {
 		
 		_scoreFontRenderer = new CustomFontText2D( p, p.gameGraphics.font, p.scaleV(36), ColorUtil.colorFromHex("#000000"), CustomFontText2D.ALIGN_CENTER, (int)p.scaleV(80), (int)p.scaleV(80) );
 		_scoreEaser = new EasingFloat(0,5);
+		
+		_scoreYShowing = p.scaleV(68f);
+		_scoreYHiding = p.scaleV(-60f);
+		_scoreY = new EasingFloat(_scoreYHiding,5);
+		
 		reset( p.color(0) );
 	}
 	
@@ -49,7 +58,12 @@ public class CatchyScoreDisplay {
 		_scoreFontRenderer.setTextColor( _color, -1 );
 	}
 	
-	public void update() {
+	public void show() {
+		_scoreY.setTarget( _scoreYShowing );
+	}
+	
+	public void hide() {
+		_scoreY.setTarget( _scoreYHiding );
 	}
 	
 	public void easeScore() {
@@ -61,7 +75,9 @@ public class CatchyScoreDisplay {
 			_scoreFontRenderer.updateText( _score+"" );
 		}
 	}
-	public void drawScore() {
+	public void update() {
+		_scoreY.update();
+		
 		// check to see if we're on the right side
 		if( p.isLastGameplay(catchyGamePlay) == true ) _isRightSide = true;
 		
@@ -71,9 +87,9 @@ public class CatchyScoreDisplay {
 		pg.pushMatrix();
 		
 		if( _isRightSide == false ) {
-			pg.translate( p.scaleV(71f), p.scaleV(68f) );
+			pg.translate( p.scaleV(71f), _scoreY.value() );
 		} else {
-			pg.translate( pg.width - p.scaleV(71f), p.scaleV(68f) );
+			pg.translate( pg.width - p.scaleV(71f), _scoreY.value() );
 		}
 		pg.noStroke();
 		

@@ -6,6 +6,7 @@ import org.ohheckyeah.games.catchy.assets.CatchyGraphics;
 import com.haxademic.core.app.P;
 import com.haxademic.core.draw.color.ColorUtil;
 import com.haxademic.core.draw.text.CustomFontText2D;
+import com.haxademic.core.math.easing.EasingFloat;
 import com.haxademic.core.text.StringFormatter;
 
 public class CatchyGameTimer {
@@ -16,10 +17,18 @@ public class CatchyGameTimer {
 	protected int _curGameTime = 0;
 	protected int GAME_LENGTH = 60 * 1000;
 	protected CustomFontText2D _timerFontRenderer;
+	
+	protected EasingFloat _offsetY;
+	protected float _offsetYShowing;
+	protected float _offsetYHiding;
 
 	public CatchyGameTimer() {
 		p = (Catchy)P.p;
 		_timerFontRenderer = new CustomFontText2D( p, p.gameGraphics.font, p.scaleV(60), ColorUtil.colorFromHex("#000000"), CustomFontText2D.ALIGN_LEFT, (int) p.scaleV(p.gameGraphics.timerBanner.width), (int)p.scaleV(80) );
+		
+		_offsetYShowing = 0;
+		_offsetYHiding = p.scaleV(100f);
+		_offsetY = new EasingFloat(_offsetYHiding,4);
 	}
 	
 	public void startTimer() {
@@ -39,13 +48,28 @@ public class CatchyGameTimer {
 		}
 	}
 	
+	public void show() {
+		_offsetY.setTarget( _offsetYShowing );
+	}
+	
+	public void hide() {
+		_offsetY.setTarget( _offsetYHiding );
+	}
+	
 	/**
 	 * Draws the current game's time elapsed
 	 */
 	public void drawTimer() {
+		_offsetY.update();
+		
+		p.pushMatrix();
+		p.translate( 0, _offsetY.value() );
+		
 		p.shape( p.gameGraphics.timerBanner, 0, 0, p.scaleV(p.gameGraphics.timerBanner.width), p.scaleV(p.gameGraphics.timerBanner.height) );
 		_timerFontRenderer.updateText( StringFormatter.timeFromMilliseconds( _curGameTime, false) );
 		p.image( _timerFontRenderer.getTextPImage(), p.scaleV(55), p.scaleV(9), _timerFontRenderer.getTextPImage().width, _timerFontRenderer.getTextPImage().height );
+		
+		p.popMatrix();
 	}
 		
 	/**

@@ -213,7 +213,9 @@ extends PAppletHax
 			for( int i=0; i < NUM_PLAYERS; i++ ) {
 				_gamePlays.get( i ).reset();
 				_gamePlays.get( i ).startPlayerDetection();
+				_gamePlays.get( i ).animateToWinState();
 			}
+			gameTimer.hide();
 			_gameMessages.showWaiting();
 //			soundtrack.stop();
 //			sounds.playSound( SFX_DOWN );
@@ -227,7 +229,9 @@ extends PAppletHax
 			_countdownStartTime = p.millis();
 			for( int i=0; i < NUM_PLAYERS; i++ ) {
 				_gamePlays.get( i ).showCountdown( _countdownSeconds );
+				_gamePlays.get( i ).animateToGameState();
 			}
+			gameTimer.show();
 			_gameMessages.showCountdown();
 		} else if( _gameState == GAME_PLAYING ) {
 			for( int i=0; i < NUM_PLAYERS; i++ ) {
