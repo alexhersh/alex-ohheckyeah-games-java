@@ -88,7 +88,6 @@ public class CatchyGamePlay {
 	}
 	
 	public void startGame() {
-		_gameIsActive = true;
 		_dropper.startDropping();
 	}
 	
@@ -99,6 +98,7 @@ public class CatchyGamePlay {
 	public void gameOver() {
 		_controlsActive = false;
 		_grass.setWinState();
+		_character.setWinState();
 	}
 	
 	public boolean hasPlayer() {
@@ -106,6 +106,10 @@ public class CatchyGamePlay {
 	}
 	
 	// handle countdown timer ------------
+	public void playersLockedIn() {
+		_gameIsActive = true;
+	}
+	
 	public void showCountdown( int countdownTime ) {
 		_countdownTime = countdownTime;
 		_countdownDisplay.show();
@@ -124,6 +128,7 @@ public class CatchyGamePlay {
 		_score.show();
 		_dropper.showDropper();
 		_grass.setGameplayState();
+		_character.setGameplayState();
 	}
 	
 	public void animateToWinState() {
@@ -194,11 +199,15 @@ public class CatchyGamePlay {
 				_detectedPlayer = false;
 				_hasPlayer = false;
 				_waitingSpinner.playerLeft();
+				_character.setWaitingState();
 			}
 		}
 		if( _detectedPlayer == true && p.millis() - _detectedPlayerTime > 2000 ) {
-			_hasPlayer = true;
-			_waitingSpinner.playerDetected();
+			if( _hasPlayer == false ) {
+				_hasPlayer = true;
+				_waitingSpinner.playerDetected();
+				_character.setSelectedState();
+			}
 		}
 	}
 	

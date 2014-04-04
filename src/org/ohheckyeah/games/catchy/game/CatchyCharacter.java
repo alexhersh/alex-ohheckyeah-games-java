@@ -23,8 +23,12 @@ public class CatchyCharacter {
 	protected int _color;
 	
 	protected float lastPlayerOffset = 0;
-	protected EasingFloat _rotation;
-	
+	protected EasingFloat _rotation = new EasingFloat(0,4);
+	protected EasingFloat _xPosition = new EasingFloat(0, 4);
+	protected EasingFloat _scale = new EasingFloat(0, 4);
+	protected EasingFloat _bottomPadding = new EasingFloat(0, 4);
+
+	protected boolean _lockedCenter = true;
 	protected float _characterX;
 	protected float _characterY;
 	protected float _characterTopY;
@@ -36,37 +40,39 @@ public class CatchyCharacter {
 		this.catchyGamePlay = catchyGamePlay;
 		pg = catchyGamePlay.pg;
 		
-		_rotation = new EasingFloat(0,4);
-		_color = p.color(240,150,190);
+		_color = p.color(0);
 	}
 	
 	public void update( float playerOffset ) {
-		
-		float bottomPadding = p.scaleV(22);
-		
+				
 		// position character & shadow
-		_characterX = catchyGamePlay.gameHalfWidth + playerOffset;
-		_characterY = pg.height - bottomPadding - _character.height * p.scaleV(0.5f);
-		_characterTopY = _characterY - _character.height * p.scaleV(0.5f);
-		float characterWidth = p.scaleV(_character.width);
-		float characterHeight = p.scaleV(_character.height);
-		float characterShadowY = pg.height - bottomPadding;
-		float characterShadowWidth = p.scaleV(p.gameGraphics.shadow.width);
-		float characterShadowHeight = p.scaleV(p.gameGraphics.shadow.height);
+		float characterWidth = p.scaleV(_character.width * _scale.value());
+		float characterHeight = p.scaleV(_character.height * _scale.value());
+
+		_characterX = ( _lockedCenter == true ) ? catchyGamePlay.gameHalfWidth : catchyGamePlay.gameHalfWidth + playerOffset;
+		_xPosition.setTarget( _characterX );
+		_characterY = pg.height - _bottomPadding.value() - ( characterHeight * 0.5f );
+		_characterTopY = _characterY - characterHeight;
+		float characterShadowY = pg.height - _bottomPadding.value();
+		float characterShadowWidth = p.scaleV(p.gameGraphics.shadow.width * _scale.value());
+		float characterShadowHeight = p.scaleV(p.gameGraphics.shadow.height * _scale.value());
 		float characterSpeed = playerOffset - lastPlayerOffset;
 
 
 		_rotation.setTarget( characterSpeed * 0.02f );
 		_rotation.update();
+		_xPosition.update();
+		_scale.update();
+		_bottomPadding.update();
 		lastPlayerOffset = playerOffset;
 		
 		// draw
 		pg.pushMatrix();
 		DrawUtil.setDrawCenter(pg);
 		// draw shadow
-		pg.shape( p.gameGraphics.shadow, _characterX, characterShadowY, characterShadowWidth, characterShadowHeight );
+		pg.shape( p.gameGraphics.shadow, _xPosition.value(), characterShadowY, characterShadowWidth, characterShadowHeight );
 		// draw rotated character
-		pg.translate( _characterX, _characterY, 0 );
+		pg.translate( _xPosition.value(), _characterY, 0 );
 		pg.rotateZ( _rotation.value() );
 		PShape curCharacterState = (p.millis() < _catchTime + 300) ? _characterCatch : _character;
 		pg.shape( curCharacterState, 0, 0, characterWidth, characterHeight );
@@ -74,7 +80,7 @@ public class CatchyCharacter {
 	}
 	
 	public boolean checkCatch( float x, float y ) {
-		if( MathUtil.getDistance(x, y, _characterX, _characterTopY) < p.scaleV(30f) ) {
+		if( MathUtil.getDistance(x, y, _xPosition.value(), _characterTopY) < p.scaleV(30f) ) {
 			_catchTime = p.millis();
 			return true;
 		} else {
@@ -86,9 +92,38 @@ public class CatchyCharacter {
 		_characterDef = p.gameGraphics.characterDefs.get( catchyGamePlay.gameIndex % p.gameGraphics.characterDefs.size() );
 		_character = _characterDef.characterDefault;
 		_characterCatch = _characterDef.characterCatch;
+		
+		_scale.setTarget(0);
+		_scale.setCurrent(0);
 	}
 	
 	public int color() {
 		return _characterDef.characterColor;
 	}
+	
+	public void setWaitingState() {
+		_lockedCenter = true;
+		_scale.setTarget(0);
+		_bottomPadding.setTarget( p.scaleV(40) );
+	}
+	
+	public void setSelectedState() {
+		_lockedCenter = true;
+		_scale.setTarget(3);
+		_bottomPadding.setTarget( p.scaleV(60) );
+	}
+	
+	public void setGameplayState() {
+		_lockedCenter = false;
+		_scale.setTarget(1f);
+		_bottomPadding.setTarget( p.scaleV(22) );
+	}
+	
+	public void setWinState() {
+		_lockedCenter = true;
+		_scale.setTarget(3);
+		_bottomPadding.setTarget( p.scaleV(40) );
+	}
+	
+
 }
