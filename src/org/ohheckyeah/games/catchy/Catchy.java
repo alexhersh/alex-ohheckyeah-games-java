@@ -217,7 +217,6 @@ extends PAppletHax
 				_gamePlays.get( i ).startPlayerDetection();
 				_gamePlays.get( i ).animateToWinState();
 			}
-			gameTimer.hide();
 			_gameMessages.showWaiting();
 //			soundtrack.stop();
 //			sounds.playSound( SFX_DOWN );
@@ -246,7 +245,33 @@ extends PAppletHax
 		} else if( _gameState == GAME_FINISHING ) {
 			for( int i=0; i < NUM_PLAYERS; i++ ) _gamePlays.get( i ).stopDropping();
 		} else if( _gameState == GAME_OVER ) {
-			for( int i=0; i < NUM_PLAYERS; i++ ) _gamePlays.get( i ).gameOver();
+			// find high scores & set winners
+			int highScore = 0;
+			for( int i=0; i < NUM_PLAYERS; i++ ) {
+				if( _gamePlays.get( i ).getScore() > highScore ) {
+					highScore = _gamePlays.get( i ).getScore();
+				}
+			}
+			int numWinners = 0;
+			for( int i=0; i < NUM_PLAYERS; i++ ) {
+				if( _gamePlays.get( i ).getScore() == highScore ) {
+					numWinners++;
+					_gamePlays.get( i ).gameOver( true );
+					_gameMessages.setWinnerX( _gameWidth * i + _gameWidth / 2f );
+				} else {
+					_gamePlays.get( i ).gameOver( false );
+				}
+			}
+			if( numWinners == 1 ) {
+				_gameMessages.showWinner();
+			} else {
+				_gameMessages.showTie();
+			}
+			
+			// update game shell 
+			gameTimer.hide();
+
+			// set time to advance back to intro screen
 			_gameOverTime = p.millis();
 			// soundtrack.stop();
 			// sounds.playSound( WIN_SOUND );
@@ -275,7 +300,7 @@ extends PAppletHax
 			}
 		} else if( _gameState == GAME_PRE_COUNTDOWN ) {
 			updateGameplays();
-			if( p.millis() > _preCountdownStartTime + 1500 ) {
+			if( p.millis() > _preCountdownStartTime + 2500 ) {
 				setGameMode( GAME_COUNTDOWN );
 			}
 		} else if( _gameState == GAME_COUNTDOWN ) {
@@ -295,7 +320,9 @@ extends PAppletHax
 			updateGameplays();
 		} else if( _gameState == GAME_OVER ) {
 			updateGameplays();
-			if( p.millis() > _gameOverTime + 2000 ) {
+			if( p.millis() > _gameOverTime + 4000 ) {
+				_gameMessages.hideWinner();
+				_gameMessages.hideTie();
 				setGameMode( GAME_INTRO );
 			}
 		}

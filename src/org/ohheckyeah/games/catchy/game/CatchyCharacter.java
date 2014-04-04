@@ -119,10 +119,16 @@ public class CatchyCharacter {
 		_bottomPadding.setTarget( p.scaleV(22) );
 	}
 	
-	public void setWinState() {
+	public void setWinState( boolean didWin ) {
 		_lockedCenter = true;
-		_scale.setTarget(3);
-		_bottomPadding.setTarget( p.scaleV(40) );
+		if( didWin == true ) {
+			_scale.setTarget(3);
+			_bottomPadding.setTarget( p.scaleV(40) );
+		} else {
+			_scale.setTarget(0);
+			_bottomPadding.setTarget( p.scaleV(40) );
+		}
+	
 	}
 	
 

@@ -95,10 +95,14 @@ public class CatchyGamePlay {
 		_dropper.stopDropping();
 	}
 	
-	public void gameOver() {
+	public void gameOver( boolean didWin ) {
 		_controlsActive = false;
 		_grass.setWinState();
-		_character.setWinState();
+		_character.setWinState( didWin );
+	}
+	
+	public int getScore() {
+		return _score.getScore();
 	}
 	
 	public boolean hasPlayer() {

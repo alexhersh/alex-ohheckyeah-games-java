@@ -49,6 +49,10 @@ public class CatchyScoreDisplay {
 		_scoreEaser.setTarget(_score);
 	}
 	
+	public int getScore() {
+		return _score;
+	}
+	
 	public void reset( int color ) {
 		_score = 0;
 		_scoreFontRenderer.updateText( _score+"" );
