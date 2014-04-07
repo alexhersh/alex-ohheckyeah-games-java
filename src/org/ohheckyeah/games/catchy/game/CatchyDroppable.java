@@ -27,16 +27,15 @@ public class CatchyDroppable {
 	
 	protected float characterShadowWidth;
 	protected float characterShadowHeight;
-	protected EasingFloat _scale = new EasingFloat(1,4);
+	protected EasingFloat _scale = new EasingFloat(1,2);
 	protected EasingFloat _shadowScale = new EasingFloat(0,4);
 
 	public CatchyDroppable( CatchyGamePlay catchyGamePlay ) {
 		p = (Catchy)P.p;
 		this.catchyGamePlay = catchyGamePlay;
 		pg = catchyGamePlay.pg;
-//		reset(0,0);
 		
-		_groundY = pg.height - p.scaleV(100);
+		_groundY = pg.height - p.scaleV(80);
 		
 		characterShadowWidth = p.scaleV(p.gameGraphics.shadow.width);
 		characterShadowHeight = p.scaleV(p.gameGraphics.shadow.height);

@@ -57,7 +57,7 @@ public class CatchyCharacter {
 		_characterX = ( _lockedCenter == true ) ? catchyGamePlay.gameHalfWidth : catchyGamePlay.gameHalfWidth + playerOffset;
 		_xPosition.setTarget( _characterX );
 		_characterY = pg.height - _bottomPadding.value() - ( characterHeight * 0.5f );
-		_characterTopY = _characterY - characterHeight;
+		_characterTopY = _characterY - characterHeight / 2f;
 		_characterShadowY = pg.height - _bottomPadding.value();
 		float characterShadowWidth = p.scaleV(p.gameGraphics.shadow.width * _scale.value());
 		float characterShadowHeight = p.scaleV(p.gameGraphics.shadow.height * _scale.value());
