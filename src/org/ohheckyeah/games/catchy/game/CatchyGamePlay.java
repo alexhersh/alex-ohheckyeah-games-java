@@ -37,11 +37,10 @@ public class CatchyGamePlay {
 	protected int _bgColor;
 	protected CatchyCharacter _character;
 	protected CatchyGrass _grass;
+	protected CatchyMountainAndBushes _mountain;
 	protected CatchyDropper _dropper;
 	protected CatchyWaitingSpinner _waitingSpinner;
 	protected CatchyCountdownDisplay _countdownDisplay;
-	protected float _mountainX;
-	protected float _mountainH;
 	protected float _bushSmallX;
 	protected float _bushLargeX;
 	
@@ -65,6 +64,7 @@ public class CatchyGamePlay {
 		
 		_character = new CatchyCharacter(this);
 		_grass = new CatchyGrass(this);
+		_mountain = new CatchyMountainAndBushes(this);
 		_dropper = new CatchyDropper(this);
 		_droppables = new ArrayList<CatchyDroppable>();
 		for( int i=0; i < 30; i++ ) {
@@ -85,6 +85,7 @@ public class CatchyGamePlay {
 		_detectedPlayerTime = 0;
 		_waitingSpinner.show();
 		_grass.setWaitingState();
+		_mountain.setWaitingState();
 	}
 	
 	public void startGame() {
@@ -98,6 +99,7 @@ public class CatchyGamePlay {
 	public void gameOver( boolean didWin ) {
 		_controlsActive = false;
 		_grass.setWinState();
+		_mountain.setWinState( didWin );
 		_character.setWinState( didWin );
 	}
 	
@@ -132,6 +134,7 @@ public class CatchyGamePlay {
 		_score.show();
 		_dropper.showDropper();
 		_grass.setGameplayState();
+		_mountain.setGameplayState();
 		_character.setGameplayState();
 	}
 	
@@ -144,8 +147,6 @@ public class CatchyGamePlay {
 		_character.reset();
 		_score.reset( _character.color() );
 		_dropper.reset();
-		_mountainX = p.random( 0, gameWidth );
-		_mountainH = p.random( 0, gameWidth );
 		_bushSmallX = p.random( 0, gameWidth );
 		_bushLargeX = p.random( 0, gameWidth );
 		_gameIsActive = false;
@@ -217,10 +218,8 @@ public class CatchyGamePlay {
 	
 	// draw graphics ------------------------------------------------------------------
 	protected void drawGraphicsLayers() {
-		DrawUtil.setDrawCorner(pg);
-		drawMountain();
-		drawBushes();
 		DrawUtil.setDrawCenter(pg);
+		_mountain.update(_playerOffset);
 		_grass.update(_playerOffset);
 		drawDroppables();
 		_character.update(_playerOffset);
@@ -231,46 +230,10 @@ public class CatchyGamePlay {
 		_score.update();
 	}
 	
-	protected void drawMountain() {
-		float mountainW = p.scaleV(p.gameGraphics.mountain.width);
-		float mountainH = p.scaleV(p.gameGraphics.mountain.height);
-		pg.shape( 
-				p.gameGraphics.mountain, 
-				_mountainX - mountainW/2f + _playerOffset * 0.2f, 
-				pg.height - mountainH, 
-				mountainW, 
-				mountainH
-		);
-	}
-	
 	protected void drawDroppables() {
 		for( int i=0; i < _droppables.size(); i++ ) {
 			_droppables.get(i).update(_playerOffset);
 		}
-	}
-	
-	protected void drawBushes() {
-		// small
-		float bushSmallW = p.scaleV(p.gameGraphics.bushSmall.width);
-		float bushSmallH = p.scaleV(p.gameGraphics.bushSmall.height);
-		pg.shape( 
-				p.gameGraphics.bushSmall, 
-				_bushSmallX - bushSmallW/2f + _playerOffset * 1.6f, 
-				pg.height - bushSmallH, 
-				bushSmallW, 
-				bushSmallH
-		);
-		// large
-		float bushLargeW = p.scaleV(p.gameGraphics.bushLarge.width);
-		float bushLargeH = p.scaleV(p.gameGraphics.bushLarge.height);
-		pg.shape( 
-				p.gameGraphics.bushLarge, 
-				_bushLargeX - bushLargeW/2f + _playerOffset * 1.8f, 
-				pg.height - bushLargeH, 
-				bushLargeW, 
-				bushLargeH
-		);
-
 	}
 	
 }
