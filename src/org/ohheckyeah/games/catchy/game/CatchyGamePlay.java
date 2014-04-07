@@ -232,7 +232,7 @@ public class CatchyGamePlay {
 	
 	protected void drawDroppables() {
 		for( int i=0; i < _droppables.size(); i++ ) {
-			_droppables.get(i).update(_playerOffset);
+			_droppables.get(i).update( _playerOffset, _character.shadowY() );
 		}
 	}
 	

@@ -32,6 +32,7 @@ public class CatchyCharacter {
 	protected float _characterX;
 	protected float _characterY;
 	protected float _characterTopY;
+	protected float _characterShadowY;
 
 	protected int _catchTime = 0;
 	
@@ -41,6 +42,10 @@ public class CatchyCharacter {
 		pg = catchyGamePlay.pg;
 		
 		_color = p.color(0);
+	}
+	
+	public float shadowY() {
+		return _characterShadowY;
 	}
 	
 	public void update( float playerOffset ) {
@@ -53,7 +58,7 @@ public class CatchyCharacter {
 		_xPosition.setTarget( _characterX );
 		_characterY = pg.height - _bottomPadding.value() - ( characterHeight * 0.5f );
 		_characterTopY = _characterY - characterHeight;
-		float characterShadowY = pg.height - _bottomPadding.value();
+		_characterShadowY = pg.height - _bottomPadding.value();
 		float characterShadowWidth = p.scaleV(p.gameGraphics.shadow.width * _scale.value());
 		float characterShadowHeight = p.scaleV(p.gameGraphics.shadow.height * _scale.value());
 		float characterSpeed = playerOffset - lastPlayerOffset;
@@ -70,7 +75,7 @@ public class CatchyCharacter {
 		pg.pushMatrix();
 		DrawUtil.setDrawCenter(pg);
 		// draw shadow
-		pg.shape( p.gameGraphics.shadow, _xPosition.value(), characterShadowY, characterShadowWidth, characterShadowHeight );
+		pg.shape( p.gameGraphics.shadow, _xPosition.value(), _characterShadowY, characterShadowWidth, characterShadowHeight );
 		// draw rotated character
 		pg.translate( _xPosition.value(), _characterY, 0 );
 		pg.rotateZ( _rotation.value() );

@@ -20,39 +20,61 @@ public class CatchyDroppable {
 	protected float _x = 0;
 	protected float _y = 0;
 	protected float _dropSpeed = 4;
-	protected EasingFloat _rotation;
+	protected float _groundY;
 	
 	protected boolean _active = false;
 	
+	
+	protected float characterShadowWidth;
+	protected float characterShadowHeight;
+	protected EasingFloat _scale = new EasingFloat(1,4);
+	protected EasingFloat _shadowScale = new EasingFloat(0,4);
+
 	public CatchyDroppable( CatchyGamePlay catchyGamePlay ) {
 		p = (Catchy)P.p;
 		this.catchyGamePlay = catchyGamePlay;
 		pg = catchyGamePlay.pg;
 //		reset(0,0);
+		
+		_groundY = pg.height - p.scaleV(100);
+		
+		characterShadowWidth = p.scaleV(p.gameGraphics.shadow.width);
+		characterShadowHeight = p.scaleV(p.gameGraphics.shadow.height);
 	}
 	
-	public void update( float playerOffset ) {
+	public void update( float playerOffset, float shadowY ) {
 		if( _active == false ) return;
 		
-		// draw & move -----
-//		pg.shape( p.gameGraphics.shadow, _x, dropperShadowY, dropperShadowWidth, dropperShadowHeight );
-		pg.shape( _graphic, _x, _y, p.scaleV(_graphic.width), p.scaleV(_graphic.height) );
+		// draw shadow
+		_shadowScale.update();
+		pg.shape( p.gameGraphics.shadow, _x, shadowY, characterShadowWidth * _shadowScale.value(), characterShadowHeight * _shadowScale.value() );
+		
+		// draw droppable
+		_scale.update();
+		pg.shape( _graphic, _x, _y, p.scaleV( _graphic.width * _shadowScale.value() ), p.scaleV( _graphic.height * _shadowScale.value() ) );
 		_y += p.scaleV(_dropSpeed) * p.timeFactor.multiplier();
 		
-		// recycle if we hit the ground -------
-		if( _y > pg.height - p.scaleV(20) ) {
-			_active = false;
+		// shrink if we hit the ground 
+		if( _y > _groundY ) {
+			_scale.setTarget(0);
+			_shadowScale.setTarget(0);
 		}
 		
-		// check for a catch -------
+		// check for a catch 
 		if( _y > pg.height/2f ) {
 			catchyGamePlay.checkCatch( this, _x, _y );
 		}
+		
+		// once object shrinks enough, deactivate droppable
+		if( _scale.value() < 0.03f ) {
+			_active = false;
+		}
+
 	}
 	
 	public void catchSuccess() {
-		_active = false;
-		
+		_scale.setTarget(0);
+		_shadowScale.setTarget(0);
 	}
 	
 	public void reset( float x, float y ) {
@@ -61,5 +83,10 @@ public class CatchyDroppable {
 		int randIndex = MathUtil.randRange( 0, p.gameGraphics.droppables.size() - 1 );
 		_graphic = p.gameGraphics.droppables.get( randIndex );
 		_active = true;
+		
+		_scale.setCurrent(1);
+		_scale.setTarget(1);
+		_shadowScale.setCurrent(0);
+		_shadowScale.setTarget(1);
 	}
 }
