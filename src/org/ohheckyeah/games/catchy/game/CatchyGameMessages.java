@@ -86,7 +86,7 @@ public class CatchyGameMessages {
 	
 	public void showCountdown() {
 		if( _countdownText == null ) {
-			_countdownText = new CatchyTextMessage( "get ready", 60, 250, 90, 231 );
+			_countdownText = new CatchyTextMessage( "get ready", 60, 250, 90, 224 );
 		}
 		_messageCountdownY.setTarget(_messageYShowing);
 	}
@@ -99,7 +99,7 @@ public class CatchyGameMessages {
 	}
 	public void showWinner() {
 		if( _winnerText == null ) {
-			_winnerText = new CatchyTextMessage( "winner", 60, 250, 90, 231 );
+			_winnerText = new CatchyTextMessage( "winner", 60, 250, 90, 173 );
 		}
 		_messageWinnerY.setTarget(_messageYShowing);
 	}
@@ -109,7 +109,7 @@ public class CatchyGameMessages {
 	
 	public void showTie() {
 		if( _tieText == null ) {
-			_tieText = new CatchyTextMessage( "tie", 60, 125, 90, 104 );
+			_tieText = new CatchyTextMessage( "tie", 60, 125, 90, 64 );
 		}
 		_messageTieY.setTarget(_messageYShowing);
 	}
