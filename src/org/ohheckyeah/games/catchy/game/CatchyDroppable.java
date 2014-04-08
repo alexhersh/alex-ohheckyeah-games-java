@@ -20,6 +20,7 @@ public class CatchyDroppable {
 	protected float _x = 0;
 	protected float _y = 0;
 	protected float _dropSpeed = 4;
+	protected float _xSpeed = 0;
 	protected float _groundY;
 	
 	protected boolean _active = false;
@@ -43,6 +44,10 @@ public class CatchyDroppable {
 	
 	public void update( float playerOffset, float shadowY ) {
 		if( _active == false ) return;
+		
+		// apply bumped speed
+//		_xSpeed *= 0.9;
+//		_x += _xSpeed;
 		
 		// draw shadow
 		_shadowScale.update();
@@ -76,9 +81,16 @@ public class CatchyDroppable {
 		_shadowScale.setTarget(0);
 	}
 	
+	public void bumped() {
+//		if( _xSpeed == 0 ) { 
+//			_xSpeed = 10.0f;
+//		}
+	}
+	
 	public void reset( float x, float y ) {
 		_x = x;
 		_y = y;
+		_xSpeed = 0;
 		int randIndex = MathUtil.randRange( 0, p.gameGraphics.droppables.size() - 1 );
 		_graphic = p.gameGraphics.droppables.get( randIndex );
 		_active = true;

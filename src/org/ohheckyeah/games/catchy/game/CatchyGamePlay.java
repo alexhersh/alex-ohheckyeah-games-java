@@ -163,6 +163,9 @@ public class CatchyGamePlay {
 			droppable.catchSuccess();
 			_score.addScore(10);
 		}
+		if( _character.checkBump(x, y) == true ) {
+			droppable.bumped();
+		}
 	}
 	
 	public void update() {

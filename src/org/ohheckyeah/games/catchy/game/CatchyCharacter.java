@@ -93,6 +93,18 @@ public class CatchyCharacter {
 		}
 	}
 	
+	public boolean checkBump( float x, float y ) {
+		if( y > _characterTopY + p.scaleV(30f) ) {
+			if( x > _xPosition.value() - 30 && x < _xPosition.value() + 30 ) {
+				return true;
+			} else {
+				return false;
+			}
+		} else {
+			return false;
+		}
+	}
+	
 	public void reset() {
 		_characterDef = p.gameGraphics.characterDefs.get( catchyGamePlay.gameIndex % p.gameGraphics.characterDefs.size() );
 		_character = _characterDef.characterDefault;
