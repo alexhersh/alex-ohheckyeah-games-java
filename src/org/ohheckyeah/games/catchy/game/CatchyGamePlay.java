@@ -178,16 +178,16 @@ public class CatchyGamePlay {
 	
 	protected void updateControls() {
 		if( _controlsActive == true ) {
-			if( p.kinectWrapper != null ) {
-				// update player control for character
-				if( _gameIsActive == false ) {
-					detectKinectPlayers();
-				} else {
-					_easedControlX.setTarget( _kinectRegion.controlX() * 2f );					
-				}
+			// update player control for character
+			if( _gameIsActive == false ) {
+				detectKinectPlayers();
 			} else {
-				// fake test controls
-				_easedControlX.setTarget( 0.5f * P.sin(p.millis() * _autoControl) );
+				if( p.kinectWrapper != null ) {
+					_easedControlX.setTarget( _kinectRegion.controlX() * 2f );					
+				} else {
+					// fake test controls
+					_easedControlX.setTarget( 0.5f * P.sin(p.millis() * _autoControl) );
+				}
 			}
 		}
 		_easedControlX.update();
@@ -197,13 +197,13 @@ public class CatchyGamePlay {
 	
 	protected void detectKinectPlayers() {
 		if( _detectedPlayer == false ) {
-			if( _kinectRegion.pixelCount() >= 20 ) {
+			if( _kinectRegion.pixelCount() >= 20 || p.kinectWrapper == null ) {
 				_detectedPlayerTime = p.millis();
 				_detectedPlayer = true;
 				_waitingSpinner.playerEntered();
 			}
 		} else {
-			if( _kinectRegion.pixelCount() < 20 ) {
+			if( _kinectRegion.pixelCount() < 20 && p.kinectWrapper != null ) {
 				_detectedPlayer = false;
 				_hasPlayer = false;
 				_waitingSpinner.playerLeft();
