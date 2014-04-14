@@ -31,10 +31,13 @@ public class CatchyCharacter {
 	protected boolean _lockedCenter = true;
 	protected float _characterX;
 	protected float _characterY;
-	protected float _characterTopY;
+	protected float _catchPointX;
+	protected float _catchPointY;
+	protected float _characterCatchRadius;
 	protected float _characterShadowY;
 
 	protected int _catchTime = 0;
+	protected float _catchRadius = 55f;
 	
 	public CatchyCharacter( CatchyGamePlay catchyGamePlay ) {
 		p = (Catchy)P.p;
@@ -57,7 +60,6 @@ public class CatchyCharacter {
 		_characterX = ( _lockedCenter == true ) ? catchyGamePlay.gameHalfWidth : catchyGamePlay.gameHalfWidth + playerOffset;
 		_xPosition.setTarget( _characterX );
 		_characterY = pg.height - _bottomPadding.value() - ( characterHeight * 0.5f );
-		_characterTopY = _characterY - characterHeight / 2f;
 		_characterShadowY = pg.height - _bottomPadding.value();
 		float characterShadowWidth = p.scaleV(p.gameGraphics.shadow.width * _scale.value());
 		float characterShadowHeight = p.scaleV(p.gameGraphics.shadow.height * _scale.value());
@@ -71,6 +73,10 @@ public class CatchyCharacter {
 		_bottomPadding.update();
 		lastPlayerOffset = playerOffset;
 		
+		_characterCatchRadius = (characterHeight / 2f) * 1.0f;
+		_catchPointX = _xPosition.value() - _characterCatchRadius * P.sin( -_rotation.value() );
+		_catchPointY = _characterY - _characterCatchRadius * P.cos( -_rotation.value() );
+		
 		// draw
 		pg.pushMatrix();
 		DrawUtil.setDrawCenter(pg);
@@ -82,10 +88,21 @@ public class CatchyCharacter {
 		PShape curCharacterState = (p.millis() < _catchTime + 300) ? _characterCatch : _character;
 		pg.shape( curCharacterState, 0, 0, characterWidth, characterHeight );
 		pg.popMatrix();
+		// drawDebugCatchPoint();
+	}
+	
+	protected void drawDebugCatchPoint() {
+		// draw debug catch radius
+		pg.pushMatrix();
+		pg.fill(255);
+		pg.stroke(255,0,0);
+		pg.translate( _catchPointX, _catchPointY );
+		pg.ellipse( 0, 0, p.scaleV(_catchRadius) * _scale.value(), p.scaleV(_catchRadius) * _scale.value() );
+		pg.popMatrix();
 	}
 	
 	public boolean checkCatch( float x, float y ) {
-		if( MathUtil.getDistance(x, y, _xPosition.value(), _characterTopY) < p.scaleV(30f) ) {
+		if( y < _catchPointY && MathUtil.getDistance(x, y, _catchPointX, _catchPointY) < p.scaleV(_catchRadius) ) {
 			_catchTime = p.millis();
 			return true;
 		} else {
@@ -94,15 +111,15 @@ public class CatchyCharacter {
 	}
 	
 	public boolean checkBump( float x, float y ) {
-		if( y > _characterTopY + p.scaleV(30f) ) {
-			if( x > _xPosition.value() - 30 && x < _xPosition.value() + 30 ) {
-				return true;
-			} else {
-				return false;
-			}
-		} else {
-			return false;
-		}
+		//		if( y > _characterTopY + p.scaleV(30f) ) {
+		//			if( x > _xPosition.value() - 30 && x < _xPosition.value() + 30 ) {
+		//				return true;
+		//			} else {
+		//				return false;
+		//			}
+		//		} else {
+		return false;
+		//		}
 	}
 	
 	public void reset() {
