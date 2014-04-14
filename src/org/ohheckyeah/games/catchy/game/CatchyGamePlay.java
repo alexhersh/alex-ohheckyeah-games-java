@@ -60,7 +60,7 @@ public class CatchyGamePlay {
 		pg.smooth(OpenGLUtil.SMOOTH_MEDIUM);
 		
 		_easedControlX = new EasingFloat( 0.5f, 6f );
-		_autoControl = p.random(0.0001f, 0.001f);
+		_autoControl = p.random(0.001f, 0.005f);
 		
 		_character = new CatchyCharacter(this);
 		_grass = new CatchyGrass(this);
@@ -186,7 +186,7 @@ public class CatchyGamePlay {
 					_easedControlX.setTarget( _kinectRegion.controlX() * 2f );					
 				} else {
 					// fake test controls
-					_easedControlX.setTarget( 0.5f * P.sin(p.millis() * _autoControl) );
+					_easedControlX.setTarget( P.sin(p.millis() * _autoControl) );
 				}
 			}
 		}
