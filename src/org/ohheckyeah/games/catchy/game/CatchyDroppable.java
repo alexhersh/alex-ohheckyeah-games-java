@@ -36,7 +36,7 @@ public class CatchyDroppable {
 		this.catchyGamePlay = catchyGamePlay;
 		pg = catchyGamePlay.pg;
 		
-		_groundY = pg.height - p.scaleV(80);
+		_groundY = pg.height - p.scaleV(60);
 		
 		characterShadowWidth = p.scaleV(p.gameGraphics.shadow.width);
 		characterShadowHeight = p.scaleV(p.gameGraphics.shadow.height);
