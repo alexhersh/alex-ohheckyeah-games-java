@@ -24,6 +24,7 @@ public class CatchyDroppable {
 	protected float _groundY;
 	
 	protected boolean _active = false;
+	protected boolean _catchable = true;
 	
 	
 	protected float characterShadowWidth;
@@ -76,9 +77,14 @@ public class CatchyDroppable {
 
 	}
 	
+	public boolean isCatchable() {
+		return _catchable;
+	}
+	
 	public void catchSuccess() {
 		_scale.setTarget(0);
 		_shadowScale.setTarget(0);
+		_catchable = false;
 	}
 	
 	public void bumped() {
@@ -94,6 +100,7 @@ public class CatchyDroppable {
 		int randIndex = MathUtil.randRange( 0, p.gameGraphics.droppables.size() - 1 );
 		_graphic = p.gameGraphics.droppables.get( randIndex );
 		_active = true;
+		_catchable = true;
 		
 		_scale.setCurrent(1);
 		_scale.setTarget(1);
