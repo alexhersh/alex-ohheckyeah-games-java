@@ -46,6 +46,8 @@ public class CatchyGamePlay {
 	
 	protected ArrayList<CatchyDroppable> _droppables;
 	protected int _droppableIndex = 0;
+	protected int _numDroppables = CatchyGameTimer.GAME_LENGTH_SECONDS;
+	protected float _percentBadDroppables = 0.2f;
 	
 	protected CatchyScoreDisplay _score;
 	
@@ -67,8 +69,12 @@ public class CatchyGamePlay {
 		_mountain = new CatchyMountainAndBushes(this);
 		_dropper = new CatchyDropper(this);
 		_droppables = new ArrayList<CatchyDroppable>();
-		for( int i=0; i < 30; i++ ) {
-			_droppables.add( new CatchyDroppable(this) );
+		for( int i=0; i < _numDroppables; i++ ) {
+			if( i < _numDroppables * _percentBadDroppables ) { 
+				_droppables.add( new CatchyDroppable(this, true) );
+			} else {
+				_droppables.add( new CatchyDroppable(this, false) );				
+			}
 		}
 		_score = new CatchyScoreDisplay(this);
 		_waitingSpinner = new CatchyWaitingSpinner(this);

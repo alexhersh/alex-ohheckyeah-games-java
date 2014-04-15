@@ -15,7 +15,9 @@ public class CatchyDroppable {
 	protected Catchy p;
 	protected CatchyGamePlay catchyGamePlay;
 	protected PGraphics pg;
+	
 	protected PShape _graphic;
+	protected boolean _isBad;
 	
 	protected float _x = 0;
 	protected float _y = 0;
@@ -32,11 +34,12 @@ public class CatchyDroppable {
 	protected EasingFloat _scale = new EasingFloat(1,2);
 	protected EasingFloat _shadowScale = new EasingFloat(0,4);
 
-	public CatchyDroppable( CatchyGamePlay catchyGamePlay ) {
+	public CatchyDroppable( CatchyGamePlay catchyGamePlay, boolean isBad ) {
 		p = (Catchy)P.p;
 		this.catchyGamePlay = catchyGamePlay;
 		pg = catchyGamePlay.pg;
 		
+		_isBad = isBad;
 		_groundY = pg.height - p.scaleV(60);
 		
 		characterShadowWidth = p.scaleV(p.gameGraphics.shadow.width);
@@ -81,6 +84,10 @@ public class CatchyDroppable {
 		return _catchable;
 	}
 	
+	public boolean isBad() {
+		return _isBad;
+	}
+	
 	public void catchSuccess() {
 		_scale.setTarget(0);
 		_shadowScale.setTarget(0);
@@ -88,17 +95,22 @@ public class CatchyDroppable {
 	}
 	
 	public void bumped() {
-//		if( _xSpeed == 0 ) { 
-//			_xSpeed = 10.0f;
-//		}
+		//		if( _xSpeed == 0 ) { 
+		//			_xSpeed = 10.0f;
+		//		}
 	}
 	
 	public void reset( float x, float y ) {
 		_x = x;
 		_y = y;
 		_xSpeed = 0;
-		int randIndex = MathUtil.randRange( 0, p.gameGraphics.droppables.size() - 1 );
-		_graphic = p.gameGraphics.droppables.get( randIndex );
+		if( _isBad == true ) {
+			int randIndex = MathUtil.randRange( 0, p.gameGraphics.droppablesBad.size() - 1 );
+			_graphic = p.gameGraphics.droppablesBad.get( randIndex );
+		} else {
+			int randIndex = MathUtil.randRange( 0, p.gameGraphics.droppables.size() - 1 );
+			_graphic = p.gameGraphics.droppables.get( randIndex );
+		}
 		_active = true;
 		_catchable = true;
 		
