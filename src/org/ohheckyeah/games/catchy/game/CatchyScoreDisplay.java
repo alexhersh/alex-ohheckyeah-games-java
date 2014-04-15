@@ -46,6 +46,7 @@ public class CatchyScoreDisplay {
 	
 	public void addScore( int points ) {
 		_score += points;
+		if( _score < 0 ) _score = 0;
 		_scoreEaser.setTarget(_score);
 	}
 	

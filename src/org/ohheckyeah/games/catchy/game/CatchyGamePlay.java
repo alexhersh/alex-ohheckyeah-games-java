@@ -170,7 +170,11 @@ public class CatchyGamePlay {
 	public void checkCatch( CatchyDroppable droppable, float x, float y ) {
 		if( droppable.isCatchable() == true && _character.checkCatch(x, y) == true ) {
 			droppable.catchSuccess();
-			_score.addScore(1);
+			if( droppable.isBad() == false ) {
+				_score.addScore(1);
+			} else {
+				_score.addScore(-2);
+			}
 		}
 		if( _character.checkBump(x, y) == true ) {
 			droppable.bumped();
