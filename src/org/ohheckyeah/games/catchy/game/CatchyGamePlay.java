@@ -1,6 +1,7 @@
 package org.ohheckyeah.games.catchy.game;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 import org.ohheckyeah.games.catchy.Catchy;
 
@@ -11,6 +12,7 @@ import com.haxademic.core.draw.color.ColorUtil;
 import com.haxademic.core.draw.util.DrawUtil;
 import com.haxademic.core.draw.util.OpenGLUtil;
 import com.haxademic.core.hardware.kinect.KinectRegion;
+import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.math.easing.EasingFloat;
 
 public class CatchyGamePlay {
@@ -156,8 +158,9 @@ public class CatchyGamePlay {
 		_bushSmallX = p.random( 0, gameWidth );
 		_bushLargeX = p.random( 0, gameWidth );
 		_gameIsActive = false;
+		Collections.shuffle( _droppables );
 	}
-	
+		
 	public void launchNewDroppable( float x ) {
 		CatchyDroppable droppable = _droppables.get( _droppableIndex );
 		_droppableIndex = ( _droppableIndex < _droppables.size() - 1 ) ? _droppableIndex + 1 : 0;
