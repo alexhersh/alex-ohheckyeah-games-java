@@ -15,7 +15,9 @@ public class CatchyGameTimer {
 	protected int _gameStartTime = 0;
 	protected int _gameEndTime = 0;
 	protected int _curGameTime = 0;
-	protected int GAME_LENGTH = 60 * 1000;
+	protected boolean _active = false;
+	public static final int GAME_LENGTH_SECONDS = 10;
+	protected int GAME_LENGTH = GAME_LENGTH_SECONDS * 1000;
 	protected CustomFontText2D _timerFontRenderer;
 	
 	protected EasingFloat _offsetY;
@@ -35,16 +37,18 @@ public class CatchyGameTimer {
 		_gameStartTime = p.millis();
 		_curGameTime = GAME_LENGTH;
 		_gameEndTime = 0;
+		_active = true;
 	}
 	
 	public void update() {
 		_curGameTime = GAME_LENGTH - ( p.millis() - _gameStartTime );
-		if( _curGameTime < 4000 && _gameEndTime == 0 ) {
+		if( _curGameTime < 0 && _active == true ) {
 			p.setGameMode( Catchy.GAME_FINISHING );
 			_gameEndTime = p.millis();
-		}
-		if( _curGameTime <= 0 ) {
+			_active = false;
+		} else if( _gameEndTime != 0 && p.millis() > _gameEndTime + 4000 ) {
 			p.setGameMode( Catchy.GAME_OVER );
+			_gameEndTime = 0;
 		}
 	}
 	
@@ -66,7 +70,8 @@ public class CatchyGameTimer {
 		p.translate( 0, _offsetY.value() );
 		
 		p.shape( p.gameGraphics.timerBanner, 0, 0, p.scaleV(p.gameGraphics.timerBanner.width), p.scaleV(p.gameGraphics.timerBanner.height) );
-		_timerFontRenderer.updateText( StringFormatter.timeFromMilliseconds( _curGameTime, false) );
+		int time = ( _curGameTime <= 0 ) ? 0 : _curGameTime;
+		_timerFontRenderer.updateText( StringFormatter.timeFromMilliseconds( time, false) );
 		p.image( _timerFontRenderer.getTextPImage(), p.scaleV(55), p.scaleV(9), _timerFontRenderer.getTextPImage().width, _timerFontRenderer.getTextPImage().height );
 		
 		p.popMatrix();
