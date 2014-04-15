@@ -1,6 +1,7 @@
 package org.ohheckyeah.games.catchy.assets;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 import processing.core.PShape;
 
@@ -72,17 +73,18 @@ public class CatchyGraphics {
 	}
 	
 	public void shuffleCharacters() {
-		CatchyCharacterDef cur = null;
-		CatchyCharacterDef temp = null;
-		int swapIndex = 0;
-		for( int i=0; i < characterDefs.size(); i++ ) {
-			swapIndex = MathUtil.randRange(0, characterDefs.size() - 1);
-			temp = characterDefs.get( swapIndex );
-			cur = characterDefs.get( i );
-			characterDefs.set( swapIndex, cur );
-			characterDefs.set( i, temp );
-		}
-
+		Collections.shuffle( characterDefs );
+		//
+		//		CatchyCharacterDef cur = null;
+		//		CatchyCharacterDef temp = null;
+		//		int swapIndex = 0;
+		//		for( int i=0; i < characterDefs.size(); i++ ) {
+		//			swapIndex = MathUtil.randRange(0, characterDefs.size() - 1);
+		//			temp = characterDefs.get( swapIndex );
+		//			cur = characterDefs.get( i );
+		//			characterDefs.set( swapIndex, cur );
+		//			characterDefs.set( i, temp );
+		//		}
 	}
 	
 	public class CatchyCharacterDef {
