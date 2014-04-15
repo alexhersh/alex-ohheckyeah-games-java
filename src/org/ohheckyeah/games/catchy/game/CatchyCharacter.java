@@ -102,7 +102,7 @@ public class CatchyCharacter {
 	}
 	
 	public boolean checkCatch( float x, float y ) {
-		if( y < _catchPointY && MathUtil.getDistance(x, y, _catchPointX, _catchPointY) < p.scaleV(_catchRadius) ) {
+		if( y < _catchPointY + p.scaleV(10) && MathUtil.getDistance(x, y, _catchPointX, _catchPointY) < p.scaleV(_catchRadius) ) {
 			_catchTime = p.millis();
 			return true;
 		} else {
