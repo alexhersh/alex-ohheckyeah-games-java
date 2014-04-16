@@ -32,7 +32,8 @@ public class CatchyDroppable {
 	
 	protected float characterShadowWidth;
 	protected float characterShadowHeight;
-	protected EasingFloat _scale = new EasingFloat(1,2);
+	protected final float SCALE = 0.7f;
+	protected EasingFloat _scale = new EasingFloat(SCALE,2);
 	protected EasingFloat _shadowScale = new EasingFloat(0,4);
 
 	public CatchyDroppable( CatchyGamePlay catchyGamePlay, boolean isBad ) {
@@ -60,7 +61,7 @@ public class CatchyDroppable {
 		
 		// draw droppable
 		_scale.update();
-		pg.shape( _graphic, _x, _y, p.scaleV( _graphic.width * _shadowScale.value() ), p.scaleV( _graphic.height * _shadowScale.value() ) );
+		pg.shape( _graphic, _x, _y, p.scaleV( _graphic.width * _scale.value() ), p.scaleV( _graphic.height * _scale.value() ) );
 		_y += p.scaleV(_dropSpeed) * p.timeFactor.multiplier();
 		
 		// shrink if we hit the ground 
@@ -117,8 +118,8 @@ public class CatchyDroppable {
 		_active = true;
 		_catchable = true;
 		
-		_scale.setCurrent(1);
-		_scale.setTarget(1);
+		_scale.setCurrent(SCALE);
+		_scale.setTarget(SCALE);
 		_shadowScale.setCurrent(0);
 		_shadowScale.setTarget(1);
 	}

@@ -16,9 +16,9 @@ public class CatchyGraphics {
 	public CatchyCharacterDef blueSquid, greenPanner, pinkEye, wheelieRobot, birdie, bowl;
 	
 	public ArrayList<PShape> droppables;
-	public PShape apple, banana;
+	public PShape apple, coin, diamond, iceCreamCone;
 	public ArrayList<PShape> droppablesBad;
-	public PShape spikeBall;
+	public PShape bomb, brick, dirtySock, sword;
 	public PShape grass, bushSmall, bushLarge, mountain, shadow, dropper, waitingSpinner;
 	public PShape gameDivider, catchyLogo, logoConfetti, timerBanner;
 	
@@ -42,16 +42,27 @@ public class CatchyGraphics {
 		characterDefs.add(bowl);
 				
 		// droppables
-		apple = P.p.loadShape( FileUtil.getHaxademicDataPath() + "games/catchy/svg/droppables/temp-apple.svg" );
-		banana = P.p.loadShape( FileUtil.getHaxademicDataPath() + "games/catchy/svg/droppables/temp-banana.svg" );
-		spikeBall = P.p.loadShape( FileUtil.getHaxademicDataPath() + "games/catchy/svg/droppables/spike-ball.svg" );
+		apple = P.p.loadShape( FileUtil.getHaxademicDataPath() + "games/catchy/svg/droppables/apple.svg" );
+		coin = P.p.loadShape( FileUtil.getHaxademicDataPath() + "games/catchy/svg/droppables/coin.svg" );
+		diamond = P.p.loadShape( FileUtil.getHaxademicDataPath() + "games/catchy/svg/droppables/diamond.svg" );
+		iceCreamCone = P.p.loadShape( FileUtil.getHaxademicDataPath() + "games/catchy/svg/droppables/ice-cream-cone.svg" );
 
 		droppables = new ArrayList<PShape>();
 		droppables.add(apple);
-		droppables.add(banana);
+		droppables.add(coin);
+		droppables.add(diamond);
+		droppables.add(iceCreamCone);
 		
+		bomb = P.p.loadShape( FileUtil.getHaxademicDataPath() + "games/catchy/svg/droppables/bomb.svg" );
+		brick = P.p.loadShape( FileUtil.getHaxademicDataPath() + "games/catchy/svg/droppables/brick.svg" );
+		dirtySock = P.p.loadShape( FileUtil.getHaxademicDataPath() + "games/catchy/svg/droppables/dirty-sock.svg" );
+		sword = P.p.loadShape( FileUtil.getHaxademicDataPath() + "games/catchy/svg/droppables/sword.svg" );
+
 		droppablesBad = new ArrayList<PShape>();
-		droppablesBad.add(spikeBall);
+		droppablesBad.add(bomb);
+		droppablesBad.add(brick);
+		droppablesBad.add(dirtySock);
+		droppablesBad.add(sword);
 
 		// scene
 		grass = P.p.loadShape( FileUtil.getHaxademicDataPath() + "games/catchy/svg/scene/grass.svg" );
