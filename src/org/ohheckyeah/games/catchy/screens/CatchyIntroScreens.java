@@ -35,7 +35,7 @@ public class CatchyIntroScreens {
 		p = (Catchy) P.p;
 
 		pg = p.createGraphics( p.width, p.height, P.OPENGL );
-		pg.smooth(OpenGLUtil.SMOOTH_MEDIUM);
+		pg.smooth(OpenGLUtil.SMOOTH_HIGH);
 		
 		bgPadX = (int) p.scaleV(20);
 		bgPadY = (int) p.scaleV(20);
@@ -69,6 +69,7 @@ public class CatchyIntroScreens {
 		
 		drawWhiteBg();
 		drawSubScreens();
+		// drawBlackLine();
 		
 		pg.endDraw();
 
@@ -83,6 +84,10 @@ public class CatchyIntroScreens {
 		if( _mode == Screen.CREDITS && p.millis() > _introScreensStartTime + 9000 ) {
 			p.setGameMode( Catchy.GAME_WAITING_FOR_PLAYERS );
 		}
+	}
+	
+	protected void drawBlackLine() {
+		pg.shape( p.gameGraphics.blackDivider, pg.width * 0.5f, pg.height * 0.95f + _drawYOffset.value(), p.scaleV(p.gameGraphics.blackDivider.width), p.scaleV(p.gameGraphics.blackDivider.height) );
 	}
 	
 	protected void drawWhiteBg() {

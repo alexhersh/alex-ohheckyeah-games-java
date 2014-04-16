@@ -20,7 +20,7 @@ public class CatchyGraphics {
 	public ArrayList<PShape> droppablesBad;
 	public PShape bomb, brick, dirtySock, sword;
 	public PShape grass, bushSmall, bushLarge, mountain, shadow, dropperReady, dropperAlmost, dropperDrop, waitingSpinner;
-	public PShape gameDivider, catchyLogo, logoConfetti, timerBanner, redDivider;
+	public PShape gameDivider, catchyLogo, logoConfetti, timerBanner, redDivider, blackDivider;
 	public PShape logoOHY, logoLegwork, logoModeSet;
 	
 	public String font;
@@ -82,6 +82,7 @@ public class CatchyGraphics {
 		logoConfetti = P.p.loadShape( FileUtil.getHaxademicDataPath() + "games/catchy/svg/shell/logo-confetti.svg" );
 		timerBanner = P.p.loadShape( FileUtil.getHaxademicDataPath() + "games/catchy/svg/shell/timer-banner.svg" );
 		redDivider = P.p.loadShape( FileUtil.getHaxademicDataPath() + "games/catchy/svg/shell/red-squiggle.svg" );
+		blackDivider = P.p.loadShape( FileUtil.getHaxademicDataPath() + "games/catchy/svg/shell/black-squiggle-2.svg" );
 		logoOHY = P.p.loadShape( FileUtil.getHaxademicDataPath() + "svg/logo-ohheckyeah.svg" );
 		logoLegwork = P.p.loadShape( FileUtil.getHaxademicDataPath() + "svg/logo-legwork.svg" );
 		logoModeSet = P.p.loadShape( FileUtil.getHaxademicDataPath() + "svg/logo-mode-set.svg" );
