@@ -94,7 +94,7 @@ public class CatchySounds {
 		_soundEffects.loadAudioFile( CatchySounds.COUNTDOWN, 1, FileUtil.getHaxademicDataPath() + "games/catchy/audio/sfx/long-note-end.wav" );
 		_soundEffects.loadAudioFile( CatchySounds.CATCH, 1, FileUtil.getHaxademicDataPath() + "games/catchy/audio/sfx/ring-2.wav" );
 		_soundEffects.loadAudioFile( CatchySounds.DROP_MISS, 1, FileUtil.getHaxademicDataPath() + "games/catchy/audio/sfx/mistake.wav" );
-		_soundEffects.loadAudioFile( CatchySounds.DROP, 1.3f, FileUtil.getHaxademicDataPath() + "games/catchy/audio/sfx/drip-low.wav" );
+		_soundEffects.loadAudioFile( CatchySounds.DROP, 1.1f, FileUtil.getHaxademicDataPath() + "games/catchy/audio/sfx/drip-low.wav" );
 	}
 
 	public void playSound( String id ) {

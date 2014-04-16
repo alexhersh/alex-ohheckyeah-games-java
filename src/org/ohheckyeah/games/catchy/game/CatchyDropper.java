@@ -24,6 +24,11 @@ public class CatchyDropper {
 	protected float _offsetYShowing;
 	protected float _offsetYHiding;
 	
+	protected int _dropperState = 0;
+	protected final int STATE_READY = 0;
+	protected final int STATE_ALMOST = 1;
+	protected final int STATE_DROP = 2;
+	
 	protected int _lastDropTime = 0;
 	protected final int DROP_INTERVAL = 1 * 1000;
 	protected float _screenSplitX = 0;
@@ -40,9 +45,9 @@ public class CatchyDropper {
 		pg = catchyGamePlay.pg;
 		_positionX = new EasingFloat(0,5);
 		_positionY = new EasingFloat(0,4);
-		_dropper = p.gameGraphics.dropper;
+		_dropper = p.gameGraphics.dropperReady;
 		
-		_offsetYShowing = 0;
+		_offsetYShowing = p.scaleV(50);
 		_offsetYHiding = p.scaleV(-100f);
 		_offsetY = new EasingFloat(_offsetYHiding,7);
 		
@@ -81,18 +86,26 @@ public class CatchyDropper {
 				}
 				_positionX.setTarget( _curColumn * _columnWidth );
 				_lastDropTime = p.millis();
+				_dropperState = STATE_READY;
+				_dropper = p.gameGraphics.dropperReady;
 			}
 			// drop!
-		
+			float animAlmostTime = _lastDropTime + DROP_INTERVAL - 750;
 			float animDownTime = _lastDropTime + DROP_INTERVAL - 500;
 			float animUpTime = _lastDropTime + DROP_INTERVAL - 400;
-			if( p.millis() > animDownTime && p.millis() < animUpTime ) {
+			
+			if( p.millis() > animAlmostTime && _dropperState == STATE_READY ) {
+				_dropperState = STATE_ALMOST;
+				_dropper = p.gameGraphics.dropperAlmost;
+			} else if( p.millis() > animDownTime && p.millis() < animUpTime ) {
 				_positionY.setTarget( p.scaleV(20) );
 				_droppedAtPosition = false;
 			} else if( p.millis() > animUpTime ) {
 				if( _droppedAtPosition == false ) {
 					catchyGamePlay.launchNewDroppable( dropperX );
 					_droppedAtPosition = true;
+					_dropperState = STATE_DROP;
+					_dropper = p.gameGraphics.dropperDrop;
 				}
 				_positionY.setTarget(0);
 			}
@@ -114,20 +127,30 @@ public class CatchyDropper {
 	
 	public void showDropper() {
 		_offsetY.setTarget( _offsetYShowing );
+		_dropperState = STATE_READY;
+		_dropper = p.gameGraphics.dropperReady;
 	}
 
 	public void startDropping() {
 		_active = true;
+		_lastDropTime = p.millis();
+		_dropperState = STATE_READY;
+		_dropper = p.gameGraphics.dropperReady;
 	}
 	
 	public void stopDropping() {
 		_active = false;
 		_offsetY.setTarget( _offsetYHiding );
+		_dropperState = STATE_READY;
+		_dropper = p.gameGraphics.dropperReady;
+		_positionY.setTarget(0);
 	}
 	
 	public void reset() {
+		_dropperState = STATE_READY;
+		_dropper = p.gameGraphics.dropperReady;
 		_curColumn = 0;
 		_positionX.setTarget(0);
-		// _dropper = p.gameGraphics.dropper.get( catchyGamePlay.gameIndex % p.gameGraphics.dropper.size() );
+		_positionY.setTarget(0);
 	}
 }

@@ -165,7 +165,7 @@ public class CatchyGamePlay {
 	public void launchNewDroppable( float x ) {
 		CatchyDroppable droppable = _droppables.get( _droppableIndex );
 		_droppableIndex = ( _droppableIndex < _droppables.size() - 1 ) ? _droppableIndex + 1 : 0;
-		droppable.reset( x, p.scaleV(10f) );
+		droppable.reset( x, p.scaleV(40f) );
 		p.sounds.playSound( CatchySounds.DROP );
 	}
 	

@@ -19,7 +19,7 @@ public class CatchyGraphics {
 	public PShape apple, coin, diamond, iceCreamCone;
 	public ArrayList<PShape> droppablesBad;
 	public PShape bomb, brick, dirtySock, sword;
-	public PShape grass, bushSmall, bushLarge, mountain, shadow, dropper, waitingSpinner;
+	public PShape grass, bushSmall, bushLarge, mountain, shadow, dropperReady, dropperAlmost, dropperDrop, waitingSpinner;
 	public PShape gameDivider, catchyLogo, logoConfetti, timerBanner;
 	
 	public String font;
@@ -70,7 +70,9 @@ public class CatchyGraphics {
 		bushLarge = P.p.loadShape( FileUtil.getHaxademicDataPath() + "games/catchy/svg/scene/bush-large.svg" );
 		mountain = P.p.loadShape( FileUtil.getHaxademicDataPath() + "games/catchy/svg/scene/mountain.svg" );
 		shadow = P.p.loadShape( FileUtil.getHaxademicDataPath() + "games/catchy/svg/scene/shadow.svg" );
-		dropper = P.p.loadShape( FileUtil.getHaxademicDataPath() + "games/catchy/svg/scene/dropper.svg" );
+		dropperReady = P.p.loadShape( FileUtil.getHaxademicDataPath() + "games/catchy/svg/scene/dropper-ready.svg" );
+		dropperAlmost = P.p.loadShape( FileUtil.getHaxademicDataPath() + "games/catchy/svg/scene/dropper-almost.svg" );
+		dropperDrop = P.p.loadShape( FileUtil.getHaxademicDataPath() + "games/catchy/svg/scene/dropper-drop.svg" );
 		waitingSpinner = P.p.loadShape( FileUtil.getHaxademicDataPath() + "games/catchy/svg/scene/waiting-spinner.svg" );
 		
 		// shell
@@ -85,17 +87,6 @@ public class CatchyGraphics {
 	
 	public void shuffleCharacters() {
 		Collections.shuffle( characterDefs );
-		//
-		//		CatchyCharacterDef cur = null;
-		//		CatchyCharacterDef temp = null;
-		//		int swapIndex = 0;
-		//		for( int i=0; i < characterDefs.size(); i++ ) {
-		//			swapIndex = MathUtil.randRange(0, characterDefs.size() - 1);
-		//			temp = characterDefs.get( swapIndex );
-		//			cur = characterDefs.get( i );
-		//			characterDefs.set( swapIndex, cur );
-		//			characterDefs.set( i, temp );
-		//		}
 	}
 	
 	public class CatchyCharacterDef {
