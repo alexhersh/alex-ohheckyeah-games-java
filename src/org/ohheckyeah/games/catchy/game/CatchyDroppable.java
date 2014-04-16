@@ -7,7 +7,6 @@ import processing.core.PGraphics;
 import processing.core.PShape;
 
 import com.haxademic.core.app.P;
-import com.haxademic.core.draw.util.DrawUtil;
 import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.math.easing.EasingFloat;
 
@@ -24,6 +23,7 @@ public class CatchyDroppable {
 	protected float _y = 0;
 	protected float _dropSpeed = 4;
 	protected float _xSpeed = 0;
+	protected float _rotation;
 	protected float _groundY;
 	
 	protected boolean _active = false;
@@ -61,7 +61,11 @@ public class CatchyDroppable {
 		
 		// draw droppable
 		_scale.update();
-		pg.shape( _graphic, _x, _y, p.scaleV( _graphic.width * _scale.value() ), p.scaleV( _graphic.height * _scale.value() ) );
+		pg.pushMatrix();
+		pg.translate(_x, _y);
+		pg.rotate( _rotation );
+		pg.shape( _graphic, 0, 0, p.scaleV( _graphic.width * _scale.value() ), p.scaleV( _graphic.height * _scale.value() ) );
+		pg.popMatrix();
 		_y += p.scaleV(_dropSpeed) * p.timeFactor.multiplier();
 		
 		// shrink if we hit the ground 
@@ -108,6 +112,7 @@ public class CatchyDroppable {
 		_x = x;
 		_y = y;
 		_xSpeed = 0;
+		_rotation = p.random( -0.2f, 0.2f );
 		if( _isBad == true ) {
 			int randIndex = MathUtil.randRange( 0, p.gameGraphics.droppablesBad.size() - 1 );
 			_graphic = p.gameGraphics.droppablesBad.get( randIndex );
