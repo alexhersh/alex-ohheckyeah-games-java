@@ -96,7 +96,11 @@ public class CatchyDroppable {
 	}
 	
 	public void catchSuccess() {
-		p.sounds.playSound( CatchySounds.CATCH );
+		if( _isBad == false ) {
+			p.sounds.playSound( CatchySounds.CATCH );
+		} else {
+			p.sounds.playSound( CatchySounds.CATCH_BAD );
+		}
 		_scale.setTarget(0);
 		_shadowScale.setTarget(0);
 		_catchable = false;

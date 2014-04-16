@@ -26,6 +26,7 @@ public class CatchySounds {
 	public static final String PLAYERS_DETECTED = "players-detected";
 	public static final String COUNTDOWN = "countdown";
 	public static final String CATCH = "catch";
+	public static final String CATCH_BAD = "catch-bad";
 	public static final String DROP_MISS = "drop-miss";
 	public static final String DROP = "drop";
 	
@@ -93,6 +94,7 @@ public class CatchySounds {
 		_soundEffects.loadAudioFile( CatchySounds.STEP_OUT, 1, FileUtil.getHaxademicDataPath() + "games/catchy/audio/sfx/step-out.wav" );
 		_soundEffects.loadAudioFile( CatchySounds.COUNTDOWN, 1, FileUtil.getHaxademicDataPath() + "games/catchy/audio/sfx/long-note-end.wav" );
 		_soundEffects.loadAudioFile( CatchySounds.CATCH, 1, FileUtil.getHaxademicDataPath() + "games/catchy/audio/sfx/ring-2.wav" );
+		_soundEffects.loadAudioFile( CatchySounds.CATCH_BAD, 1, FileUtil.getHaxademicDataPath() + "games/catchy/audio/sfx/boing-tom.wav" );
 		_soundEffects.loadAudioFile( CatchySounds.DROP_MISS, 1, FileUtil.getHaxademicDataPath() + "games/catchy/audio/sfx/mistake.wav" );
 		_soundEffects.loadAudioFile( CatchySounds.DROP, 1.1f, FileUtil.getHaxademicDataPath() + "games/catchy/audio/sfx/drip-low.wav" );
 	}
