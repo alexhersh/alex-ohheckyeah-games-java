@@ -70,22 +70,6 @@ public class CatchySounds {
 	}
 		
 	public void loadSoundEffects() {
-//		_sounds.loadAudioFile( CatchySounds.WIN, 1, FileUtil.getHaxademicDataPath() + "games/catchy/audio/sfx/big-deep-note.wav" );
-//		_sounds.loadAudioFile( CatchySounds.WIN, 1, FileUtil.getHaxademicDataPath() + "games/catchy/audio/sfx/boing-tom.wav" );
-//		_sounds.loadAudioFile( CatchySounds.WIN, 1, FileUtil.getHaxademicDataPath() + "games/catchy/audio/sfx/chirp-flute.wav" );
-//		_sounds.loadAudioFile( CatchySounds.WIN, 1, FileUtil.getHaxademicDataPath() + "games/catchy/audio/sfx/crash.wav" );
-//		_sounds.loadAudioFile( CatchySounds.WIN, 1, FileUtil.getHaxademicDataPath() + "games/catchy/audio/sfx/flute-cascade-down.wav" );
-//		_sounds.loadAudioFile( CatchySounds.WIN, 1, FileUtil.getHaxademicDataPath() + "games/catchy/audio/sfx/long-note.wav" );
-//		_sounds.loadAudioFile( CatchySounds.WIN, 1, FileUtil.getHaxademicDataPath() + "games/catchy/audio/sfx/low-notes-up.wav" );
-//		_sounds.loadAudioFile( CatchySounds.WIN, 1, FileUtil.getHaxademicDataPath() + "games/catchy/audio/sfx/mistake.wav" );
-//		_sounds.loadAudioFile( CatchySounds.WIN, 1, FileUtil.getHaxademicDataPath() + "games/catchy/audio/sfx/notes-down-lower.wav" );
-//		_sounds.loadAudioFile( CatchySounds.WIN, 1, FileUtil.getHaxademicDataPath() + "games/catchy/audio/sfx/notes-down.wav" );
-//		_sounds.loadAudioFile( CatchySounds.WIN, 1, FileUtil.getHaxademicDataPath() + "games/catchy/audio/sfx/notes-up.wav" );
-//		_sounds.loadAudioFile( CatchySounds.WIN, 1, FileUtil.getHaxademicDataPath() + "games/catchy/audio/sfx/ring-2.wav" );
-//		_sounds.loadAudioFile( CatchySounds.WIN, 1, FileUtil.getHaxademicDataPath() + "games/catchy/audio/sfx/ring.wav" );
-//		_sounds.loadAudioFile( CatchySounds.WIN, 1, FileUtil.getHaxademicDataPath() + "games/catchy/audio/sfx/ta-da-flute.wav" );
-//		_sounds.loadAudioFile( CatchySounds.WIN, 1, FileUtil.getHaxademicDataPath() + "games/catchy/audio/sfx/ta-da.wav" );
-		
 		_soundEffects = new AudioPool( p, p._minim );
 
 		_soundEffects.loadAudioFile( CatchySounds.PLAYER_LOCKED, 1, FileUtil.getHaxademicDataPath() + "games/catchy/audio/sfx/players-detected.wav" );
