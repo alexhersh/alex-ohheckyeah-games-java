@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import org.ohheckyeah.games.catchy.assets.CatchyColors;
 import org.ohheckyeah.games.catchy.assets.CatchyGraphics;
+import org.ohheckyeah.games.catchy.assets.CatchySounds;
 import org.ohheckyeah.games.catchy.game.CatchyGameMessages;
 import org.ohheckyeah.games.catchy.game.CatchyGamePlay;
 import org.ohheckyeah.games.catchy.game.CatchyGameTimer;
@@ -44,10 +45,6 @@ extends PAppletHax
 	public static int KINECT_TOP = 0;
 	public static int KINECT_BOTTOM = 480;
 
-	// audio
-	public AudioPool sounds;
-//	public Soundtrack soundtrack;
-	
 	// debug 
 	protected boolean _isDebugging = false;
 	
@@ -59,6 +56,9 @@ extends PAppletHax
 	// graphics
 	protected int _bgColor;
 	public CatchyGraphics gameGraphics;
+	
+	// audio 
+	public CatchySounds sounds; 
 	
 	// mesh IDs
 	public static String WIN_TEXT = "WIN_TEXT";
@@ -90,6 +90,7 @@ extends PAppletHax
 	protected int _preCountdownStartTime = 0;
 	protected int _countdownStartTime = 0;
 	protected int _countdownSeconds = 3;
+	protected int _lastCountdownTime = 0;
 
 	// non-gameplay screens
 	protected CatchyTitleScreen _logoScreen;
@@ -152,8 +153,7 @@ extends PAppletHax
 	}
 	
 	protected void loadMedia() {
-		sounds = new AudioPool( p, _minim );
-//		soundtrack = new Soundtrack();
+		sounds = new CatchySounds();
 		
 //		AssetLoader loader = new AssetLoader();
 //		loader.createMeshPool();
@@ -209,8 +209,8 @@ extends PAppletHax
 		_gameState = _gameStateQueued;
 		if( _gameState == GAME_INTRO ) {
 			_logoScreen.reset();
-//			soundtrack.playIntro();
 			gameGraphics.shuffleCharacters();
+			sounds.playIntro();
 		} else if( _gameState == GAME_WAITING_FOR_PLAYERS ) {
 			for( int i=0; i < NUM_PLAYERS; i++ ) {
 				_gamePlays.get( i ).reset();
@@ -218,16 +218,15 @@ extends PAppletHax
 				_gamePlays.get( i ).animateToWinState();
 			}
 			_gameMessages.showWaiting();
-//			soundtrack.stop();
-//			sounds.playSound( SFX_DOWN );
-//			soundtrack.playInstructions();
-		//			soundtrack.stop();
+			sounds.playWaiting();
 		} else if( _gameState == GAME_PRE_COUNTDOWN ) {
 			_preCountdownStartTime = p.millis();
 			_gameMessages.showCountdown();
 			for( int i=0; i < NUM_PLAYERS; i++ ) {
 				_gamePlays.get( i ).playersLockedIn();
 			}
+			sounds.playSound( CatchySounds.PLAYERS_DETECTED );
+			sounds.stopSoundtrack();
 		} else if( _gameState == GAME_COUNTDOWN ) {
 			_countdownStartTime = p.millis();
 			for( int i=0; i < NUM_PLAYERS; i++ ) {
@@ -241,7 +240,7 @@ extends PAppletHax
 				_gamePlays.get( i ).startGame();
 			}
 			gameTimer.startTimer();
-			// soundtrack.playNext();
+			sounds.playGameplay();
 		} else if( _gameState == GAME_FINISHING ) {
 			for( int i=0; i < NUM_PLAYERS; i++ ) _gamePlays.get( i ).stopDropping();
 		} else if( _gameState == GAME_OVER ) {
@@ -273,8 +272,8 @@ extends PAppletHax
 
 			// set time to advance back to intro screen
 			_gameOverTime = p.millis();
-			// soundtrack.stop();
-			// sounds.playSound( WIN_SOUND );
+			
+			sounds.playWin();
 		}
 	}
 	
@@ -315,6 +314,10 @@ extends PAppletHax
 				_gameMessages.hideCountdown();
 				setGameMode( GAME_PLAYING );
 			}
+			if( _lastCountdownTime != countdownTime ) {
+				sounds.playSound( CatchySounds.COUNTDOWN );
+			}
+			_lastCountdownTime = countdownTime;
 		} else if( _gameState == GAME_PLAYING || _gameState == GAME_FINISHING ) {
 			gameTimer.update();
 			updateGameplays();

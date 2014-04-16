@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 import org.ohheckyeah.games.catchy.Catchy;
+import org.ohheckyeah.games.catchy.assets.CatchySounds;
 
 import processing.core.PGraphics;
 
@@ -165,6 +166,7 @@ public class CatchyGamePlay {
 		CatchyDroppable droppable = _droppables.get( _droppableIndex );
 		_droppableIndex = ( _droppableIndex < _droppables.size() - 1 ) ? _droppableIndex + 1 : 0;
 		droppable.reset( x, p.scaleV(10f) );
+		p.sounds.playSound( CatchySounds.DROP );
 	}
 	
 	public void checkCatch( CatchyDroppable droppable, float x, float y ) {
@@ -214,6 +216,7 @@ public class CatchyGamePlay {
 				_detectedPlayerTime = p.millis();
 				_detectedPlayer = true;
 				_waitingSpinner.playerEntered();
+				p.sounds.playSound( CatchySounds.STEP_IN );
 			}
 		} else {
 			if( _kinectRegion.pixelCount() < 20 && p.kinectWrapper != null ) {
@@ -221,6 +224,7 @@ public class CatchyGamePlay {
 				_hasPlayer = false;
 				_waitingSpinner.playerLeft();
 				_character.setWaitingState();
+				p.sounds.playSound( CatchySounds.STEP_OUT );
 			}
 		}
 		if( _detectedPlayer == true && p.millis() - _detectedPlayerTime > 2000 ) {
@@ -228,6 +232,7 @@ public class CatchyGamePlay {
 				_hasPlayer = true;
 				_waitingSpinner.playerDetected();
 				_character.setSelectedState();
+				p.sounds.playSound( CatchySounds.PLAYER_LOCKED );
 			}
 		}
 	}

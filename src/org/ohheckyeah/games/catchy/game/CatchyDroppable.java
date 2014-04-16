@@ -1,6 +1,7 @@
 package org.ohheckyeah.games.catchy.game;
 
 import org.ohheckyeah.games.catchy.Catchy;
+import org.ohheckyeah.games.catchy.assets.CatchySounds;
 
 import processing.core.PGraphics;
 import processing.core.PShape;
@@ -64,6 +65,7 @@ public class CatchyDroppable {
 		
 		// shrink if we hit the ground 
 		if( _y > _groundY ) {
+			// if( _scale.target() > 0 ) p.sounds.playSound( CatchySounds.DROP_MISS );
 			_scale.setTarget(0);
 			_shadowScale.setTarget(0);
 		}
@@ -89,6 +91,7 @@ public class CatchyDroppable {
 	}
 	
 	public void catchSuccess() {
+		p.sounds.playSound( CatchySounds.CATCH );
 		_scale.setTarget(0);
 		_shadowScale.setTarget(0);
 		_catchable = false;
