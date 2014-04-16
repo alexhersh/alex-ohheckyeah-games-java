@@ -29,7 +29,7 @@ public class CatchyGrass {
 		
 		float grassW = p.scaleV(p.gameGraphics.grass.width) * _scale.value();
 		float grassH = p.scaleV(p.gameGraphics.grass.height) * _scale.value();
-		float grassX = catchyGamePlay.gameHalfWidth + playerOffset * 0.5f;
+		float grassX = catchyGamePlay.gameHalfWidth + playerOffset * 0.35f;
 		float grassY = pg.height - grassH/2f;
 		
 		pg.pushMatrix();
