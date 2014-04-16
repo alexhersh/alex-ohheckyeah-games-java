@@ -20,7 +20,8 @@ public class CatchyGraphics {
 	public ArrayList<PShape> droppablesBad;
 	public PShape bomb, brick, dirtySock, sword;
 	public PShape grass, bushSmall, bushLarge, mountain, shadow, dropperReady, dropperAlmost, dropperDrop, waitingSpinner;
-	public PShape gameDivider, catchyLogo, logoConfetti, timerBanner;
+	public PShape gameDivider, catchyLogo, logoConfetti, timerBanner, redDivider;
+	public PShape logoOHY, logoLegwork, logoModeSet;
 	
 	public String font;
 	
@@ -80,6 +81,10 @@ public class CatchyGraphics {
 		catchyLogo = P.p.loadShape( FileUtil.getHaxademicDataPath() + "games/catchy/svg/shell/catchy-logo.svg" );
 		logoConfetti = P.p.loadShape( FileUtil.getHaxademicDataPath() + "games/catchy/svg/shell/logo-confetti.svg" );
 		timerBanner = P.p.loadShape( FileUtil.getHaxademicDataPath() + "games/catchy/svg/shell/timer-banner.svg" );
+		redDivider = P.p.loadShape( FileUtil.getHaxademicDataPath() + "games/catchy/svg/shell/red-squiggle.svg" );
+		logoOHY = P.p.loadShape( FileUtil.getHaxademicDataPath() + "svg/logo-ohheckyeah.svg" );
+		logoLegwork = P.p.loadShape( FileUtil.getHaxademicDataPath() + "svg/logo-legwork.svg" );
+		logoModeSet = P.p.loadShape( FileUtil.getHaxademicDataPath() + "svg/logo-mode-set.svg" );
 		
 		// add fonts
 		font = FileUtil.getHaxademicDataPath() + "fonts/AlegreyaSans-Bold.ttf";

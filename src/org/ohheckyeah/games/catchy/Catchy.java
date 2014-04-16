@@ -8,6 +8,8 @@ import org.ohheckyeah.games.catchy.assets.CatchySounds;
 import org.ohheckyeah.games.catchy.game.CatchyGameMessages;
 import org.ohheckyeah.games.catchy.game.CatchyGamePlay;
 import org.ohheckyeah.games.catchy.game.CatchyGameTimer;
+import org.ohheckyeah.games.catchy.screens.CatchyCreditsScreen;
+import org.ohheckyeah.games.catchy.screens.CatchyIntroScreens;
 import org.ohheckyeah.games.catchy.screens.CatchyTitleScreen;
 
 import processing.core.PApplet;
@@ -93,7 +95,7 @@ extends PAppletHax
 	protected int _lastCountdownTime = 0;
 
 	// non-gameplay screens
-	protected CatchyTitleScreen _logoScreen;
+	protected CatchyIntroScreens _introScreens;
 	protected CatchyGameMessages _gameMessages;
 	
 	
@@ -113,7 +115,7 @@ extends PAppletHax
 				
 		loadMedia();
 		
-		_logoScreen = new CatchyTitleScreen();
+		_introScreens = new CatchyIntroScreens();
 		_gameMessages = new CatchyGameMessages();
 		
 		// set flags and props	
@@ -208,7 +210,7 @@ extends PAppletHax
 	public void swapGameMode() {
 		_gameState = _gameStateQueued;
 		if( _gameState == GAME_INTRO ) {
-			_logoScreen.reset();
+			_introScreens.reset();
 			gameGraphics.shuffleCharacters();
 			sounds.playIntro();
 		} else if( _gameState == GAME_WAITING_FOR_PLAYERS ) {
@@ -281,9 +283,9 @@ extends PAppletHax
 		if( _gameState != _gameStateQueued ) swapGameMode();
 		
 		if( _gameState == GAME_INTRO ) {
-			DrawUtil.setDrawCenter(p);
-			_logoScreen.update();
-			p.image( _logoScreen.pg, p.width/2f, p.height/2f, _logoScreen.pg.width, _logoScreen.pg.height );
+			DrawUtil.setDrawCorner(p);
+			_introScreens.update();
+			p.image( _introScreens.pg, 0, 0, _introScreens.pg.width, _introScreens.pg.height );
 		} else if( _gameState == GAME_WAITING_FOR_PLAYERS ) {
 			updateGameplays();
 			// if we have all players, then start!

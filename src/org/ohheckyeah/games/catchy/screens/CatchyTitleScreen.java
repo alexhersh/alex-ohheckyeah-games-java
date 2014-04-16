@@ -15,8 +15,10 @@ import com.haxademic.core.math.easing.ElasticFloat;
 public class CatchyTitleScreen {
 	
 	protected Catchy p;
-	public int screenWidth;
-	public int screenHeight;
+	public int titleWidth;
+	public int titleHeight;
+	public int borderWidth;
+	public int borderHeight;
 	public PGraphics pg;
 	
 	protected int _bgColor;
@@ -28,14 +30,14 @@ public class CatchyTitleScreen {
 	protected int _confettiLaunchTime = 0;
 	protected int _confettiLaunchIndex = 0;
 
-	protected int _introScreenStartTime = 0;
-
 	public CatchyTitleScreen() {
 		p = (Catchy) P.p;
-		screenWidth = p.width - 100;
-		screenHeight = p.height - 80;
+		titleWidth = p.width - (int) p.scaleV(140);
+		titleHeight = p.height - (int) p.scaleV(120);
+		borderWidth = p.width - (int) p.scaleV(40);
+		borderHeight = p.height - (int) p.scaleV(20);
 
-		pg = p.createGraphics( screenWidth, screenHeight, P.OPENGL );
+		pg = p.createGraphics( titleWidth, titleHeight, P.OPENGL );
 		pg.smooth(OpenGLUtil.SMOOTH_HIGH);
 		
 		_confetti = new ArrayList<ConfettiParticle>();
@@ -49,7 +51,6 @@ public class CatchyTitleScreen {
 		_borderColor = ColorUtil.colorFromHex("#393427");
 		_logoScale.setValue(0);
 		_logoScale.setTarget(1);
-		_introScreenStartTime = p.millis();
 	}
 	
 	public void update() {
@@ -63,10 +64,6 @@ public class CatchyTitleScreen {
 		drawBorder();
 		
 		pg.endDraw();
-		
-		if( p.millis() > _introScreenStartTime + 3000 ) {
-			p.setGameMode( Catchy.GAME_WAITING_FOR_PLAYERS );
-		}
 	}
 	
 	protected void drawConfetti() {
