@@ -54,6 +54,7 @@ public class CatchyGameTimer {
 	
 	public void show() {
 		_offsetY.setTarget( _offsetYShowing );
+		_curGameTime = GAME_LENGTH;
 	}
 	
 	public void hide() {
