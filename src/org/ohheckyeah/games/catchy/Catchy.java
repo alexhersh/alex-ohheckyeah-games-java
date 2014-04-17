@@ -8,15 +8,12 @@ import org.ohheckyeah.games.catchy.assets.CatchySounds;
 import org.ohheckyeah.games.catchy.game.CatchyGameMessages;
 import org.ohheckyeah.games.catchy.game.CatchyGamePlay;
 import org.ohheckyeah.games.catchy.game.CatchyGameTimer;
-import org.ohheckyeah.games.catchy.screens.CatchyCreditsScreen;
 import org.ohheckyeah.games.catchy.screens.CatchyIntroScreens;
-import org.ohheckyeah.games.catchy.screens.CatchyTitleScreen;
 
 import processing.core.PApplet;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
-import com.haxademic.core.audio.AudioPool;
 import com.haxademic.core.draw.color.ColorGroup;
 import com.haxademic.core.draw.color.ColorUtil;
 import com.haxademic.core.draw.util.DrawUtil;
