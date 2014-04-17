@@ -146,7 +146,7 @@ extends PAppletHax
 	}
 	
 	protected void buildGameplays() {
-		_kinectGrid = new KinectRegionGrid(p, NUM_PLAYERS, 1, (int)KINECT_MIN_DIST, (int)KINECT_MAX_DIST, 200, (int)KINECT_TOP, (int)KINECT_BOTTOM);
+		_kinectGrid = new KinectRegionGrid(p, NUM_PLAYERS, 1, (int)KINECT_MIN_DIST, (int)KINECT_MAX_DIST, 250, (int)KINECT_TOP, (int)KINECT_BOTTOM);
 		_gameWidth = P.ceil( p.width / (float) NUM_PLAYERS );
 		_gamePlays = new ArrayList<CatchyGamePlay>();
 		for( int i=0; i < NUM_PLAYERS; i++ ) {
