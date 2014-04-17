@@ -39,17 +39,8 @@ public class CatchySounds {
 	
 	protected void loadSoundtracks() {
 		_introSound = p._minim.loadFile( FileUtil.getHaxademicDataPath() + "games/catchy/audio/soundtrack/catchy-intro-loop.wav", 512 );
-		_introSound.loop(-1);
-		_introSound.pause();
-		
 		_waitingSound = p._minim.loadFile( FileUtil.getHaxademicDataPath() + "games/catchy/audio/soundtrack/catchy-waiting-loop.wav", 512 );
-		_waitingSound.loop(-1);
-		_waitingSound.pause();
-		
 		_gameplaySound = p._minim.loadFile( FileUtil.getHaxademicDataPath() + "games/catchy/audio/soundtrack/ohy-loop.wav", 512 );
-		_gameplaySound.loop(-1);
-		_gameplaySound.pause();
-		
 		_winSound = p._minim.loadFile( FileUtil.getHaxademicDataPath() + "games/catchy/audio/soundtrack/win.wav", 512 );
 	}
 	
@@ -62,6 +53,7 @@ public class CatchySounds {
 		if( _curSoundtrack != null ) _curSoundtrack.pause();
 		_curSoundtrack = newSoundTrack;
 		_curSoundtrack.play(0);
+		if( _curSoundtrack != _winSound )_curSoundtrack.loop(-1);
 	}
 	
 	public void stopSoundtrack() {
