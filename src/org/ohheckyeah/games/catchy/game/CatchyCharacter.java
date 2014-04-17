@@ -54,8 +54,9 @@ public class CatchyCharacter {
 	public void update( float playerOffset ) {
 				
 		// position character & shadow
-		float characterWidth = p.scaleV(_character.width * _scale.value());
-		float characterHeight = p.scaleV(_character.height * _scale.value());
+		PShape curCharacterState = (p.millis() < _catchTime + 300) ? _characterCatch : _character;
+		float characterWidth = p.scaleV(curCharacterState.width * _scale.value());
+		float characterHeight = p.scaleV(curCharacterState.height * _scale.value());
 
 		_characterX = ( _lockedCenter == true ) ? catchyGamePlay.gameHalfWidth : catchyGamePlay.gameHalfWidth + playerOffset;
 		_xPosition.setTarget( _characterX );
@@ -85,7 +86,6 @@ public class CatchyCharacter {
 		// draw rotated character
 		pg.translate( _xPosition.value(), _characterY, 0 );
 		pg.rotateZ( _rotation.value() );
-		PShape curCharacterState = (p.millis() < _catchTime + 300) ? _characterCatch : _character;
 		pg.shape( curCharacterState, 0, 0, characterWidth, characterHeight );
 		pg.popMatrix();
 		// drawDebugCatchPoint();
@@ -143,20 +143,20 @@ public class CatchyCharacter {
 	
 	public void setSelectedState() {
 		_lockedCenter = true;
-		_scale.setTarget(3);
+		_scale.setTarget(2.0f);
 		_bottomPadding.setTarget( p.scaleV(60) );
 	}
 	
 	public void setGameplayState() {
 		_lockedCenter = false;
-		_scale.setTarget(1f);
+		_scale.setTarget(0.85f);
 		_bottomPadding.setTarget( p.scaleV(22) );
 	}
 	
 	public void setWinState( boolean didWin ) {
 		_lockedCenter = true;
 		if( didWin == true ) {
-			_scale.setTarget(3);
+			_scale.setTarget(2.0f);
 			_bottomPadding.setTarget( p.scaleV(40) );
 		} else {
 			_scale.setTarget(0);
