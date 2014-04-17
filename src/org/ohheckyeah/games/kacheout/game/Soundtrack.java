@@ -31,19 +31,19 @@ public class Soundtrack {
 		_index++;
 		if( _index == _soundtrackFiles.size() ) _index = 0;
 		if( _backgroundAudio != null ) _backgroundAudio.close();
-		_backgroundAudio = p._minim.loadFile(FileUtil.getHaxademicDataPath() + "games/kacheout/audio/soundtrack/" + _soundtrackFiles.get( _index ), 512);
+		_backgroundAudio = p.minim.loadFile(FileUtil.getHaxademicDataPath() + "games/kacheout/audio/soundtrack/" + _soundtrackFiles.get( _index ), 512);
 		_backgroundAudio.loop();
 	}
 	
 	public void playIntro() {
 		if( _backgroundAudio != null ) _backgroundAudio.close();
-		_backgroundAudio = p._minim.loadFile(FileUtil.getHaxademicDataPath() + "games/kacheout/audio/screens/credits.mp3", 512);
+		_backgroundAudio = p.minim.loadFile(FileUtil.getHaxademicDataPath() + "games/kacheout/audio/screens/credits.mp3", 512);
 		_backgroundAudio.loop( 0 );
 	}
 	
 	public void playInstructions() {
 		if( _backgroundAudio != null ) _backgroundAudio.close();
-		_backgroundAudio = p._minim.loadFile(FileUtil.getHaxademicDataPath() + "games/kacheout/audio/screens/player-wait.mp3", 512);
+		_backgroundAudio = p.minim.loadFile(FileUtil.getHaxademicDataPath() + "games/kacheout/audio/screens/player-wait.mp3", 512);
 		_backgroundAudio.loop();
 	}
 	

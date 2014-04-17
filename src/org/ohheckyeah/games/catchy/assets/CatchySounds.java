@@ -38,10 +38,10 @@ public class CatchySounds {
 	}
 	
 	protected void loadSoundtracks() {
-		_introSound = p._minim.loadFile( FileUtil.getHaxademicDataPath() + "games/catchy/audio/soundtrack/catchy-intro-loop.wav", 512 );
-		_waitingSound = p._minim.loadFile( FileUtil.getHaxademicDataPath() + "games/catchy/audio/soundtrack/catchy-waiting-loop.wav", 512 );
-		_gameplaySound = p._minim.loadFile( FileUtil.getHaxademicDataPath() + "games/catchy/audio/soundtrack/ohy-loop.wav", 512 );
-		_winSound = p._minim.loadFile( FileUtil.getHaxademicDataPath() + "games/catchy/audio/soundtrack/win.wav", 512 );
+		_introSound = p.minim.loadFile( FileUtil.getHaxademicDataPath() + "games/catchy/audio/soundtrack/catchy-intro-loop.wav", 512 );
+		_waitingSound = p.minim.loadFile( FileUtil.getHaxademicDataPath() + "games/catchy/audio/soundtrack/catchy-waiting-loop.wav", 512 );
+		_gameplaySound = p.minim.loadFile( FileUtil.getHaxademicDataPath() + "games/catchy/audio/soundtrack/ohy-loop.wav", 512 );
+		_winSound = p.minim.loadFile( FileUtil.getHaxademicDataPath() + "games/catchy/audio/soundtrack/win.wav", 512 );
 	}
 	
 	public void playIntro() { playSoundtrack( _introSound ); }
@@ -62,7 +62,7 @@ public class CatchySounds {
 	}
 		
 	public void loadSoundEffects() {
-		_soundEffects = new AudioPool( p, p._minim );
+		_soundEffects = new AudioPool( p, p.minim );
 
 		_soundEffects.loadAudioFile( CatchySounds.PLAYER_LOCKED, 1, FileUtil.getHaxademicDataPath() + "games/catchy/audio/sfx/players-detected.wav" );
 		_soundEffects.loadAudioFile( CatchySounds.PLAYERS_DETECTED, 1, FileUtil.getHaxademicDataPath() + "games/catchy/audio/sfx/long-note.wav" );
