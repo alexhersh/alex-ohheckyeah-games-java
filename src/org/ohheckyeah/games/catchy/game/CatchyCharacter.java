@@ -20,6 +20,7 @@ public class CatchyCharacter {
 	protected CatchyCharacterDef _characterDef;
 	protected PShape _character;
 	protected PShape _characterCatch;
+	protected PShape _characterBadCatch;
 	protected int _color;
 	
 	protected float lastPlayerOffset = 0;
@@ -37,6 +38,7 @@ public class CatchyCharacter {
 	protected float _characterShadowY;
 
 	protected int _catchTime = 0;
+	protected int _badCatchTime = 0;
 	protected float _catchRadius = 55f;
 	
 	public CatchyCharacter( CatchyGamePlay catchyGamePlay ) {
@@ -54,7 +56,11 @@ public class CatchyCharacter {
 	public void update( float playerOffset ) {
 				
 		// position character & shadow
-		PShape curCharacterState = (p.millis() < _catchTime + 300) ? _characterCatch : _character;
+		PShape curCharacterState = _character;
+		if( p.millis() < _catchTime + 350 ) curCharacterState = _characterCatch;
+		if( p.millis() < _badCatchTime + 400 ) {
+			curCharacterState = (P.floor( ( p.millis() - _badCatchTime ) / 20 ) % 2 == 0) ? _characterBadCatch : _characterCatch; // 20 ms flicker
+		}
 		float characterWidth = p.scaleV(curCharacterState.width * _scale.value());
 		float characterHeight = p.scaleV(curCharacterState.height * _scale.value());
 
@@ -103,10 +109,17 @@ public class CatchyCharacter {
 	
 	public boolean checkCatch( float x, float y ) {
 		if( y < _catchPointY + p.scaleV(10) && MathUtil.getDistance(x, y, _catchPointX, _catchPointY) < p.scaleV(_catchRadius) ) {
-			_catchTime = p.millis();
 			return true;
 		} else {
 			return false;
+		}
+	}
+	
+	public void catchState( boolean isGood ) {
+		if( isGood == true ) {
+			_catchTime = p.millis();
+		} else {
+			_badCatchTime = p.millis();
 		}
 	}
 	
@@ -126,6 +139,7 @@ public class CatchyCharacter {
 		_characterDef = p.gameGraphics.characterDefs.get( catchyGamePlay.gameIndex % p.gameGraphics.characterDefs.size() );
 		_character = _characterDef.characterDefault;
 		_characterCatch = _characterDef.characterCatch;
+		_characterBadCatch = _characterDef.characterSkeleton;
 		
 		_scale.setTarget(0);
 		_scale.setCurrent(0);

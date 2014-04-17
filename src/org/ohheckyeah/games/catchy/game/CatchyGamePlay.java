@@ -174,8 +174,10 @@ public class CatchyGamePlay {
 			droppable.catchSuccess();
 			if( droppable.isBad() == false ) {
 				_score.addScore(1);
+				_character.catchState( true );
 			} else {
 				_score.addScore(-2);
+				_character.catchState( false );
 			}
 		}
 		if( _character.checkBump(x, y) == true ) {

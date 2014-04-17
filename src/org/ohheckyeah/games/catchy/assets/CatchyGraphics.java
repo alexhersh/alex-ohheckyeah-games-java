@@ -99,11 +99,13 @@ public class CatchyGraphics {
 		
 		public PShape characterDefault;
 		public PShape characterCatch;
+		public PShape characterSkeleton;
 		public int characterColor;
 		
 		public CatchyCharacterDef( String characterName, int color ) {
 			characterDefault = P.p.loadShape( FileUtil.getHaxademicDataPath() + "games/catchy/svg/characters/"+ characterName +".svg" );
 			characterCatch = P.p.loadShape( FileUtil.getHaxademicDataPath() + "games/catchy/svg/characters/"+ characterName +"-catch.svg" );
+			characterSkeleton = P.p.loadShape( FileUtil.getHaxademicDataPath() + "games/catchy/svg/characters/"+ characterName +"-skeleton.svg" );
 			characterColor = color;
 		}
 	}

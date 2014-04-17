@@ -1,7 +1,6 @@
 package org.ohheckyeah.games.catchy.game;
 
 import org.ohheckyeah.games.catchy.Catchy;
-import org.ohheckyeah.games.catchy.assets.CatchyGraphics;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.draw.color.ColorUtil;
