@@ -16,7 +16,7 @@ public class CatchyGameTimer {
 	protected int _gameEndTime = 0;
 	protected int _curGameTime = 0;
 	protected boolean _active = false;
-	public static final int GAME_LENGTH_SECONDS = 10;
+	public static final int GAME_LENGTH_SECONDS = 30;
 	protected int GAME_LENGTH = GAME_LENGTH_SECONDS * 1000;
 	protected CustomFontText2D _timerFontRenderer;
 	
