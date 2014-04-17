@@ -1,7 +1,7 @@
 package org.ohheckyeah.games.catchy.game;
 
 import org.ohheckyeah.games.catchy.Catchy;
-import org.ohheckyeah.games.catchy.assets.CatchyGraphics.CatchyCharacterDef;
+import org.ohheckyeah.games.catchy.assets.CatchyCharacterDefinition;
 
 import processing.core.PGraphics;
 import processing.core.PShape;
@@ -17,7 +17,7 @@ public class CatchyCharacter {
 	protected CatchyGamePlay catchyGamePlay;
 	protected PGraphics pg;
 	
-	protected CatchyCharacterDef _characterDef;
+	protected CatchyCharacterDefinition _characterDef;
 	protected PShape _character;
 	protected PShape _characterCatch;
 	protected PShape _characterBadCatch;
