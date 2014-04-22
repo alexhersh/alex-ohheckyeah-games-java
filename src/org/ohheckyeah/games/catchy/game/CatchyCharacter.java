@@ -53,6 +53,14 @@ public class CatchyCharacter {
 		return _characterShadowY;
 	}
 	
+	public float x() {
+		return _catchPointX;
+	}
+	
+	public float y() {
+		return _catchPointY;
+	}
+	
 	public void update( float playerOffset ) {
 				
 		// position character & shadow

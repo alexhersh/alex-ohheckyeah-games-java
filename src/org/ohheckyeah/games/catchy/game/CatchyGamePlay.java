@@ -243,8 +243,8 @@ public class CatchyGamePlay {
 		DrawUtil.setDrawCenter(pg);
 		_mountain.update(_playerOffset);
 		_grass.update(_playerOffset);
-		drawDroppables();
 		_character.update(_playerOffset);
+		drawDroppables();
 		_countdownDisplay.updateWithNumber(_countdownTime);
 		_dropper.update();
 		_waitingSpinner.update();
@@ -254,6 +254,7 @@ public class CatchyGamePlay {
 	protected void drawDroppables() {
 		for( int i=0; i < _droppables.size(); i++ ) {
 			_droppables.get(i).update( _playerOffset, _character.shadowY() );
+			_droppables.get(i).setCharacterPosition( _character.x(), _character.y() );
 		}
 	}
 	

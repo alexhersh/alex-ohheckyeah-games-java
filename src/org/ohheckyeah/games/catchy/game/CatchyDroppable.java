@@ -36,6 +36,9 @@ public class CatchyDroppable {
 	protected EasingFloat _scale = new EasingFloat(SCALE,2);
 	protected EasingFloat _shadowScale = new EasingFloat(0,4);
 
+	protected EasingFloat _characterX = new EasingFloat(0,2);
+	protected EasingFloat _characterY = new EasingFloat(0,2);
+
 	public CatchyDroppable( CatchyGamePlay catchyGamePlay, boolean isBad ) {
 		p = (Catchy)P.p;
 		this.catchyGamePlay = catchyGamePlay;
@@ -55,19 +58,6 @@ public class CatchyDroppable {
 //		_xSpeed *= 0.9;
 //		_x += _xSpeed;
 		
-		// draw shadow
-		_shadowScale.update();
-		pg.shape( p.gameGraphics.shadow, _x, shadowY, characterShadowWidth * _shadowScale.value(), characterShadowHeight * _shadowScale.value() );
-		
-		// draw droppable
-		_scale.update();
-		pg.pushMatrix();
-		pg.translate(_x, _y);
-		pg.rotate( _rotation );
-		pg.shape( _graphic, 0, 0, p.scaleV( _graphic.width * _scale.value() ), p.scaleV( _graphic.height * _scale.value() ) );
-		pg.popMatrix();
-		_y += p.scaleV(_dropSpeed) * p.timeFactor.multiplier();
-		
 		// shrink if we hit the ground 
 		if( _y > _groundY ) {
 			// if( _scale.target() > 0 ) p.sounds.playSound( CatchySounds.DROP_MISS );
@@ -83,8 +73,37 @@ public class CatchyDroppable {
 		// once object shrinks enough, deactivate droppable
 		if( _scale.value() < 0.03f ) {
 			_active = false;
+		} 
+		
+		// also, move towards character's head after caught
+		float curX = _x;
+		float curY = _y;		
+		if( _catchable == true ) {
+			// reset for easing if still dropping
+			_characterX.setTarget( _x );
+			_characterX.setCurrent( _x );
+			_characterY.setTarget( _y );
+			_characterY.setCurrent( _y );
+		} else {
+			// ease towards character catch zone
+			curX = _characterX.value();
+			curY = _characterY.value();
 		}
-
+		_characterX.update();
+		_characterY.update();
+		
+		// draw shadow
+		_shadowScale.update();
+		pg.shape( p.gameGraphics.shadow, _x, shadowY, characterShadowWidth * _shadowScale.value(), characterShadowHeight * _shadowScale.value() );
+		
+		// draw droppable
+		_scale.update();
+		pg.pushMatrix();
+		pg.translate(curX, curY);
+		pg.rotate( _rotation );
+		pg.shape( _graphic, 0, 0, p.scaleV( _graphic.width * _scale.value() ), p.scaleV( _graphic.height * _scale.value() ) );
+		pg.popMatrix();
+		_y += p.scaleV(_dropSpeed) * p.timeFactor.multiplier();
 	}
 	
 	public boolean isCatchable() {
@@ -110,6 +129,13 @@ public class CatchyDroppable {
 		//		if( _xSpeed == 0 ) { 
 		//			_xSpeed = 10.0f;
 		//		}
+	}
+	
+	public void setCharacterPosition( float x, float y ) {
+		if( _catchable == false && _active == true ) {
+			_characterX.setTarget(x);
+			_characterY.setTarget(y);
+		}
 	}
 	
 	public void reset( float x, float y ) {
