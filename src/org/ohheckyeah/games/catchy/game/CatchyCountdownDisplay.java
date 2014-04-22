@@ -26,13 +26,13 @@ public class CatchyCountdownDisplay {
 		this.catchyGamePlay = catchyGamePlay;
 		pg = catchyGamePlay.pg;
 
-
 		_countdownFontRenderer = new CustomFontText2D( p, p.gameGraphics.font, p.scaleV(120), ColorUtil.colorFromHex("#000000"), CustomFontText2D.ALIGN_CENTER, (int)p.scaleV(150), (int)p.scaleV(150) );
 	}
 
 	public void updateWithNumber( int timer ) {
 		_scale.update();
 		
+		// bounce the countdown scale on number change
 		if( timer > 0 && timer != _timer ) {
 			_countdownFontRenderer.updateText( timer+"" );
 			_timer = timer;
@@ -42,14 +42,14 @@ public class CatchyCountdownDisplay {
 		}
 
 		if( _scale.val() > 0.001f ) {
-			
 			DrawUtil.setDrawCenter( pg );
 			pg.pushMatrix();
 	
 			pg.translate( catchyGamePlay.gameHalfWidth, p.height / 2f );
 			
 			pg.scale( _scale.val() );
-	
+			pg.noStroke();
+			
 			// draw small shadow
 			pg.fill(0, 25);
 			pg.ellipse( 0, p.scaleV(3), p.scaleV(150), p.scaleV(150) );

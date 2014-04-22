@@ -9,7 +9,6 @@ import com.haxademic.core.draw.color.ColorUtil;
 import com.haxademic.core.draw.text.CustomFontText2D;
 import com.haxademic.core.draw.util.DrawUtil;
 import com.haxademic.core.math.easing.EasingFloat;
-import com.haxademic.core.system.FileUtil;
 
 public class CatchyScoreDisplay {
 	
@@ -80,6 +79,7 @@ public class CatchyScoreDisplay {
 			_scoreFontRenderer.updateText( _score+"" );
 		}
 	}
+	
 	public void update() {
 		_scoreY.update();
 		
@@ -90,7 +90,7 @@ public class CatchyScoreDisplay {
 		
 		DrawUtil.setDrawCenter( pg );
 		pg.pushMatrix();
-		
+
 		if( _isRightSide == false ) {
 			pg.translate( p.scaleV(71f), _scoreY.value() );
 		} else {
@@ -100,19 +100,19 @@ public class CatchyScoreDisplay {
 		
 		// draw shadow
 		pg.fill(0, 25);
-		pg.ellipse( p.scaleV(-6), p.scaleV(11), p.scaleV(80), p.scaleV(80) );
+		pg.ellipse( p.scaleV(-6f), p.scaleV(11f), p.scaleV(80f), p.scaleV(80f) );
 		
 		// draw large bg
 		pg.fill( _color );
-		pg.ellipse( 0, 0, p.scaleV(80), p.scaleV(80) );
+		pg.ellipse( 0, 0, p.scaleV(80f), p.scaleV(80f) );
 		
 		// draw small shadow
 		pg.fill(0, 25);
-		pg.ellipse( 0, p.scaleV(3), p.scaleV(60), p.scaleV(60) );
+		pg.ellipse( 0, p.scaleV(3f), p.scaleV(60f), p.scaleV(60f) );
 		
 		// draw small shadow
 		pg.fill(255);
-		pg.ellipse( 0, 0, p.scaleV(60), p.scaleV(60) );
+		pg.ellipse( 0, 0, p.scaleV(60f), p.scaleV(60f) );
 		
 		// draw text score
 		pg.image( 

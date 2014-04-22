@@ -246,10 +246,9 @@ public class CatchyGamePlay {
 		_grass.update(_playerOffset);
 		drawDroppables();
 		_character.update(_playerOffset);
+		_countdownDisplay.updateWithNumber(_countdownTime);
 		_dropper.update();
 		_waitingSpinner.update();
-		_countdownDisplay.updateWithNumber(_countdownTime);
-		DrawUtil.setDrawCorner(pg);
 		_score.update();
 	}
 	
