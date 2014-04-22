@@ -7,7 +7,6 @@ import processing.core.PShape;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.draw.color.ColorUtil;
-import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.system.FileUtil;
 
 public class CatchyGraphics {

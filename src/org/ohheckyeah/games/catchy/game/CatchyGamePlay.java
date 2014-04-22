@@ -13,7 +13,6 @@ import com.haxademic.core.draw.color.ColorUtil;
 import com.haxademic.core.draw.util.DrawUtil;
 import com.haxademic.core.draw.util.OpenGLUtil;
 import com.haxademic.core.hardware.kinect.KinectRegion;
-import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.math.easing.EasingFloat;
 
 public class CatchyGamePlay {
