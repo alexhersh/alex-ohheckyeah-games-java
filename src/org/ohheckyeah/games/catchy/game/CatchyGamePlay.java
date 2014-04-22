@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 import org.ohheckyeah.games.catchy.Catchy;
+import org.ohheckyeah.games.catchy.assets.CatchyColors;
 import org.ohheckyeah.games.catchy.assets.CatchySounds;
 
 import processing.core.PGraphics;
@@ -151,7 +152,7 @@ public class CatchyGamePlay {
 	}
 	
 	public void reset() {
-		_bgColor = ColorUtil.colorFromHex("#E7E867");
+		_bgColor = CatchyColors.STAGE_BG;
 		_character.reset();
 		_score.reset( _character.color() );
 		_dropper.reset();

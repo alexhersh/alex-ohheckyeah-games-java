@@ -1,6 +1,7 @@
 package org.ohheckyeah.games.catchy.game;
 
 import org.ohheckyeah.games.catchy.Catchy;
+import org.ohheckyeah.games.catchy.assets.CatchyColors;
 
 import processing.core.PGraphics;
 
@@ -26,7 +27,7 @@ public class CatchyCountdownDisplay {
 		this.catchyGamePlay = catchyGamePlay;
 		pg = catchyGamePlay.pg;
 
-		_countdownFontRenderer = new CustomFontText2D( p, p.gameGraphics.font, p.scaleV(120), ColorUtil.colorFromHex("#000000"), CustomFontText2D.ALIGN_CENTER, (int)p.scaleV(150), (int)p.scaleV(150) );
+		_countdownFontRenderer = new CustomFontText2D( p, p.gameGraphics.font, p.scaleV(120), CatchyColors.MAIN_TEXT_COLOR, CustomFontText2D.ALIGN_CENTER, (int)p.scaleV(150), (int)p.scaleV(150) );
 	}
 
 	public void updateWithNumber( int timer ) {

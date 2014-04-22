@@ -2,11 +2,11 @@ package org.ohheckyeah.games.catchy.screens;
 
 import org.ohheckyeah.games.catchy.Catchy;
 import org.ohheckyeah.games.catchy.Catchy.GameState;
+import org.ohheckyeah.games.catchy.assets.CatchyColors;
 
 import processing.core.PGraphics;
 
 import com.haxademic.core.app.P;
-import com.haxademic.core.draw.color.ColorUtil;
 import com.haxademic.core.draw.util.DrawUtil;
 import com.haxademic.core.draw.util.OpenGLUtil;
 import com.haxademic.core.math.easing.EasingFloat;
@@ -49,7 +49,7 @@ public class CatchyIntroScreens {
 	}
 	
 	public void reset() {
-		_bgColor = ColorUtil.colorFromHex("#ffffff");
+		_bgColor = CatchyColors.INTRO_SCREENS_BG;
 		_introScreensStartTime = p.millis();
 		
 		_logoScreen.reset();

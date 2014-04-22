@@ -109,7 +109,7 @@ extends PAppletHax
 
 	public void initGame() {
 		p.smooth( OpenGLUtil.SMOOTH_MEDIUM );
-		_bgColor = ColorUtil.colorFromHex("#E7E867");
+		_bgColor = CatchyColors.STAGE_BG;
 
 		timeFactor = new TimeFactoredFps( p, 50 );
 		gameScaleV = p.height / _gameOrigHeight;

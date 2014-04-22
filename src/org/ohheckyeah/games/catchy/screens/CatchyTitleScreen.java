@@ -3,6 +3,7 @@ package org.ohheckyeah.games.catchy.screens;
 import java.util.ArrayList;
 
 import org.ohheckyeah.games.catchy.Catchy;
+import org.ohheckyeah.games.catchy.assets.CatchyColors;
 
 import processing.core.PGraphics;
 
@@ -47,8 +48,8 @@ public class CatchyTitleScreen {
 	}
 	
 	public void reset() {
-		_bgColor = ColorUtil.colorFromHex("#94C65B");
-		_borderColor = ColorUtil.colorFromHex("#393427");
+		_bgColor = CatchyColors.TITLE_SCREEN_BG;
+		_borderColor = CatchyColors.TITLE_SCREEN_BORDER;
 		_logoScale.setValue(0);
 		_logoScale.setTarget(1);
 	}

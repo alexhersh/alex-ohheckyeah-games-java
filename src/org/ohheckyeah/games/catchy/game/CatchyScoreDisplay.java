@@ -1,6 +1,7 @@
 package org.ohheckyeah.games.catchy.game;
 
 import org.ohheckyeah.games.catchy.Catchy;
+import org.ohheckyeah.games.catchy.assets.CatchyColors;
 
 import processing.core.PGraphics;
 
@@ -33,7 +34,7 @@ public class CatchyScoreDisplay {
 		pg = catchyGamePlay.pg;
 		
 		
-		_scoreFontRenderer = new CustomFontText2D( p, p.gameGraphics.font, p.scaleV(36), ColorUtil.colorFromHex("#000000"), CustomFontText2D.ALIGN_CENTER, (int)p.scaleV(80), (int)p.scaleV(80) );
+		_scoreFontRenderer = new CustomFontText2D( p, p.gameGraphics.font, p.scaleV(36), CatchyColors.MAIN_TEXT_COLOR, CustomFontText2D.ALIGN_CENTER, (int)p.scaleV(80), (int)p.scaleV(80) );
 		_scoreEaser = new EasingFloat(0,5);
 		
 		_scoreYShowing = p.scaleV(68f);

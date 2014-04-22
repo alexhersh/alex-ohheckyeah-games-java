@@ -2,9 +2,9 @@ package org.ohheckyeah.games.catchy.game;
 
 import org.ohheckyeah.games.catchy.Catchy;
 import org.ohheckyeah.games.catchy.Catchy.GameState;
+import org.ohheckyeah.games.catchy.assets.CatchyColors;
 
 import com.haxademic.core.app.P;
-import com.haxademic.core.draw.color.ColorUtil;
 import com.haxademic.core.draw.text.CustomFontText2D;
 import com.haxademic.core.math.easing.EasingFloat;
 import com.haxademic.core.text.StringFormatter;
@@ -26,7 +26,7 @@ public class CatchyGameTimer {
 
 	public CatchyGameTimer() {
 		p = (Catchy)P.p;
-		_timerFontRenderer = new CustomFontText2D( p, p.gameGraphics.font, p.scaleV(60), ColorUtil.colorFromHex("#000000"), CustomFontText2D.ALIGN_LEFT, (int) p.scaleV(p.gameGraphics.timerBanner.width), (int)p.scaleV(80) );
+		_timerFontRenderer = new CustomFontText2D( p, p.gameGraphics.font, p.scaleV(60), CatchyColors.MAIN_TEXT_COLOR, CustomFontText2D.ALIGN_LEFT, (int) p.scaleV(p.gameGraphics.timerBanner.width), (int)p.scaleV(80) );
 		
 		_offsetYShowing = 0;
 		_offsetYHiding = p.scaleV(100f);

@@ -1,12 +1,12 @@
 package org.ohheckyeah.games.catchy.game;
 
 import org.ohheckyeah.games.catchy.Catchy;
+import org.ohheckyeah.games.catchy.assets.CatchyColors;
 
 import processing.core.PGraphics;
 import processing.core.PImage;
 
 import com.haxademic.core.app.P;
-import com.haxademic.core.draw.color.ColorUtil;
 import com.haxademic.core.draw.text.CustomFontText2D;
 import com.haxademic.core.draw.util.DrawUtil;
 
@@ -19,7 +19,7 @@ public class CatchyTextMessage {
 		p = (Catchy) P.p;
 		
 		// build text 
-		CustomFontText2D messageFontRenderer = new CustomFontText2D( p, p.gameGraphics.font, p.scaleV(fontSize), ColorUtil.colorFromHex("#000000"), CustomFontText2D.ALIGN_CENTER, (int) p.scaleV(baseWidth), (int)p.scaleV(fontSize * 2) );
+		CustomFontText2D messageFontRenderer = new CustomFontText2D( p, p.gameGraphics.font, p.scaleV(fontSize), CatchyColors.MAIN_TEXT_COLOR, CustomFontText2D.ALIGN_CENTER, (int) p.scaleV(baseWidth), (int)p.scaleV(fontSize * 2) );
 		messageFontRenderer.updateText( text );
 
 		pg = p.createGraphics( (int) p.scaleV(baseWidth), (int) p.scaleV(baseHeight), P.OPENGL );

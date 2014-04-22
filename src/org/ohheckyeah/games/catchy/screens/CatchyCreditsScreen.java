@@ -1,12 +1,12 @@
 package org.ohheckyeah.games.catchy.screens;
 
 import org.ohheckyeah.games.catchy.Catchy;
+import org.ohheckyeah.games.catchy.assets.CatchyColors;
 import org.ohheckyeah.games.catchy.game.CatchyTextMessage;
 
 import processing.core.PGraphics;
 
 import com.haxademic.core.app.P;
-import com.haxademic.core.draw.color.ColorUtil;
 import com.haxademic.core.draw.util.DrawUtil;
 import com.haxademic.core.draw.util.OpenGLUtil;
 
@@ -31,8 +31,7 @@ public class CatchyCreditsScreen {
 	}
 	
 	public void reset() {
-		_bgColor = ColorUtil.colorFromHex("#94C65B");
-		_borderColor = ColorUtil.colorFromHex("#393427");
+		_bgColor = CatchyColors.CREDITS_BG;
 		_introScreenStartTime = p.millis();
 	}
 	
