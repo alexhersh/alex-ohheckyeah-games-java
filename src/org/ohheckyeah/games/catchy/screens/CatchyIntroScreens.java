@@ -1,6 +1,7 @@
 package org.ohheckyeah.games.catchy.screens;
 
 import org.ohheckyeah.games.catchy.Catchy;
+import org.ohheckyeah.games.catchy.Catchy.GameState;
 
 import processing.core.PGraphics;
 
@@ -82,7 +83,7 @@ public class CatchyIntroScreens {
 			_drawYOffset.setTarget(-p.height);
 		}
 		if( _mode == Screen.CREDITS && p.millis() > _introScreensStartTime + 9000 ) {
-			p.setGameMode( Catchy.GAME_WAITING_FOR_PLAYERS );
+			p.setGameMode( GameState.GAME_WAITING_FOR_PLAYERS );
 		}
 	}
 	

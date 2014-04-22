@@ -72,15 +72,18 @@ extends PAppletHax
 	protected ArrayList<CatchyGamePlay> _gamePlays;
 
 	// game state
-	protected int _gameState;
-	protected int _gameStateQueued;	// wait until beginning on the next frame to switch modes to avoid mid-frame conflicts
-	public static int GAME_PLAYING = 3;
-	public static int GAME_FINISHING = 8;
-	public static int GAME_OVER = 4;
-	public static int GAME_INTRO = 5;
-	public static int GAME_WAITING_FOR_PLAYERS = 6;
-	public static int GAME_COUNTDOWN = 7;
-	public static int GAME_PRE_COUNTDOWN = 9;
+	public enum GameState {
+		GAME_PLAYING,
+		GAME_FINISHING,
+		GAME_OVER,
+		GAME_INTRO,
+		GAME_WAITING_FOR_PLAYERS,
+		GAME_COUNTDOWN,
+		GAME_PRE_COUNTDOWN
+	}
+	protected GameState _gameState;
+	protected GameState _gameStateQueued;	// wait until beginning on the next frame to switch modes to avoid mid-frame conflicts
+
 	
 	// timers/timing
 	public TimeFactoredFps timeFactor;
@@ -177,7 +180,7 @@ extends PAppletHax
 	
 	// PUBLIC ACCESSORS FOR GAME OBJECTS --------------------------------------------------------------------------------------
 	public int gameWidth() { return _gameWidth; }
-	public int gameState() { return _gameState; }
+	public GameState gameState() { return _gameState; }
 	public ColorGroup gameColors() { return _gameColors; }
 	public boolean isDebugging() { return _isDebugging; }
 	
@@ -193,24 +196,24 @@ extends PAppletHax
 	
 	public void setInitialGameState() {
 		if( _appConfig.getBoolean( "starts_on_game", true ) == true ) {
-			setGameMode( GAME_WAITING_FOR_PLAYERS );
+			setGameMode( GameState.GAME_WAITING_FOR_PLAYERS );
 		} else {
-			setGameMode( GAME_INTRO );
+			setGameMode( GameState.GAME_INTRO );
 		}
 	}
 	
-	public void setGameMode( int mode ) {
+	public void setGameMode( GameState mode ) {
 		P.println("next mode: "+mode);
 		_gameStateQueued = mode;
 	}
 	
 	public void swapGameMode() {
 		_gameState = _gameStateQueued;
-		if( _gameState == GAME_INTRO ) {
+		if( _gameState == GameState.GAME_INTRO ) {
 			_introScreens.reset();
 			gameGraphics.shuffleCharacters();
 			sounds.playIntro();
-		} else if( _gameState == GAME_WAITING_FOR_PLAYERS ) {
+		} else if( _gameState == GameState.GAME_WAITING_FOR_PLAYERS ) {
 			for( int i=0; i < NUM_PLAYERS; i++ ) {
 				_gamePlays.get( i ).reset();
 				_gamePlays.get( i ).startPlayerDetection();
@@ -218,7 +221,7 @@ extends PAppletHax
 			}
 			_gameMessages.showWaiting();
 			sounds.playWaiting();
-		} else if( _gameState == GAME_PRE_COUNTDOWN ) {
+		} else if( _gameState == GameState.GAME_PRE_COUNTDOWN ) {
 			_preCountdownStartTime = p.millis();
 			_gameMessages.showCountdown();
 			for( int i=0; i < NUM_PLAYERS; i++ ) {
@@ -226,23 +229,23 @@ extends PAppletHax
 			}
 			sounds.playSound( CatchySounds.PLAYERS_DETECTED );
 			sounds.stopSoundtrack();
-		} else if( _gameState == GAME_COUNTDOWN ) {
+		} else if( _gameState == GameState.GAME_COUNTDOWN ) {
 			_countdownStartTime = p.millis();
 			for( int i=0; i < NUM_PLAYERS; i++ ) {
 				_gamePlays.get( i ).showCountdown( _countdownSeconds );
 				_gamePlays.get( i ).animateToGameState();
 			}
 			gameTimer.show();
-		} else if( _gameState == GAME_PLAYING ) {
+		} else if( _gameState == GameState.GAME_PLAYING ) {
 			for( int i=0; i < NUM_PLAYERS; i++ ) {
 				_gamePlays.get( i ).hideCountdown();
 				_gamePlays.get( i ).startGame();
 			}
 			gameTimer.startTimer();
 			sounds.playGameplay();
-		} else if( _gameState == GAME_FINISHING ) {
+		} else if( _gameState == GameState.GAME_FINISHING ) {
 			for( int i=0; i < NUM_PLAYERS; i++ ) _gamePlays.get( i ).stopDropping();
-		} else if( _gameState == GAME_OVER ) {
+		} else if( _gameState == GameState.GAME_OVER ) {
 			// find high scores & set winners
 			int highScore = 0;
 			for( int i=0; i < NUM_PLAYERS; i++ ) {
@@ -279,11 +282,11 @@ extends PAppletHax
 	protected void handleGameState() {
 		if( _gameState != _gameStateQueued ) swapGameMode();
 		
-		if( _gameState == GAME_INTRO ) {
+		if( _gameState == GameState.GAME_INTRO ) {
 			DrawUtil.setDrawCorner(p);
 			_introScreens.update();
 			p.image( _introScreens.pg, 0, 0, _introScreens.pg.width, _introScreens.pg.height );
-		} else if( _gameState == GAME_WAITING_FOR_PLAYERS ) {
+		} else if( _gameState == GameState.GAME_WAITING_FOR_PLAYERS ) {
 			updateGameplays();
 			// if we have all players, then start!
 			boolean hasPlayers = true;
@@ -293,15 +296,15 @@ extends PAppletHax
 				}
 			}
 			if( hasPlayers == true ) {
-				setGameMode( GAME_PRE_COUNTDOWN );
+				setGameMode( GameState.GAME_PRE_COUNTDOWN );
 				_gameMessages.hideWaiting();
 			}
-		} else if( _gameState == GAME_PRE_COUNTDOWN ) {
+		} else if( _gameState == GameState.GAME_PRE_COUNTDOWN ) {
 			updateGameplays();
 			if( p.millis() > _preCountdownStartTime + 2500 ) {
-				setGameMode( GAME_COUNTDOWN );
+				setGameMode( GameState.GAME_COUNTDOWN );
 			}
-		} else if( _gameState == GAME_COUNTDOWN ) {
+		} else if( _gameState == GameState.GAME_COUNTDOWN ) {
 			updateGameplays();
 			int countdownSecondsElapsed = P.ceil( ( p.millis() - _countdownStartTime ) / 1000 );
 			int countdownTime = _countdownSeconds - countdownSecondsElapsed;
@@ -311,21 +314,21 @@ extends PAppletHax
 				}
 			} else {
 				_gameMessages.hideCountdown();
-				setGameMode( GAME_PLAYING );
+				setGameMode( GameState.GAME_PLAYING );
 			}
 			if( _lastCountdownTime != countdownTime ) {
 				sounds.playSound( CatchySounds.COUNTDOWN );
 			}
 			_lastCountdownTime = countdownTime;
-		} else if( _gameState == GAME_PLAYING || _gameState == GAME_FINISHING ) {
+		} else if( _gameState == GameState.GAME_PLAYING || _gameState == GameState.GAME_FINISHING ) {
 			gameTimer.update();
 			updateGameplays();
-		} else if( _gameState == GAME_OVER ) {
+		} else if( _gameState == GameState.GAME_OVER ) {
 			updateGameplays();
 			if( p.millis() > _gameOverTime + 4000 ) {
 				_gameMessages.hideWinner();
 				_gameMessages.hideTie();
-				setGameMode( GAME_INTRO );
+				setGameMode( GameState.GAME_INTRO );
 			}
 		}
 	}
@@ -336,7 +339,7 @@ extends PAppletHax
 //			if( _gamePlays.get( i ).isPlayerReady() == false ) gameIsReady = false;
 		}
 		if( gameIsReady == true ) {
-			setGameMode( GAME_COUNTDOWN );
+			setGameMode( GameState.GAME_COUNTDOWN );
 		}
 	}
 	
@@ -408,8 +411,8 @@ extends PAppletHax
 		}
 		// check for complete
 		for( int i=0; i < NUM_PLAYERS; i++ ) {
-//			if( _gamePlays.get( i ).hasClearedBoard() == true && _gameState == GAME_ON ) {
-//				setGameMode( GAME_OVER );
+//			if( _gamePlays.get( i ).hasClearedBoard() == true && _gameState == GameState.GAME_ON ) {
+//				setGameMode( GameState.GAME_OVER );
 //			}
 		}
 	}
@@ -422,8 +425,8 @@ extends PAppletHax
 			P.println( "time: "+P.minute()+":"+P.second() );
 		}
 		if( p.frameCount % ( _fps * 15 ) == 0 ) {
-			if( _gameState == GAME_WAITING_FOR_PLAYERS ) {
-				setGameMode( GAME_COUNTDOWN );
+			if( _gameState == GameState.GAME_WAITING_FOR_PLAYERS ) {
+				setGameMode( GameState.GAME_COUNTDOWN );
 			}
 		}
 	}

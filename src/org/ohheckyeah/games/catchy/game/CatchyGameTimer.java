@@ -1,6 +1,7 @@
 package org.ohheckyeah.games.catchy.game;
 
 import org.ohheckyeah.games.catchy.Catchy;
+import org.ohheckyeah.games.catchy.Catchy.GameState;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.draw.color.ColorUtil;
@@ -42,11 +43,11 @@ public class CatchyGameTimer {
 	public void update() {
 		_curGameTime = GAME_LENGTH - ( p.millis() - _gameStartTime );
 		if( _curGameTime < 0 && _active == true ) {
-			p.setGameMode( Catchy.GAME_FINISHING );
+			p.setGameMode( GameState.GAME_FINISHING );
 			_gameEndTime = p.millis();
 			_active = false;
 		} else if( _gameEndTime != 0 && p.millis() > _gameEndTime + 4000 ) {
-			p.setGameMode( Catchy.GAME_OVER );
+			p.setGameMode( GameState.GAME_OVER );
 			_gameEndTime = 0;
 		}
 	}
