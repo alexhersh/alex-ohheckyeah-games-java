@@ -193,7 +193,7 @@ extends PAppletHax
 	
 	public void setInitialGameState() {
 		if( _appConfig.getBoolean( "starts_on_game", true ) == true ) {
-			setGameMode( GAME_PLAYING );
+			setGameMode( GAME_WAITING_FOR_PLAYERS );
 		} else {
 			setGameMode( GAME_INTRO );
 		}
