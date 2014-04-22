@@ -181,7 +181,7 @@ public class CatchyCharacter {
 			_scale.setTarget(2.0f);
 			_bottomPadding.setTarget( p.scaleV(40) );
 		} else {
-			_scale.setTarget(0);
+			_scale.setTarget(0.75f);
 			_bottomPadding.setTarget( p.scaleV(40) );
 		}
 	

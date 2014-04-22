@@ -110,6 +110,7 @@ public class CatchyGamePlay {
 		_grass.setWinState();
 		_mountain.setWinState( didWin );
 		_character.setWinState( didWin );
+		_score.setWinState( didWin );
 	}
 	
 	public int getScore() {
