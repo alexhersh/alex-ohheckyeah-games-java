@@ -83,7 +83,7 @@ public class CatchyIntroScreens {
 			_drawYOffset.setTarget(-p.height);
 		}
 		if( _mode == Screen.CREDITS && p.millis() > _introScreensStartTime + 9000 ) {
-			p.setGameMode( GameState.GAME_WAITING_FOR_PLAYERS );
+			p.setGameState( GameState.GAME_WAITING_FOR_PLAYERS );
 		}
 	}
 	

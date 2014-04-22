@@ -43,11 +43,11 @@ public class CatchyGameTimer {
 	public void update() {
 		_curGameTime = GAME_LENGTH - ( p.millis() - _gameStartTime );
 		if( _curGameTime < 0 && _active == true ) {
-			p.setGameMode( GameState.GAME_FINISHING );
+			p.setGameState( GameState.GAME_FINISHING );
 			_gameEndTime = p.millis();
 			_active = false;
 		} else if( _gameEndTime != 0 && p.millis() > _gameEndTime + 4000 ) {
-			p.setGameMode( GameState.GAME_OVER );
+			p.setGameState( GameState.GAME_OVER );
 			_gameEndTime = 0;
 		}
 	}
