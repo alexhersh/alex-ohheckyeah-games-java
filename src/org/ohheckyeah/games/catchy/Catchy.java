@@ -60,12 +60,6 @@ extends PAppletHax
 	// audio 
 	public CatchySounds sounds; 
 	
-	// mesh IDs
-	public static String WIN_TEXT = "WIN_TEXT";
-	
-	// sound IDs
-	public static String PADDLE_BOUNCE = "PADDLE_BOUNCE";
-	
 	// game state
 	protected ColorGroup _gameColors;
 	public static int NUM_PLAYERS = 2;
