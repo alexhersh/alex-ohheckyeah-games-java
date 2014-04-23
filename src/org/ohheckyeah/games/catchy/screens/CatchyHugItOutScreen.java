@@ -1,5 +1,7 @@
 package org.ohheckyeah.games.catchy.screens;
 
+import java.util.ArrayList;
+
 import org.ohheckyeah.games.catchy.Catchy;
 import org.ohheckyeah.games.catchy.game.CatchyTextMessage;
 
@@ -14,7 +16,8 @@ public class CatchyHugItOutScreen {
 	protected Catchy p;
 	public PGraphics pg;
 	
-	protected CatchyTextMessage _message;
+	protected ArrayList<CatchyTextMessage> _messages;
+	protected int _messagesIndex = 0;
 	
 	public CatchyHugItOutScreen() {
 		p = (Catchy) P.p;
@@ -24,7 +27,9 @@ public class CatchyHugItOutScreen {
 	}
 	
 	public void reset() {
-
+		if( _messages == null ) return;
+		_messagesIndex++;
+		if( _messagesIndex > _messages.size() - 1 ) _messagesIndex = 0;
 	}
 	
 	public void update() {
@@ -34,18 +39,27 @@ public class CatchyHugItOutScreen {
 		DrawUtil.setDrawCenter(pg);
 		
 		drawMessage();
-		
+		pg.shape( p.gameGraphics.logoOHY, pg.width * 0.5f, pg.height * 0.75f, p.scaleV(p.gameGraphics.logoOHY.width), p.scaleV(p.gameGraphics.logoOHY.height) );
+
 		pg.endDraw();
 	}
 	
 	protected void drawMessage() {
-		if( _message == null ) {
-//			_message = new CatchyTextMessage( "now hug it out", 60, 450, 90, 410 );
-			_message = new CatchyTextMessage( "how about a high five for your opponent?", 60, 1050, 90, 1050 );
+		if( _messages == null ) {
+			_messages = new ArrayList<CatchyTextMessage>();
+			_messages.add( new CatchyTextMessage( "now hug it out", 60, 450, 90, 410 ) );
+			_messages.add( new CatchyTextMessage( "how about a high five for your opponent?", 60, 1050, 90, 1050 ) );
+			_messages.add( new CatchyTextMessage( "try meeting someone new tonight!", 60, 850, 90, 850 ) );
 		}
 		pg.pushMatrix();
-		pg.translate( pg.width/2, pg.height * 0.5f );
-		pg.image( _message.image(), 0, 0, _message.image().width, _message.image().height );
+		pg.translate( pg.width/2, pg.height * 0.4f );
+		pg.image( 
+			_messages.get(_messagesIndex).image(), 
+			0, 
+			0, 
+			_messages.get(_messagesIndex).image().width, 
+			_messages.get(_messagesIndex).image().height 
+		);
 		pg.popMatrix();
 	}
 	
