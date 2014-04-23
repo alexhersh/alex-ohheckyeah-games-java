@@ -85,15 +85,17 @@ public class CatchyIntroScreens {
 	}
 	
 	protected void advanceScreens() {
-		if( _mode == Screen.HUG_IT_OUT && p.millis() > _introScreensStartTime + 3000 ) {	// 6000
+		if( _mode == Screen.HUG_IT_OUT && p.millis() > _introScreensStartTime + 6000 ) {
 			_mode = Screen.TITLE;
 			_drawYOffset.setTarget(-p.height);
+			p.sounds.playIntro();
+			_logoScreen.reset();
 		}
-		if( _mode == Screen.TITLE && p.millis() > _introScreensStartTime + 5000 ) {			// 10000
+		if( _mode == Screen.TITLE && p.millis() > _introScreensStartTime + 11000 ) {
 			_mode = Screen.CREDITS;
 			_drawYOffset.setTarget(-p.height * 2f);
 		}
-		if( _mode == Screen.CREDITS && p.millis() > _introScreensStartTime + 8000 ) {		// 14000
+		if( _mode == Screen.CREDITS && p.millis() > _introScreensStartTime + 15000 ) {
 			_mode = Screen.DONE;
 			_drawYOffset.setTarget(-p.height * 3f);
 			p.setGameState( GameState.GAME_INTRO_OUTRO );

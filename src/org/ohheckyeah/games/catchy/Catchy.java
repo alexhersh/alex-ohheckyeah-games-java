@@ -242,9 +242,9 @@ extends PAppletHax
 	protected void setGameStateIntro() {
 		_introScreens.reset();
 		gameGraphics.shuffleCharacters();
-		sounds.playIntro();
 		_dividerYOffset.setCurrent(p.height - _introScreens.bgPadY());
 		_dividerYOffset.setTarget(p.height - _introScreens.bgPadY());
+		sounds.playOHY();
 	}
 
 	protected void runGameStateIntro() {
@@ -258,6 +258,7 @@ extends PAppletHax
 
 	protected void setGameStateIntroOutro() {
 		_dividerYOffset.setTarget( -_introScreens.bgPadY() );
+		sounds.fadeOutIntro();
 	}
 	
 	protected void setGameStateWaitingForPlayers() {
