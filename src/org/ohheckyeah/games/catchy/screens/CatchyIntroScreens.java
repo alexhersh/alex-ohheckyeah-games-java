@@ -22,9 +22,10 @@ public class CatchyIntroScreens {
 	
 	protected CatchyTitleScreen _logoScreen;
 	protected CatchyCreditsScreen _creditsScreen;
+	protected CatchyHugItOutScreen _hugItOutScreen;
 	
 	public enum Screen {
-	    TITLE, CREDITS 
+	    HUG_IT_OUT, TITLE, CREDITS, DONE 
 	}
 	protected Screen _mode;
 	
@@ -44,8 +45,13 @@ public class CatchyIntroScreens {
 		// build sub-screens
 		_logoScreen = new CatchyTitleScreen();
 		_creditsScreen = new CatchyCreditsScreen();
+		_hugItOutScreen = new CatchyHugItOutScreen();
 		
 		reset();
+	}
+	
+	public int bgPadY() {
+		return bgPadY;
 	}
 	
 	public void reset() {
@@ -54,11 +60,12 @@ public class CatchyIntroScreens {
 		
 		_logoScreen.reset();
 		_creditsScreen.reset();
+		_hugItOutScreen.reset();
 		
 		_introScreensStartTime = p.millis();
 		
-		_mode = Screen.TITLE;
-		_drawYOffset.setCurrent(0);
+		_mode = Screen.HUG_IT_OUT;
+		_drawYOffset.setCurrent(p.height);
 		_drawYOffset.setTarget(0);
 	}
 	
@@ -78,11 +85,20 @@ public class CatchyIntroScreens {
 	}
 	
 	protected void advanceScreens() {
-		if( _mode == Screen.TITLE && p.millis() > _introScreensStartTime + 4000 ) {
-			_mode = Screen.CREDITS;
+		if( _mode == Screen.HUG_IT_OUT && p.millis() > _introScreensStartTime + 3000 ) {	// 6000
+			_mode = Screen.TITLE;
 			_drawYOffset.setTarget(-p.height);
 		}
-		if( _mode == Screen.CREDITS && p.millis() > _introScreensStartTime + 9000 ) {
+		if( _mode == Screen.TITLE && p.millis() > _introScreensStartTime + 5000 ) {			// 10000
+			_mode = Screen.CREDITS;
+			_drawYOffset.setTarget(-p.height * 2f);
+		}
+		if( _mode == Screen.CREDITS && p.millis() > _introScreensStartTime + 8000 ) {		// 14000
+			_mode = Screen.DONE;
+			_drawYOffset.setTarget(-p.height * 3f);
+			p.setGameState( GameState.GAME_INTRO_OUTRO );
+		}
+		if( _mode == Screen.DONE && _drawYOffset.value() < _drawYOffset.target() + 0.1f ) {
 			p.setGameState( GameState.GAME_WAITING_FOR_PLAYERS );
 		}
 	}
@@ -95,15 +111,17 @@ public class CatchyIntroScreens {
 		DrawUtil.setDrawCorner(pg);
 		pg.fill( _bgColor );
 		pg.noStroke();
-		pg.rect( bgPadX, bgPadY + _drawYOffset.value(), pg.width - bgPadX * 2, pg.height * 2 - bgPadY * 2 );
+		pg.rect( bgPadX, bgPadY + _drawYOffset.value(), pg.width - bgPadX * 2, pg.height * 3 - bgPadY * 2 );
 	}
 	
 	protected void drawSubScreens() {
 		DrawUtil.setDrawCenter(pg);
 		_logoScreen.update();
 		_creditsScreen.update();
-		pg.image( _logoScreen.pg, pg.width/2f, pg.height/2f + _drawYOffset.value(), _logoScreen.pg.width, _logoScreen.pg.height );
-		pg.image( _creditsScreen.pg, pg.width/2f, pg.height/2f + pg.height + _drawYOffset.value(), _creditsScreen.pg.width, _creditsScreen.pg.height );
+		_hugItOutScreen.update();
+		pg.image( _hugItOutScreen.pg, pg.width/2f, pg.height/2f + 0 + _drawYOffset.value(), _hugItOutScreen.pg.width, _hugItOutScreen.pg.height );
+		pg.image( _logoScreen.pg, pg.width/2f, pg.height/2f + pg.height + _drawYOffset.value(), _logoScreen.pg.width, _logoScreen.pg.height );
+		pg.image( _creditsScreen.pg, pg.width/2f, pg.height/2f + pg.height * 2 + _drawYOffset.value(), _creditsScreen.pg.width, _creditsScreen.pg.height );
 	}
 		
 }

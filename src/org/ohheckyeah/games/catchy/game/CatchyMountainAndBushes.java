@@ -96,6 +96,10 @@ public class CatchyMountainAndBushes {
 		pg.popMatrix();
 	}
 	
+	public void setHiddenState() {
+		_scale.setTarget(0f);
+	}
+	
 	public void setWaitingState() {
 		_scale.setTarget(0);
 		_scale.setCurrent(0);

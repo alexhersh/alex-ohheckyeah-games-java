@@ -130,7 +130,7 @@ public class CatchyDropper {
 		_dropperState = STATE_READY;
 		_dropper = p.gameGraphics.dropperReady;
 	}
-
+	
 	public void startDropping() {
 		_active = true;
 		_lastDropTime = p.millis();

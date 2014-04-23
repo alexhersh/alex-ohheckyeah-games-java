@@ -148,6 +148,13 @@ public class CatchyGamePlay {
 		_character.setGameplayState();
 	}
 	
+	public void animateToHiddenState() {
+		_score.hide();
+		_grass.setHiddenState();
+		_mountain.setHiddenState();
+		_character.setHiddenState();
+	}
+	
 	public void animateToWinState() {
 		_score.hide();
 	}

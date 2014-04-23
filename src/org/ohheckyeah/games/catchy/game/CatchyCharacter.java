@@ -157,6 +157,11 @@ public class CatchyCharacter {
 		return _characterDef.characterColor;
 	}
 	
+	public void setHiddenState() {
+		setWaitingState();
+		_bottomPadding.setTarget( p.scaleV(0) );
+	}
+	
 	public void setWaitingState() {
 		_lockedCenter = true;
 		_scale.setTarget(0);

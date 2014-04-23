@@ -13,7 +13,7 @@ public class CatchyGrass {
 	protected CatchyGamePlay catchyGamePlay;
 	protected PGraphics pg;
 	
-	protected EasingFloat _scale = new EasingFloat(1, 7);
+	protected EasingFloat _scale = new EasingFloat(0, 7);
 	
 	
 
@@ -28,23 +28,27 @@ public class CatchyGrass {
 		_scale.update();
 		
 		float grassW = p.scaleV(p.gameGraphics.grass.width) * _scale.value();
+		if( grassW < pg.width * 1.2f ) grassW = pg.width * 1.2f;
 		float grassH = p.scaleV(p.gameGraphics.grass.height) * _scale.value();
 		float grassX = catchyGamePlay.gameHalfWidth + playerOffset * 0.35f;
 		float grassY = pg.height - grassH/2f;
 		
 		pg.pushMatrix();
 		pg.translate( grassX, grassY );
-		pg.scale(_scale.value());
 		pg.shape( 
 				p.gameGraphics.grass, 
 				0,
 				0,
-				grassW, 
-				grassH
+				grassW * _scale.value(), 
+				grassH * _scale.value()
 		);
 		pg.popMatrix();
 	}
 		
+	public void setHiddenState() {
+		_scale.setTarget(0f);
+	}
+	
 	public void setWaitingState() {
 		_scale.setTarget(2);
 	}

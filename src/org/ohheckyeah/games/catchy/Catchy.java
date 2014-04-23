@@ -19,6 +19,7 @@ import com.haxademic.core.draw.color.ColorUtil;
 import com.haxademic.core.draw.util.DrawUtil;
 import com.haxademic.core.draw.util.OpenGLUtil;
 import com.haxademic.core.hardware.kinect.KinectRegionGrid;
+import com.haxademic.core.math.easing.EasingFloat;
 import com.haxademic.core.system.FileUtil;
 import com.haxademic.core.system.TimeFactoredFps;
 
@@ -56,7 +57,8 @@ extends PAppletHax
 	// graphics
 	protected int _bgColor;
 	public CatchyGraphics gameGraphics;
-	
+	protected EasingFloat _dividerYOffset = new EasingFloat(0, 6);
+
 	// audio 
 	public CatchySounds sounds; 
 	
@@ -68,13 +70,15 @@ extends PAppletHax
 
 	// game state
 	public enum GameState {
+		GAME_INTRO,
+		GAME_INTRO_OUTRO,
+		GAME_WAITING_FOR_PLAYERS,
+		GAME_PRE_COUNTDOWN,
+		GAME_COUNTDOWN,
 		GAME_PLAYING,
 		GAME_FINISHING,
 		GAME_OVER,
-		GAME_INTRO,
-		GAME_WAITING_FOR_PLAYERS,
-		GAME_COUNTDOWN,
-		GAME_PRE_COUNTDOWN
+		GAME_OVER_OUTRO
 	}
 	protected GameState _gameState;
 	protected GameState _gameStateQueued;	// wait until beginning on the next frame to switch states to avoid mid-frame conflicts
@@ -198,20 +202,22 @@ extends PAppletHax
 	}
 	
 	public void setGameState( GameState state ) {
-		P.println("next state: "+state);
 		_gameStateQueued = state;
+		P.println("GameState: ",_gameStateQueued);
 	}
 	
 	protected void swapGameState() {
 		_gameState = _gameStateQueued;
 		switch( _gameState ) {
 			case GAME_INTRO : setGameStateIntro(); break;
+			case GAME_INTRO_OUTRO : setGameStateIntroOutro(); break;
 			case GAME_WAITING_FOR_PLAYERS : setGameStateWaitingForPlayers(); break;
 			case GAME_PRE_COUNTDOWN : setGameStatePreCountdown(); break;
 			case GAME_COUNTDOWN : setGameStateCountdown(); break;
 			case GAME_PLAYING : setGameStatePlaying(); break;
 			case GAME_FINISHING : setGameStateFinishing(); break;
 			case GAME_OVER : setGameStateGameOver(); break;
+			case GAME_OVER_OUTRO : setGameStateGameOverOutro(); break;
 			default: break;
 		}
 	}
@@ -220,13 +226,15 @@ extends PAppletHax
 		if( _gameState != _gameStateQueued ) swapGameState();
 		
 		switch( _gameState ) {
-			case GAME_INTRO : runGameStateIntro(); break;
+			case GAME_INTRO : 
+			case GAME_INTRO_OUTRO : runGameStateIntro(); break;
 			case GAME_WAITING_FOR_PLAYERS : runGameStateWaitingForPlayers(); break;
 			case GAME_PRE_COUNTDOWN : runGameStatePreCountdown(); break;
 			case GAME_COUNTDOWN : runGameStateCountdown(); break;
 			case GAME_PLAYING : 
 			case GAME_FINISHING : runGameStatePlaying(); break;
-			case GAME_OVER : runGameStateGameOver(); break;
+			case GAME_OVER : 
+			case GAME_OVER_OUTRO : runGameStateGameOver(); break;
 			default: break;
 		}
 	}
@@ -235,12 +243,21 @@ extends PAppletHax
 		_introScreens.reset();
 		gameGraphics.shuffleCharacters();
 		sounds.playIntro();
+		_dividerYOffset.setCurrent(p.height - _introScreens.bgPadY());
+		_dividerYOffset.setTarget(p.height - _introScreens.bgPadY());
 	}
 
 	protected void runGameStateIntro() {
+		if( _gameState == GameState.GAME_INTRO_OUTRO ) {
+			updateGameplays();
+		}
 		DrawUtil.setDrawCorner(p);
 		_introScreens.update();
 		p.image( _introScreens.pg, 0, 0, _introScreens.pg.width, _introScreens.pg.height );
+	}
+
+	protected void setGameStateIntroOutro() {
+		_dividerYOffset.setTarget( -_introScreens.bgPadY() );
 	}
 	
 	protected void setGameStateWaitingForPlayers() {
@@ -358,22 +375,30 @@ extends PAppletHax
 		
 		// update game shell 
 		gameTimer.hide();
+		sounds.playWin();
 
 		// set time to advance back to intro screen
 		_gameOverTime = p.millis();
-		
-		sounds.playWin();
 	}
 
 	protected void runGameStateGameOver() {
 		updateGameplays();
-		if( p.millis() > _gameOverTime + 4000 ) {
-			_gameMessages.hideWinner();
-			_gameMessages.hideTie();
+		if( _gameState == GameState.GAME_OVER && p.millis() > _gameOverTime + 4000 ) {
+			setGameState( GameState.GAME_OVER_OUTRO );
+		}
+		if( p.millis() > _gameOverTime + 5000 ) {
 			setGameState( GameState.GAME_INTRO );
 		}
 	}
 	
+	protected void setGameStateGameOverOutro() {
+		_gameMessages.hideWinner();
+		_gameMessages.hideTie();
+		_dividerYOffset.setTarget( -p.height * 1.5f );
+		for( int i=0; i < NUM_PLAYERS; i++ ) {
+			_gamePlays.get( i ).animateToHiddenState();
+		}
+	}
 	
 	// FRAME LOOP --------------------------------------------------------------------------------------
 	
@@ -398,7 +423,15 @@ extends PAppletHax
 			p.image( gamePlay.pg, _gameWidth * i, 0, _gameWidth, p.height);
 		}
 		
+		drawGameDividersAndTimers();
+		
+		// draw in-game messages
+		_gameMessages.update();
+	}
+	
+	protected void drawGameDividersAndTimers() {
 		// draw dividers & timers
+		_dividerYOffset.update();
 		for( int i=0; i < NUM_PLAYERS; i++ ) {
 			if(i > 0) {
 				// draw white borders
@@ -406,8 +439,8 @@ extends PAppletHax
 				p.fill(255);
 				p.noStroke();
 				float dividerX = _gameWidth * i - gameGraphics.gameDivider.width * 0.5f;
-				float dividerH = ( gameScaleV > 1 ) ? scaleV( gameGraphics.gameDivider.height ) : gameGraphics.gameDivider.height;
-				p.shape( gameGraphics.gameDivider, dividerX, 0, gameGraphics.gameDivider.width, dividerH );
+				float dividerH = ( gameScaleV > 1 ) ? scaleV( gameGraphics.gameDivider.height + _introScreens.bgPadY() * 2f ) : gameGraphics.gameDivider.height + _introScreens.bgPadY() * 2f;
+				p.shape( gameGraphics.gameDivider, dividerX, _dividerYOffset.value(), gameGraphics.gameDivider.width, dividerH );
 				// draw timers
 				DrawUtil.setDrawCenter(p);
 				p.pushMatrix();
@@ -424,11 +457,7 @@ extends PAppletHax
 				p.popMatrix();
 			}
 		}
-
-		// draw in-game messages
-		_gameMessages.update();
 	}
-	
 
 	protected void updateGames(){
 		// update all games before checking for complete. also take screenshot if the game's over and the time is right

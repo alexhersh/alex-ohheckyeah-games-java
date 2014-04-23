@@ -16,13 +16,10 @@ public class CatchyCreditsScreen {
 	protected Catchy p;
 	public PGraphics pg;
 	
-	protected int _bgColor;
-	protected int _borderColor;
+	protected int _bgColor = CatchyColors.CREDITS_BG;;
 	
 	protected CatchyTextMessage _message;
 	
-	protected int _introScreenStartTime = 0;
-
 	public CatchyCreditsScreen() {
 		p = (Catchy) P.p;
 
@@ -31,8 +28,7 @@ public class CatchyCreditsScreen {
 	}
 	
 	public void reset() {
-		_bgColor = CatchyColors.CREDITS_BG;
-		_introScreenStartTime = p.millis();
+		
 	}
 	
 	public void update() {
