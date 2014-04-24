@@ -170,7 +170,7 @@ public class CatchyCharacter {
 	
 	public void setSelectedState() {
 		_lockedCenter = true;
-		_scale.setTarget(2.0f);
+		_scale.setTarget(1.8f);
 		_bottomPadding.setTarget( p.scaleV(60) );
 	}
 	
@@ -183,7 +183,7 @@ public class CatchyCharacter {
 	public void setWinState( boolean didWin ) {
 		_lockedCenter = true;
 		if( didWin == true ) {
-			_scale.setTarget(2.0f);
+			_scale.setTarget(1.8f);
 			_bottomPadding.setTarget( p.scaleV(40) );
 		} else {
 			_scale.setTarget(0.75f);
