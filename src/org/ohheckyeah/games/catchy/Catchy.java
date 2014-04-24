@@ -395,7 +395,7 @@ extends PAppletHax
 	protected void setGameStateGameOverOutro() {
 		_gameMessages.hideWinner();
 		_gameMessages.hideTie();
-		_dividerYOffset.setTarget( -p.height * 1.5f );
+		_dividerYOffset.setTarget( -p.height * 2f );
 		for( int i=0; i < NUM_PLAYERS; i++ ) {
 			_gamePlays.get( i ).animateToHiddenState();
 		}
