@@ -184,7 +184,7 @@ extends PAppletHax
 	public boolean isDebugging() { return _isDebugging; }
 	
 	public boolean isLastGameplay( CatchyGamePlay gameplay ) {
-		if( gameplay == _gamePlays.get( _gamePlays.size() - 1) ) {
+		if( gameplay == _gamePlays.get( _gamePlays.size() - 1) && _gamePlays.size() == 2 ) {
 			return true;
 		} else {
 			return false;
