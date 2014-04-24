@@ -33,7 +33,7 @@ public class CatchyIntroScreens {
 	
 	protected int _introScreensStartTime = 0;
 
-	public CatchyIntroScreens() {
+	public CatchyIntroScreens( String sponsorsImagePath ) {
 		p = (Catchy) P.p;
 
 		pg = p.createGraphics( p.width, p.height, P.OPENGL );
@@ -44,7 +44,7 @@ public class CatchyIntroScreens {
 		
 		// build sub-screens
 		_logoScreen = new CatchyTitleScreen();
-		_creditsScreen = new CatchyCreditsScreen();
+		_creditsScreen = new CatchyCreditsScreen( sponsorsImagePath );
 		_hugItOutScreen = new CatchyHugItOutScreen();
 		
 		reset();

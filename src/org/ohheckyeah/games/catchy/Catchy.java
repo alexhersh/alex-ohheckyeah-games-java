@@ -114,7 +114,7 @@ extends PAppletHax
 				
 		loadMedia();
 		
-		_introScreens = new CatchyIntroScreens();
+		_introScreens = new CatchyIntroScreens( _appConfig.getString( "sponsor_images", null ) );
 		_gameMessages = new CatchyGameMessages();
 		
 		// set flags and props	
