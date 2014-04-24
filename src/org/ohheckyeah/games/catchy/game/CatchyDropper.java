@@ -47,7 +47,7 @@ public class CatchyDropper {
 		_positionY = new EasingFloat(0,4);
 		_dropper = p.gameGraphics.dropperReady;
 		
-		_offsetYShowing = p.scaleV(50);
+		_offsetYShowing = p.scaleV(40);
 		_offsetYHiding = p.scaleV(-100f);
 		_offsetY = new EasingFloat(_offsetYHiding,7);
 		
@@ -58,12 +58,10 @@ public class CatchyDropper {
 
 	public void update() {
 
-		float topPadding = p.scaleV(-22);
 		float shadowPadding = p.scaleV(-22);
 
 		// position dropper & shadow
 		float dropperX = catchyGamePlay.gameHalfWidth + _positionX.value();
-		float dropperY = 0 + topPadding;
 		float dropperWidth = p.scaleV(_dropper.width);
 		float dropperHeight = p.scaleV(_dropper.height);
 		float dropperShadowY = pg.height - shadowPadding;
@@ -120,7 +118,7 @@ public class CatchyDropper {
 		DrawUtil.setDrawCenter(pg);
 		// draw shadow
 		pg.shape( p.gameGraphics.shadow, dropperX, dropperShadowY, dropperShadowWidth, dropperShadowHeight );
-		pg.translate( dropperX, dropperY + p.scaleV(_positionY.value() + _offsetY.value()), 0 );
+		pg.translate( dropperX, _positionY.value() + _offsetY.value(), 0 );
 		pg.shape( _dropper, 0, 0, dropperWidth, dropperHeight );
 		pg.popMatrix();
 	}
