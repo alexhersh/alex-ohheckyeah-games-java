@@ -16,7 +16,7 @@ public class CatchyGameTimer {
 	protected int _gameEndTime = 0;
 	protected int _curGameTime = 0;
 	protected boolean _active = false;
-	public static final int GAME_LENGTH_SECONDS = 30;
+	public static int GAME_LENGTH_SECONDS = 30;
 	protected int GAME_LENGTH = GAME_LENGTH_SECONDS * 1000;
 	protected CustomFontText2D _timerFontRenderer;
 	
@@ -24,9 +24,12 @@ public class CatchyGameTimer {
 	protected float _offsetYShowing;
 	protected float _offsetYHiding;
 
-	public CatchyGameTimer() {
+	public CatchyGameTimer( int gameSeconds ) {
 		p = (Catchy)P.p;
 		_timerFontRenderer = new CustomFontText2D( p, p.gameGraphics.font, p.scaleV(60), CatchyColors.MAIN_TEXT_COLOR, CustomFontText2D.ALIGN_LEFT, (int) p.scaleV(p.gameGraphics.timerBanner.width), (int)p.scaleV(80) );
+		
+		GAME_LENGTH_SECONDS = gameSeconds;
+		GAME_LENGTH = GAME_LENGTH_SECONDS * 1000;
 		
 		_offsetYShowing = 0;
 		_offsetYHiding = p.scaleV(100f);

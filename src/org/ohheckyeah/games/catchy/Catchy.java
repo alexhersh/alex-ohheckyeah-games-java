@@ -143,7 +143,7 @@ extends PAppletHax
 	}
 		
 	protected void buildGameTimer() {
-		gameTimer = new CatchyGameTimer();
+		gameTimer = new CatchyGameTimer( _appConfig.getInt( "game_seconds", 30 ) );
 		gameTimer.startTimer();
 	}
 	
