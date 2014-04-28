@@ -6,10 +6,4 @@ Catchy is a 2-player Kinect-based video game, and the first official [OhHeckYeah
 
 ##### TODO
 
-* Bump Droppables on near-catch with some fake physics
-* +1 / -2 graphics float up on catches
 * Improve 1-player layout
-* only a 2-player game should have the 2nd player's score on the right side
-* Add usage tracking
-* Add sponsor image loading
-* Hug-it-out screen after game over
