@@ -27,8 +27,12 @@ public class CatchyTracking {
 			FileUtil.createDir( trackingFileDir );
 		}
 		// create csv files with headers
-		FileUtil.writeTextToFile( trackingGamesFilePath, "Date,Number of Players,Winner Indexes,Winner Score,Low Score" + "\n" );
-		FileUtil.writeTextToFile( trackingPlayersFilePath, "Date,Game Index,Score,Win,Character" + "\n" );
+		if( FileUtil.fileOrPathExists( trackingGamesFilePath ) == false ) {
+			FileUtil.writeTextToFile( trackingGamesFilePath, "Date,Number of Players,Winner Indexes,Winner Score,Low Score" + "\n" );
+		}
+		if( FileUtil.fileOrPathExists( trackingPlayersFilePath ) == false ) {
+			FileUtil.writeTextToFile( trackingPlayersFilePath, "Date,Player Index,Score,Win,Character" + "\n" );
+		}
 	}
 	
 	public void trackGameResult( String date, int numPlayers, String winIndexes, int winScore, int lowScore ) {
