@@ -122,7 +122,7 @@ public class CatchyDroppable {
 		_shadowScale.setTarget(0);
 		_catchable = false;
 		_catchTime = p.millis();
-		_scale.setTarget(SCALE * 0.75f);
+		_scale.setTarget(SCALE * 0.5f);
 	}
 	
 	public void bumped() {
