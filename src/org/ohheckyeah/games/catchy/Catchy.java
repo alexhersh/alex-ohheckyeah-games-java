@@ -22,6 +22,7 @@ import com.haxademic.core.draw.util.OpenGLUtil;
 import com.haxademic.core.hardware.kinect.KinectRegionGrid;
 import com.haxademic.core.math.easing.EasingFloat;
 import com.haxademic.core.system.FileUtil;
+import com.haxademic.core.system.SystemUtil;
 import com.haxademic.core.system.TimeFactoredFps;
 
 public class Catchy
@@ -85,11 +86,13 @@ extends PAppletHax
 	protected GameState _gameStateQueued;	// wait until beginning on the next frame to switch states to avoid mid-frame conflicts
 
 	protected CatchyTracking _tracking;
+	protected String _trackingDateStr;
 	
 	// timers/timing
 	public TimeFactoredFps timeFactor;
 	public CatchyGameTimer gameTimer;
 	protected int _gameOverTime = 0;
+	protected boolean _gameOverRecorded = false;
 	protected int _preCountdownStartTime = 0;
 	protected int _countdownStartTime = 0;
 	protected int _countdownSeconds = 3;
@@ -357,7 +360,7 @@ extends PAppletHax
 		// set up tracking vars
 		String winIndexes = "";
 	    Date gameDate = new Date();
-	    String dateStr = gameDate.toString();
+	    _trackingDateStr = gameDate.toString();
 
 		// find high/low score
 	    int highScore = 0;
@@ -384,7 +387,7 @@ extends PAppletHax
 				_gamePlays.get( i ).gameOver( false );
 				isWinner = false;
 			}
-			_tracking.trackPlayerResult(dateStr, i, _gamePlays.get( i ).getScore(), isWinner, _gamePlays.get( i ).getCharacterName() );
+			_tracking.trackPlayerResult(_trackingDateStr, i, _gamePlays.get( i ).getScore(), isWinner, _gamePlays.get( i ).getCharacterName() );
 		}
 		// show overall game message
 		if( numWinners == 1 ) {
@@ -399,9 +402,10 @@ extends PAppletHax
 
 		// set time to advance back to intro screen
 		_gameOverTime = p.millis();
-		
+		_gameOverRecorded = false;
+
 		// track gameplay!
-		_tracking.trackGameResult(dateStr, _gamePlays.size(), winIndexes, highScore, lowScore);
+		_tracking.trackGameResult(_trackingDateStr, _gamePlays.size(), winIndexes, highScore, lowScore);
 	}
 
 	protected void runGameStateGameOver() {
@@ -411,6 +415,13 @@ extends PAppletHax
 		}
 		if( p.millis() > _gameOverTime + 5000 ) {
 			setGameState( GameState.GAME_INTRO );
+		}
+		// take a screenshot & kinect image
+		if( p.kinectWrapper != null && p.kinectWrapper.isActive() ) {
+			if( p.millis() > _gameOverTime + 1000 && _gameOverRecorded == false ) {
+				_gameOverRecorded = true;
+				_tracking.saveCameraImage( _trackingDateStr );
+			}
 		}
 	}
 	

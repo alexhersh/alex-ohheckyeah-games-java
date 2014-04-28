@@ -3,6 +3,7 @@ package org.ohheckyeah.games.catchy.game;
 import java.text.SimpleDateFormat;
 import java.util.Locale;
 
+import com.haxademic.core.app.P;
 import com.haxademic.core.system.FileUtil;
 
 public class CatchyTracking {
@@ -13,7 +14,9 @@ public class CatchyTracking {
 	private final static String rfc1123Pattern ="EEE, dd MMM yyyyy HH:mm:ss z";
 	public final static SimpleDateFormat rfc1123Format = new SimpleDateFormat(rfc1123Pattern, loc);
 
-	protected String trackingFileDir = FileUtil.getHaxademicDataPath() + "games/catchy/text/";
+	protected String outputDir = FileUtil.getHaxademicDataPath() + "games/catchy/output/";
+	protected String cameraImageDir = outputDir + "camera/";
+	protected String trackingFileDir = outputDir + "text/";
 	protected String trackingGamesFilePath = trackingFileDir + "catchy-game-history.csv";
 	protected String trackingPlayersFilePath = trackingFileDir + "catchy-player-history.csv";
 	
@@ -23,9 +26,9 @@ public class CatchyTracking {
 	
 	protected void initTrackingFile() {
 		// create directory if it doesn't exist
-		if( FileUtil.fileOrPathExists( trackingFileDir ) == false ) {
-			FileUtil.createDir( trackingFileDir );
-		}
+		if( FileUtil.fileOrPathExists( outputDir ) == false ) FileUtil.createDir( outputDir );
+		if( FileUtil.fileOrPathExists( cameraImageDir ) == false ) FileUtil.createDir( cameraImageDir );
+		if( FileUtil.fileOrPathExists( trackingFileDir ) == false ) FileUtil.createDir( trackingFileDir );
 		// create csv files with headers
 		if( FileUtil.fileOrPathExists( trackingGamesFilePath ) == false ) {
 			FileUtil.writeTextToFile( trackingGamesFilePath, "Date,Number of Players,Winner Indexes,Winner Score,Low Score" + "\n" );
@@ -55,5 +58,10 @@ public class CatchyTracking {
 				didWin +","+ 
 				characterName + "\n" 
 		);
+	}
+	
+	public void saveCameraImage( String date ) {
+		// save rgb kinect image with the game timestamp
+		P.p.kinectWrapper.getRgbImage().save( cameraImageDir + "/" + date + ".png" );
 	}
 }
