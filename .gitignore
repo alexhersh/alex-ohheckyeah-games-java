@@ -1,0 +1,8 @@
+applet/
+bin/
+lib-full/
+output/
+docs/
+lib/processing-2.0/*
+*output/text/
+*output/camera/
