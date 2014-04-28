@@ -28,6 +28,7 @@ public class CatchyDroppable {
 	
 	protected boolean _active = false;
 	protected boolean _catchable = true;
+	protected int _catchTime = -1;
 	
 	
 	protected float characterShadowWidth;
@@ -89,8 +90,6 @@ public class CatchyDroppable {
 			curX = _characterX.value();
 			curY = _characterY.value();
 		}
-		_characterX.update();
-		_characterY.update();
 		
 		// draw shadow
 		_shadowScale.update();
@@ -120,9 +119,10 @@ public class CatchyDroppable {
 		} else {
 			p.sounds.playSound( CatchySounds.CATCH_BAD );
 		}
-		_scale.setTarget(0);
 		_shadowScale.setTarget(0);
 		_catchable = false;
+		_catchTime = p.millis();
+		_scale.setTarget(SCALE * 0.75f);
 	}
 	
 	public void bumped() {
@@ -135,6 +135,12 @@ public class CatchyDroppable {
 		if( _catchable == false && _active == true ) {
 			_characterX.setTarget(x);
 			_characterY.setTarget(y);
+			_characterX.update();
+			_characterY.update();
+			// wait for a fraction of a second before shrinking to zero scale
+			if( p.millis() > _catchTime + 300 ) {
+				_scale.setTarget(0);
+			}
 		}
 	}
 	

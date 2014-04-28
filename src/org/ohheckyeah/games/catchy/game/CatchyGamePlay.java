@@ -65,7 +65,7 @@ public class CatchyGamePlay {
 		pg.smooth(OpenGLUtil.SMOOTH_MEDIUM);
 		
 		_easedControlX = new EasingFloat( 0.5f, 6f );
-		_autoControl = p.random(0.001f, 0.005f);
+		_autoControl = p.random(0.001f, 0.002f);
 		
 		_character = new CatchyCharacter(this);
 		_grass = new CatchyGrass(this);
@@ -262,8 +262,8 @@ public class CatchyGamePlay {
 	
 	protected void drawDroppables() {
 		for( int i=0; i < _droppables.size(); i++ ) {
-			_droppables.get(i).update( _playerOffset, _character.shadowY() );
 			_droppables.get(i).setCharacterPosition( _character.x(), _character.y() );
+			_droppables.get(i).update( _playerOffset, _character.shadowY() );
 		}
 	}
 	

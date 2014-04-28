@@ -36,6 +36,7 @@ public class CatchyCharacter {
 	protected float _catchPointY;
 	protected float _characterCatchRadius;
 	protected float _characterShadowY;
+	protected float _characterSpeed;
 
 	protected int _catchTime = 0;
 	protected int _badCatchTime = 0;
@@ -54,11 +55,11 @@ public class CatchyCharacter {
 	}
 	
 	public float x() {
-		return _catchPointX;
+		return _catchPointX + _characterSpeed;
 	}
 	
 	public float y() {
-		return _catchPointY;
+		return _catchPointY - p.scaleV(10);
 	}
 	
 	public void update( float playerOffset ) {
@@ -78,10 +79,10 @@ public class CatchyCharacter {
 		_characterShadowY = pg.height - _bottomPadding.value();
 		float characterShadowWidth = p.scaleV(p.gameGraphics.shadow.width * _scale.value());
 		float characterShadowHeight = p.scaleV(p.gameGraphics.shadow.height * _scale.value());
-		float characterSpeed = playerOffset - lastPlayerOffset;
+		_characterSpeed = playerOffset - lastPlayerOffset;
 
 
-		_rotation.setTarget( characterSpeed * 0.02f );
+		_rotation.setTarget( _characterSpeed * 0.02f );
 		_rotation.update();
 		_xPosition.update();
 		_scale.update();
