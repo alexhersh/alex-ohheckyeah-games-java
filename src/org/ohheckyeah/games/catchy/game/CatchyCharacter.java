@@ -62,6 +62,10 @@ public class CatchyCharacter {
 		return _catchPointY - p.scaleV(10);
 	}
 	
+	public String characterName() {
+		return _characterDef.characterName;
+	}
+	
 	public void update( float playerOffset ) {
 				
 		// position character & shadow

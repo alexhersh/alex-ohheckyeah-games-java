@@ -64,7 +64,7 @@ public class CatchyGamePlay {
 		pg.smooth(OpenGLUtil.SMOOTH_MEDIUM);
 		
 		_easedControlX = new EasingFloat( 0.5f, 6f );
-		_autoControl = p.random(0.001f, 0.002f);
+		_autoControl = p.random(0.001f, 0.005f);
 		
 		_character = new CatchyCharacter(this);
 		_grass = new CatchyGrass(this);
@@ -118,6 +118,10 @@ public class CatchyGamePlay {
 	
 	public boolean hasPlayer() {
 		return _hasPlayer;
+	}
+	
+	public String getCharacterName() {
+		return _character.characterName();
 	}
 	
 	// handle countdown timer ------------

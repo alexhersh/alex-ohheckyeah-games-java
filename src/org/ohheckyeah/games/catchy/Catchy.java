@@ -1,6 +1,7 @@
 package org.ohheckyeah.games.catchy;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 import org.ohheckyeah.games.catchy.assets.CatchyColors;
 import org.ohheckyeah.games.catchy.assets.CatchyGraphics;
@@ -8,6 +9,7 @@ import org.ohheckyeah.games.catchy.assets.CatchySounds;
 import org.ohheckyeah.games.catchy.game.CatchyGameMessages;
 import org.ohheckyeah.games.catchy.game.CatchyGamePlay;
 import org.ohheckyeah.games.catchy.game.CatchyGameTimer;
+import org.ohheckyeah.games.catchy.game.CatchyTracking;
 import org.ohheckyeah.games.catchy.screens.CatchyIntroScreens;
 
 import processing.core.PApplet;
@@ -15,7 +17,6 @@ import processing.core.PApplet;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.draw.color.ColorGroup;
-import com.haxademic.core.draw.color.ColorUtil;
 import com.haxademic.core.draw.util.DrawUtil;
 import com.haxademic.core.draw.util.OpenGLUtil;
 import com.haxademic.core.hardware.kinect.KinectRegionGrid;
@@ -83,6 +84,7 @@ extends PAppletHax
 	protected GameState _gameState;
 	protected GameState _gameStateQueued;	// wait until beginning on the next frame to switch states to avoid mid-frame conflicts
 
+	protected CatchyTracking _tracking;
 	
 	// timers/timing
 	public TimeFactoredFps timeFactor;
@@ -123,6 +125,7 @@ extends PAppletHax
 		buildGameplays();
 		buildGameTimer();
 		setInitialGameState();
+		_tracking = new CatchyTracking();
 	}
 	
 	protected void setKinectProperties() {
@@ -351,23 +354,39 @@ extends PAppletHax
 	}
 	
 	protected void setGameStateGameOver() {
-		// find high scores & set winners
-		int highScore = 0;
+		// set up tracking vars
+		String winIndexes = "";
+	    Date gameDate = new Date();
+	    String dateStr = gameDate.toString();
+
+		// find high/low score
+	    int highScore = 0;
+	    int lowScore = 999999;
 		for( int i=0; i < NUM_PLAYERS; i++ ) {
 			if( _gamePlays.get( i ).getScore() > highScore ) {
 				highScore = _gamePlays.get( i ).getScore();
 			}
+			if( _gamePlays.get( i ).getScore() < lowScore ) {
+				lowScore = _gamePlays.get( i ).getScore();
+			}
 		}
+		// set winner gameplays
 		int numWinners = 0;
+		boolean isWinner = false;
 		for( int i=0; i < NUM_PLAYERS; i++ ) {
 			if( _gamePlays.get( i ).getScore() == highScore ) {
 				numWinners++;
+				isWinner = true;
 				_gamePlays.get( i ).gameOver( true );
 				_gameMessages.setWinnerX( _gameWidth * i + _gameWidth / 2f );
+				winIndexes += ( winIndexes.length() == 0 ) ? i : "|"+i;
 			} else {
 				_gamePlays.get( i ).gameOver( false );
+				isWinner = false;
 			}
+			_tracking.trackPlayerResult(dateStr, i, _gamePlays.get( i ).getScore(), isWinner, _gamePlays.get( i ).getCharacterName() );
 		}
+		// show overall game message
 		if( numWinners == 1 ) {
 			_gameMessages.showWinner();
 		} else {
@@ -380,6 +399,9 @@ extends PAppletHax
 
 		// set time to advance back to intro screen
 		_gameOverTime = p.millis();
+		
+		// track gameplay!
+		_tracking.trackGameResult(dateStr, _gamePlays.size(), winIndexes, highScore, lowScore);
 	}
 
 	protected void runGameStateGameOver() {
