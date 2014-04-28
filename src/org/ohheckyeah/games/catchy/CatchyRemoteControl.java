@@ -85,12 +85,10 @@ extends PAppletHax
 			if( i > 0 ) kinectOutput += "|"; 
 			kinectOutput += kinectRegion.controlX() + ":" + kinectRegion.controlZ() + ":" + kinectRegion.pixelCount();
 		}
-		kinectOutput += "   ";
 		return kinectOutput;
 	}
 	
 	protected void sendKinectGrid( String kinectData ) {
-		//message = message+";\n";
 		if( _debugging == true ) P.println("kinectData = "+kinectData);
 		_udp.send( kinectData, _receiverIp, _receiverPort );
 	}

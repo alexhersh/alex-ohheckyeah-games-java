@@ -28,6 +28,7 @@ public class CatchyGamePlay {
 	protected boolean _gameIsActive = false;
 	
 	protected KinectRegion _kinectRegion;
+	protected boolean _isRemoteKinect;
 	protected boolean _hasPlayer = false;
 	protected boolean _detectedPlayer = false;
 	protected int _detectedPlayerTime = 0;
@@ -53,13 +54,14 @@ public class CatchyGamePlay {
 	
 	protected CatchyScoreDisplay _score;
 	
-	public CatchyGamePlay( int gameIndex, int gameWidth, KinectRegion kinectRegion ) {
+	public CatchyGamePlay( int gameIndex, int gameWidth, KinectRegion kinectRegion, boolean isRemoteKinect ) {
 		p = (Catchy) P.p;
 		this.gameIndex = gameIndex;
 		this.gameWidth = gameWidth;
 		this.gameHalfWidth = Math.round( gameWidth / 2f );
 		_kinectRegion = kinectRegion;
-
+		_isRemoteKinect = isRemoteKinect;
+		
 		pg = p.createGraphics( gameWidth, p.height, P.OPENGL );
 		pg.smooth(OpenGLUtil.SMOOTH_MEDIUM);
 		
@@ -210,11 +212,13 @@ public class CatchyGamePlay {
 			if( _gameIsActive == false ) {
 				detectKinectPlayers();
 			} else {
-				if( p.kinectWrapper != null ) {
+				if( p.kinectWrapper != null || _isRemoteKinect == true ) {
 					_easedControlX.setTarget( _kinectRegion.controlX() * 2f );					
 				} else {
-					// fake test controls
-					_easedControlX.setTarget( P.sin(p.millis() * _autoControl) );
+					if( _isRemoteKinect == false ) {
+						// fake test controls
+						_easedControlX.setTarget( P.sin(p.millis() * _autoControl) );
+					}
 				}
 			}
 		}
@@ -225,14 +229,14 @@ public class CatchyGamePlay {
 	
 	protected void detectKinectPlayers() {
 		if( _detectedPlayer == false ) {
-			if( _kinectRegion.pixelCount() >= 20 || p.kinectWrapper == null ) {
+			if( _kinectRegion.pixelCount() >= 20 || (p.kinectWrapper == null && _isRemoteKinect == false) ) {
 				_detectedPlayerTime = p.millis();
 				_detectedPlayer = true;
 				_waitingSpinner.playerEntered();
 				p.sounds.playSound( CatchySounds.STEP_IN );
 			}
 		} else {
-			if( _kinectRegion.pixelCount() < 20 && p.kinectWrapper != null ) {
+			if( _kinectRegion.pixelCount() < 20 && (p.kinectWrapper != null || _isRemoteKinect == true) ) {
 				_detectedPlayer = false;
 				_hasPlayer = false;
 				_waitingSpinner.playerLeft();

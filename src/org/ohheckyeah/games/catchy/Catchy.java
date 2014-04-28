@@ -1,5 +1,7 @@
 package org.ohheckyeah.games.catchy;
 
+import hypermedia.net.UDP;
+
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -16,13 +18,13 @@ import processing.core.PApplet;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
+import com.haxademic.core.data.ConvertUtil;
 import com.haxademic.core.draw.color.ColorGroup;
 import com.haxademic.core.draw.util.DrawUtil;
 import com.haxademic.core.draw.util.OpenGLUtil;
 import com.haxademic.core.hardware.kinect.KinectRegionGrid;
 import com.haxademic.core.math.easing.EasingFloat;
 import com.haxademic.core.system.FileUtil;
-import com.haxademic.core.system.SystemUtil;
 import com.haxademic.core.system.TimeFactoredFps;
 
 public class Catchy
@@ -48,6 +50,13 @@ extends PAppletHax
 	public static int KINECT_TOP = 0;
 	public static int KINECT_BOTTOM = 480;
 
+	// remote kinect
+	protected UDP _udp;
+	protected boolean _remoteDebugging = false;
+	protected String _receiverIp = "";
+	protected int _receiverPort = 0;
+	protected boolean _isRemoteKinect = false;
+	
 	// debug 
 	protected boolean _isDebugging = false;
 	
@@ -139,6 +148,12 @@ extends PAppletHax
 		KINECT_TOP = _appConfig.getInt( "kinect_top_pixel", 240 );
 		KINECT_BOTTOM = _appConfig.getInt( "kinect_bottom_pixel", 400 );
 		NUM_PLAYERS = _appConfig.getInt( "num_players", 2 );
+		
+		_remoteDebugging = _appConfig.getBoolean( "kinect_remote_debug", false );
+		_receiverIp = _appConfig.getString( "kinect_remote_receiver_ip", "" );
+		_receiverPort = _appConfig.getInt( "kinect_remote_receiver_port", 0 );
+		_isRemoteKinect = _appConfig.getBoolean("kinect_remote_active", false);
+		if( _isRemoteKinect == true ) initRemoteKinect();
 	}
 	
 	public float scaleV( float input ) {
@@ -155,7 +170,7 @@ extends PAppletHax
 		_gameWidth = P.ceil( p.width / (float) NUM_PLAYERS );
 		_gamePlays = new ArrayList<CatchyGamePlay>();
 		for( int i=0; i < NUM_PLAYERS; i++ ) {
-			_gamePlays.add( new CatchyGamePlay( i, _gameWidth, _kinectGrid.getRegion(i) ) );
+			_gamePlays.add( new CatchyGamePlay( i, _gameWidth, _kinectGrid.getRegion(i), _isRemoteKinect ) );
 		}
 	}
 	
@@ -182,6 +197,27 @@ extends PAppletHax
 			}
 		}
 	}
+	
+	protected void initRemoteKinect() {
+		_udp = new UDP( this, _receiverPort );
+		_udp.log( _remoteDebugging );
+		_udp.listen( true );	
+	}
+	
+	public void receive( byte[] data, String ip, int port ) {
+		String message = new String( data );
+		if( _remoteDebugging == true ) P.println( "received: \""+message+"\" from "+ip+" on port "+port );
+		
+		String[] remoteKinectPlayersData = message.split("~");
+		for( int i=0; i < remoteKinectPlayersData.length; i++ ) {
+			// P.println("PLAYER "+i+" = "+remoteKinectPlayersData[i]);
+			String[] kinectPlayerData = remoteKinectPlayersData[i].split(":");
+			_kinectGrid.getRegion(i).controlX( ConvertUtil.stringToFloat( kinectPlayerData[0].trim() ) );
+			_kinectGrid.getRegion(i).controlZ( ConvertUtil.stringToFloat( kinectPlayerData[1].trim() ) );
+			_kinectGrid.getRegion(i).pixelCount( ConvertUtil.stringToInt( kinectPlayerData[2].trim() ) );
+		}
+	}
+
 	
 	// PUBLIC ACCESSORS FOR GAME OBJECTS --------------------------------------------------------------------------------------
 	public int gameWidth() { return _gameWidth; }
@@ -489,38 +525,6 @@ extends PAppletHax
 				p.translate( p.width - scaleV(100), 30 );
 				gameTimer.drawTimer();
 				p.popMatrix();
-			}
-		}
-	}
-
-	protected void updateGames(){
-		// update all games before checking for complete. also take screenshot if the game's over and the time is right
-		boolean takeScreenShot = false;
-		for( int i=0; i < NUM_PLAYERS; i++ ) {
-//			_gamePlays.get( i ).update( i );
-//			if( _gamePlays.get( i ).shouldTakeScreenshot() == true ) takeScreenShot = true;
-		}
-		if( takeScreenShot == true ) {
-			// PhotoBooth.snapGamePhoto( p, _stageWidth, _stageHeight );
-		}
-		// check for complete
-		for( int i=0; i < NUM_PLAYERS; i++ ) {
-//			if( _gamePlays.get( i ).hasClearedBoard() == true && _gameState == GameState.GAME_ON ) {
-//				setGameState( GameState.GAME_OVER );
-//			}
-		}
-	}
-	
-	protected void displayDebug() {
-//		debugCameraPos();
-//		drawDebug();
-		
-		if( p.frameCount % ( _fps * 60 ) == 0 ) {
-			P.println( "time: "+P.minute()+":"+P.second() );
-		}
-		if( p.frameCount % ( _fps * 15 ) == 0 ) {
-			if( _gameState == GameState.GAME_WAITING_FOR_PLAYERS ) {
-				setGameState( GameState.GAME_COUNTDOWN );
 			}
 		}
 	}
