@@ -40,11 +40,11 @@ public class CatchySounds {
 	}
 	
 	protected void loadSoundtracks() {
-		_introSound = p.minim.loadFile( FileUtil.getHaxademicDataPath() + "games/catchy/audio/soundtrack/catchy-intro-loop.wav", 512 );
-		_waitingSound = p.minim.loadFile( FileUtil.getHaxademicDataPath() + "games/catchy/audio/soundtrack/catchy-waiting-loop.wav", 512 );
-		_gameplaySound = p.minim.loadFile( FileUtil.getHaxademicDataPath() + "games/catchy/audio/soundtrack/ohy-loop.wav", 512 );
-		_winSound = p.minim.loadFile( FileUtil.getHaxademicDataPath() + "games/catchy/audio/soundtrack/win.wav", 512 );
-		_ohySound = p.minim.loadFile( FileUtil.getHaxademicDataPath() + "audio/ohy-clip-2.wav", 512 );
+		_introSound = 		p.minim.loadFile( FileUtil.getHaxademicDataPath() + "games/catchy/audio/soundtrack/catchy-intro-loop.wav", 512 );
+		_waitingSound = 	p.minim.loadFile( FileUtil.getHaxademicDataPath() + "games/catchy/audio/soundtrack/catchy-waiting-loop.wav", 512 );
+		_gameplaySound = 	p.minim.loadFile( FileUtil.getHaxademicDataPath() + "games/catchy/audio/soundtrack/ohy-loop.wav", 512 );
+		_winSound = 		p.minim.loadFile( FileUtil.getHaxademicDataPath() + "games/catchy/audio/soundtrack/win.wav", 512 );
+		_ohySound = 		p.minim.loadFile( FileUtil.getHaxademicDataPath() + "audio/ohy-clip-2.wav", 512 );
 	}
 	
 	public void playIntro() { playSoundtrack( _introSound ); }
@@ -70,15 +70,15 @@ public class CatchySounds {
 	public void loadSoundEffects() {
 		_soundEffects = new AudioPool( p, p.minim );
 
-		_soundEffects.loadAudioFile( CatchySounds.PLAYER_LOCKED, 1, FileUtil.getHaxademicDataPath() + "games/catchy/audio/sfx/players-detected.wav" );
-		_soundEffects.loadAudioFile( CatchySounds.PLAYERS_DETECTED, 1, FileUtil.getHaxademicDataPath() + "games/catchy/audio/sfx/long-note.wav" );
-		_soundEffects.loadAudioFile( CatchySounds.STEP_IN, 1, FileUtil.getHaxademicDataPath() + "games/catchy/audio/sfx/ta-da-flute-2.wav" );
-		_soundEffects.loadAudioFile( CatchySounds.STEP_OUT, 1, FileUtil.getHaxademicDataPath() + "games/catchy/audio/sfx/step-out.wav" );
-		_soundEffects.loadAudioFile( CatchySounds.COUNTDOWN, 1, FileUtil.getHaxademicDataPath() + "games/catchy/audio/sfx/long-note-end.wav" );
-		_soundEffects.loadAudioFile( CatchySounds.CATCH, 1, FileUtil.getHaxademicDataPath() + "games/catchy/audio/sfx/ring-2.wav" );
-		_soundEffects.loadAudioFile( CatchySounds.CATCH_BAD, 1, FileUtil.getHaxademicDataPath() + "games/catchy/audio/sfx/boing-tom.wav" );
-		_soundEffects.loadAudioFile( CatchySounds.DROP_MISS, 1, FileUtil.getHaxademicDataPath() + "games/catchy/audio/sfx/mistake.wav" );
-		_soundEffects.loadAudioFile( CatchySounds.DROP, 1.1f, FileUtil.getHaxademicDataPath() + "games/catchy/audio/sfx/drip-low.wav" );
+		_soundEffects.loadAudioFile( CatchySounds.PLAYER_LOCKED, 1, 	FileUtil.getHaxademicDataPath() + "games/catchy/audio/sfx/players-detected.wav" );
+		_soundEffects.loadAudioFile( CatchySounds.PLAYERS_DETECTED, 1, 	FileUtil.getHaxademicDataPath() + "games/catchy/audio/sfx/long-note.wav" );
+		_soundEffects.loadAudioFile( CatchySounds.STEP_IN, 1, 			FileUtil.getHaxademicDataPath() + "games/catchy/audio/sfx/ta-da-flute-2.wav" );
+		_soundEffects.loadAudioFile( CatchySounds.STEP_OUT, 1, 			FileUtil.getHaxademicDataPath() + "games/catchy/audio/sfx/step-out.wav" );
+		_soundEffects.loadAudioFile( CatchySounds.COUNTDOWN, 1, 		FileUtil.getHaxademicDataPath() + "games/catchy/audio/sfx/long-note-end.wav" );
+		_soundEffects.loadAudioFile( CatchySounds.CATCH, 1, 			FileUtil.getHaxademicDataPath() + "games/catchy/audio/sfx/ring-2.wav" );
+		_soundEffects.loadAudioFile( CatchySounds.CATCH_BAD, 1, 		FileUtil.getHaxademicDataPath() + "games/catchy/audio/sfx/boing-tom.wav" );
+		_soundEffects.loadAudioFile( CatchySounds.DROP_MISS, 1, 		FileUtil.getHaxademicDataPath() + "games/catchy/audio/sfx/mistake.wav" );
+		_soundEffects.loadAudioFile( CatchySounds.DROP, 1.1f, 			FileUtil.getHaxademicDataPath() + "games/catchy/audio/sfx/drip-low.wav" );
 	}
 
 	public void playSound( String id ) {
