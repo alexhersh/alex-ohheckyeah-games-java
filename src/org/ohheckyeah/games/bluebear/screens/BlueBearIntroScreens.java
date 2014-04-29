@@ -104,10 +104,6 @@ public class BlueBearIntroScreens {
 		}
 	}
 	
-	protected void drawBlackLine() {
-		pg.shape( p.gameGraphics.blackDivider, pg.width * 0.5f, pg.height * 0.95f + _drawYOffset.value(), p.scaleV(p.gameGraphics.blackDivider.width), p.scaleV(p.gameGraphics.blackDivider.height) );
-	}
-	
 	protected void drawWhiteBg() {
 		DrawUtil.setDrawCorner(pg);
 		pg.fill( _bgColor );
