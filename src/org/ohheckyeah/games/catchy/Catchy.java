@@ -132,7 +132,6 @@ extends PAppletHax
 		_gameMessages = new CatchyGameMessages();
 		
 		// set flags and props	
-		pickNewColors();
 		setKinectProperties();
 		buildGameplays();
 		buildGameTimer();
@@ -175,12 +174,7 @@ extends PAppletHax
 	}
 	
 	protected void loadMedia() {
-		sounds = new CatchySounds();
-		
-//		AssetLoader loader = new AssetLoader();
-//		loader.createMeshPool();
-//		loader.loadAudio( sounds );	
-		
+		sounds = new CatchySounds();		
 		gameGraphics = new CatchyGraphics();
 		gameGraphics.shuffleCharacters();
 	}
@@ -527,15 +521,6 @@ extends PAppletHax
 				p.popMatrix();
 			}
 		}
-	}
-	
-	// Visual fun
-	protected void pickNewColors() {
-		// get themed colors
-		if( _gameColors == null ) {
-			_gameColors = new CatchyColors(0);
-		}
-		_gameColors.setRandomGroup();
 	}
 	
 }
