@@ -86,7 +86,6 @@ public class BlueBearGamePlay {
 	public void update() {
 		if( p.gameState() == GameState.GAME_WAITING_FOR_PLAYERS ) detectPlayers();
 		if( p.gameState() == GameState.GAME_PLAYING ) updateControls();
-		updateControls();
 		drawGraphicsLayers();
 	}
 	
