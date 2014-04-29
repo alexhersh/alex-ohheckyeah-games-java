@@ -1,4 +1,6 @@
-![OhHeckYeah](https://avatars2.githubusercontent.com/u/6227089?s=140)
+![OhHeckYeah](https://raw.githubusercontent.com/ohheckyeah/web-content/master/game-titles/catchy-title.png)
+
+
 Catchy
 ==========
 
@@ -7,3 +9,7 @@ Catchy is a 2-player Kinect-based video game, and the first official [OhHeckYeah
 ##### TODO
 
 * Improve 1-player layout
+
+
+
+![OhHeckYeah](https://avatars2.githubusercontent.com/u/6227089?s=140)
