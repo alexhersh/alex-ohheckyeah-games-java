@@ -27,6 +27,8 @@ public class BlueBearGamePlay {
 	
 	protected int _bgColor;
 	
+	protected BlueBearRoad _road;
+	
 	public BlueBearGamePlay( KinectRegionGrid kinectGrid, boolean isRemoteKinect ) {
 		p = (BlueBear) P.p;
 		pg = p.pg;
@@ -37,7 +39,9 @@ public class BlueBearGamePlay {
 		for (int i=0; i < _kinectGrid.kinectRegions.size(); i++) {
 			_playerControls.add(new BlueBearPlayerControls(_kinectGrid.getRegion(i), _isRemoteKinect));
 		}
-						
+				
+		_road = new BlueBearRoad();
+		
 		reset();
 	}
 	
@@ -109,7 +113,7 @@ public class BlueBearGamePlay {
 	
 	// draw graphics ------------------------------------------------------------------
 	protected void drawGraphicsLayers() {
-		DrawUtil.setDrawCenter(pg);
+		_road.update();
 	}
 	
 }
