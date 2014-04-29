@@ -5,6 +5,7 @@ import org.ohheckyeah.games.bluebear.assets.BlueBearSounds;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.hardware.kinect.KinectRegion;
+import com.haxademic.core.math.MathUtil;
 
 public class BlueBearPlayerControls {
 
@@ -15,30 +16,43 @@ public class BlueBearPlayerControls {
 	protected boolean _hasPlayer = false;
 	protected boolean _detectedPlayer = false;
 	protected int _detectedPlayerTime = 0;
-	protected float _autoControl;
+	protected int _autoControlTime = 0;
+	
+	public final static int LANE_TOP = 0;
+	public final static int LANE_MIDDLE = 1;
+	public final static int LANE_BOTTOM = 2;
+	protected int _lane = 0;
 
 	public BlueBearPlayerControls( KinectRegion kinectRegion, boolean isRemoteKinect ) {
 		p = (BlueBear) P.p;
 		_kinectRegion = kinectRegion;
 		_isRemoteKinect = isRemoteKinect;
-		_autoControl = p.random(0.001f, 0.005f);
 	}
 	
 	public boolean hasPlayer() {
 		return _hasPlayer;
 	}
 	
-	public float controlZ() {
-		return _kinectRegion.controlZ();
+	public int lane() {
+		return _lane;
 	}
 	
 	public void updateControls() {
 		if( p.kinectWrapper != null || _isRemoteKinect == true ) {
-			// _easedControlX.setTarget( _kinectRegion.controlX() * 2f );					
+			if( _kinectRegion.controlZ() < -0.1666 ) {				
+				_lane = LANE_TOP;
+			} else if( _kinectRegion.controlZ() > 0.1666 ) {
+				_lane = LANE_BOTTOM;
+			} else {
+				_lane = LANE_MIDDLE;
+			}
 		} else {
 			if( _isRemoteKinect == false ) {
 				// fake test controls
-				// _easedControlX.setTarget( P.sin(p.millis() * _autoControl) );
+				if( p.millis() > _autoControlTime + 1500 ) {
+					_autoControlTime = p.millis();
+					_lane = MathUtil.randRange(0, 2);
+				}
 			}
 		}
 	}
