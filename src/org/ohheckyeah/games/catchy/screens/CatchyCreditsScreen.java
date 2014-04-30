@@ -76,8 +76,12 @@ public class CatchyCreditsScreen {
 	
 	protected void drawSponsors() {
 		pg.pushMatrix();
-		pg.translate( pg.width/2, pg.height * 0.79f );
-		pg.image( _sponsorImage, 0, 0, _sponsorImage.width * _sponsorScale, _sponsorImage.height * _sponsorScale );
+		int sponsorY = P.round(pg.height * 0.79f);
+		if( sponsorY % 2 == 1 ) sponsorY++;
+		int imageH = P.round(_sponsorImage.height * _sponsorScale);
+		if( imageH % 2 == 1 ) imageH++;
+		pg.translate( P.round(pg.width/2), sponsorY );
+		pg.image( _sponsorImage, 0, 0, P.round(_sponsorImage.width * _sponsorScale), imageH );
 		pg.popMatrix();
 	}
 	
