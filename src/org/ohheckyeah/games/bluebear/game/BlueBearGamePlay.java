@@ -28,6 +28,7 @@ public class BlueBearGamePlay {
 	
 	protected BlueBearRoad _road;
 	protected BlueBearCharacter _bear;
+	protected BlueBearNemesis _nemesis;
 	
 	public BlueBearGamePlay( KinectRegionGrid kinectGrid, boolean isRemoteKinect ) {
 		p = (BlueBear) P.p;
@@ -42,6 +43,7 @@ public class BlueBearGamePlay {
 				
 		_road = new BlueBearRoad();
 		_bear = new BlueBearCharacter();
+		_nemesis = new BlueBearNemesis();
 		
 		reset();
 	}
@@ -111,12 +113,14 @@ public class BlueBearGamePlay {
 			_playerControls.get(i).updateControls();
 		}
 		_bear.setLane( _playerControls.get(0).lane() );
+		_nemesis.setLane( _playerControls.get(1).lane() );
 	}
 	
 	// draw graphics ------------------------------------------------------------------
 	protected void drawGraphicsLayers() {
 		_road.update();
 		_bear.update();
+		_nemesis.update();
 	}
 	
 }

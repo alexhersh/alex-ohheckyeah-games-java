@@ -9,7 +9,7 @@ public class BlueBearGraphics {
 	
 	
 	public PShape waitingSpinner;
-	public PShape roadTile;
+	public PShape roadTile, nemesis;
 	public PShape blueBearLogo, logoConfetti, redDivider;
 	public PShape logoOHY, logoLegwork, logoModeSet;
 	
@@ -20,6 +20,7 @@ public class BlueBearGraphics {
 		// scene
 		waitingSpinner = P.p.loadShape( FileUtil.getHaxademicDataPath() + "games/catchy/svg/scene/waiting-spinner.svg" );
 		roadTile = P.p.loadShape( FileUtil.getHaxademicDataPath() + "games/bluebear/svg/scene/road-tile.svg" );
+		nemesis = P.p.loadShape( FileUtil.getHaxademicDataPath() + "games/bluebear/svg/scene/triangle.svg" );
 		
 		// title screen
 		blueBearLogo = P.p.loadShape( FileUtil.getHaxademicDataPath() + "games/bluebear/svg/shell/big-blue-logo.svg" );
