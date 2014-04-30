@@ -25,7 +25,7 @@ public class BlueBearRoad {
 	}
 	
 	public void update() {
-		int distance = -p.frameCount * 3;
+		int distance = -p.frameCount * 5;
 		
 		// responsive sizing/placement
 		int tileW = P.round(p.scaleV(p.gameGraphics.roadTile.width));

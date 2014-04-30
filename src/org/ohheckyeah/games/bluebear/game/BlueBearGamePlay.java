@@ -26,6 +26,7 @@ public class BlueBearGamePlay {
 	
 	protected int _bgColor;
 	
+	protected BlueBearBuildingsScroller _buildings;
 	protected BlueBearRoad _road;
 	protected BlueBearCharacter _bear;
 	protected BlueBearNemesis _nemesis;
@@ -41,6 +42,7 @@ public class BlueBearGamePlay {
 			_playerControls.add(new BlueBearPlayerControls(_kinectGrid.getRegion(i), _isRemoteKinect));
 		}
 				
+		_buildings = new BlueBearBuildingsScroller();
 		_road = new BlueBearRoad();
 		_bear = new BlueBearCharacter();
 		_nemesis = new BlueBearNemesis();
@@ -118,6 +120,7 @@ public class BlueBearGamePlay {
 	
 	// draw graphics ------------------------------------------------------------------
 	protected void drawGraphicsLayers() {
+		_buildings.update();
 		_road.update();
 		_bear.update();
 		_nemesis.update();
