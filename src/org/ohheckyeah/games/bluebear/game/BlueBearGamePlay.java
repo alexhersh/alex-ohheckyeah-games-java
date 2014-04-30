@@ -9,7 +9,6 @@ import org.ohheckyeah.games.bluebear.assets.BlueBearColors;
 import processing.core.PGraphics;
 
 import com.haxademic.core.app.P;
-import com.haxademic.core.draw.util.DrawUtil;
 import com.haxademic.core.hardware.kinect.KinectRegionGrid;
 
 public class BlueBearGamePlay {
@@ -111,6 +110,7 @@ public class BlueBearGamePlay {
 		for( int i=0; i < _playerControls.size(); i++ ) {
 			_playerControls.get(i).updateControls();
 		}
+		_bear.setLane( _playerControls.get(0).lane() );
 	}
 	
 	// draw graphics ------------------------------------------------------------------
