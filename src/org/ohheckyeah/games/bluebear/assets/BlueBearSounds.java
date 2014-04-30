@@ -1,7 +1,6 @@
 package org.ohheckyeah.games.bluebear.assets;
 
 import org.ohheckyeah.games.bluebear.BlueBear;
-import org.ohheckyeah.games.catchy.Catchy;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.audio.AudioPool;
@@ -66,7 +65,7 @@ public class BlueBearSounds {
 	public void loadSoundEffects() {
 		_soundEffects = new AudioPool( p, p.minim );
 
-		_soundEffects.loadAudioFile( BlueBearSounds.PLAYER_LOCKED, 1, 	FileUtil.getHaxademicDataPath() + "games/catchy/audio/sfx/players-detected.wav" );
+		_soundEffects.loadAudioFile( BlueBearSounds.PLAYER_LOCKED, 1, 		FileUtil.getHaxademicDataPath() + "games/catchy/audio/sfx/players-detected.wav" );
 		_soundEffects.loadAudioFile( BlueBearSounds.PLAYERS_DETECTED, 1, 	FileUtil.getHaxademicDataPath() + "games/catchy/audio/sfx/long-note.wav" );
 		_soundEffects.loadAudioFile( BlueBearSounds.STEP_IN, 1, 			FileUtil.getHaxademicDataPath() + "games/catchy/audio/sfx/ta-da-flute-2.wav" );
 		_soundEffects.loadAudioFile( BlueBearSounds.STEP_OUT, 1, 			FileUtil.getHaxademicDataPath() + "games/catchy/audio/sfx/step-out.wav" );
