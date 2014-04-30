@@ -113,22 +113,23 @@ public class CatchyIntroScreens {
 		DrawUtil.setDrawCorner(pg);
 		pg.fill( _bgColor );
 		pg.noStroke();
-		pg.rect( bgPadX, bgPadY + _drawYOffset.value(), pg.width - bgPadX * 2, pg.height * 3 - bgPadY * 2 );
+		pg.rect( bgPadX, P.round(bgPadY + _drawYOffset.value()), pg.width - bgPadX * 2, pg.height * 3 - bgPadY * 2 );
 	}
 	
 	protected void drawSubScreens() {
 		DrawUtil.setDrawCenter(pg);
-		if( _drawYOffset.value() > -p.height + 1 ) {
+		int drawYRound = P.round(_drawYOffset.value());
+		if( drawYRound > -p.height + 1 ) {
 			_hugItOutScreen.update();
-			pg.image( _hugItOutScreen.pg, pg.width/2f, pg.height/2f + 0 + _drawYOffset.value(), _hugItOutScreen.pg.width, _hugItOutScreen.pg.height );
+			pg.image( _hugItOutScreen.pg, pg.width/2f, pg.height/2f + 0 + drawYRound, _hugItOutScreen.pg.width, _hugItOutScreen.pg.height );
 		}
-		if( _drawYOffset.value() > -p.height * 2 + 1 && _drawYOffset.value() < -1 ) {
+		if( drawYRound > -p.height * 2 + 1 && drawYRound < -1 ) {
 			_logoScreen.update();
-			pg.image( _logoScreen.pg, pg.width/2f, pg.height/2f + pg.height + _drawYOffset.value(), _logoScreen.pg.width, _logoScreen.pg.height );
+			pg.image( _logoScreen.pg, pg.width/2f, pg.height/2f + pg.height + drawYRound, _logoScreen.pg.width, _logoScreen.pg.height );
 		}
-		if( _drawYOffset.value() < -p.height - 1 ) {
+		if( drawYRound < -p.height - 1 ) {
 			_creditsScreen.update();
-			pg.image( _creditsScreen.pg, pg.width/2f, pg.height/2f + pg.height * 2 + _drawYOffset.value(), _creditsScreen.pg.width, _creditsScreen.pg.height );
+			pg.image( _creditsScreen.pg, pg.width/2f, pg.height/2f + pg.height * 2 + drawYRound, _creditsScreen.pg.width, _creditsScreen.pg.height );
 		}
 	}
 		
