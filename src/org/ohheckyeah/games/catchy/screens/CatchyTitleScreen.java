@@ -38,7 +38,7 @@ public class CatchyTitleScreen {
 		borderHeight = p.height - (int) p.scaleV(20);
 
 		pg = p.createGraphics( titleWidth, titleHeight, P.OPENGL );
-		pg.smooth(OpenGLUtil.SMOOTH_HIGH);
+		pg.smooth(OpenGLUtil.SMOOTH_MEDIUM);
 		
 		_confetti = new ArrayList<ConfettiParticle>();
 		for( int i=0; i < 100; i++ ) {

@@ -37,7 +37,7 @@ public class CatchyIntroScreens {
 		p = (Catchy) P.p;
 
 		pg = p.createGraphics( p.width, p.height, P.OPENGL );
-		pg.smooth(OpenGLUtil.SMOOTH_HIGH);
+		pg.smooth(OpenGLUtil.SMOOTH_MEDIUM);
 		
 		bgPadX = (int) p.scaleV(20);
 		bgPadY = (int) p.scaleV(20);

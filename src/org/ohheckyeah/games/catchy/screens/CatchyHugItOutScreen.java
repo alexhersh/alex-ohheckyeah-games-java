@@ -23,7 +23,7 @@ public class CatchyHugItOutScreen {
 		p = (Catchy) P.p;
 
 		pg = p.createGraphics( p.width, p.height, P.OPENGL );
-		pg.smooth(OpenGLUtil.SMOOTH_HIGH);
+		pg.smooth(OpenGLUtil.SMOOTH_MEDIUM);
 	}
 	
 	public void reset() {

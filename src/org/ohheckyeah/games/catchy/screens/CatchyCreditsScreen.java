@@ -29,7 +29,7 @@ public class CatchyCreditsScreen {
 		p = (Catchy) P.p;
 
 		pg = p.createGraphics( p.width, p.height, P.OPENGL );
-		pg.smooth(OpenGLUtil.SMOOTH_HIGH);
+		pg.smooth(OpenGLUtil.SMOOTH_MEDIUM);
 		
 		if( sponsorsImagePath != null ) {
 			_sponsorImage = p.loadImage( FileUtil.getHaxademicDataPath() + sponsorsImagePath );
