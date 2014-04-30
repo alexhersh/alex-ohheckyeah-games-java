@@ -318,12 +318,12 @@ extends PAppletHax
 		}
 		if( hasPlayers == true ) {
 			setGameState( GameState.GAME_PRE_COUNTDOWN );
-			_gameMessages.hideWaiting();
 		}
 	}
 	
 	protected void setGameStatePreCountdown() {
 		_preCountdownStartTime = p.millis();
+		_gameMessages.hideWaiting();
 		_gameMessages.showCountdown();
 		for( int i=0; i < NUM_PLAYERS; i++ ) {
 			_gamePlays.get( i ).playersLockedIn();
