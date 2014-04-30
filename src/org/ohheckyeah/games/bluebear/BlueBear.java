@@ -278,6 +278,7 @@ extends PAppletHax
 	
 	protected void setGameStatePreCountdown() {
 		_preCountdownStartTime = p.millis();
+		_gameMessages.hideWaiting();
 		_gameMessages.showCountdown();
 		_gamePlay.playersLockedIn();
 		sounds.playSound( BlueBearSounds.PLAYERS_DETECTED );
