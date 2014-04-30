@@ -47,9 +47,9 @@ public class CatchyHugItOutScreen {
 	protected void drawMessage() {
 		if( _messages == null ) {
 			_messages = new ArrayList<CatchyTextMessage>();
+			_messages.add( new CatchyTextMessage( "try meeting someone new!", 60, 650, 90, 650 ) );
 			_messages.add( new CatchyTextMessage( "now hug it out", 60, 450, 90, 410 ) );
-			_messages.add( new CatchyTextMessage( "how about a high five for your opponent?", 60, 1050, 90, 1050 ) );
-			_messages.add( new CatchyTextMessage( "try meeting someone new tonight!", 60, 850, 90, 850 ) );
+			_messages.add( new CatchyTextMessage( "how about a high five?", 60, 650, 90, 650 ) );
 		}
 		pg.pushMatrix();
 		pg.translate( pg.width/2, pg.height * 0.4f );
