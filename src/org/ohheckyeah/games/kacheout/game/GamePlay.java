@@ -142,6 +142,7 @@ public class GamePlay {
 	}
 	
 	protected void positionGameCenter(){
+		p.resetMatrix();
 		DrawUtil.setTopLeft( p );
 		p.translate( 0, 0, p.gameBaseZ() );
 //		p.rotateX( p.PI / 16f );

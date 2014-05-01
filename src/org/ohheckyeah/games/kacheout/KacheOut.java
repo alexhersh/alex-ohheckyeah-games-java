@@ -127,6 +127,7 @@ extends PAppletHax
 	
 	public void setup() {
 		_customPropsFile = FileUtil.getHaxademicDataPath() + "properties/kacheout.properties";
+		_useLegacyAudio = true;
 		super.setup();
 		initGame();
 	}
@@ -258,7 +259,9 @@ extends PAppletHax
 	// FRAME LOOP --------------------------------------------------------------------------------------
 	
 	public void drawApp() {
+		p.resetMatrix(); // why did I ever decide to do this?! :(
 		DrawUtil.resetGlobalProps( p );
+		p.resetMatrix();
 		DrawUtil.setCenter( p );
 
 		p.shininess(1000f); 

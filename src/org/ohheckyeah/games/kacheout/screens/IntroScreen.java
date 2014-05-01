@@ -211,6 +211,7 @@ public class IntroScreen {
 	protected void drawObjects() {
 		// set up for drawing objects
 		p.pushMatrix();
+		p.resetMatrix();
 		DrawUtil.setCenter( p );
 		p.translate( 0, 0, p.gameBaseZ() );
 
