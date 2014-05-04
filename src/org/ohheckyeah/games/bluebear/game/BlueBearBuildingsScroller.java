@@ -46,8 +46,7 @@ public class BlueBearBuildingsScroller {
 		return P.round(p.scaleV(shape.height));
 	}
 	
- 	public void update() {
-		int speed = 5;
+ 	public void update(float speed) {
 		_buildingsStartX -= speed;
 		_buildingsEndX = _buildingsStartX;
 		

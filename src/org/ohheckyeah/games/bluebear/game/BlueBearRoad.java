@@ -14,7 +14,8 @@ public class BlueBearRoad {
 	
 	public static float LANE_H = 88f;
 	public static float ROAD_Y = 0;
-
+	
+	protected float distance = 0;
 
 	public BlueBearRoad() {
 		p = (BlueBear)P.p;
@@ -24,13 +25,13 @@ public class BlueBearRoad {
 		ROAD_Y = pg.height * 0.5f;
 	}
 	
-	public void update() {
-		int distance = -p.frameCount * 5;
+	public void update(float speed) {
+		distance -= speed;
 		
 		// responsive sizing/placement
 		int tileW = P.round(p.scaleV(p.gameGraphics.roadTile.width));
 		int tileH = P.round(p.scaleV(p.gameGraphics.roadTile.height));
-		int tileX = P.round(distance % tileW);
+		int tileX = P.round(P.round(distance) % tileW);
 		
 		// draw to fill width of screen
 		DrawUtil.setDrawCorner(pg);

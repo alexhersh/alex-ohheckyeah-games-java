@@ -18,8 +18,9 @@ public class BlueBearCharacter {
 	protected PGraphics pg;
 	protected PImage[] _frames;
 	protected PImage _curFrame;
+	protected float _frameIndex = 0;
 	protected EasingFloat _yPosition = new EasingFloat(0,6);
-	protected float _scale = 0.3f;
+	protected float _scale = 0.5f;
 	protected int _lane = 0;
 	protected int _bearH = 0;
 
@@ -45,9 +46,11 @@ public class BlueBearCharacter {
 		_yPosition.setTarget( BlueBearRoad.ROAD_Y + (BlueBearRoad.LANE_H / 2f) + (BlueBearRoad.LANE_H * _lane) - _bearH );
 	}
 	
-	public void update() {
-		int speed = 3;
-		_curFrame = _frames[P.floor(p.frameCount/speed % _frames.length)];
+	public void update(float speed) {
+		speed *= 0.35f;
+		float frameInc = 1 - 1f / speed;
+		_frameIndex += ( frameInc > 0 ) ? frameInc : _frameIndex;
+		_curFrame = _frames[P.floor(_frameIndex % _frames.length)];
 		if( _curFrame == null ) return;
 		
 		// responsive sizing/placement

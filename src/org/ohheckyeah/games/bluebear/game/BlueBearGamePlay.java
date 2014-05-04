@@ -10,6 +10,7 @@ import processing.core.PGraphics;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.hardware.kinect.KinectRegionGrid;
+import com.haxademic.core.math.easing.LinearFloat;
 
 public class BlueBearGamePlay {
 	
@@ -30,6 +31,8 @@ public class BlueBearGamePlay {
 	protected BlueBearRoad _road;
 	protected BlueBearCharacter _bear;
 	protected BlueBearNemesis _nemesis;
+	
+	protected LinearFloat _scrollSpeed = new LinearFloat(0,0.2f);
 	
 	public BlueBearGamePlay( KinectRegionGrid kinectGrid, boolean isRemoteKinect ) {
 		p = (BlueBear) P.p;
@@ -61,9 +64,11 @@ public class BlueBearGamePlay {
 	}
 	
 	public void startGame() {
+		_scrollSpeed.setTarget(5);
 	}
 	
 	public void gameOver( boolean didWin ) {
+		_scrollSpeed.setTarget(0);
 	}
 	
 	// handle countdown timer ------------
@@ -95,6 +100,7 @@ public class BlueBearGamePlay {
 	public void update() {
 		if( p.gameState() == GameState.GAME_WAITING_FOR_PLAYERS ) detectPlayers();
 		if( p.gameState() == GameState.GAME_PLAYING ) updateControls();
+		_scrollSpeed.update();
 		drawGraphicsLayers();
 	}
 	
@@ -120,9 +126,10 @@ public class BlueBearGamePlay {
 	
 	// draw graphics ------------------------------------------------------------------
 	protected void drawGraphicsLayers() {
-		_buildings.update();
-		_road.update();
-		_bear.update();
+		float speed = _scrollSpeed.value();
+		_buildings.update(speed);
+		_road.update(speed);
+		_bear.update(speed);
 		_nemesis.update();
 	}
 	
