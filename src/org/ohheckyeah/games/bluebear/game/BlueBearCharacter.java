@@ -49,6 +49,7 @@ public class BlueBearCharacter {
 	public void update(float speed) {
 		speed *= 0.35f;
 		float frameInc = 1 - 1f / speed;
+		frameInc *= 0.5f;
 		_frameIndex += ( frameInc > 0 ) ? frameInc : _frameIndex;
 		_curFrame = _frames[P.floor(_frameIndex % _frames.length)];
 		if( _curFrame == null ) return;

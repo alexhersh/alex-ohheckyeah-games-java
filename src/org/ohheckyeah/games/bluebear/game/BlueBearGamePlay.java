@@ -5,6 +5,10 @@ import java.util.ArrayList;
 import org.ohheckyeah.games.bluebear.BlueBear;
 import org.ohheckyeah.games.bluebear.BlueBear.GameState;
 import org.ohheckyeah.games.bluebear.assets.BlueBearColors;
+import org.ohheckyeah.games.bluebear.game.scrolling.BlueBearBuildingsScroller;
+import org.ohheckyeah.games.bluebear.game.scrolling.BlueBearCloudsScroller;
+import org.ohheckyeah.games.bluebear.game.scrolling.BlueBearSidewalkScroller;
+import org.ohheckyeah.games.bluebear.game.scrolling.BlueBearSkylineScroller;
 
 import processing.core.PGraphics;
 
@@ -27,11 +31,15 @@ public class BlueBearGamePlay {
 	
 	protected int _bgColor;
 	
+	protected BlueBearCloudsScroller _clouds;
+	protected BlueBearSkylineScroller _skyline;
 	protected BlueBearBuildingsScroller _buildings;
+	protected BlueBearSidewalkScroller _sidewalk;
 	protected BlueBearRoad _road;
 	protected BlueBearCharacter _bear;
 	protected BlueBearNemesis _nemesis;
 	
+	protected float SPEED = 10;
 	protected LinearFloat _scrollSpeed = new LinearFloat(0,0.2f);
 	
 	public BlueBearGamePlay( KinectRegionGrid kinectGrid, boolean isRemoteKinect ) {
@@ -45,7 +53,10 @@ public class BlueBearGamePlay {
 			_playerControls.add(new BlueBearPlayerControls(_kinectGrid.getRegion(i), _isRemoteKinect));
 		}
 				
+		_clouds = new BlueBearCloudsScroller();
+		_skyline = new BlueBearSkylineScroller();
 		_buildings = new BlueBearBuildingsScroller();
+		_sidewalk = new BlueBearSidewalkScroller();
 		_road = new BlueBearRoad();
 		_bear = new BlueBearCharacter();
 		_nemesis = new BlueBearNemesis();
@@ -64,7 +75,7 @@ public class BlueBearGamePlay {
 	}
 	
 	public void startGame() {
-		_scrollSpeed.setTarget(5);
+		_scrollSpeed.setTarget(SPEED);
 	}
 	
 	public void gameOver( boolean didWin ) {
@@ -127,7 +138,10 @@ public class BlueBearGamePlay {
 	// draw graphics ------------------------------------------------------------------
 	protected void drawGraphicsLayers() {
 		float speed = _scrollSpeed.value();
+		_clouds.update(speed);
+		_skyline.update(speed);
 		_buildings.update(speed);
+		_sidewalk.update(speed);
 		_road.update(speed);
 		_bear.update(speed);
 		_nemesis.update();
