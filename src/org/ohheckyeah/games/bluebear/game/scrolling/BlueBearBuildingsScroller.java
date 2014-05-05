@@ -12,7 +12,7 @@ extends BlueBearScrollingGraphicsLayer{
 	
 	protected void configureLayer() {
 		float y = BlueBearRoad.ROAD_Y - p.scaleV(60);		
-		super.initLayer("games/bluebear/svg/neighborhoods/baker/buildings/", y, 20);
+		super.initLayer(y, 20, 1);
 	}
 	
 }

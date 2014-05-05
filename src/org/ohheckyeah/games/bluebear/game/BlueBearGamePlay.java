@@ -5,6 +5,12 @@ import java.util.ArrayList;
 import org.ohheckyeah.games.bluebear.BlueBear;
 import org.ohheckyeah.games.bluebear.BlueBear.GameState;
 import org.ohheckyeah.games.bluebear.assets.BlueBearColors;
+import org.ohheckyeah.games.bluebear.assets.neighborhoods.BlueBearNeighborhood;
+import org.ohheckyeah.games.bluebear.assets.neighborhoods.BlueBearNeighborhoodBaker;
+import org.ohheckyeah.games.bluebear.assets.neighborhoods.BlueBearNeighborhoodBroadway;
+import org.ohheckyeah.games.bluebear.assets.neighborhoods.BlueBearNeighborhoodHighlands;
+import org.ohheckyeah.games.bluebear.assets.neighborhoods.BlueBearNeighborhoodMountains;
+import org.ohheckyeah.games.bluebear.game.scrolling.BlueBearBackgroundScroller;
 import org.ohheckyeah.games.bluebear.game.scrolling.BlueBearBuildingsScroller;
 import org.ohheckyeah.games.bluebear.game.scrolling.BlueBearCloudsScroller;
 import org.ohheckyeah.games.bluebear.game.scrolling.BlueBearSidewalkScroller;
@@ -31,6 +37,12 @@ public class BlueBearGamePlay {
 	
 	protected int _bgColor;
 	
+	protected BlueBearNeighborhood[] _neighborhoods;
+	protected BlueBearNeighborhood _curNeighborhood;
+	protected int _neighborhoodIndex = 0;
+	
+	protected BlueBearBackground _backgroundColor;
+	protected BlueBearBackgroundScroller _background;
 	protected BlueBearCloudsScroller _clouds;
 	protected BlueBearSkylineScroller _skyline;
 	protected BlueBearBuildingsScroller _buildings;
@@ -52,22 +64,53 @@ public class BlueBearGamePlay {
 		for (int i=0; i < _kinectGrid.kinectRegions.size(); i++) {
 			_playerControls.add(new BlueBearPlayerControls(_kinectGrid.getRegion(i), _isRemoteKinect));
 		}
-				
+		
+		buildNeighborhoods();
+		buildGraphicsLayers();
+		
+		reset();
+	}
+	
+	protected void buildNeighborhoods() {
+		_neighborhoods = new BlueBearNeighborhood[5];
+		_neighborhoods[0] = new BlueBearNeighborhoodMountains();
+		_neighborhoods[1] = new BlueBearNeighborhoodBaker();
+		_neighborhoods[2] = new BlueBearNeighborhoodBroadway();
+		_neighborhoods[3] = new BlueBearNeighborhoodHighlands();
+		_neighborhoods[4] = new BlueBearNeighborhoodBaker();
+	}
+	
+	protected void buildGraphicsLayers() {
+		_backgroundColor = new BlueBearBackground();
 		_road = new BlueBearRoad();
 		_clouds = new BlueBearCloudsScroller();
+		_background = new BlueBearBackgroundScroller();
 		_skyline = new BlueBearSkylineScroller();
 		_buildings = new BlueBearBuildingsScroller();
 		_sidewalk = new BlueBearSidewalkScroller();
 		_bear = new BlueBearCharacter();
 		_nemesis = new BlueBearNemesis();
-		
-		reset();
 	}
 	
 	public void reset() {
 		_bgColor = BlueBearColors.STAGE_BG;
 		_gameIsActive = false;
 		// Collections.shuffle( _droppables );
+		
+		setLevel(0);
+	}
+	
+	protected void setLevel( int index ) {
+		// reset level
+		_neighborhoodIndex = index;
+		_curNeighborhood = _neighborhoods[_neighborhoodIndex];
+		
+		_backgroundColor.setColor( _curNeighborhood.backgroundColor );
+		
+		_background.setGraphicPool( _curNeighborhood.backgroundPool );
+		_skyline.setGraphicPool( _curNeighborhood.skylinePool );
+		_buildings.setGraphicPool( _curNeighborhood.buildingsPool );
+		_sidewalk.setGraphicPool( _curNeighborhood.sidewalkPool );
 	}
 		
 	// start/end game methods ------------
@@ -113,6 +156,9 @@ public class BlueBearGamePlay {
 		if( p.gameState() == GameState.GAME_PLAYING ) updateControls();
 		_scrollSpeed.update();
 		drawGraphicsLayers();
+		if( p.frameCount == 400 ) {
+			setLevel(_neighborhoodIndex + 1);
+		}
 	}
 	
 	public void detectPlayers() {
@@ -138,7 +184,9 @@ public class BlueBearGamePlay {
 	// draw graphics ------------------------------------------------------------------
 	protected void drawGraphicsLayers() {
 		float speed = _scrollSpeed.value();
+		_backgroundColor.update();
 		_clouds.update(speed);
+		_background.update(speed);
 		_skyline.update(speed);
 		_buildings.update(speed);
 		_sidewalk.update(speed);

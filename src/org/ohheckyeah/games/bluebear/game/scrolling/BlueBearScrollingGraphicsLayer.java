@@ -10,7 +10,6 @@ import processing.core.PShape;
 import com.haxademic.core.app.P;
 import com.haxademic.core.draw.util.DrawUtil;
 import com.haxademic.core.math.MathUtil;
-import com.haxademic.core.system.FileUtil;
 
 public class BlueBearScrollingGraphicsLayer {
 
@@ -24,6 +23,7 @@ public class BlueBearScrollingGraphicsLayer {
 
 	protected float _baseY = 0;
 	protected float _paddingW = 0;
+	protected float _parallaxFactor = 1;
 	
 	public BlueBearScrollingGraphicsLayer() {
 		p = (BlueBear)P.p;
@@ -34,24 +34,15 @@ public class BlueBearScrollingGraphicsLayer {
 	
 	protected void configureLayer(){} // overridden by subclasses
 	
-	protected void initLayer(String svgDirPath, float baseY, float padding) {		
+	protected void initLayer(float baseY, float padding, float parallaxFactor) {		
 		_graphicsDisplayed = new ArrayList<PShape>();
 		_baseY = baseY;
 		_paddingW = p.scaleV(padding);
-		P.println("baseY",baseY);
-		// load graphics from directory
-		ArrayList<String> graphicFiles = FileUtil.getFilesInDirOfType( FileUtil.getHaxademicDataPath() + svgDirPath, "svg");
-		_graphicPool = new PShape[graphicFiles.size()];
-		for( int i=0; i < _graphicPool.length; i++ ) {
-			_graphicPool[i] = p.loadShape(svgDirPath + graphicFiles.get(i));
-		}
+		_parallaxFactor = parallaxFactor;
 		
 		// TODO: 
-		// * make property names generic, not "graphic"
-		// * add variable Y for clouds
 		// * add variable padding
-		// * add parallax speed for skyline & clouds
-		// * add Y baseline for all layers
+		// * add variable Y for clouds
 	}
 	
 	protected int svgWidth( PShape shape ) {
@@ -62,8 +53,12 @@ public class BlueBearScrollingGraphicsLayer {
 		return P.round(p.scaleV(shape.height));
 	}
 	
+	public void setGraphicPool( PShape[] pool ) {
+		_graphicPool = pool;
+	}
+	
  	public void update(float speed) {
-		_graphicsStartX -= speed;
+		_graphicsStartX -= speed * _parallaxFactor;
 		_graphicsEndX = _graphicsStartX;
 		
 		// remove first graphic if it's off-screen, and shift _graphicsStartX by its width
@@ -84,11 +79,13 @@ public class BlueBearScrollingGraphicsLayer {
 		}
 		
 		// add new graphics to fill up the screen
-		PShape newBuilding = null;
-		while( _graphicsEndX < pg.width ) {
-			newBuilding = _graphicPool[MathUtil.randRange(0, _graphicPool.length-1)];
-			_graphicsEndX += svgWidth(newBuilding) + _paddingW;
-			_graphicsDisplayed.add(newBuilding);
+		if( _graphicPool != null && _graphicPool.length > 0 ) {
+			PShape newBuilding = null;
+			while( _graphicsEndX < pg.width ) {
+				newBuilding = _graphicPool[MathUtil.randRange(0, _graphicPool.length-1)];
+				_graphicsEndX += svgWidth(newBuilding) + _paddingW;
+				_graphicsDisplayed.add(newBuilding);
+			}
 		}
 		
 		// draw to fill width of screen
