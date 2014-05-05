@@ -41,17 +41,25 @@ public class BlueBearCharacter {
 		_yPosition.setCurrent( _yPosition.target() );
 	}
 	
+	public void reset() {
+		_frameIndex = 0;
+		_curFrame = _frames[P.floor(_frameIndex)];
+	}
+	
 	public void setLane( int lane ) {
 		_lane = lane;
 		_yPosition.setTarget( BlueBearRoad.ROAD_Y + (BlueBearRoad.LANE_H / 2f) + (BlueBearRoad.LANE_H * _lane) - _bearH );
 	}
 	
 	public void update(float speed) {
-		speed *= 0.35f;
-		float frameInc = 1 - 1f / speed;
-		frameInc *= 0.5f;
-		_frameIndex += ( frameInc > 0 ) ? frameInc : _frameIndex;
-		_curFrame = _frames[P.floor(_frameIndex % _frames.length)];
+		if( speed > 0 ) {
+			speed *= 0.35f;
+			float frameInc = 1 - 1f / speed;
+			frameInc *= 0.5f;
+			if(frameInc > 0) _frameIndex += frameInc;
+			_frameIndex = _frameIndex % _frames.length;
+			_curFrame = _frames[P.floor(_frameIndex)];
+		}
 		if( _curFrame == null ) return;
 		
 		// responsive sizing/placement
