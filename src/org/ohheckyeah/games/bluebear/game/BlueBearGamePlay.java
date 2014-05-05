@@ -8,6 +8,7 @@ import org.ohheckyeah.games.bluebear.assets.BlueBearColors;
 import org.ohheckyeah.games.bluebear.assets.neighborhoods.BlueBearNeighborhood;
 import org.ohheckyeah.games.bluebear.assets.neighborhoods.BlueBearNeighborhoodBaker;
 import org.ohheckyeah.games.bluebear.assets.neighborhoods.BlueBearNeighborhoodBroadway;
+import org.ohheckyeah.games.bluebear.assets.neighborhoods.BlueBearNeighborhoodDowntown;
 import org.ohheckyeah.games.bluebear.assets.neighborhoods.BlueBearNeighborhoodHighlands;
 import org.ohheckyeah.games.bluebear.assets.neighborhoods.BlueBearNeighborhoodMountains;
 import org.ohheckyeah.games.bluebear.game.scrolling.BlueBearBackgroundScroller;
@@ -34,6 +35,8 @@ public class BlueBearGamePlay {
 	protected boolean _isRemoteKinect;
 	protected int _countdownTime = 0;
 	protected boolean _countdownShowing = false;
+	protected int _gameStartTime = 0;
+	protected int _neighborhoodTime = 3 * 1000;
 	
 	protected int _bgColor;
 	
@@ -77,7 +80,7 @@ public class BlueBearGamePlay {
 		_neighborhoods[1] = new BlueBearNeighborhoodBaker();
 		_neighborhoods[2] = new BlueBearNeighborhoodBroadway();
 		_neighborhoods[3] = new BlueBearNeighborhoodHighlands();
-		_neighborhoods[4] = new BlueBearNeighborhoodBaker();
+		_neighborhoods[4] = new BlueBearNeighborhoodDowntown();
 	}
 	
 	protected void buildGraphicsLayers() {
@@ -95,9 +98,18 @@ public class BlueBearGamePlay {
 	public void reset() {
 		_bgColor = BlueBearColors.STAGE_BG;
 		_gameIsActive = false;
+		_neighborhoodIndex = 0;
 		// Collections.shuffle( _droppables );
 		
+		_bear.reset();
+		
+		_background.reset();
+		_skyline.reset();
+		_buildings.reset();
+		_sidewalk.reset();
+
 		setLevel(0);
+
 	}
 	
 	protected void setLevel( int index ) {
@@ -119,10 +131,12 @@ public class BlueBearGamePlay {
 	
 	public void startGame() {
 		_scrollSpeed.setTarget(SPEED);
+		_gameStartTime = p.millis();
 	}
 	
-	public void gameOver( boolean didWin ) {
+	public void gameOver() {
 		_scrollSpeed.setTarget(0);
+		p.setGameState( GameState.GAME_OVER );
 	}
 	
 	// handle countdown timer ------------
@@ -156,9 +170,7 @@ public class BlueBearGamePlay {
 		if( p.gameState() == GameState.GAME_PLAYING ) updateControls();
 		_scrollSpeed.update();
 		drawGraphicsLayers();
-		if( p.frameCount == 400 ) {
-			setLevel(_neighborhoodIndex + 1);
-		}
+		updateNeighborhood();
 	}
 	
 	public void detectPlayers() {
@@ -181,13 +193,28 @@ public class BlueBearGamePlay {
 		_nemesis.setLane( _playerControls.get(1).lane() );
 	}
 	
+	protected void updateNeighborhood() {
+		if( p.gameState() == GameState.GAME_PLAYING ) {
+			int elapsedTime = p.millis() - _gameStartTime;
+			int curLevel = P.floor( elapsedTime / _neighborhoodTime );
+			if( curLevel != _neighborhoodIndex ) {
+				_neighborhoodIndex = curLevel;
+				if( _neighborhoodIndex < _neighborhoods.length ) {
+					setLevel(_neighborhoodIndex);
+				} else {
+					gameOver();
+				}
+			}
+		}
+	}
+	
 	// draw graphics ------------------------------------------------------------------
 	protected void drawGraphicsLayers() {
 		float speed = _scrollSpeed.value();
 		_backgroundColor.update();
 		_clouds.update(speed);
-		_background.update(speed);
 		_skyline.update(speed);
+		_background.update(speed);
 		_buildings.update(speed);
 		_sidewalk.update(speed);
 		_road.update(speed);

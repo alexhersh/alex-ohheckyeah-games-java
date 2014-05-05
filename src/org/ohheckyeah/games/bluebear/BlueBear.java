@@ -248,6 +248,7 @@ extends PAppletHax
 	protected void setGameStateIntro() {
 		_introScreens.reset();
 		sounds.playOHY();
+		_gamePlay.reset();
 	}
 
 	protected void runGameStateIntro() {
@@ -264,7 +265,6 @@ extends PAppletHax
 	}
 	
 	protected void setGameStateWaitingForPlayers() {
-		_gamePlay.reset();
 		_gamePlay.startPlayerDetection();
 		_gamePlay.animateToWinState();
 		_gameMessages.showWaiting();

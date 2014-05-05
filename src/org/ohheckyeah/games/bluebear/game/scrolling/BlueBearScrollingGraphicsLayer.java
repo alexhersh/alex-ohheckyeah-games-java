@@ -18,6 +18,7 @@ public class BlueBearScrollingGraphicsLayer {
 
 	protected PShape[] _graphicPool;
 	protected ArrayList<PShape> _graphicsDisplayed;
+	protected ArrayList<Number> _graphicsPadding;
 	protected int _graphicsStartX = 0;
 	protected int _graphicsEndX = 0;
 
@@ -36,13 +37,16 @@ public class BlueBearScrollingGraphicsLayer {
 	
 	protected void initLayer(float baseY, float padding, float parallaxFactor) {		
 		_graphicsDisplayed = new ArrayList<PShape>();
+		_graphicsPadding = new ArrayList<Number>();
 		_baseY = baseY;
 		_paddingW = p.scaleV(padding);
 		_parallaxFactor = parallaxFactor;
-		
-		// TODO: 
-		// * add variable padding
-		// * add variable Y for clouds
+	}
+	
+	public void reset() {
+		_graphicsDisplayed.clear();
+		_graphicsPadding.clear();
+		setGraphicPool(null);
 	}
 	
 	protected int svgWidth( PShape shape ) {

@@ -7,6 +7,6 @@ extends BlueBearNeighborhood {
 	
 	public BlueBearNeighborhoodMountains() {
 		super("mountains");
-		backgroundColor = ColorUtil.colorFromHex("#ff00ff");
+		backgroundColor = ColorUtil.colorFromHex("#00ff00");
 	}
 }
