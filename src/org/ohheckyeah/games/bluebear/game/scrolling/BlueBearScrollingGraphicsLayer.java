@@ -3,7 +3,6 @@ package org.ohheckyeah.games.bluebear.game.scrolling;
 import java.util.ArrayList;
 
 import org.ohheckyeah.games.bluebear.BlueBear;
-import org.ohheckyeah.games.bluebear.game.BlueBearRoad;
 
 import processing.core.PGraphics;
 import processing.core.PShape;
@@ -23,15 +22,23 @@ public class BlueBearScrollingGraphicsLayer {
 	protected int _graphicsStartX = 0;
 	protected int _graphicsEndX = 0;
 
+	protected float _baseY = 0;
 	protected float _paddingW = 0;
 	
-	public BlueBearScrollingGraphicsLayer(String svgDirPath, float padding) {
+	public BlueBearScrollingGraphicsLayer() {
 		p = (BlueBear)P.p;
 		pg = p.pg;
-
-		_graphicsDisplayed = new ArrayList<PShape>();
-		_paddingW = p.scaleV(padding);
 		
+		configureLayer();
+	}
+	
+	protected void configureLayer(){} // overridden by subclasses
+	
+	protected void initLayer(String svgDirPath, float baseY, float padding) {		
+		_graphicsDisplayed = new ArrayList<PShape>();
+		_baseY = baseY;
+		_paddingW = p.scaleV(padding);
+		P.println("baseY",baseY);
 		// load graphics from directory
 		ArrayList<String> graphicFiles = FileUtil.getFilesInDirOfType( FileUtil.getHaxademicDataPath() + svgDirPath, "svg");
 		_graphicPool = new PShape[graphicFiles.size()];
@@ -90,7 +97,7 @@ public class BlueBearScrollingGraphicsLayer {
 		int curX = _graphicsStartX;
 		for( int i=0; i < _graphicsDisplayed.size(); i++ ) {
 			curBuilding = _graphicsDisplayed.get(i);
-			pg.shape( curBuilding, curX, BlueBearRoad.ROAD_Y - p.scaleV(10) - svgHeight(curBuilding), svgWidth(curBuilding), svgHeight(curBuilding) );
+			pg.shape( curBuilding, curX, _baseY - svgHeight(curBuilding), svgWidth(curBuilding), svgHeight(curBuilding) );
 			curX += svgWidth(curBuilding) + _paddingW;
 		}
 		pg.popMatrix();

@@ -53,11 +53,11 @@ public class BlueBearGamePlay {
 			_playerControls.add(new BlueBearPlayerControls(_kinectGrid.getRegion(i), _isRemoteKinect));
 		}
 				
+		_road = new BlueBearRoad();
 		_clouds = new BlueBearCloudsScroller();
 		_skyline = new BlueBearSkylineScroller();
 		_buildings = new BlueBearBuildingsScroller();
 		_sidewalk = new BlueBearSidewalkScroller();
-		_road = new BlueBearRoad();
 		_bear = new BlueBearCharacter();
 		_nemesis = new BlueBearNemesis();
 		
