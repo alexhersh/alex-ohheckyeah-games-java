@@ -189,7 +189,7 @@ public class CatchyGamePlay {
 				_score.addScore(1);
 				_character.catchState( true );
 			} else {
-				_score.addScore(-2);
+				_score.addScore(-1);
 				_character.catchState( false );
 			}
 		}
