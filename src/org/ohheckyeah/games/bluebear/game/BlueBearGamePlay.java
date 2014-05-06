@@ -98,8 +98,6 @@ public class BlueBearGamePlay {
 	public void reset() {
 		_bgColor = BlueBearColors.STAGE_BG;
 		_gameIsActive = false;
-		_neighborhoodIndex = 0;
-		// Collections.shuffle( _droppables );
 		
 		_bear.reset();
 		
@@ -109,7 +107,6 @@ public class BlueBearGamePlay {
 		_sidewalk.reset();
 
 		setLevel(0);
-
 	}
 	
 	protected void setLevel( int index ) {

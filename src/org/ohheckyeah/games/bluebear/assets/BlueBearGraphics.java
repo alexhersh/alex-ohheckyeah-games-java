@@ -36,8 +36,4 @@ public class BlueBearGraphics {
 		font = FileUtil.getHaxademicDataPath() + "fonts/AlegreyaSans-Bold.ttf";
 	}
 	
-	//	public void shuffleCharacters() {
-	//		Collections.shuffle( characterDefs );
-	//	}
-	
 }
