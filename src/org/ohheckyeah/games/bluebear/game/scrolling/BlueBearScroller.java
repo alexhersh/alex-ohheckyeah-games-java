@@ -11,7 +11,7 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.draw.util.DrawUtil;
 import com.haxademic.core.math.MathUtil;
 
-public class BlueBearScrollingGraphicsLayer {
+public class BlueBearScroller {
 
 	protected BlueBear p;
 	protected PGraphics pg;
@@ -27,7 +27,7 @@ public class BlueBearScrollingGraphicsLayer {
 	protected int _paddingHigh = 0;
 	protected float _parallaxFactor = 1;
 	
-	public BlueBearScrollingGraphicsLayer() {
+	public BlueBearScroller() {
 		p = (BlueBear)P.p;
 		pg = p.pg;
 		

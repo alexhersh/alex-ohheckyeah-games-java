@@ -11,11 +11,11 @@ import org.ohheckyeah.games.bluebear.assets.neighborhoods.BlueBearNeighborhoodBr
 import org.ohheckyeah.games.bluebear.assets.neighborhoods.BlueBearNeighborhoodDowntown;
 import org.ohheckyeah.games.bluebear.assets.neighborhoods.BlueBearNeighborhoodHighlands;
 import org.ohheckyeah.games.bluebear.assets.neighborhoods.BlueBearNeighborhoodMountains;
-import org.ohheckyeah.games.bluebear.game.scrolling.BlueBearBackgroundScroller;
-import org.ohheckyeah.games.bluebear.game.scrolling.BlueBearBuildingsScroller;
-import org.ohheckyeah.games.bluebear.game.scrolling.BlueBearCloudsScroller;
-import org.ohheckyeah.games.bluebear.game.scrolling.BlueBearSidewalkScroller;
-import org.ohheckyeah.games.bluebear.game.scrolling.BlueBearSkylineScroller;
+import org.ohheckyeah.games.bluebear.game.scrolling.BlueBearScrollerBackground;
+import org.ohheckyeah.games.bluebear.game.scrolling.BlueBearScrollerBuildings;
+import org.ohheckyeah.games.bluebear.game.scrolling.BlueBearScrollerClouds;
+import org.ohheckyeah.games.bluebear.game.scrolling.BlueBearScrollerSidewalk;
+import org.ohheckyeah.games.bluebear.game.scrolling.BlueBearScrollerSkyline;
 
 import processing.core.PGraphics;
 
@@ -45,11 +45,11 @@ public class BlueBearGamePlay {
 	protected int _neighborhoodIndex = 0;
 	
 	protected BlueBearBackground _backgroundColor;
-	protected BlueBearBackgroundScroller _background;
-	protected BlueBearCloudsScroller _clouds;
-	protected BlueBearSkylineScroller _skyline;
-	protected BlueBearBuildingsScroller _buildings;
-	protected BlueBearSidewalkScroller _sidewalk;
+	protected BlueBearScrollerBackground _background;
+	protected BlueBearScrollerClouds _clouds;
+	protected BlueBearScrollerSkyline _skyline;
+	protected BlueBearScrollerBuildings _buildings;
+	protected BlueBearScrollerSidewalk _sidewalk;
 	protected BlueBearRoad _road;
 	protected BlueBearCharacter _bear;
 	protected BlueBearNemesis _nemesis;
@@ -86,11 +86,11 @@ public class BlueBearGamePlay {
 	protected void buildGraphicsLayers() {
 		_backgroundColor = new BlueBearBackground();
 		_road = new BlueBearRoad();
-		_clouds = new BlueBearCloudsScroller();
-		_background = new BlueBearBackgroundScroller();
-		_skyline = new BlueBearSkylineScroller();
-		_buildings = new BlueBearBuildingsScroller();
-		_sidewalk = new BlueBearSidewalkScroller();
+		_clouds = new BlueBearScrollerClouds();
+		_background = new BlueBearScrollerBackground();
+		_skyline = new BlueBearScrollerSkyline();
+		_buildings = new BlueBearScrollerBuildings();
+		_sidewalk = new BlueBearScrollerSidewalk();
 		_bear = new BlueBearCharacter();
 		_nemesis = new BlueBearNemesis();
 	}

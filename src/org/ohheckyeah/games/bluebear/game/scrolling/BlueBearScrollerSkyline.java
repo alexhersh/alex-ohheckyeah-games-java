@@ -3,10 +3,10 @@ package org.ohheckyeah.games.bluebear.game.scrolling;
 import org.ohheckyeah.games.bluebear.game.BlueBearRoad;
 
 
-public class BlueBearSkylineScroller 
-extends BlueBearScrollingGraphicsLayer{
+public class BlueBearScrollerSkyline 
+extends BlueBearScroller{
 
-	public BlueBearSkylineScroller() {
+	public BlueBearScrollerSkyline() {
 		super();
 	}
 	

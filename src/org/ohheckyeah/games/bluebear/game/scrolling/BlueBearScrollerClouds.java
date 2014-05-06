@@ -3,15 +3,15 @@ package org.ohheckyeah.games.bluebear.game.scrolling;
 import org.ohheckyeah.games.bluebear.game.BlueBearRoad;
 
 
-public class BlueBearBackgroundScroller 
-extends BlueBearScrollingGraphicsLayer{
+public class BlueBearScrollerClouds 
+extends BlueBearScroller{
 
-	public BlueBearBackgroundScroller() {
+	public BlueBearScrollerClouds() {
 		super();
 	}
 	
 	protected void configureLayer() {
 		float y = BlueBearRoad.ROAD_Y - p.scaleV(60);		
-		super.initLayer(y, 0, 0, 0.6f);
+		super.initLayer(y, 0, 100, 0.4f);
 	}
 }
