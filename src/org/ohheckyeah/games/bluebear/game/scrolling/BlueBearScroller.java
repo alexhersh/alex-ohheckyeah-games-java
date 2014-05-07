@@ -17,8 +17,10 @@ public class BlueBearScroller {
 	protected PGraphics pg;
 
 	protected PShape[] _graphicPool;
+	protected String[] _graphicPoolNames;
 	protected ArrayList<PShape> _graphicsOnScreen;
 	protected ArrayList<Integer> _graphicsPadding;
+	protected int _graphicIndex = 0;
 	protected int _graphicsStartX = 0;
 	protected int _graphicsEndX = 0;
 
@@ -61,6 +63,10 @@ public class BlueBearScroller {
 	
 	public void setGraphicPool( PShape[] pool ) {
 		_graphicPool = pool;
+		_graphicIndex = 0;
+	}
+	public void setGraphicPoolNames( String[] poolNames ) {
+		_graphicPoolNames = poolNames;
 	}
 	
 	protected int newPadding() {
@@ -94,8 +100,9 @@ public class BlueBearScroller {
 			PShape newGraphic = null;
 			int newPad = 0;
 			while( _graphicsEndX < pg.width ) {
-				newGraphic = _graphicPool[MathUtil.randRange(0, _graphicPool.length-1)];
+				newGraphic = _graphicPool[_graphicIndex];
 				newPad = newPadding();
+				_graphicIndex = (_graphicIndex < _graphicPool.length - 1) ? _graphicIndex + 1 : 0;
 				_graphicsEndX += svgWidth(newGraphic) + newPad;
 				_graphicsOnScreen.add(newGraphic);
 				_graphicsPadding.add(newPad);
