@@ -14,6 +14,7 @@ import org.ohheckyeah.games.bluebear.assets.neighborhoods.BlueBearNeighborhoodMo
 import org.ohheckyeah.games.bluebear.game.scrolling.BlueBearScrollerBackground;
 import org.ohheckyeah.games.bluebear.game.scrolling.BlueBearScrollerBuildings;
 import org.ohheckyeah.games.bluebear.game.scrolling.BlueBearScrollerClouds;
+import org.ohheckyeah.games.bluebear.game.scrolling.BlueBearScrollerRoad;
 import org.ohheckyeah.games.bluebear.game.scrolling.BlueBearScrollerSidewalk;
 import org.ohheckyeah.games.bluebear.game.scrolling.BlueBearScrollerSkyline;
 
@@ -45,12 +46,13 @@ public class BlueBearGamePlay {
 	protected int _neighborhoodIndex = 0;
 	
 	protected BlueBearBackground _backgroundColor;
+	protected BlueBearScrollerRoad _road;
 	protected BlueBearScrollerBackground _background;
 	protected BlueBearScrollerClouds _clouds;
 	protected BlueBearScrollerSkyline _skyline;
 	protected BlueBearScrollerBuildings _buildings;
 	protected BlueBearScrollerSidewalk _sidewalk;
-	protected BlueBearRoad _road;
+	protected BlueBearScreenPositions _positions;
 	protected BlueBearCharacter _bear;
 	protected BlueBearNemesis _nemesis;
 	
@@ -84,8 +86,10 @@ public class BlueBearGamePlay {
 	}
 	
 	protected void buildGraphicsLayers() {
+		_positions = new BlueBearScreenPositions();
+		
+		_road = new BlueBearScrollerRoad();
 		_backgroundColor = new BlueBearBackground();
-		_road = new BlueBearRoad();
 		_clouds = new BlueBearScrollerClouds();
 		_background = new BlueBearScrollerBackground();
 		_skyline = new BlueBearScrollerSkyline();
@@ -101,6 +105,7 @@ public class BlueBearGamePlay {
 		
 		_bear.reset();
 		
+		_road.reset();
 		_background.reset();
 		_skyline.reset();
 		_buildings.reset();
@@ -116,6 +121,7 @@ public class BlueBearGamePlay {
 		
 		_backgroundColor.setColor( _curNeighborhood.backgroundColor );
 		
+		_road.setGraphicPool( _curNeighborhood.roadPool );
 		_background.setGraphicPool( _curNeighborhood.backgroundPool );
 		_skyline.setGraphicPool( _curNeighborhood.skylinePool );
 		_buildings.setGraphicPool( _curNeighborhood.buildingsPool );
@@ -209,12 +215,14 @@ public class BlueBearGamePlay {
 	protected void drawGraphicsLayers() {
 		float speed = _scrollSpeed.value();
 		_backgroundColor.update();
+		
 		_clouds.update(speed);
 		_skyline.update(speed);
+		_road.update(speed);
 		_background.update(speed);
 		_buildings.update(speed);
 		_sidewalk.update(speed);
-		_road.update(speed);
+		
 		_bear.update(speed);
 		_nemesis.update();
 	}

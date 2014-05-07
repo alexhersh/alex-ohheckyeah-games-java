@@ -14,12 +14,14 @@ public class BlueBearNeighborhood {
 	public PShape[] skylinePool;
 	public PShape[] buildingsPool;
 	public PShape[] sidewalkPool;
+	public PShape[] roadPool;
 	
 	public BlueBearNeighborhood( String directory ) {
 		backgroundPool = loadScrollingGraphics( "games/bluebear/svg/neighborhoods/"+ directory +"/background/" );
 		skylinePool = loadScrollingGraphics( "games/bluebear/svg/neighborhoods/"+ directory +"/skyline/" );
 		buildingsPool = loadScrollingGraphics( "games/bluebear/svg/neighborhoods/"+ directory +"/buildings/" );
 		sidewalkPool = loadScrollingGraphics( "games/bluebear/svg/neighborhoods/"+ directory +"/sidewalk/" );
+		roadPool = loadScrollingGraphics( "games/bluebear/svg/neighborhoods/"+ directory +"/road/" );
 	}
 	
 	protected PShape[] loadScrollingGraphics( String graphicsDir ) {

@@ -48,7 +48,7 @@ public class BlueBearCharacter {
 	
 	public void setLane( int lane ) {
 		_lane = lane;
-		_yPosition.setTarget( BlueBearRoad.ROAD_Y + (BlueBearRoad.LANE_H / 2f) + (BlueBearRoad.LANE_H * _lane) - _bearH );
+		_yPosition.setTarget( BlueBearScreenPositions.LANES_Y[_lane] - _bearH );
 	}
 	
 	public void update(float speed) {

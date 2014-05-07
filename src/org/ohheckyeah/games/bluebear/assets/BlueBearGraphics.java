@@ -19,7 +19,7 @@ public class BlueBearGraphics {
 				
 		// scene
 		waitingSpinner = P.p.loadShape( FileUtil.getHaxademicDataPath() + "games/catchy/svg/scene/waiting-spinner.svg" );
-		roadTile = P.p.loadShape( FileUtil.getHaxademicDataPath() + "games/bluebear/svg/scene/road-tile.svg" );
+//		roadTile = P.p.loadShape( FileUtil.getHaxademicDataPath() + "games/bluebear/svg/scene/road-tile.svg" );
 		nemesis = P.p.loadShape( FileUtil.getHaxademicDataPath() + "games/bluebear/svg/scene/triangle.svg" );
 		
 		// title screen
