@@ -3,7 +3,7 @@ package org.ohheckyeah.games.bluebear.screens;
 import java.util.ArrayList;
 
 import org.ohheckyeah.games.bluebear.BlueBear;
-import org.ohheckyeah.games.bluebear.game.BlueBearTextMessage;
+import org.ohheckyeah.games.bluebear.game.text.BlueBearTextMessage;
 
 import processing.core.PGraphics;
 

@@ -1,8 +1,9 @@
-package org.ohheckyeah.games.bluebear.game;
+package org.ohheckyeah.games.bluebear.game.characters;
 
 import java.util.ArrayList;
 
 import org.ohheckyeah.games.bluebear.BlueBear;
+import org.ohheckyeah.games.bluebear.game.BlueBearScreenPositions;
 
 import processing.core.PGraphics;
 import processing.core.PImage;

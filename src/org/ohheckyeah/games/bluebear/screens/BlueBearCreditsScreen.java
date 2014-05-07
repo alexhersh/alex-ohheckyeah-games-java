@@ -2,7 +2,7 @@ package org.ohheckyeah.games.bluebear.screens;
 
 import org.ohheckyeah.games.bluebear.BlueBear;
 import org.ohheckyeah.games.bluebear.assets.BlueBearColors;
-import org.ohheckyeah.games.bluebear.game.BlueBearTextMessage;
+import org.ohheckyeah.games.bluebear.game.text.BlueBearTextMessage;
 
 import processing.core.PGraphics;
 import processing.core.PImage;

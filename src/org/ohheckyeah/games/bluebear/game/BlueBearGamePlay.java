@@ -11,6 +11,8 @@ import org.ohheckyeah.games.bluebear.assets.neighborhoods.BlueBearNeighborhoodBr
 import org.ohheckyeah.games.bluebear.assets.neighborhoods.BlueBearNeighborhoodDowntown;
 import org.ohheckyeah.games.bluebear.assets.neighborhoods.BlueBearNeighborhoodHighlands;
 import org.ohheckyeah.games.bluebear.assets.neighborhoods.BlueBearNeighborhoodMountains;
+import org.ohheckyeah.games.bluebear.game.characters.BlueBearCharacter;
+import org.ohheckyeah.games.bluebear.game.characters.BlueBearNemesis;
 import org.ohheckyeah.games.bluebear.game.scrolling.BlueBearScrollerBackground;
 import org.ohheckyeah.games.bluebear.game.scrolling.BlueBearScrollerBuildings;
 import org.ohheckyeah.games.bluebear.game.scrolling.BlueBearScrollerClouds;

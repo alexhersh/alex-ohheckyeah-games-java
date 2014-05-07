@@ -1,4 +1,4 @@
-package org.ohheckyeah.games.bluebear.game;
+package org.ohheckyeah.games.bluebear.game.text;
 
 import org.ohheckyeah.games.bluebear.BlueBear;
 import org.ohheckyeah.games.bluebear.assets.BlueBearColors;
