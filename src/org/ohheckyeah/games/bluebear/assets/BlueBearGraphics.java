@@ -33,7 +33,7 @@ public class BlueBearGraphics {
 		logoModeSet = P.p.loadShape( FileUtil.getHaxademicDataPath() + "svg/logo-mode-set.svg" );
 		
 		// add fonts
-		font = FileUtil.getHaxademicDataPath() + "fonts/AlegreyaSans-Bold.ttf";
+		font = FileUtil.getHaxademicDataPath() + "fonts/nunito/Nunito-Bold.ttf";
 	}
 	
 }
