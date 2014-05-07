@@ -11,7 +11,7 @@ extends BlueBearScroller{
 	}
 	
 	protected void configureLayer() {
-		float y = BlueBearScreenPositions.ROAD_Y - p.scaleV(10);		
+		float y = BlueBearScreenPositions.ROAD_Y - p.scaleV(15);		
 		super.initLayer(y, 30, 250, 1);
 	}
 }

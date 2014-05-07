@@ -53,7 +53,7 @@ public class BlueBearCreditsScreen {
 		drawMessage();
 		drawLogos();
 		if( _sponsorScale != 0 ) drawSponsors();
-		pg.shape( p.gameGraphics.redDivider, pg.width * 0.5f, pg.height * 0.6f + _noSponsorOffsetY, p.scaleV(p.gameGraphics.redDivider.width), p.scaleV(p.gameGraphics.redDivider.height) );
+//		pg.shape( p.gameGraphics.redDivider, pg.width * 0.5f, pg.height * 0.6f + _noSponsorOffsetY, p.scaleV(p.gameGraphics.redDivider.width), p.scaleV(p.gameGraphics.redDivider.height) );
 		
 		pg.endDraw();
 	}

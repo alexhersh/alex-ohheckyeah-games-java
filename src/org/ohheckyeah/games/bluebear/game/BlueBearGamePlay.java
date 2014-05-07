@@ -37,7 +37,7 @@ public class BlueBearGamePlay {
 	protected int _countdownTime = 0;
 	protected boolean _countdownShowing = false;
 	protected int _gameStartTime = 0;
-	protected int _neighborhoodTime = 3 * 1000;
+	protected int _neighborhoodTime = 15 * 1000;
 	
 	protected int _bgColor;
 	

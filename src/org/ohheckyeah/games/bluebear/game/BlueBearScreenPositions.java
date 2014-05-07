@@ -12,6 +12,7 @@ public class BlueBearScreenPositions {
 	protected PGraphics pg;
 	
 	public static float LANE_H = 88f;
+	public static float ROAD_H = 0;
 	public static float ROAD_Y = 0;
 	public static int LANES_Y[] = {0,0,0};
 	
@@ -21,8 +22,9 @@ public class BlueBearScreenPositions {
 		p = (BlueBear)P.p;
 		pg = p.pg;
 
-		LANE_H = p.scaleV(LANE_H);
-		ROAD_Y = pg.height  - LANE_H * 3;
+		ROAD_H = p.scaleV(p.gameGraphics.roadTile.height);
+		LANE_H = (float) ROAD_H / 3f;
+		ROAD_Y = pg.height - ROAD_H;
 		for( int i=0; i < LANES_Y.length; i++ ) {
 			LANES_Y[i] = Math.round( ROAD_Y + LANE_H / 2f + i * LANE_H );
 		}

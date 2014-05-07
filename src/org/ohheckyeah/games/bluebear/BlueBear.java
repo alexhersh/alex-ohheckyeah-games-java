@@ -56,7 +56,7 @@ extends PAppletHax
 	protected boolean _isDebugging = false;
 	
 	// dimensions
-	protected float _gameOrigHeight = 680.0f;
+	protected float _gameOrigHeight = 630.0f;
 	public float gameScaleV = 1;
 	protected int _gameWidth = 0;
 
