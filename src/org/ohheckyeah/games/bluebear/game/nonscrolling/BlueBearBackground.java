@@ -1,4 +1,4 @@
-package org.ohheckyeah.games.bluebear.game;
+package org.ohheckyeah.games.bluebear.game.nonscrolling;
 
 import org.ohheckyeah.games.bluebear.BlueBear;
 

@@ -10,6 +10,7 @@ import com.haxademic.core.system.FileUtil;
 public class BlueBearNeighborhood {
 	
 	public int backgroundColor;
+	public int groundColor;
 	public PShape[] backgroundPool;
 	public PShape[] skylinePool;
 	public PShape[] buildingsPool;

@@ -8,5 +8,6 @@ extends BlueBearNeighborhood {
 	public BlueBearNeighborhoodBaker() {
 		super("baker");
 		backgroundColor = ColorUtil.colorFromHex("#555555");
+		groundColor = ColorUtil.colorFromHex("#222222");
 	}
 }

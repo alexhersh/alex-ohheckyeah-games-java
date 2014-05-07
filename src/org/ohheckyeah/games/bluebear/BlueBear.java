@@ -7,9 +7,9 @@ import java.util.Date;
 import org.ohheckyeah.games.bluebear.assets.BlueBearColors;
 import org.ohheckyeah.games.bluebear.assets.BlueBearGraphics;
 import org.ohheckyeah.games.bluebear.assets.BlueBearSounds;
-import org.ohheckyeah.games.bluebear.game.BlueBearGameMessages;
 import org.ohheckyeah.games.bluebear.game.BlueBearGamePlay;
 import org.ohheckyeah.games.bluebear.game.BlueBearTracking;
+import org.ohheckyeah.games.bluebear.game.text.BlueBearGameMessages;
 import org.ohheckyeah.games.bluebear.screens.BlueBearIntroScreens;
 
 import processing.core.PApplet;
@@ -386,6 +386,7 @@ extends PAppletHax
 		// draw game to off-screen canvas
 		pg.beginDraw();
 		pg.background( _bgColor );
+		pg.noStroke();
 		runGameState();
 		pg.endDraw();
 		

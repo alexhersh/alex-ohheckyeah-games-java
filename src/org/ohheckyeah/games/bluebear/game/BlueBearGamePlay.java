@@ -13,6 +13,8 @@ import org.ohheckyeah.games.bluebear.assets.neighborhoods.BlueBearNeighborhoodHi
 import org.ohheckyeah.games.bluebear.assets.neighborhoods.BlueBearNeighborhoodMountains;
 import org.ohheckyeah.games.bluebear.game.characters.BlueBearCharacter;
 import org.ohheckyeah.games.bluebear.game.characters.BlueBearNemesis;
+import org.ohheckyeah.games.bluebear.game.nonscrolling.BlueBearBackground;
+import org.ohheckyeah.games.bluebear.game.nonscrolling.BlueBearGround;
 import org.ohheckyeah.games.bluebear.game.scrolling.BlueBearScrollerBackground;
 import org.ohheckyeah.games.bluebear.game.scrolling.BlueBearScrollerBuildings;
 import org.ohheckyeah.games.bluebear.game.scrolling.BlueBearScrollerClouds;
@@ -48,6 +50,7 @@ public class BlueBearGamePlay {
 	protected int _neighborhoodIndex = 0;
 	
 	protected BlueBearBackground _backgroundColor;
+	protected BlueBearGround _groundColor;
 	protected BlueBearScrollerRoad _road;
 	protected BlueBearScrollerBackground _background;
 	protected BlueBearScrollerClouds _clouds;
@@ -92,6 +95,7 @@ public class BlueBearGamePlay {
 		
 		_road = new BlueBearScrollerRoad();
 		_backgroundColor = new BlueBearBackground();
+		_groundColor = new BlueBearGround();
 		_clouds = new BlueBearScrollerClouds();
 		_background = new BlueBearScrollerBackground();
 		_skyline = new BlueBearScrollerSkyline();
@@ -122,6 +126,7 @@ public class BlueBearGamePlay {
 		_curNeighborhood = _neighborhoods[_neighborhoodIndex];
 		
 		_backgroundColor.setColor( _curNeighborhood.backgroundColor );
+		_groundColor.setColor( _curNeighborhood.groundColor );
 		
 		_road.setGraphicPool( _curNeighborhood.roadPool );
 		_background.setGraphicPool( _curNeighborhood.backgroundPool );
@@ -217,6 +222,7 @@ public class BlueBearGamePlay {
 	protected void drawGraphicsLayers() {
 		float speed = _scrollSpeed.value();
 		_backgroundColor.update();
+		_groundColor.update();
 		
 		_clouds.update(speed);
 		_skyline.update(speed);
