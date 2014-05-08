@@ -128,11 +128,11 @@ public class BlueBearGamePlay {
 		_backgroundColor.setColor( _curNeighborhood.backgroundColor );
 		_groundColor.setColor( _curNeighborhood.groundColor );
 		
-		_road.setGraphicPool( _curNeighborhood.roadPool );
-		_background.setGraphicPool( _curNeighborhood.backgroundPool );
-		_skyline.setGraphicPool( _curNeighborhood.skylinePool );
-		_buildings.setGraphicPool( _curNeighborhood.buildingsPool );
-		_sidewalk.setGraphicPool( _curNeighborhood.sidewalkPool );
+		_road.setGraphicPool( _curNeighborhood.roadPool, _curNeighborhood.roadFiles );
+		_background.setGraphicPool( _curNeighborhood.backgroundPool, _curNeighborhood.backgroundFiles );
+		_skyline.setGraphicPool( _curNeighborhood.skylinePool, _curNeighborhood.skylineFiles );
+		_buildings.setGraphicPool( _curNeighborhood.buildingsPool, _curNeighborhood.buildingsFiles );
+		_sidewalk.setGraphicPool( _curNeighborhood.sidewalkPool, _curNeighborhood.sidewalkFiles );
 	}
 		
 	// start/end game methods ------------

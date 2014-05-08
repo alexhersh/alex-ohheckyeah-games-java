@@ -17,12 +17,13 @@ public class BlueBearScroller {
 	protected PGraphics pg;
 
 	protected PShape[] _graphicPool;
-	protected String[] _graphicPoolNames;
+	protected String[] _graphicPoolFiles;
 	protected ArrayList<PShape> _graphicsOnScreen;
 	protected ArrayList<Integer> _graphicsPadding;
 	protected int _graphicIndex = 0;
 	protected int _graphicsStartX = 0;
 	protected int _graphicsEndX = 0;
+	protected int _graphicRepeats = 0;
 
 	protected float _baseY = 0;
 	protected int _paddingLow = 0;
@@ -50,7 +51,7 @@ public class BlueBearScroller {
 	public void reset() {
 		_graphicsOnScreen.clear();
 		_graphicsPadding.clear();
-		setGraphicPool(null);
+		setGraphicPool(null, null);
 	}
 	
 	protected int svgWidth( PShape shape ) {
@@ -61,12 +62,11 @@ public class BlueBearScroller {
 		return P.round(p.scaleV(shape.height));
 	}
 	
-	public void setGraphicPool( PShape[] pool ) {
+	public void setGraphicPool( PShape[] pool, String[] poolFiles ) {
 		_graphicPool = pool;
 		_graphicIndex = 0;
-	}
-	public void setGraphicPoolNames( String[] poolNames ) {
-		_graphicPoolNames = poolNames;
+		_graphicRepeats = 0;
+		_graphicPoolFiles = poolFiles;
 	}
 	
 	protected int newPadding() {
@@ -100,9 +100,18 @@ public class BlueBearScroller {
 			PShape newGraphic = null;
 			int newPad = 0;
 			while( _graphicsEndX < pg.width ) {
+				// only show certain files once!
+				if( _graphicRepeats > 0 ) {
+					nextGraphic();
+					while( _graphicPoolFiles[_graphicIndex].indexOf("show_once") != -1 ) {
+						nextGraphic();
+					}
+				} else {
+					nextGraphic();
+				}
+				// add new graphic to the scrolling
 				newGraphic = _graphicPool[_graphicIndex];
 				newPad = newPadding();
-				_graphicIndex = (_graphicIndex < _graphicPool.length - 1) ? _graphicIndex + 1 : 0;
 				_graphicsEndX += svgWidth(newGraphic) + newPad;
 				_graphicsOnScreen.add(newGraphic);
 				_graphicsPadding.add(newPad);
@@ -120,4 +129,14 @@ public class BlueBearScroller {
 		}
 		pg.popMatrix();
 	}
+ 	
+ 	protected void nextGraphic() {
+		// _graphicIndex = (_graphicIndex < _graphicPool.length - 1) ? _graphicIndex + 1 : 0;
+		if(_graphicIndex < _graphicPool.length - 1) {
+			_graphicIndex++;
+		} else {
+			_graphicIndex = 0;
+			_graphicRepeats++;
+		}
+ 	}
 }

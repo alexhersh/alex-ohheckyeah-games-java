@@ -13,23 +13,36 @@ public class BlueBearNeighborhood {
 	public int backgroundColor;
 	public int groundColor;
 	public PShape[] backgroundPool;
+	public String[] backgroundFiles;
 	public PShape[] skylinePool;
+	public String[] skylineFiles;
 	public PShape[] buildingsPool;
+	public String[] buildingsFiles;
 	public PShape[] sidewalkPool;
+	public String[] sidewalkFiles;
 	public PShape[] roadPool;
+	public String[] roadFiles;
 	protected int[] _randIndexes;
+	
+	public String[] curGraphicsFiles; // questionable way of handling this, but does the job for now.
 	
 	public BlueBearNeighborhood( String directory ) {
 		backgroundPool = loadScrollingGraphics( "games/bluebear/svg/neighborhoods/"+ directory +"/background/" );
+		backgroundFiles = curGraphicsFiles;
 		skylinePool = loadScrollingGraphics( "games/bluebear/svg/neighborhoods/"+ directory +"/skyline/" );
+		skylineFiles = curGraphicsFiles;
 		buildingsPool = loadScrollingGraphics( "games/bluebear/svg/neighborhoods/"+ directory +"/buildings/" );
+		buildingsFiles = curGraphicsFiles;
 		sidewalkPool = loadScrollingGraphics( "games/bluebear/svg/neighborhoods/"+ directory +"/sidewalk/" );
+		sidewalkFiles = curGraphicsFiles;
 		roadPool = loadScrollingGraphics( "games/bluebear/svg/neighborhoods/"+ directory +"/road/" );
+		roadFiles = curGraphicsFiles;
 	}
 	
 	protected PShape[] loadScrollingGraphics( String graphicsDir ) {
 		// load graphics from directory
 		ArrayList<String> graphicFiles = FileUtil.getFilesInDirOfType( FileUtil.getHaxademicDataPath() + graphicsDir, "svg");
+		curGraphicsFiles = new String[graphicFiles.size()];
 		
 		// create shuffled array of indexes
 		_randIndexes = new int[graphicFiles.size()];
@@ -40,10 +53,12 @@ public class BlueBearNeighborhood {
 			_randIndexes[i] = _randIndexes[randIndex];
 			_randIndexes[randIndex] = tmpVal;
 		}
+		
 		// load shapes in random order into array
 		PShape[] graphicsArray = new PShape[graphicFiles.size()];
 		for( int i=0; i < graphicsArray.length; i++ ) {
 			graphicsArray[_randIndexes[i]] = P.p.loadShape(graphicsDir + graphicFiles.get(i));
+			curGraphicsFiles[_randIndexes[i]] = graphicFiles.get(i);
 		}
 		return graphicsArray;
 	}
