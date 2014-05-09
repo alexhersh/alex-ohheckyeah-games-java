@@ -9,7 +9,7 @@ public class BlueBearGraphics {
 	
 	
 	public PShape waitingSpinner;
-	public PShape roadTile, nemesis, bearShadow;
+	public PShape roadTile, squirrel, squirrelShadow, bearShadow;
 	public PShape blueBearLogo, logoConfetti;
 	public PShape logoOHY, logoLegwork, logoModeSet;
 	
@@ -21,7 +21,8 @@ public class BlueBearGraphics {
 		roadTile = P.p.loadShape( FileUtil.getHaxademicDataPath() + "games/bluebear/svg/scene/road-tile.svg" );
 		waitingSpinner = P.p.loadShape( FileUtil.getHaxademicDataPath() + "games/bluebear/svg/shell/waiting-spinner.svg" );
 		bearShadow = P.p.loadShape( FileUtil.getHaxademicDataPath() + "games/bluebear/svg/scene/bear-shadow.svg" );
-		nemesis = P.p.loadShape( FileUtil.getHaxademicDataPath() + "games/bluebear/svg/scene/triangle.svg" );
+		squirrel = P.p.loadShape( FileUtil.getHaxademicDataPath() + "games/bluebear/svg/scene/squirrel-spaceship.svg" );
+		squirrelShadow = P.p.loadShape( FileUtil.getHaxademicDataPath() + "games/bluebear/svg/scene/squirrel-shadow.svg" );
 		
 		// title screen
 		blueBearLogo = P.p.loadShape( FileUtil.getHaxademicDataPath() + "games/bluebear/svg/shell/big-blue-logo.svg" );

@@ -68,7 +68,7 @@ public class BlueBearCharacter {
 		// responsive sizing/placement
 		float bearW = p.scaleV(_curFrame.width * _scale) * _laneScale.value();
 		_bearH = p.scaleV(_curFrame.height * _scale) * _laneScale.value();
-		float bearX = 20 + bearW * 0.5f;
+		float bearX = p.scaleV(20) + bearW * 0.5f;
 		_yPosition.update();
 		float bearY = _yPosition.value() - _bearH * 0.5f;
 		float shadowY = _yPosition.value() + _bearShadowOffsetY;
