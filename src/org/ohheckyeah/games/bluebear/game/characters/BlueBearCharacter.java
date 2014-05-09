@@ -18,6 +18,7 @@ public class BlueBearCharacter {
 	protected BlueBear p;
 	protected PGraphics pg;
 	protected PImage[] _frames;
+	protected PImage[] _framesHurt;
 	protected PImage _curFrame;
 	protected float _frameIndex = 0;
 	protected EasingFloat _yPosition = new EasingFloat(0,6);
@@ -25,6 +26,7 @@ public class BlueBearCharacter {
 	protected int _lane = 0;
 	protected int _bearH = 0;
 	protected int _bearShadowOffsetY = -7;
+	protected int _hurtTime = 0;
 
 	public BlueBearCharacter() {
 		p = (BlueBear)P.p;
@@ -32,11 +34,13 @@ public class BlueBearCharacter {
 		
 		// load frame images from directory
 		String imgPath = "games/bluebear/images/bear-run-sequence/";
+		String imgPathHurt = "games/bluebear/images/bear-run-sequence-hurt/";
 		ArrayList<String> frameFiles = FileUtil.getFilesInDirOfType( FileUtil.getHaxademicDataPath() + imgPath, "png");
+		ArrayList<String> frameHurtFiles = FileUtil.getFilesInDirOfType( FileUtil.getHaxademicDataPath() + imgPathHurt, "png");
 		_frames = new PImage[frameFiles.size()];
-		for( int i=0; i < _frames.length; i++ ) {
-			_frames[i] = p.loadImage(imgPath + frameFiles.get(i));
-		}
+		_framesHurt = new PImage[frameHurtFiles.size()];
+		for( int i=0; i < _frames.length; i++ ) _frames[i] = p.loadImage(imgPath + frameFiles.get(i));
+		for( int i=0; i < _framesHurt.length; i++ ) _framesHurt[i] = p.loadImage(imgPathHurt + frameHurtFiles.get(i));
 		
 		// init in the top lane
 		setLane( _lane );
@@ -80,6 +84,7 @@ public class BlueBearCharacter {
 			if(frameInc > 0) _frameIndex += frameInc;
 			_frameIndex = _frameIndex % _frames.length;
 			_curFrame = _frames[P.floor(_frameIndex)];
+			// if(p.frameCount%3 == 0) _curFrame = _framesHurt[P.floor(_frameIndex)];
 		}
 		if( _curFrame == null ) return;
 	}
