@@ -131,7 +131,6 @@ public class BlueBearScroller {
 	}
  	
  	protected void nextGraphic() {
-		// _graphicIndex = (_graphicIndex < _graphicPool.length - 1) ? _graphicIndex + 1 : 0;
 		if(_graphicIndex < _graphicPool.length - 1) {
 			_graphicIndex++;
 		} else {
