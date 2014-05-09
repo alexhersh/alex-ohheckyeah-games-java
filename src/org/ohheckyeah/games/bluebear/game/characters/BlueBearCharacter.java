@@ -22,11 +22,12 @@ public class BlueBearCharacter {
 	protected PImage _curFrame;
 	protected float _frameIndex = 0;
 	protected EasingFloat _yPosition = new EasingFloat(0,6);
-	protected float _scale = 0.45f;
+	protected float _scale = 0.4f;
 	protected int _lane = 0;
-	protected int _bearH = 0;
-	protected int _bearShadowOffsetY = -7;
+	protected float _bearH = 0;
+	protected float _bearShadowOffsetY = -7;
 	protected int _hurtTime = 0;
+	protected EasingFloat _laneScale = new EasingFloat(1, 6);
 
 	public BlueBearCharacter() {
 		p = (BlueBear)P.p;
@@ -56,23 +57,31 @@ public class BlueBearCharacter {
 	
 	public void setLane( int lane ) {
 		_lane = lane;
-		_yPosition.setTarget( BlueBearScreenPositions.LANES_Y[_lane] - _bearH );
+		_yPosition.setTarget( BlueBearScreenPositions.LANES_Y[_lane] );
+		_laneScale.setTarget(1f + _lane * 0.1f);
 	}
 	
 	public void update(float speed) {
+		_laneScale.update();
 		advanceBearFrame(speed);
 		
 		// responsive sizing/placement
-		int bearW = P.round(p.scaleV(_curFrame.width * _scale));
-		_bearH = P.round(p.scaleV(_curFrame.height * _scale));
-		int bearX = 20;
+		float bearW = p.scaleV(_curFrame.width * _scale) * _laneScale.value();
+		_bearH = p.scaleV(_curFrame.height * _scale) * _laneScale.value();
+		float bearX = 20 + bearW * 0.5f;
 		_yPosition.update();
-		float bearY = _yPosition.value();
+		float bearY = _yPosition.value() - _bearH * 0.5f;
+		float shadowY = _yPosition.value() + _bearShadowOffsetY;
 
 		// draw shadow and bear
 		DrawUtil.setDrawCenter(pg);
-		pg.shape( p.gameGraphics.bearShadow, bearX + bearW * 0.5f, bearY + _bearH + _bearShadowOffsetY, p.scaleV(p.gameGraphics.bearShadow.width), p.scaleV(p.gameGraphics.bearShadow.height) );
-		DrawUtil.setDrawCorner(pg);
+		pg.shape( 
+				p.gameGraphics.bearShadow, 
+				bearX, 
+				shadowY, 
+				p.scaleV(p.gameGraphics.bearShadow.width) * _laneScale.value(), 
+				p.scaleV(p.gameGraphics.bearShadow.height) * _laneScale.value() 
+		);
 		pg.image( _curFrame, bearX, bearY, bearW, _bearH );
 	}
 
