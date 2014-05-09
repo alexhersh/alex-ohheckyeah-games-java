@@ -50,7 +50,7 @@ public class BlueBearNemesis {
 		_laneScale.update();
 		float squirrelW = p.scaleV(p.gameGraphics.squirrel.width * _scale) * _laneScale.value();
 		_squirrelH = p.scaleV(p.gameGraphics.squirrel.height * _scale) * _laneScale.value();
-		float squirrelX = pg.width - squirrelW * 0.5f - p.scaleV(20);
+		float squirrelX = pg.width - p.scaleV(150);
 		_yPosition.update();
 		float squirrelY = _yPosition.value() - _squirrelH * 0.5f;
 		float shadowY = _yPosition.value() + _squirrelShadowOffsetY;
