@@ -52,11 +52,16 @@ public class BlueBearNemesis {
 	}
 	
 	public void startGameplay() {
+
+	}
+	
+	public void launch() {
+		_launchUp = true;
 		_launchTime = p.millis();
 	}
 	
 	public void update() {
-		checkLaunch();
+		updateLaunchMode();
 		
 		// responsive sizing/placement		
 		_laneScale.update();
@@ -89,16 +94,8 @@ public class BlueBearNemesis {
 		pg.shape( p.gameGraphics.squirrel, squirrelX, squirrelY - _floatHeight.value(), squirrelW, _squirrelH );
 	}
 
-	protected void checkLaunch() {
-		if( _launchTime != 0 && p.millis() > _launchTime + 1000 ) {
-			_launchTime = p.millis();
-			launch();
-		}
+	protected void updateLaunchMode() {
 		if( p.millis() > _launchTime + 300 ) _launchUp = false;
-	}
-	
-	protected void launch() {
-		_launchUp = true;
 	}
 	
 }

@@ -65,6 +65,9 @@ public class BlueBearGamePlay {
 	protected LinearFloat _scrollSpeed = new LinearFloat(0,0.2f);
 	protected boolean _gameplayStarted = false;
 	
+	protected float _launchTime = 0;
+
+	
 	public BlueBearGamePlay( KinectRegionGrid kinectGrid, boolean isRemoteKinect ) {
 		p = (BlueBear) P.p;
 		pg = p.pg;
@@ -183,6 +186,7 @@ public class BlueBearGamePlay {
 		if( p.gameState() == GameState.GAME_PLAYING ) updateControls();
 		_scrollSpeed.update();
 		updateGameStarted();
+		checkLaunch();
 		drawGraphicsLayers();
 		updateNeighborhood();
 	}
@@ -210,6 +214,7 @@ public class BlueBearGamePlay {
 	protected void updateGameStarted() {
 		if( _gameplayStarted == false && SPEED - _scrollSpeed.value() < 0.1f ) {
 			_gameplayStarted = true;
+			_launchTime = p.millis();
 			_bear.startGameplay();
 			_nemesis.startGameplay();
 		}
@@ -228,6 +233,17 @@ public class BlueBearGamePlay {
 				}
 			}
 		}
+	}
+	
+	protected void checkLaunch() {
+		if( _launchTime != 0 && p.millis() > _launchTime + 1000 ) {
+			_launchTime = p.millis();
+			launch();
+		}
+	}
+	
+	protected void launch() {
+		_nemesis.launch();
 	}
 	
 	// draw graphics ------------------------------------------------------------------
