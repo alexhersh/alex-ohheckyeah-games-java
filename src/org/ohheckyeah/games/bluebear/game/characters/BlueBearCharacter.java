@@ -61,6 +61,10 @@ public class BlueBearCharacter {
 		_laneScale.setTarget(1f + _lane * 0.1f);
 	}
 	
+	public void startGameplay() {
+		
+	}
+	
 	public void update(float speed) {
 		_laneScale.update();
 		advanceBearFrame(speed);

@@ -24,8 +24,10 @@ public class BlueBearNemesis {
 	protected EasingFloat _laneScale = new EasingFloat(1, 6);
 	protected EasingFloat _floatHeight = new EasingFloat(40, 6);
 	protected EasingFloat _shadowScale = new EasingFloat(1, 6);
-	protected float baseFlyHeight = 45;
-	protected float launchFlyHeight = 70;
+	protected float _baseFlyHeight = 45;
+	protected float _launchFlyHeight = 100;
+	protected float _launchTime = 0;
+	protected boolean _launchUp = false;
 
 	public BlueBearNemesis() {
 		p = (BlueBear)P.p;
@@ -35,8 +37,8 @@ public class BlueBearNemesis {
 		setLane( _lane );
 		_yPosition.setCurrent( _yPosition.target() );
 		
-		baseFlyHeight = p.scaleV(baseFlyHeight);
-		launchFlyHeight = p.scaleV(launchFlyHeight);
+		_baseFlyHeight = p.scaleV(_baseFlyHeight);
+		_launchFlyHeight = p.scaleV(_launchFlyHeight);
 	}
 	
 	public void setLane( int lane ) {
@@ -45,7 +47,17 @@ public class BlueBearNemesis {
 		_laneScale.setTarget(1f + _lane * 0.1f);
 	}
 	
+	public void reset() {
+		_launchTime = 0;
+	}
+	
+	public void startGameplay() {
+		_launchTime = p.millis();
+	}
+	
 	public void update() {
+		checkLaunch();
+		
 		// responsive sizing/placement		
 		_laneScale.update();
 		float squirrelW = p.scaleV(p.gameGraphics.squirrel.width * _scale) * _laneScale.value();
@@ -57,10 +69,12 @@ public class BlueBearNemesis {
 		
 		// float the squirrel
 		float floatOsc = P.sin(p.millis() * 0.005f);
-		_floatHeight.setTarget( baseFlyHeight + floatOsc * p.scaleV(9f) );
+		float flyHeight = ( _launchUp == true ) ? _launchFlyHeight : _baseFlyHeight;
+		_floatHeight.setTarget( flyHeight + floatOsc * p.scaleV(9f) );
 		_floatHeight.update();
 		float shadowScaleOsc = floatOsc * 0.5f + 0.5f; // 0-1 scale
-		_shadowScale.setTarget( 0.8f + shadowScaleOsc * 0.2f );
+		float shadowScale = ( _launchUp == true ) ? 0.2f : 0.8f;
+		_shadowScale.setTarget( shadowScale + shadowScaleOsc * 0.2f );
 		_shadowScale.update();
 
 		// draw shadow and sprite
@@ -75,4 +89,16 @@ public class BlueBearNemesis {
 		pg.shape( p.gameGraphics.squirrel, squirrelX, squirrelY - _floatHeight.value(), squirrelW, _squirrelH );
 	}
 
+	protected void checkLaunch() {
+		if( _launchTime != 0 && p.millis() > _launchTime + 1000 ) {
+			_launchTime = p.millis();
+			launch();
+		}
+		if( p.millis() > _launchTime + 300 ) _launchUp = false;
+	}
+	
+	protected void launch() {
+		_launchUp = true;
+	}
+	
 }

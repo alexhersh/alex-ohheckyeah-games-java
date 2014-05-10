@@ -63,6 +63,7 @@ public class BlueBearGamePlay {
 	
 	protected float SPEED = 10;
 	protected LinearFloat _scrollSpeed = new LinearFloat(0,0.2f);
+	protected boolean _gameplayStarted = false;
 	
 	public BlueBearGamePlay( KinectRegionGrid kinectGrid, boolean isRemoteKinect ) {
 		p = (BlueBear) P.p;
@@ -110,6 +111,7 @@ public class BlueBearGamePlay {
 		_gameIsActive = false;
 		
 		_bear.reset();
+		_nemesis.reset();
 		
 		_road.reset();
 		_background.reset();
@@ -118,6 +120,7 @@ public class BlueBearGamePlay {
 		_sidewalk.reset();
 
 		setLevel(0);
+		_gameplayStarted = false;
 	}
 	
 	protected void setLevel( int index ) {
@@ -179,6 +182,7 @@ public class BlueBearGamePlay {
 		if( p.gameState() == GameState.GAME_WAITING_FOR_PLAYERS ) detectPlayers();
 		if( p.gameState() == GameState.GAME_PLAYING ) updateControls();
 		_scrollSpeed.update();
+		updateGameStarted();
 		drawGraphicsLayers();
 		updateNeighborhood();
 	}
@@ -201,6 +205,14 @@ public class BlueBearGamePlay {
 		}
 		_bear.setLane( _playerControls.get(0).lane() );
 		_nemesis.setLane( _playerControls.get(1).lane() );
+	}
+	
+	protected void updateGameStarted() {
+		if( _gameplayStarted == false && SPEED - _scrollSpeed.value() < 0.1f ) {
+			_gameplayStarted = true;
+			_bear.startGameplay();
+			_nemesis.startGameplay();
+		}
 	}
 	
 	protected void updateNeighborhood() {
