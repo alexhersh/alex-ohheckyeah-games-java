@@ -2,15 +2,13 @@
 <!-- Generator: Adobe Illustrator 17.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
 <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-	 width="323.72px" height="103.642px" viewBox="0 0 323.72 103.642" enable-background="new 0 0 323.72 103.642"
-	 xml:space="preserve">
-<polygon fill="#D1D2D3" points="225.254,103.642 173.059,103.642 173.059,65.34 225.254,16.898 "/>
-<rect x="108.105" y="51.821" fill="#D1D2D3" width="54.896" height="51.821"/>
-<rect x="236.069" fill="#D1D2D3" width="33.567" height="103.642"/>
-<rect x="263.233" y="57.56" fill="#D1D2D3" width="55.487" height="46.082"/>
-<polygon fill="#D1D2D3" points="81.688,42.458 17.369,42.458 17.369,40.135 50.84,22.321 81.688,40.135 "/>
-<polygon fill="#D1D2D3" points="94.057,64.918 5,64.918 5,61.701 51.344,37.037 94.057,61.701 "/>
-<rect x="28.485" y="42.458" fill="#D1D2D3" width="44.233" height="15.102"/>
-<rect x="20.762" y="60.465" fill="#D1D2D3" width="59.678" height="43.177"/>
-<rect x="72.097" y="90.687" fill="#D1D2D3" width="59.678" height="12.955"/>
+	 width="323.72px" height="103.64px" viewBox="0 0 323.72 103.64" enable-background="new 0 0 323.72 103.64" xml:space="preserve">
+<g>
+	<polygon opacity="0.1" fill="#000000" points="173.06,103.64 225.25,103.64 225.25,16.9 173.06,65.34 	"/>
+	<polygon opacity="0.1" fill="#000000" points="108.1,90.69 80.44,90.69 80.44,64.92 94.06,64.92 94.06,61.7 72.72,49.38 72.72,42.46 81.69,42.46 
+		81.69,40.14 50.84,22.32 17.37,40.14 17.37,42.46 28.49,42.46 28.49,49.2 5,61.7 5,64.92 20.76,64.92 20.76,103.64 72.1,103.64 
+		80.44,103.64 108.1,103.64 131.77,103.64 163,103.64 163,51.82 108.1,51.82 	"/>
+	<polygon opacity="0.1" fill="#000000" points="269.64,57.56 269.64,0 236.07,0 236.07,103.64 263.23,103.64 269.64,103.64 318.72,103.64 
+		318.72,57.56 	"/>
+</g>
 </svg>
