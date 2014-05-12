@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.ohheckyeah.games.bluebear.BlueBear;
 import org.ohheckyeah.games.bluebear.BlueBear.GameState;
 import org.ohheckyeah.games.bluebear.assets.BlueBearColors;
+import org.ohheckyeah.games.bluebear.assets.BlueBearSounds;
 import org.ohheckyeah.games.bluebear.assets.neighborhoods.BlueBearNeighborhood;
 import org.ohheckyeah.games.bluebear.assets.neighborhoods.BlueBearNeighborhoodBaker;
 import org.ohheckyeah.games.bluebear.assets.neighborhoods.BlueBearNeighborhoodBroadway;
@@ -193,6 +194,7 @@ public class BlueBearGamePlay {
 		_scrollSpeed.update();
 		updateGameStarted();
 		checkLaunch();
+		checkObstacleCollisions();
 		drawGraphicsLayers();
 		updateNeighborhood();
 	}
@@ -251,6 +253,14 @@ public class BlueBearGamePlay {
 	protected void launch() {
 		_nemesis.launch();
 		_obstacles.launch( _nemesis.launchX(), _nemesis.launchY() );
+	}
+	
+	protected void checkObstacleCollisions() {
+		boolean didHit = _obstacles.checkHit( _bear.xLeft(), _bear.xRight(), _bear.y() );
+		if( didHit == true ) {
+			_bear.hit();
+			p.sounds.playSound( BlueBearSounds.HIT );
+		}
 	}
 	
 	// draw graphics ------------------------------------------------------------------

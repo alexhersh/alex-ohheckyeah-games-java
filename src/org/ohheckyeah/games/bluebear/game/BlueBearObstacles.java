@@ -62,9 +62,33 @@ public class BlueBearObstacles {
 		_obstacles.get(_launchIndex).reset( _graphicPool[_poolIndex], _graphicPoolFiles[_poolIndex], launchX, launchY );
 	}
 	
+	public boolean checkHit( float bearLeft, float bearRight, float objectY ) {
+		boolean didHit = false;
+		float obstacleLeft;
+		float obstacleRight;
+		for( int i=0; i < _obstacles.size(); i++ ) {
+			BlueBearObstacle obstacle = _obstacles.get(i);
+			if( obstacle.graphic != null ) {
+				if( Math.abs( obstacle.y - objectY ) < p.scaleV(10) ) {
+					obstacleLeft = obstacle.x - svgWidth(obstacle.graphic) / 2f;
+					obstacleRight = obstacle.x + svgWidth(obstacle.graphic) / 2f;
+					boolean leftSideCollide = obstacleLeft > bearLeft && obstacleLeft < bearRight;
+					boolean rightSideCollide = obstacleRight > bearLeft && obstacleRight < bearRight;
+					if( obstacle.hit == false ) {
+						if( leftSideCollide || rightSideCollide ) {
+							didHit = true;
+							obstacle.hit();
+						}
+					}
+				}
+			}
+		}
+		return didHit;
+	}
+	
  	public void update( float speed ) {
 		
-		// remove first graphic if it's off-screen
+		// remove left-most graphic if it's off-screen
 		if( _obstacles.size() > 0 ) {
 			BlueBearObstacle firstObstacle = _obstacles.get(0);
 			if( firstObstacle.graphic != null ) {
@@ -94,6 +118,7 @@ public class BlueBearObstacles {
 		public float y;
 		public PShape graphic;
 		public String fileName;
+		public boolean hit = false;
 		
 		public BlueBearObstacle() {
 			
@@ -104,15 +129,21 @@ public class BlueBearObstacles {
 			fileName = file;
 			x = startX;
 			y = startY;
+			hit = false;
 		}
 		
 		public void update( float speed ) {
 			x -= speed;
 		}
 		
+		public void hit() {
+			hit = true;
+		}
+		
 		public void recycle() {
 			graphic = null;
 			fileName = null;
+			hit = false;
 		}
 		
 	}

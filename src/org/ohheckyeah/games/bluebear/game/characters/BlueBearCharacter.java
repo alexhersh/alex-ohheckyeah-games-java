@@ -24,8 +24,12 @@ public class BlueBearCharacter {
 	protected EasingFloat _yPosition = new EasingFloat(0,6);
 	protected float _scale = 0.4f;
 	protected int _lane = 0;
+	protected float _bearX = 0;
+	protected float _bearY = 0;
+	protected float _bearW = 0;
 	protected float _bearH = 0;
 	protected float _bearShadowOffsetY = -7;
+	protected final int HURT_LENGTH = 400;
 	protected int _hurtTime = 0;
 	protected EasingFloat _laneScale = new EasingFloat(1, 6);
 
@@ -61,8 +65,28 @@ public class BlueBearCharacter {
 		_laneScale.setTarget(1f + _lane * 0.1f);
 	}
 	
+	public void hit() {
+		_hurtTime = p.millis();
+	}
+	
 	public void startGameplay() {
 		
+	}
+	
+	public float x() {
+		return _bearX;
+	}
+	
+	public float xLeft() {
+		return _bearX - _bearW * 0.5f;
+	}
+	
+	public float xRight() {
+		return _bearX + _bearW * 0.5f;
+	}
+	
+	public float y() {
+		return _yPosition.value();
 	}
 	
 	public void update(float speed) {
@@ -70,23 +94,23 @@ public class BlueBearCharacter {
 		advanceBearFrame(speed);
 		
 		// responsive sizing/placement
-		float bearW = p.scaleV(_curFrame.width * _scale) * _laneScale.value();
+		_bearW = p.scaleV(_curFrame.width * _scale) * _laneScale.value();
 		_bearH = p.scaleV(_curFrame.height * _scale) * _laneScale.value();
-		float bearX = p.scaleV(130);
+		_bearX = p.scaleV(130);
 		_yPosition.update();
-		float bearY = _yPosition.value() - _bearH * 0.5f;
+		_bearY = _yPosition.value() - _bearH * 0.5f;
 		float shadowY = _yPosition.value() + _bearShadowOffsetY;
 
 		// draw shadow and bear
 		DrawUtil.setDrawCenter(pg);
 		pg.shape( 
 				p.gameGraphics.bearShadow, 
-				bearX, 
+				_bearX, 
 				shadowY, 
 				p.scaleV(p.gameGraphics.bearShadow.width) * _laneScale.value(), 
 				p.scaleV(p.gameGraphics.bearShadow.height) * _laneScale.value() 
 		);
-		pg.image( _curFrame, bearX, bearY, bearW, _bearH );
+		pg.image( _curFrame, _bearX, _bearY, _bearW, _bearH );
 	}
 
 	protected void advanceBearFrame(float speed) {
@@ -97,7 +121,15 @@ public class BlueBearCharacter {
 			if(frameInc > 0) _frameIndex += frameInc;
 			_frameIndex = _frameIndex % _frames.length;
 			_curFrame = _frames[P.floor(_frameIndex)];
-			// if(p.frameCount%3 == 0) _curFrame = _framesHurt[P.floor(_frameIndex)];
+			if( _hurtTime != 0 ) {
+				if( _hurtTime + HURT_LENGTH > p.millis() ) {
+					if( p.frameCount % 3 != 0 ) { // flicker
+						_curFrame = _framesHurt[P.floor(_frameIndex)];
+					}
+				} else {
+					_hurtTime = 0;
+				}
+			}
 		}
 		if( _curFrame == null ) return;
 	}

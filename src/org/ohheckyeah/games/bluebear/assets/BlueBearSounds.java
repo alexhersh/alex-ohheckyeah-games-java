@@ -26,6 +26,7 @@ public class BlueBearSounds {
 	public static final String STEP_OUT = "step-out";
 	public static final String PLAYER_LOCKED = "player-locked";
 	public static final String PLAYERS_DETECTED = "players-detected";
+	public static final String HIT = "hit";
 	
 	public BlueBearSounds() {
 		p = (BlueBear)P.p;
@@ -69,6 +70,7 @@ public class BlueBearSounds {
 		_soundEffects.loadAudioFile( BlueBearSounds.PLAYERS_DETECTED, 1, 	FileUtil.getHaxademicDataPath() + "games/bluebear/audio/sfx/player-detected.wav" );
 		_soundEffects.loadAudioFile( BlueBearSounds.STEP_IN, 1, 			FileUtil.getHaxademicDataPath() + "games/bluebear/audio/sfx/player-enter.wav" );
 		_soundEffects.loadAudioFile( BlueBearSounds.STEP_OUT, 1, 			FileUtil.getHaxademicDataPath() + "games/bluebear/audio/sfx/player-leave.wav" );
+		_soundEffects.loadAudioFile( BlueBearSounds.HIT, 1, 				FileUtil.getHaxademicDataPath() + "games/bluebear/audio/sfx/hit.wav" );
 	}
 
 	public void playSound( String id ) {
