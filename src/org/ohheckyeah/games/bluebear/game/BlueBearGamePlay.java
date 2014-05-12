@@ -66,6 +66,7 @@ public class BlueBearGamePlay {
 	protected boolean _gameplayStarted = false;
 	
 	protected float _launchTime = 0;
+	protected BlueBearObstacles _obstacles;
 
 	
 	public BlueBearGamePlay( KinectRegionGrid kinectGrid, boolean isRemoteKinect ) {
@@ -105,6 +106,8 @@ public class BlueBearGamePlay {
 		_skyline = new BlueBearScrollerSkyline();
 		_buildings = new BlueBearScrollerBuildings();
 		_sidewalk = new BlueBearScrollerSidewalk();
+		
+		_obstacles = new BlueBearObstacles();
 		_bear = new BlueBearCharacter();
 		_nemesis = new BlueBearNemesis();
 	}
@@ -113,6 +116,7 @@ public class BlueBearGamePlay {
 		_bgColor = BlueBearColors.STAGE_BG;
 		_gameIsActive = false;
 		
+		_obstacles.reset();
 		_bear.reset();
 		_nemesis.reset();
 		
@@ -133,6 +137,8 @@ public class BlueBearGamePlay {
 		
 		_backgroundColor.setColor( _curNeighborhood.backgroundColor );
 		_groundColor.setColor( _curNeighborhood.groundColor );
+		
+		_obstacles.setGraphicPool( _curNeighborhood.obstaclePool, _curNeighborhood.obstacleFiles );
 		
 		_road.setGraphicPool( _curNeighborhood.roadPool, _curNeighborhood.roadFiles );
 		_background.setGraphicPool( _curNeighborhood.backgroundPool, _curNeighborhood.backgroundFiles );
@@ -244,6 +250,7 @@ public class BlueBearGamePlay {
 	
 	protected void launch() {
 		_nemesis.launch();
+		_obstacles.launch( _nemesis.launchX(), _nemesis.launchY() );
 	}
 	
 	// draw graphics ------------------------------------------------------------------
@@ -258,6 +265,8 @@ public class BlueBearGamePlay {
 		_background.update(speed);
 		_buildings.update(speed);
 		_sidewalk.update(speed);
+		
+		_obstacles.update(speed);
 		
 		_bear.update(speed);
 		_nemesis.update();

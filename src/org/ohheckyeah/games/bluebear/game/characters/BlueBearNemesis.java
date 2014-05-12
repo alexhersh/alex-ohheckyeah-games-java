@@ -19,6 +19,7 @@ public class BlueBearNemesis {
 	protected EasingFloat _yPosition = new EasingFloat(0,6);
 	protected float _scale = 0.7f;
 	protected int _lane = 0;
+	protected float _squirrelX = 0;
 	protected float _squirrelH = 0;
 	protected float _squirrelShadowOffsetY = -7;
 	protected EasingFloat _laneScale = new EasingFloat(1, 6);
@@ -60,6 +61,14 @@ public class BlueBearNemesis {
 		_launchTime = p.millis();
 	}
 	
+	public float launchX() {
+		return _squirrelX;
+	}
+	
+	public float launchY() {
+		return _yPosition.target();
+	}
+	
 	public void update() {
 		updateLaunchMode();
 		
@@ -67,7 +76,7 @@ public class BlueBearNemesis {
 		_laneScale.update();
 		float squirrelW = p.scaleV(p.gameGraphics.squirrel.width * _scale) * _laneScale.value();
 		_squirrelH = p.scaleV(p.gameGraphics.squirrel.height * _scale) * _laneScale.value();
-		float squirrelX = pg.width - p.scaleV(150);
+		_squirrelX = pg.width - p.scaleV(150);
 		_yPosition.update();
 		float squirrelY = _yPosition.value() - _squirrelH * 0.5f;
 		float shadowY = _yPosition.value() + _squirrelShadowOffsetY;
@@ -86,12 +95,12 @@ public class BlueBearNemesis {
 		DrawUtil.setDrawCenter(pg);
 		pg.shape( 
 				p.gameGraphics.squirrelShadow, 
-				squirrelX, 
+				_squirrelX, 
 				shadowY, 
 				p.scaleV(p.gameGraphics.squirrelShadow.width) * _laneScale.value() * _shadowScale.value(), 
 				p.scaleV(p.gameGraphics.squirrelShadow.height) * _laneScale.value() * _shadowScale.value()
 		);
-		pg.shape( p.gameGraphics.squirrel, squirrelX, squirrelY - _floatHeight.value(), squirrelW, _squirrelH );
+		pg.shape( p.gameGraphics.squirrel, _squirrelX, squirrelY - _floatHeight.value(), squirrelW, _squirrelH );
 	}
 
 	protected void updateLaunchMode() {
