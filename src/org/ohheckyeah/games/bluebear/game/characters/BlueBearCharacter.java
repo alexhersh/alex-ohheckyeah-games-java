@@ -78,11 +78,11 @@ public class BlueBearCharacter {
 	}
 	
 	public float xLeft() {
-		return _bearX - _bearW * 0.5f;
+		return _bearX - _bearW * 0.2f;
 	}
 	
 	public float xRight() {
-		return _bearX + _bearW * 0.5f;
+		return _bearX + _bearW * 0.3f;
 	}
 	
 	public float y() {
