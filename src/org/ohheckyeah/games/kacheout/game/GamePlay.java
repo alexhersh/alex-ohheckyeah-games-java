@@ -70,7 +70,6 @@ public class GamePlay {
 		
 		// create blocks
 		_invaders = new ArrayList<Invader>();
-		int index = 0;
 		float spacingX = (float)_gameWidth / (float)(_cols+1f);
 		float spacingY = spacingX * 5f/6f;
 		float boxScale = (spacingX) / 15f; // terrible, but invader max width is 12 blocks
@@ -80,7 +79,6 @@ public class GamePlay {
 				float centerX = i * spacingX + spacingX;
 				float centerY = j * spacingY + spacingY;
 				_invaders.add( new Invader( (int)centerX, (int)centerY, boxScale, j ) );
-				index++;
 			}
 		}
 		
