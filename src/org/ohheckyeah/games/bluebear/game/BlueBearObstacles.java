@@ -9,6 +9,7 @@ import processing.core.PShape;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.draw.util.DrawUtil;
+import com.haxademic.core.math.easing.EasingFloat;
 
 public class BlueBearObstacles {
 	protected BlueBear p;
@@ -17,6 +18,7 @@ public class BlueBearObstacles {
 	protected PShape[] _graphicPool;
 	protected String[] _graphicPoolFiles;
 	protected ArrayList<BlueBearObstacle> _obstacles;
+	protected final int OBSTACLES_POOL_SIZE = 30;
 	protected int _launchIndex = 0;
 	protected int _poolIndex = 0;
 
@@ -31,13 +33,17 @@ public class BlueBearObstacles {
 		
 		// create pool
 		_obstacles = new ArrayList<BlueBearObstacle>();
-		for( int i=0; i < 30; i++ ) {
+		for( int i=0; i < OBSTACLES_POOL_SIZE; i++ ) {
 			_obstacles.add(new BlueBearObstacle());
 		}
 	}
 	
 	public void reset() {
 		setGraphicPool(null, null);
+		for( int i=0; i < _obstacles.size(); i++ ) {
+			BlueBearObstacle obstacle = _obstacles.get(i);
+			obstacle.recycle();
+		}
 	}
 	
 	public void setGraphicPool( PShape[] pool, String[] poolFiles ) {
@@ -106,7 +112,7 @@ public class BlueBearObstacles {
 			BlueBearObstacle obstacle = _obstacles.get(i);
 			if( obstacle.graphic != null ) {
 				obstacle.update( speed );
-				pg.shape( obstacle.graphic, obstacle.x, obstacle.y - svgHeight(obstacle.graphic) * 0.5f, svgWidth(obstacle.graphic), svgHeight(obstacle.graphic) );
+				pg.shape( obstacle.graphic, obstacle.x, obstacle.y - svgHeight(obstacle.graphic) * 0.5f * obstacle.scale(), svgWidth(obstacle.graphic) * obstacle.scale(), svgHeight(obstacle.graphic) * obstacle.scale() );
 			}
 		}
 		pg.popMatrix();
@@ -119,6 +125,7 @@ public class BlueBearObstacles {
 		public PShape graphic;
 		public String fileName;
 		public boolean hit = false;
+		protected EasingFloat _scale = new EasingFloat(0, 6);
 		
 		public BlueBearObstacle() {
 			
@@ -130,10 +137,17 @@ public class BlueBearObstacles {
 			x = startX;
 			y = startY;
 			hit = false;
+			_scale.setCurrent(0);
+			_scale.setTarget(1);
+		}
+		
+		public float scale() {
+			return _scale.value();
 		}
 		
 		public void update( float speed ) {
 			x -= speed;
+			_scale.update();
 		}
 		
 		public void hit() {
@@ -144,6 +158,8 @@ public class BlueBearObstacles {
 			graphic = null;
 			fileName = null;
 			hit = false;
+			_scale.setCurrent(0);
+			_scale.setTarget(0);
 		}
 		
 	}
