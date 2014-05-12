@@ -158,6 +158,7 @@ public class BlueBearGamePlay {
 	}
 	
 	public void gameOver() {
+		_launchTime = 0;
 		_scrollSpeed.setTarget(0);
 		p.setGameState( GameState.GAME_OVER );
 	}
