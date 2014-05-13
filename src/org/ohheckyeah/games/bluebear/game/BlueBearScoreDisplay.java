@@ -28,6 +28,7 @@ public class BlueBearScoreDisplay {
 	
 	public int hit() {
 		_health--;
+		if( _health < 0 ) _health = 0;
 		return _health;
 	}
 	
