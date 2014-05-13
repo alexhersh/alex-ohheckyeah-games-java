@@ -18,7 +18,8 @@ public class BlueBearCreditsScreen {
 	protected BlueBear p;
 	public PGraphics pg;
 	
-	protected int _bgColor = BlueBearColors.CREDITS_BG;;
+	protected int _bgColor = BlueBearColors.CREDITS_BG;
+	protected int _bgDotColor = BlueBearColors.CREDITS_DOTS;
 	
 	protected BlueBearTextMessage _message;
 	protected PImage _sponsorImage;
@@ -50,10 +51,10 @@ public class BlueBearCreditsScreen {
 		
 		DrawUtil.setDrawCenter(pg);
 		
+		pg.background(_bgColor);
 		drawMessage();
 		drawLogos();
 		if( _sponsorScale != 0 ) drawSponsors();
-//		pg.shape( p.gameGraphics.redDivider, pg.width * 0.5f, pg.height * 0.6f + _noSponsorOffsetY, p.scaleV(p.gameGraphics.redDivider.width), p.scaleV(p.gameGraphics.redDivider.height) );
 		
 		pg.endDraw();
 	}
