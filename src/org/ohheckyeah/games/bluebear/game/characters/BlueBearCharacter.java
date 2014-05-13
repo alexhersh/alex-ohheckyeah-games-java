@@ -7,6 +7,7 @@ import org.ohheckyeah.games.bluebear.game.BlueBearScreenPositions;
 
 import processing.core.PGraphics;
 import processing.core.PImage;
+import processing.core.PShape;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.draw.util.DrawUtil;
@@ -28,7 +29,9 @@ public class BlueBearCharacter {
 	protected float _bearY = 0;
 	protected float _bearW = 0;
 	protected float _bearH = 0;
+	protected float _shadowY = 0;
 	protected float _bearShadowOffsetY = -7;
+	protected float _explosionOffsetY = 2;
 	protected final int HURT_LENGTH = 400;
 	protected int _hurtTime = 0;
 	protected EasingFloat _laneScale = new EasingFloat(1, 6);
@@ -52,6 +55,7 @@ public class BlueBearCharacter {
 		_yPosition.setCurrent( _yPosition.target() );
 		
 		_bearShadowOffsetY = Math.round(p.scaleV(_bearShadowOffsetY));
+		_explosionOffsetY = Math.round(p.scaleV(_explosionOffsetY));
 	}
 	
 	public void reset() {
@@ -99,18 +103,19 @@ public class BlueBearCharacter {
 		_bearX = p.scaleV(130);
 		_yPosition.update();
 		_bearY = _yPosition.value() - _bearH * 0.5f;
-		float shadowY = _yPosition.value() + _bearShadowOffsetY;
+		_shadowY = _yPosition.value() + _bearShadowOffsetY;
 
 		// draw shadow and bear
 		DrawUtil.setDrawCenter(pg);
 		pg.shape( 
 				p.gameGraphics.bearShadow, 
 				_bearX, 
-				shadowY, 
+				_shadowY, 
 				p.scaleV(p.gameGraphics.bearShadow.width) * _laneScale.value(), 
 				p.scaleV(p.gameGraphics.bearShadow.height) * _laneScale.value() 
 		);
 		pg.image( _curFrame, _bearX, _bearY, _bearW, _bearH );
+		showExplosion();
 	}
 
 	protected void advanceBearFrame(float speed) {
@@ -122,6 +127,7 @@ public class BlueBearCharacter {
 			_frameIndex = _frameIndex % _frames.length;
 			_curFrame = _frames[P.floor(_frameIndex)];
 			if( _hurtTime != 0 ) {
+				// switch to hurt graphics
 				if( _hurtTime + HURT_LENGTH > p.millis() ) {
 					if( p.frameCount % 3 != 0 ) { // flicker
 						_curFrame = _framesHurt[P.floor(_frameIndex)];
@@ -132,5 +138,25 @@ public class BlueBearCharacter {
 			}
 		}
 		if( _curFrame == null ) return;
+	}
+	
+	protected void showExplosion() {
+		if( _hurtTime != 0 ) {
+			// choose explosion graphic based on half the hurt time
+			PShape explosion = p.gameGraphics.explosionLarge;
+			if( _hurtTime + HURT_LENGTH / 2f > p.millis() ) {
+				explosion = p.gameGraphics.explosionSmall;
+			}
+			// draw explosion
+			float splodeHeight = p.scaleV(explosion.height) * _laneScale.value();
+			pg.shape( 
+					explosion, 
+					_bearX, 
+					_shadowY - splodeHeight * 0.5f + _explosionOffsetY, 
+					p.scaleV(explosion.width) * _laneScale.value(), 
+					splodeHeight
+			);
+
+		}
 	}
 }
