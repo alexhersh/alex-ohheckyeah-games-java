@@ -254,6 +254,7 @@ public class BlueBearGamePlay {
 	protected void launch() {
 		_nemesis.launch();
 		_obstacles.launch( _nemesis.launchX(), _nemesis.launchY() );
+		p.sounds.playSound( BlueBearSounds.LAUNCH );
 	}
 	
 	protected void checkObstacleCollisions() {
