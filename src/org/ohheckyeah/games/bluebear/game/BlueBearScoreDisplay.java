@@ -22,8 +22,16 @@ public class BlueBearScoreDisplay {
 	}
 	
 	public int addScore() {
-		_score++;
+		_score += 10;
+		P.println("_score = ",_score);
 		return _score;
+	}
+	
+	public int addHealth() {
+		_health += 1;
+		if( _health > 5 ) _health = 5;
+		P.println("_health = ",_health);
+		return _health;
 	}
 	
 	public int hit() {

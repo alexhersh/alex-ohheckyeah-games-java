@@ -22,6 +22,8 @@ import org.ohheckyeah.games.bluebear.game.scrolling.BlueBearScrollerClouds;
 import org.ohheckyeah.games.bluebear.game.scrolling.BlueBearScrollerRoad;
 import org.ohheckyeah.games.bluebear.game.scrolling.BlueBearScrollerSidewalk;
 import org.ohheckyeah.games.bluebear.game.scrolling.BlueBearScrollerSkyline;
+import org.ohheckyeah.games.bluebear.game.streetstuff.BlueBearStreetItem;
+import org.ohheckyeah.games.bluebear.game.streetstuff.BlueBearStreetItems;
 
 import processing.core.PGraphics;
 
@@ -68,7 +70,8 @@ public class BlueBearGamePlay {
 	protected boolean _gameplayStarted = false;
 	
 	protected float _launchTime = 0;
-	protected BlueBearObstacles _obstacles;
+	protected BlueBearStreetItems _obstacles;
+	protected BlueBearStreetItems _goodies;
 
 	
 	public BlueBearGamePlay( KinectRegionGrid kinectGrid, boolean isRemoteKinect ) {
@@ -109,7 +112,8 @@ public class BlueBearGamePlay {
 		_buildings = new BlueBearScrollerBuildings();
 		_sidewalk = new BlueBearScrollerSidewalk();
 		
-		_obstacles = new BlueBearObstacles();
+		_obstacles = new BlueBearStreetItems();
+		_goodies = new BlueBearStreetItems();
 		_bear = new BlueBearCharacter();
 		_nemesis = new BlueBearNemesis();
 		_scoreDisplay = new BlueBearScoreDisplay();
@@ -120,6 +124,7 @@ public class BlueBearGamePlay {
 		_gameIsActive = false;
 		
 		_obstacles.reset();
+		_goodies.reset();
 		_bear.reset();
 		_nemesis.reset();
 		_scoreDisplay.reset();
@@ -143,6 +148,7 @@ public class BlueBearGamePlay {
 		_groundColor.setColor( _curNeighborhood.groundColor );
 		
 		_obstacles.setGraphicPool( _curNeighborhood.obstaclePool, _curNeighborhood.obstacleFiles );
+		_goodies.setGraphicPool( _curNeighborhood.goodiePool, _curNeighborhood.goodieFiles );
 		
 		_road.setGraphicPool( _curNeighborhood.roadPool, _curNeighborhood.roadFiles );
 		_background.setGraphicPool( _curNeighborhood.backgroundPool, _curNeighborhood.backgroundFiles );
@@ -199,6 +205,7 @@ public class BlueBearGamePlay {
 		updateGameStarted();
 		checkLaunch();
 		checkObstacleCollisions();
+		checkGoodieCollisions();
 		drawGraphicsLayers();
 		updateNeighborhood();
 	}
@@ -255,18 +262,42 @@ public class BlueBearGamePlay {
 	}
 	
 	protected void launch() {
+		// launch obstacle
 		_nemesis.launch();
 		_obstacles.launch( _nemesis.launchX(), _nemesis.launchY() );
 		p.sounds.playSound( BlueBearSounds.LAUNCH );
+		
+		// launch a goodie in a different lane
+		int goodieLane = BlueBearScreenPositions.randomLane();
+		while( goodieLane == _nemesis.lane() ) {
+			goodieLane = BlueBearScreenPositions.randomLane();
+		}
+		float goodieOffsetX = _obstacles.obstacleSpacing();
+		if( goodieOffsetX == 0 ) goodieOffsetX = p.scaleV(200);
+		_goodies.launch( _nemesis.launchX() + goodieOffsetX / 2f, BlueBearScreenPositions.LANES_Y[goodieLane] );
 	}
 	
 	protected void checkObstacleCollisions() {
-		boolean didHit = _obstacles.checkHit( _bear.xLeft(), _bear.xRight(), _bear.y() );
-		if( didHit == true ) {
+		BlueBearStreetItem didHit = _obstacles.checkHit( _bear.xLeft(), _bear.xRight(), _bear.y() );
+		if( didHit != null ) {
 			_bear.hit();
 			p.sounds.playSound( BlueBearSounds.HIT );
 			boolean gameOver = _scoreDisplay.hit() == 0;
 			if( gameOver ) gameOver();
+		}
+	}
+	
+	protected void checkGoodieCollisions() {
+		BlueBearStreetItem didHit = _goodies.checkHit( _bear.xLeft(), _bear.xRight(), _bear.y() );
+		if( didHit != null ) {
+			didHit.hide();
+			if( didHit.fileName.indexOf("health") == -1 ) {
+				_scoreDisplay.addScore();
+				p.sounds.playSound( BlueBearSounds.SCORE );
+			} else {
+				_scoreDisplay.addHealth();
+				p.sounds.playSound( BlueBearSounds.HEALTH_UP );
+			}
 		}
 	}
 	
@@ -284,6 +315,7 @@ public class BlueBearGamePlay {
 		_sidewalk.update(speed);
 		
 		_obstacles.update(speed);
+		_goodies.update(speed);
 		
 		_bear.update(speed);
 		_nemesis.update();

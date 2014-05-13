@@ -5,6 +5,7 @@ import org.ohheckyeah.games.bluebear.BlueBear;
 import processing.core.PGraphics;
 
 import com.haxademic.core.app.P;
+import com.haxademic.core.math.MathUtil;
 
 public class BlueBearScreenPositions {
 
@@ -28,5 +29,9 @@ public class BlueBearScreenPositions {
 		for( int i=0; i < LANES_Y.length; i++ ) {
 			LANES_Y[i] = Math.round( ROAD_Y + LANE_H / 2f + i * LANE_H );
 		}
+	}
+	
+	public static int randomLane() {
+		return MathUtil.randRange( 0, BlueBearScreenPositions.LANES_Y.length - 1 );
 	}
 }

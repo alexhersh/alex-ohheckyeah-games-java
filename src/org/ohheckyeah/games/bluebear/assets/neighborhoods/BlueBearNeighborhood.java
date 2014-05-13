@@ -24,6 +24,8 @@ public class BlueBearNeighborhood {
 	public String[] roadFiles;
 	public PShape[] obstaclePool;
 	public String[] obstacleFiles;
+	public PShape[] goodiePool;
+	public String[] goodieFiles;
 	protected int[] _randIndexes;
 	
 	public String[] curGraphicsFiles; // questionable way of handling this, but does the job for now.
@@ -41,6 +43,8 @@ public class BlueBearNeighborhood {
 		roadFiles = curGraphicsFiles;
 		obstaclePool = loadScrollingGraphics( "games/bluebear/svg/neighborhoods/"+ directory +"/obstacles/" );
 		obstacleFiles = curGraphicsFiles;
+		goodiePool = loadScrollingGraphics( "games/bluebear/svg/scene/goodies/" );
+		goodieFiles = curGraphicsFiles;
 	}
 	
 	protected PShape[] loadScrollingGraphics( String graphicsDir ) {

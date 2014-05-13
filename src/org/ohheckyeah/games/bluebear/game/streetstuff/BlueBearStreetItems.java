@@ -1,4 +1,4 @@
-package org.ohheckyeah.games.bluebear.game;
+package org.ohheckyeah.games.bluebear.game.streetstuff;
 
 import java.util.ArrayList;
 
@@ -9,39 +9,40 @@ import processing.core.PShape;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.draw.util.DrawUtil;
-import com.haxademic.core.math.easing.EasingFloat;
 
-public class BlueBearObstacles {
+public class BlueBearStreetItems {
 	protected BlueBear p;
 	protected PGraphics pg;
 
 	protected PShape[] _graphicPool;
 	protected String[] _graphicPoolFiles;
-	protected ArrayList<BlueBearObstacle> _obstacles;
+	protected ArrayList<BlueBearStreetItem> _obstacles;
 	protected final int OBSTACLES_POOL_SIZE = 30;
 	protected int _launchIndex = 0;
 	protected int _poolIndex = 0;
+	
+	protected float _obstacleSpacing = 0;
 
 	protected float _baseY = 0;
 	protected int _paddingLow = 0;
 	protected int _paddingHigh = 0;
 	protected float _parallaxFactor = 1;
 	
-	public BlueBearObstacles() {
+	public BlueBearStreetItems() {
 		p = (BlueBear)P.p;
 		pg = p.pg;
 		
 		// create pool
-		_obstacles = new ArrayList<BlueBearObstacle>();
+		_obstacles = new ArrayList<BlueBearStreetItem>();
 		for( int i=0; i < OBSTACLES_POOL_SIZE; i++ ) {
-			_obstacles.add(new BlueBearObstacle());
+			_obstacles.add(new BlueBearStreetItem());
 		}
 	}
 	
 	public void reset() {
 		setGraphicPool(null, null);
 		for( int i=0; i < _obstacles.size(); i++ ) {
-			BlueBearObstacle obstacle = _obstacles.get(i);
+			BlueBearStreetItem obstacle = _obstacles.get(i);
 			obstacle.recycle();
 		}
 	}
@@ -52,37 +53,38 @@ public class BlueBearObstacles {
 		_launchIndex = 0;
 		_poolIndex = 0;
 	}
+	
+	public float obstacleSpacing() {
+		return _obstacleSpacing;
+	}
 
-	protected int svgWidth( PShape shape ) {
-		return P.round(p.scaleV(shape.width));
-	}
-	
-	protected int svgHeight( PShape shape ) {
-		return P.round(p.scaleV(shape.height));
-	}
-	
 	public void launch( float launchX, float launchY ) {
 		if( _graphicPool == null ) return;
 		_launchIndex = (_launchIndex < _obstacles.size() - 1) ? _launchIndex + 1 : 0;
 		_poolIndex = (_poolIndex < _graphicPool.length - 1) ? _poolIndex + 1 : 0;
 		_obstacles.get(_launchIndex).reset( _graphicPool[_poolIndex], _graphicPoolFiles[_poolIndex], launchX, launchY );
+		
+		// once we've launched 2 obstacles, calculate the spacing for goodies
+		if( _obstacleSpacing == 0 && _launchIndex > 1 ) {
+			_obstacleSpacing = _obstacles.get(_launchIndex).x - _obstacles.get(_launchIndex - 1).x;
+		}
 	}
 	
-	public boolean checkHit( float bearLeft, float bearRight, float objectY ) {
-		boolean didHit = false;
+	public BlueBearStreetItem checkHit( float bearLeft, float bearRight, float objectY ) {
+		BlueBearStreetItem didHit = null;
 		float obstacleLeft;
 		float obstacleRight;
 		for( int i=0; i < _obstacles.size(); i++ ) {
-			BlueBearObstacle obstacle = _obstacles.get(i);
+			BlueBearStreetItem obstacle = _obstacles.get(i);
 			if( obstacle.graphic != null ) {
 				if( Math.abs( obstacle.y - objectY ) < p.scaleV(10) ) {
-					obstacleLeft = obstacle.x - svgWidth(obstacle.graphic) / 2f;
-					obstacleRight = obstacle.x + svgWidth(obstacle.graphic) / 2f;
+					obstacleLeft = obstacle.x - p.svgWidth(obstacle.graphic) / 2f;
+					obstacleRight = obstacle.x + p.svgWidth(obstacle.graphic) / 2f;
 					boolean leftSideCollide = obstacleLeft > bearLeft && obstacleLeft < bearRight;
 					boolean rightSideCollide = obstacleRight > bearLeft && obstacleRight < bearRight;
 					if( obstacle.hit == false ) {
 						if( leftSideCollide || rightSideCollide ) {
-							didHit = true;
+							didHit = obstacle;
 							obstacle.hit();
 						}
 					}
@@ -93,14 +95,15 @@ public class BlueBearObstacles {
 	}
 	
  	public void update( float speed ) {
-		
 		// remove left-most graphic if it's off-screen
 		if( _obstacles.size() > 0 ) {
-			BlueBearObstacle firstObstacle = _obstacles.get(0);
-			if( firstObstacle.graphic != null ) {
-				if( firstObstacle.x < -1 * svgWidth(firstObstacle.graphic) ) {
-					firstObstacle.recycle();
-					_obstacles.remove(0);
+			for( int i=0; i < _obstacles.size(); i++ ) {
+				BlueBearStreetItem obstacle = _obstacles.get(i);
+				if( obstacle.graphic != null ) {
+					if( obstacle.x < -1 * p.svgWidth(obstacle.graphic) ) {
+						obstacle.recycle();
+						P.println("RECYCLE");
+					}
 				}
 			}
 		}
@@ -109,59 +112,14 @@ public class BlueBearObstacles {
 		DrawUtil.setDrawCenter(pg);
 		pg.pushMatrix();
 		for( int i=0; i < _obstacles.size(); i++ ) {
-			BlueBearObstacle obstacle = _obstacles.get(i);
-			if( obstacle.graphic != null ) {
+			BlueBearStreetItem obstacle = _obstacles.get(i);
+			if( obstacle.graphic != null && obstacle.showing == true ) {
 				obstacle.update( speed );
-				pg.shape( obstacle.graphic, obstacle.x, obstacle.y - svgHeight(obstacle.graphic) * 0.5f * obstacle.scale(), svgWidth(obstacle.graphic) * obstacle.scale(), svgHeight(obstacle.graphic) * obstacle.scale() );
+				pg.shape( obstacle.graphic, obstacle.x, obstacle.y - p.svgHeight(obstacle.graphic) * 0.5f * obstacle.scale(), p.svgWidth(obstacle.graphic) * obstacle.scale(), p.svgHeight(obstacle.graphic) * obstacle.scale() );
 			}
 		}
 		pg.popMatrix();
 	}
 
-	public class BlueBearObstacle {
-		
-		public float x;
-		public float y;
-		public PShape graphic;
-		public String fileName;
-		public boolean hit = false;
-		protected EasingFloat _scale = new EasingFloat(0, 6);
-		
-		public BlueBearObstacle() {
-			
-		}
-		
-		public void reset( PShape svg, String file, float startX, float startY ) {
-			graphic = svg;
-			fileName = file;
-			x = startX;
-			y = startY;
-			hit = false;
-			_scale.setCurrent(0);
-			_scale.setTarget(1);
-		}
-		
-		public float scale() {
-			return _scale.value();
-		}
-		
-		public void update( float speed ) {
-			x -= speed;
-			_scale.update();
-		}
-		
-		public void hit() {
-			hit = true;
-		}
-		
-		public void recycle() {
-			graphic = null;
-			fileName = null;
-			hit = false;
-			_scale.setCurrent(0);
-			_scale.setTarget(0);
-		}
-		
-	}
 
 }

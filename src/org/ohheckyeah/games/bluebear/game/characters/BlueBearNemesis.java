@@ -61,6 +61,10 @@ public class BlueBearNemesis {
 		_launchTime = p.millis();
 	}
 	
+	public int lane() {
+		return _lane;
+	}
+	
 	public float launchX() {
 		return _squirrelX;
 	}
