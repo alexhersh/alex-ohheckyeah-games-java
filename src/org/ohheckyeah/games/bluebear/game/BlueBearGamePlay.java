@@ -61,6 +61,7 @@ public class BlueBearGamePlay {
 	protected BlueBearScreenPositions _positions;
 	protected BlueBearCharacter _bear;
 	protected BlueBearNemesis _nemesis;
+	protected BlueBearScoreDisplay _scoreDisplay;
 	
 	protected float SPEED = 10;
 	protected LinearFloat _scrollSpeed = new LinearFloat(0,0.2f);
@@ -111,6 +112,7 @@ public class BlueBearGamePlay {
 		_obstacles = new BlueBearObstacles();
 		_bear = new BlueBearCharacter();
 		_nemesis = new BlueBearNemesis();
+		_scoreDisplay = new BlueBearScoreDisplay();
 	}
 	
 	public void reset() {
@@ -120,6 +122,7 @@ public class BlueBearGamePlay {
 		_obstacles.reset();
 		_bear.reset();
 		_nemesis.reset();
+		_scoreDisplay.reset();
 		
 		_road.reset();
 		_background.reset();
@@ -262,6 +265,8 @@ public class BlueBearGamePlay {
 		if( didHit == true ) {
 			_bear.hit();
 			p.sounds.playSound( BlueBearSounds.HIT );
+			boolean gameOver = _scoreDisplay.hit() == 0;
+			if( gameOver ) gameOver();
 		}
 	}
 	
@@ -282,6 +287,8 @@ public class BlueBearGamePlay {
 		
 		_bear.update(speed);
 		_nemesis.update();
+		
+		_scoreDisplay.update();
 	}
 	
 }

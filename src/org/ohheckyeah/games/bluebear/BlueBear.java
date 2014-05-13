@@ -14,6 +14,7 @@ import org.ohheckyeah.games.bluebear.screens.BlueBearIntroScreens;
 
 import processing.core.PApplet;
 import processing.core.PGraphics;
+import processing.core.PShape;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
@@ -152,7 +153,15 @@ extends PAppletHax
 	public float scaleV( float input ) {
 		return input * gameScaleV;
 	}
-		
+
+	public int svgWidth( PShape shape ) {
+		return P.round(scaleV(shape.width));
+	}
+	
+	public int svgHeight( PShape shape ) {
+		return P.round(scaleV(shape.height));
+	}
+
 	protected void buildCanvas() {
 		pg = p.createGraphics( p.width, p.height, P.OPENGL );
 		pg.smooth(OpenGLUtil.SMOOTH_MEDIUM);
