@@ -101,12 +101,25 @@ public class BlueBearStreetItems {
 		for( int i=0; i < _obstacles.size(); i++ ) {
 			BlueBearStreetItem obstacle = _obstacles.get(i);
 			if( obstacle.graphic != null && obstacle.showing == true ) {
+				// move obstacle
 				obstacle.update( speed );
+				// draw shadow
+				if( obstacle.kicked == false ) {
+					pg.shape( 
+							p.gameGraphics.bearShadow, 
+							obstacle.x, 
+							obstacle.y, 
+							p.svgWidth(obstacle.graphic) * obstacle.scale(), 
+							p.svgWidth(obstacle.graphic) * obstacle.scale() * 0.1f
+					);
+				}
+				// draw obstacle
 				pg.pushMatrix();
 				pg.translate( obstacle.x, obstacle.y - p.svgHeight(obstacle.graphic) * 0.5f * obstacle.scale(), obstacle.lane );
 				pg.rotate( obstacle.rotation );
 				pg.shape( obstacle.graphic, 0, 0, p.svgWidth(obstacle.graphic) * obstacle.scale(), p.svgHeight(obstacle.graphic) * obstacle.scale() );
 				pg.popMatrix();
+				// clean up obstacles if they're done
 				obstacle.checkRecycle();
 			}
 		}
