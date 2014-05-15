@@ -8,6 +8,7 @@ extends ColorGroup {
 	
 	public final static int STAGE_BG = ColorUtil.colorFromHex("#ffffff");
 	public final static int MAIN_TEXT_COLOR = ColorUtil.colorFromHex("#000000");
+	public final static int RED_TEXT_COLOR = ColorUtil.colorFromHex("#EB2227");
 	public final static int CREDITS_BG = ColorUtil.colorFromHex("#f6921e");
 	public final static int CREDITS_DOTS = ColorUtil.colorFromHex("#f9a137");
 	public final static int INTRO_SCREENS_BG = ColorUtil.colorFromHex("#ffffff");

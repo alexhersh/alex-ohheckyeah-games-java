@@ -8,11 +8,11 @@ import com.haxademic.core.system.FileUtil;
 public class BlueBearGraphics {
 
 
-	public PShape waitingSpinner;
+	public PShape waitingSpinner, scoreBg;
 	public PShape[] scores;
 	public PShape roadTile, squirrel, squirrelShadow, bearShadow;
 	public PShape explosionSmall, explosionLarge;
-	public PShape blueBearLogo, logoConfetti;
+	public PShape blueBearLogo;
 	public PShape logoOHY, logoLegwork, logoModeSet;
 
 	public String font;
@@ -21,7 +21,6 @@ public class BlueBearGraphics {
 
 		// title screen
 		blueBearLogo = P.p.loadShape( FileUtil.getHaxademicDataPath() + "games/bluebear/svg/shell/big-blue-logo.svg" );
-		logoConfetti = P.p.loadShape( FileUtil.getHaxademicDataPath() + "games/catchy/svg/shell/logo-confetti.svg" );
 
 		// shell
 		scores = new PShape[]{
@@ -32,6 +31,7 @@ public class BlueBearGraphics {
 				P.p.loadShape( FileUtil.getHaxademicDataPath() + "games/bluebear/svg/shell/bear-life-4.svg" ),
 				P.p.loadShape( FileUtil.getHaxademicDataPath() + "games/bluebear/svg/shell/bear-life-5.svg" )
 		};
+		scoreBg = P.p.loadShape( FileUtil.getHaxademicDataPath() + "games/bluebear/svg/shell/bg-score.svg" );
 		
 		// scene
 		roadTile = P.p.loadShape( FileUtil.getHaxademicDataPath() + "games/bluebear/svg/scene/road-tile.svg" );
