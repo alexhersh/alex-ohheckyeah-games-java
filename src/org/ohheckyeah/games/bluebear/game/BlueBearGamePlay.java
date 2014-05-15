@@ -275,7 +275,7 @@ public class BlueBearGamePlay {
 		}
 		float goodieOffsetX = _obstacles.obstacleSpacing();
 		if( goodieOffsetX == 0 ) goodieOffsetX = p.scaleV(200);
-		_goodies.launch( _nemesis.launchX() + goodieOffsetX / 2f, BlueBearScreenPositions.LANES_Y[goodieLane] );
+		_goodies.launch( _nemesis.launchX() + goodieOffsetX + goodieOffsetX / 2f, BlueBearScreenPositions.LANES_Y[goodieLane] );
 	}
 	
 	protected void checkObstacleCollisions() {
