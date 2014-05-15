@@ -110,7 +110,7 @@ public class BlueBearStreetItems {
 							obstacle.x, 
 							obstacle.y, 
 							p.svgWidth(obstacle.graphic) * obstacle.scale(), 
-							p.svgWidth(obstacle.graphic) * obstacle.scale() * 0.1f
+							p.svgWidth(obstacle.graphic) * obstacle.scale() * 0.15f  // shadow WxH ratio
 					);
 				}
 				// draw obstacle
