@@ -15,6 +15,7 @@ public class BlueBearStreetItem {
 
 	public float x;
 	public float y;
+	public int lane;
 	public float speedX;
 	public float speedY;
 	public float gravity;
@@ -32,11 +33,12 @@ public class BlueBearStreetItem {
 		p = (BlueBear)P.p;
 	}
 	
-	public void reset( PShape svg, String file, float startX, float startY ) {
+	public void reset( PShape svg, String file, float startX, float startY, int newLane ) {
 		graphic = svg;
 		fileName = file;
 		x = startX;
 		y = startY;
+		lane = newLane;
 		speedX = 0;
 		speedY = 0;
 		gravity = p.scaleV( 3 );

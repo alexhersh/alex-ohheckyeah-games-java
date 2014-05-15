@@ -265,7 +265,7 @@ public class BlueBearGamePlay {
 	protected void launch() {
 		// launch obstacle
 		_nemesis.launch();
-		_obstacles.launch( _nemesis.launchX(), _nemesis.launchY() );
+		_obstacles.launch( _nemesis.launchX(), _nemesis.launchY(), _nemesis.lane() );
 		p.sounds.playSound( BlueBearSounds.LAUNCH );
 		
 		// launch a goodie in a different lane
@@ -275,7 +275,7 @@ public class BlueBearGamePlay {
 		}
 		float goodieOffsetX = _obstacles.obstacleSpacing();
 		if( goodieOffsetX == 0 ) goodieOffsetX = p.scaleV(200);
-		_goodies.launch( _nemesis.launchX() + goodieOffsetX + goodieOffsetX / 2f, BlueBearScreenPositions.LANES_Y[goodieLane] );
+		_goodies.launch( _nemesis.launchX() + goodieOffsetX + goodieOffsetX / 2f, BlueBearScreenPositions.LANES_Y[goodieLane], goodieLane );
 	}
 	
 	protected void checkObstacleCollisions() {

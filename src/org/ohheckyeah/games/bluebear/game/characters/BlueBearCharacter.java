@@ -107,6 +107,8 @@ public class BlueBearCharacter {
 
 		// draw shadow and bear
 		DrawUtil.setDrawCenter(pg);
+		pg.pushMatrix();
+		pg.translate(0, 0, _lane);
 		pg.shape( 
 				p.gameGraphics.bearShadow, 
 				_bearX, 
@@ -116,6 +118,7 @@ public class BlueBearCharacter {
 		);
 		pg.image( _curFrame, _bearX, _bearY, _bearW, _bearH );
 		showExplosion();
+		pg.popMatrix();
 	}
 
 	protected void advanceBearFrame(float speed) {

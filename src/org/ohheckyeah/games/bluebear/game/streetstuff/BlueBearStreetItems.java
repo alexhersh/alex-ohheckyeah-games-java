@@ -58,11 +58,11 @@ public class BlueBearStreetItems {
 		return _obstacleSpacing;
 	}
 
-	public void launch( float launchX, float launchY ) {
+	public void launch( float launchX, float launchY, int lane ) {
 		if( _graphicPool == null ) return;
 		_launchIndex = (_launchIndex < _obstacles.size() - 1) ? _launchIndex + 1 : 0;
 		_poolIndex = (_poolIndex < _graphicPool.length - 1) ? _poolIndex + 1 : 0;
-		_obstacles.get(_launchIndex).reset( _graphicPool[_poolIndex], _graphicPoolFiles[_poolIndex], launchX, launchY );
+		_obstacles.get(_launchIndex).reset( _graphicPool[_poolIndex], _graphicPoolFiles[_poolIndex], launchX, launchY, lane );
 		
 		// once we've launched 2 obstacles, calculate the spacing for goodies
 		if( _obstacleSpacing == 0 && _launchIndex > 1 ) {
@@ -103,7 +103,7 @@ public class BlueBearStreetItems {
 			if( obstacle.graphic != null && obstacle.showing == true ) {
 				obstacle.update( speed );
 				pg.pushMatrix();
-				pg.translate( obstacle.x, obstacle.y - p.svgHeight(obstacle.graphic) * 0.5f * obstacle.scale() );
+				pg.translate( obstacle.x, obstacle.y - p.svgHeight(obstacle.graphic) * 0.5f * obstacle.scale(), obstacle.lane );
 				pg.rotate( obstacle.rotation );
 				pg.shape( obstacle.graphic, 0, 0, p.svgWidth(obstacle.graphic) * obstacle.scale(), p.svgHeight(obstacle.graphic) * obstacle.scale() );
 				pg.popMatrix();

@@ -97,6 +97,8 @@ public class BlueBearNemesis {
 
 		// draw shadow and sprite
 		DrawUtil.setDrawCenter(pg);
+		pg.pushMatrix();
+		pg.translate(0, 0, _lane);
 		pg.shape( 
 				p.gameGraphics.squirrelShadow, 
 				_squirrelX, 
@@ -105,6 +107,7 @@ public class BlueBearNemesis {
 				p.scaleV(p.gameGraphics.squirrelShadow.height) * _laneScale.value() * _shadowScale.value()
 		);
 		pg.shape( p.gameGraphics.squirrel, _squirrelX, squirrelY - _floatHeight.value(), squirrelW, _squirrelH );
+		pg.popMatrix();
 	}
 
 	protected void updateLaunchMode() {
