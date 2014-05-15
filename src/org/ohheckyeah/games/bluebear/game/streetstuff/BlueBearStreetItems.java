@@ -95,19 +95,6 @@ public class BlueBearStreetItems {
 	}
 	
  	public void update( float speed ) {
-		// remove left-most graphic if it's off-screen
-		if( _obstacles.size() > 0 ) {
-			for( int i=0; i < _obstacles.size(); i++ ) {
-				BlueBearStreetItem obstacle = _obstacles.get(i);
-				if( obstacle.graphic != null ) {
-					if( obstacle.x < -1 * p.svgWidth(obstacle.graphic) ) {
-						obstacle.recycle();
-						P.println("RECYCLE");
-					}
-				}
-			}
-		}
-		
 		// draw obstacles
 		DrawUtil.setDrawCenter(pg);
 		pg.pushMatrix();
@@ -115,7 +102,12 @@ public class BlueBearStreetItems {
 			BlueBearStreetItem obstacle = _obstacles.get(i);
 			if( obstacle.graphic != null && obstacle.showing == true ) {
 				obstacle.update( speed );
-				pg.shape( obstacle.graphic, obstacle.x, obstacle.y - p.svgHeight(obstacle.graphic) * 0.5f * obstacle.scale(), p.svgWidth(obstacle.graphic) * obstacle.scale(), p.svgHeight(obstacle.graphic) * obstacle.scale() );
+				pg.pushMatrix();
+				pg.translate( obstacle.x, obstacle.y - p.svgHeight(obstacle.graphic) * 0.5f * obstacle.scale() );
+				pg.rotate( obstacle.rotation );
+				pg.shape( obstacle.graphic, 0, 0, p.svgWidth(obstacle.graphic) * obstacle.scale(), p.svgHeight(obstacle.graphic) * obstacle.scale() );
+				pg.popMatrix();
+				obstacle.checkRecycle();
 			}
 		}
 		pg.popMatrix();
