@@ -85,6 +85,7 @@ public class BlueBearGamePlay {
 			_playerControls.add(new BlueBearPlayerControls(_kinectGrid.getRegion(i), _isRemoteKinect));
 		}
 		
+		SPEED = p.scaleV(SPEED);
 		buildNeighborhoods();
 		buildGraphicsLayers();
 		
