@@ -165,12 +165,16 @@ public class BlueBearGamePlay {
 	public void startGame() {
 		_scrollSpeed.setTarget(SPEED);
 		_gameStartTime = p.millis();
+		_bear.startMoving();
+		_nemesis.startMoving();
 	}
 	
 	public void gameOver() {
 		_launchTime = 0;
 		_scrollSpeed.setTarget(0);
 		p.setGameState( GameState.GAME_OVER );
+		_bear.stopMoving();
+		_nemesis.stopMoving();
 	}
 	
 	// handle countdown timer ------------

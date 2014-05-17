@@ -77,6 +77,14 @@ public class BlueBearCharacter {
 		
 	}
 	
+	public void startMoving() {
+
+	}
+	
+	public void stopMoving() {
+
+	}
+	
 	public float x() {
 		return _bearX;
 	}
