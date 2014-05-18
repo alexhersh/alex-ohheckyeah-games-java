@@ -94,7 +94,7 @@ public class BlueBearStreetItems {
 		return didHit;
 	}
 	
- 	public void update( float speed ) {
+ 	public void update( float speed, boolean flipped ) {
 		// draw obstacles
 		DrawUtil.setDrawCenter(pg);
 		pg.pushMatrix();
@@ -117,6 +117,7 @@ public class BlueBearStreetItems {
 				pg.pushMatrix();
 				pg.translate( obstacle.x, obstacle.y - p.svgHeight(obstacle.graphic) * 0.5f * obstacle.scale(), obstacle.lane );
 				pg.rotate( obstacle.rotation );
+				if( flipped ) pg.scale(-1, 1, 1); // pg.rotateY( P.PI );
 				pg.shape( obstacle.graphic, 0, 0, p.svgWidth(obstacle.graphic) * obstacle.scale(), p.svgHeight(obstacle.graphic) * obstacle.scale() );
 				pg.popMatrix();
 				// clean up obstacles if they're done
