@@ -291,7 +291,7 @@ public class BlueBearGamePlay {
 	protected void checkObstacleCollisions() {
 		BlueBearStreetItem didHit = _obstacles.checkHit( _bear.xLeft(), _bear.xRight(), _bear.y() );
 		if( didHit != null ) {
-			didHit.kick();
+			didHit.kick( _bear.x() < didHit.x );
 			_bear.hit();
 			p.sounds.playSound( BlueBearSounds.HIT );
 			boolean gameOver = _scoreDisplay.hit() == 0;

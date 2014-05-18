@@ -94,12 +94,13 @@ public class BlueBearStreetItem {
 		showing = false;
 	}
 	
-	public void kick() {
+	public void kick( boolean kickRight ) {
 		kicked = true;
 		_scaleKick.setCurrent(1);
 		_scaleKick.setTarget(0);
 		rotationSpeed = MathUtil.randRangeDecimel( -0.1f, 0.1f );
 		speedX = p.scaleV( MathUtil.randRangeDecimel(8, 16) );
+		if( !kickRight ) speedX *= -1;
 		speedY = p.scaleV( MathUtil.randRangeDecimel(-30, -18) );
 	}
 	
