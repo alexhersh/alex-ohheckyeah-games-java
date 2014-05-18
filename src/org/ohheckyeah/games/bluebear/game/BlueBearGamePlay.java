@@ -39,6 +39,7 @@ public class BlueBearGamePlay {
 	protected KinectRegionGrid _kinectGrid;
 	protected ArrayList<BlueBearPlayerControls> _playerControls;
 	protected boolean _gameIsActive = false;
+	protected boolean _gameShouldEnd = false;
 	
 	protected boolean _isRemoteKinect;
 	protected int _countdownTime = 0;
@@ -123,6 +124,7 @@ public class BlueBearGamePlay {
 	public void reset() {
 		_bgColor = BlueBearColors.STAGE_BG;
 		_gameIsActive = false;
+		_gameShouldEnd = false;
 		
 		_obstacles.reset();
 		_goodies.reset();
@@ -213,6 +215,10 @@ public class BlueBearGamePlay {
 		checkGoodieCollisions();
 		drawGraphicsLayers();
 		updateNeighborhood();
+		if( _gameShouldEnd == true ) {
+			gameOver();
+			_gameShouldEnd = false;
+		}
 	}
 	
 	public void detectPlayers() {
@@ -253,7 +259,7 @@ public class BlueBearGamePlay {
 				if( _neighborhoodIndex < _neighborhoods.length ) {
 					setLevel(_neighborhoodIndex);
 				} else {
-					gameOver();
+					_gameShouldEnd = true;
 				}
 			}
 		}
@@ -289,7 +295,7 @@ public class BlueBearGamePlay {
 			_bear.hit();
 			p.sounds.playSound( BlueBearSounds.HIT );
 			boolean gameOver = _scoreDisplay.hit() == 0;
-			if( gameOver ) gameOver();
+			if( gameOver ) _gameShouldEnd = true;
 		}
 	}
 	

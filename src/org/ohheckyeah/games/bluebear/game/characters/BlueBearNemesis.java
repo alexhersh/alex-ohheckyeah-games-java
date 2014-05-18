@@ -74,7 +74,7 @@ public class BlueBearNemesis {
 		_flameLarge.translate(FLAME_SHOW_WIDTH, 0);
 		_flameSmall = _squirrel.getChild("flame-small");
 		_flameSmall.translate(FLAME_SHOW_WIDTH, 0);
-		
+
 		_beamTube = _squirrel.getChild("beam-port");
 		_beamTube.translate(0, 0);
 
@@ -111,7 +111,6 @@ public class BlueBearNemesis {
 			_flameIsLarge = false;
 			_flameLarge.translate(FLAME_SHOW_WIDTH, 0);
 		}
-
 	}
 	
 	public void launch() {
@@ -209,7 +208,6 @@ public class BlueBearNemesis {
 		
 		_faceDefault.translate(0, FACE_MOVE_HEIGHT);
 		_faceBeaming.translate(0, -FACE_MOVE_HEIGHT);
-//		_faceBeaming.
 	}
 	
 	protected void tubeUp() {
