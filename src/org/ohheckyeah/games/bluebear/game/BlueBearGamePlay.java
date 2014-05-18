@@ -326,8 +326,8 @@ public class BlueBearGamePlay {
 		_buildings.update(speed);
 		_sidewalk.update(speed);
 		
-		_obstacles.update(speed, true);
-		_goodies.update(speed, false);
+		_obstacles.update(speed, true, _bear.x());
+		_goodies.update(speed, false, _bear.x());
 		
 		_bear.update(speed);
 		_nemesis.update();

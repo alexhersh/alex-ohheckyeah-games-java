@@ -26,6 +26,7 @@ public class BlueBearStreetItem {
 	public boolean hit = false;
 	public boolean showing = true;
 	public boolean kicked = false;
+	public boolean isPerson = false;
 	protected EasingFloat _scale = new EasingFloat(0, 6);
 	protected LinearFloat _scaleKick = new LinearFloat(0, 0.025f );
 	
@@ -49,6 +50,7 @@ public class BlueBearStreetItem {
 		kicked = false;
 		_scale.setCurrent(0);
 		_scale.setTarget(1);
+		isPerson = ( file.indexOf("Character") != -1 || file.indexOf("Moose") != -1 );
 	}
 	
 	public float scale() {
