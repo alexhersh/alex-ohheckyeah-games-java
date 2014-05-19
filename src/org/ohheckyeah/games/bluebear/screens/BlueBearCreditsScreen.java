@@ -2,7 +2,6 @@ package org.ohheckyeah.games.bluebear.screens;
 
 import org.ohheckyeah.games.bluebear.BlueBear;
 import org.ohheckyeah.games.bluebear.assets.BlueBearColors;
-import org.ohheckyeah.games.bluebear.game.text.BlueBearTextMessage;
 
 import processing.core.PGraphics;
 import processing.core.PImage;
@@ -20,11 +19,12 @@ public class BlueBearCreditsScreen {
 	
 	protected int _bgColor = BlueBearColors.CREDITS_BG;
 	protected int _bgDotColor = BlueBearColors.CREDITS_DOTS;
+	protected int _bgDotSize = 45;
+	protected int _bgDotSpaceX = 130;
+	protected int _bgDotSpaceY = 110;
 	
-	protected BlueBearTextMessage _message;
 	protected PImage _sponsorImage;
 	protected float _sponsorScale = 0;
-	protected float _noSponsorOffsetY = 0;
 	
 	public BlueBearCreditsScreen( String sponsorsImagePath ) {
 		p = (BlueBear) P.p;
@@ -36,9 +36,11 @@ public class BlueBearCreditsScreen {
 			_sponsorImage = p.loadImage( FileUtil.getHaxademicDataPath() + sponsorsImagePath );
 			float sponsorTargetH = p.scaleV(180f);
 			_sponsorScale = sponsorTargetH / _sponsorImage.height;
-		} else {
-			_noSponsorOffsetY = pg.height * 0.15f;
 		}
+		
+		_bgDotSize = P.round(p.scaleV(_bgDotSize));
+		_bgDotSpaceX = P.round(p.scaleV(_bgDotSpaceX));
+		_bgDotSpaceY = P.round(p.scaleV(_bgDotSpaceY));
 	}
 	
 	public void reset() {
@@ -52,6 +54,7 @@ public class BlueBearCreditsScreen {
 		DrawUtil.setDrawCenter(pg);
 		
 		pg.background(_bgColor);
+		drawBgDots();
 		drawMessage();
 		drawLogos();
 		if( _sponsorScale != 0 ) drawSponsors();
@@ -59,20 +62,28 @@ public class BlueBearCreditsScreen {
 		pg.endDraw();
 	}
 	
-	protected void drawMessage() {
-		if( _message == null ) {
-			_message = new BlueBearTextMessage( "brought to you by", 60, 450, 90, 410 );
+	protected void drawBgDots() {
+		pg.fill( _bgDotColor );
+		pg.noStroke();
+		int row = 0;
+		for( int y=0; y < pg.height + _bgDotSize; y += _bgDotSpaceY ) {
+			int startX = (row % 2 == 0) ? 20 : 20 + _bgDotSpaceX / 2;
+			for( int x=startX; x < pg.width + _bgDotSize; x += _bgDotSpaceX ) {
+				pg.ellipse(x, y, _bgDotSize, _bgDotSize);
+			}
+			row++;
 		}
+	}
+	
+	protected void drawMessage() {
 		pg.pushMatrix();
-		pg.translate( pg.width/2, pg.height * 0.15f + _noSponsorOffsetY );
-		pg.image( _message.image(), 0, 0, _message.image().width, _message.image().height );
+		pg.translate( pg.width/2, pg.height * 0.2f );
+		pg.shape( p.gameGraphics.textBroughtToYou, 0, 0, p.svgWidth(p.gameGraphics.textBroughtToYou), p.svgHeight(p.gameGraphics.textBroughtToYou) );
 		pg.popMatrix();
 	}
 	
 	protected void drawLogos() {
-		pg.shape( p.gameGraphics.logoOHY, pg.width * 0.25f, pg.height * 0.4f + _noSponsorOffsetY, p.scaleV(p.gameGraphics.logoOHY.width), p.scaleV(p.gameGraphics.logoOHY.height) );
-		pg.shape( p.gameGraphics.logoLegwork, pg.width * 0.5f, pg.height * 0.4f + _noSponsorOffsetY, p.scaleV(p.gameGraphics.logoLegwork.width), p.scaleV(p.gameGraphics.logoLegwork.height) );
-		pg.shape( p.gameGraphics.logoModeSet, pg.width * 0.75f, pg.height * 0.4f + _noSponsorOffsetY, p.scaleV(p.gameGraphics.logoModeSet.width), p.scaleV(p.gameGraphics.logoModeSet.height) );
+		pg.shape( p.gameGraphics.logoOhyTeam, pg.width * 0.5f, pg.height * 0.5f, p.scaleV(p.gameGraphics.logoOhyTeam.width), p.scaleV(p.gameGraphics.logoOhyTeam.height) );
 	}
 	
 	protected void drawSponsors() {

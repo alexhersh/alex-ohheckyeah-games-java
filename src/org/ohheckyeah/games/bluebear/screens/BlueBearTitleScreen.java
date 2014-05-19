@@ -17,7 +17,7 @@ public class BlueBearTitleScreen {
 	
 	protected int _bgColor;
 	
-	protected ElasticFloat _logoScale = new ElasticFloat(0, 0.87f, 0.08f);
+	protected ElasticFloat _logoY = new ElasticFloat(0, 0.75f, 0.1f);
 	
 	public BlueBearTitleScreen() {
 		p = (BlueBear) P.p;
@@ -27,8 +27,16 @@ public class BlueBearTitleScreen {
 	
 	public void reset() {
 		_bgColor = BlueBearColors.TITLE_SCREEN_BG;
-		_logoScale.setValue(0);
-		_logoScale.setTarget(1);
+		_logoY.setValue(pg.height + p.svgHeight(p.gameGraphics.blueBearLogo));
+		_logoY.setTarget(pg.height / 2f);
+	}
+	
+	public void outroDown() {
+		_logoY.setTarget(pg.height / 2f + p.scaleV(150f));
+	}
+	
+	public void outroUp() {
+		_logoY.setTarget( -pg.height );
 	}
 	
 	public void update() {
@@ -42,8 +50,8 @@ public class BlueBearTitleScreen {
 	
 	protected void drawLogo() {
 		DrawUtil.setDrawCenter(pg);
-		_logoScale.update();
-		pg.shape( p.gameGraphics.blueBearLogo, pg.width * 0.5f, pg.height * 0.5f, p.gameGraphics.blueBearLogo.width * p.scaleV(_logoScale.val()), p.gameGraphics.blueBearLogo.height * p.scaleV(_logoScale.val()) );
+		_logoY.update();
+		pg.shape( p.gameGraphics.blueBearLogo, pg.width * 0.5f, _logoY.val(), p.scaleV(p.gameGraphics.blueBearLogo.width), p.scaleV(p.gameGraphics.blueBearLogo.height) );
 	}
 	
 }

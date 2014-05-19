@@ -13,7 +13,8 @@ public class BlueBearGraphics {
 	public PShape roadTile, squirrel, squirrelShadow, bearShadow;
 	public PShape explosionSmall, explosionLarge;
 	public PShape blueBearLogo;
-	public PShape logoOHY, logoLegwork, logoModeSet;
+	public PShape logoOhyTeam, logoOHY;
+	public PShape textBroughtToYou;
 
 	public String font;
 
@@ -33,6 +34,10 @@ public class BlueBearGraphics {
 		};
 		scoreBg = P.p.loadShape( FileUtil.getHaxademicDataPath() + "games/bluebear/svg/shell/bg-score.svg" );
 		
+		// intro text
+		textBroughtToYou = P.p.loadShape( FileUtil.getHaxademicDataPath() + "games/bluebear/svg/shell/text-brought-to-you-by.svg" );
+		
+		
 		// scene
 		roadTile = P.p.loadShape( FileUtil.getHaxademicDataPath() + "games/bluebear/svg/scene/road-tile.svg" );
 		waitingSpinner = P.p.loadShape( FileUtil.getHaxademicDataPath() + "games/bluebear/svg/shell/waiting-spinner.svg" );
@@ -43,9 +48,8 @@ public class BlueBearGraphics {
 		explosionLarge = P.p.loadShape( FileUtil.getHaxademicDataPath() + "games/bluebear/svg/scene/explosion-large.svg" );
 
 		// common OHY svgs
+		logoOhyTeam = P.p.loadShape( FileUtil.getHaxademicDataPath() + "svg/logo-partners-white.svg" );
 		logoOHY = P.p.loadShape( FileUtil.getHaxademicDataPath() + "svg/logo-ohheckyeah.svg" );
-		logoLegwork = P.p.loadShape( FileUtil.getHaxademicDataPath() + "svg/logo-legwork.svg" );
-		logoModeSet = P.p.loadShape( FileUtil.getHaxademicDataPath() + "svg/logo-mode-set.svg" );
 
 		// fonts
 		font = FileUtil.getHaxademicDataPath() + "fonts/nunito/Nunito-Bold.ttf";
