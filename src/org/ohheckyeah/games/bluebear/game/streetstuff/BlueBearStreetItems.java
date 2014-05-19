@@ -66,7 +66,7 @@ public class BlueBearStreetItems {
 		
 		// once we've launched 2 obstacles, calculate the spacing for goodies
 		if( _obstacleSpacing == 0 && _launchIndex > 1 ) {
-			_obstacleSpacing = _obstacles.get(_launchIndex).x - _obstacles.get(_launchIndex - 1).x;
+			_obstacleSpacing = _obstacles.get(_launchIndex).xStatic - _obstacles.get(_launchIndex - 1).xStatic;
 		}
 	}
 	

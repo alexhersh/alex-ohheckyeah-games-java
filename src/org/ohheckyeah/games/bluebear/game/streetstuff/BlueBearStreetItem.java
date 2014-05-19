@@ -14,6 +14,7 @@ public class BlueBearStreetItem {
 	protected BlueBear p;
 
 	public float x;
+	public float xStatic;
 	public float y;
 	public int lane;
 	public float speedX;
@@ -41,6 +42,7 @@ public class BlueBearStreetItem {
 		graphic = svg;
 		fileName = file;
 		x = startX;
+		xStatic = startX;
 		y = startY;
 		lane = newLane;
 		speedX = 0;
@@ -70,6 +72,7 @@ public class BlueBearStreetItem {
 		if( kicked == false ) {
 			_scale.update();
 			x -= speed;
+			xStatic -= speed;
 			// special movement
 			if( isCar ) x -= speed * 0.25f; // mo' speed
 			if( isPerson && speed > 1 ) {
