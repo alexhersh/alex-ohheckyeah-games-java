@@ -44,8 +44,17 @@ public class BlueBearTitleScreen {
 		
 		pg.background( _bgColor );
 		drawLogo();
+		drawBorder();
 		
 		pg.endDraw();
+	}
+	
+	protected void drawBorder() {
+		DrawUtil.setDrawCorner(pg);
+		pg.stroke( BlueBearColors.TITLE_SCREEN_BORDER );
+		pg.strokeWeight( p.scaleV(40) );
+		pg.noFill();
+		pg.rect( 0, 0, pg.width, pg.height );
 	}
 	
 	protected void drawLogo() {

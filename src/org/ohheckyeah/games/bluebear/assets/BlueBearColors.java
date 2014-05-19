@@ -13,6 +13,7 @@ extends ColorGroup {
 	public final static int CREDITS_DOTS = ColorUtil.colorFromHex("#f9a137");
 	public final static int INTRO_SCREENS_BG = ColorUtil.colorFromHex("#ffffff");
 	public final static int TITLE_SCREEN_BG = ColorUtil.colorFromHex("#fffbd4");
+	public final static int TITLE_SCREEN_BORDER = ColorUtil.colorFromHex("#224194");
 	public final static int DETECT_SCREEN_TOP = ColorUtil.colorFromHex("#f07db1");
 	public final static int DETECT_SCREEN_BOTTOM = ColorUtil.colorFromHex("#f072ab");
 	

@@ -90,10 +90,10 @@ public class BlueBearIntroScreens {
 			p.sounds.playIntro();
 			_logoScreen.reset();
 		}
-		if( _mode == Screen.TITLE && p.millis() > _introScreensStartTime + 10300 && p.millis() < _introScreensStartTime + 10400 ) {
+		if( _mode == Screen.TITLE && p.millis() > _introScreensStartTime + 10500 && p.millis() < _introScreensStartTime + 10600 ) {
 			_logoScreen.outroDown();
 		}
-		if( _mode == Screen.TITLE && p.millis() > _introScreensStartTime + 10400 && p.millis() < _introScreensStartTime + 11000 ) {
+		if( _mode == Screen.TITLE && p.millis() > _introScreensStartTime + 10600 && p.millis() < _introScreensStartTime + 11000 ) {
 			_logoScreen.outroUp();
 		}
 		if( _mode == Screen.TITLE && p.millis() > _introScreensStartTime + 11000 ) {
