@@ -118,6 +118,7 @@ public class BlueBearStreetItems {
 				pg.translate( obstacle.x, obstacle.y - p.svgHeight(obstacle.graphic) * 0.5f * obstacle.scale(), obstacle.lane );
 				pg.rotate( obstacle.rotation );
 				if( flipped && ( obstacle.x > bearCenter || obstacle.isPerson == false ) ) pg.scale(-1, 1, 1);
+				if( obstacle.isPerson == true ) pg.rotate( obstacle.walkRotation );
 				pg.shape( obstacle.graphic, 0, 0, p.svgWidth(obstacle.graphic) * obstacle.scale(), p.svgHeight(obstacle.graphic) * obstacle.scale() );
 				pg.popMatrix();
 				// clean up obstacles if they're done

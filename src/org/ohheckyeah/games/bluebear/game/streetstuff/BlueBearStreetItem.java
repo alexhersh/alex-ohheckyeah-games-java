@@ -21,12 +21,15 @@ public class BlueBearStreetItem {
 	public float gravity;
 	public float rotation;
 	public float rotationSpeed;
+	public float walkFrames;
+	public float walkRotation;
 	public PShape graphic;
 	public String fileName;
 	public boolean hit = false;
 	public boolean showing = true;
 	public boolean kicked = false;
 	public boolean isPerson = false;
+	public boolean isCar = false;
 	protected EasingFloat _scale = new EasingFloat(0, 6);
 	protected LinearFloat _scaleKick = new LinearFloat(0, 0.025f );
 	
@@ -45,12 +48,14 @@ public class BlueBearStreetItem {
 		gravity = p.scaleV( 3 );
 		rotation = 0;
 		rotationSpeed = 0;
+		walkRotation = 0.1f;
 		hit = false;
 		showing = true;
 		kicked = false;
 		_scale.setCurrent(0);
 		_scale.setTarget(1);
-		isPerson = ( file.indexOf("Character") != -1 || file.indexOf("Moose") != -1 );
+		isPerson = ( file.indexOf("Character") != -1 ); //  || file.indexOf("Moose") != -1 
+		isCar = ( file.indexOf("Car") != -1 );
 	}
 	
 	public float scale() {
@@ -65,6 +70,14 @@ public class BlueBearStreetItem {
 		if( kicked == false ) {
 			_scale.update();
 			x -= speed;
+			// special movement
+			if( isCar ) x -= speed * 0.25f; // mo' speed
+			if( isPerson && speed > 1 ) {
+				// every 4 frames, reverse a bit of rotation
+				walkFrames += 0.25f;
+				if( walkFrames % 1 == 0 ) walkRotation *= -1f;
+				x -= speed * 0.1f;
+			}
 		} else {
 			_scaleKick.update();
 			x += speedX;
