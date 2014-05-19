@@ -2,6 +2,7 @@ package org.ohheckyeah.games.bluebear.screens;
 
 import org.ohheckyeah.games.bluebear.BlueBear;
 import org.ohheckyeah.games.bluebear.assets.BlueBearColors;
+import org.ohheckyeah.games.bluebear.assets.BlueBearGraphics;
 
 import processing.core.PGraphics;
 import processing.core.PImage;
@@ -19,9 +20,6 @@ public class BlueBearCreditsScreen {
 	
 	protected int _bgColor = BlueBearColors.CREDITS_BG;
 	protected int _bgDotColor = BlueBearColors.CREDITS_DOTS;
-	protected int _bgDotSize = 45;
-	protected int _bgDotSpaceX = 130;
-	protected int _bgDotSpaceY = 110;
 	
 	protected PImage _sponsorImage;
 	protected float _sponsorScale = 0;
@@ -37,10 +35,6 @@ public class BlueBearCreditsScreen {
 			float sponsorTargetH = p.scaleV(180f);
 			_sponsorScale = sponsorTargetH / _sponsorImage.height;
 		}
-		
-		_bgDotSize = P.round(p.scaleV(_bgDotSize));
-		_bgDotSpaceX = P.round(p.scaleV(_bgDotSpaceX));
-		_bgDotSpaceY = P.round(p.scaleV(_bgDotSpaceY));
 	}
 	
 	public void reset() {
@@ -54,25 +48,12 @@ public class BlueBearCreditsScreen {
 		DrawUtil.setDrawCenter(pg);
 		
 		pg.background(_bgColor);
-		drawBgDots();
+		BlueBearGraphics.drawBgDots( p, pg, _bgDotColor );
 		drawMessage();
 		drawLogos();
 		if( _sponsorScale != 0 ) drawSponsors();
 		
 		pg.endDraw();
-	}
-	
-	protected void drawBgDots() {
-		pg.fill( _bgDotColor );
-		pg.noStroke();
-		int row = 0;
-		for( int y=0; y < pg.height + _bgDotSize; y += _bgDotSpaceY ) {
-			int startX = (row % 2 == 0) ? 20 : 20 + _bgDotSpaceX / 2;
-			for( int x=startX; x < pg.width + _bgDotSize; x += _bgDotSpaceX ) {
-				pg.ellipse(x, y, _bgDotSize, _bgDotSize);
-			}
-			row++;
-		}
 	}
 	
 	protected void drawMessage() {

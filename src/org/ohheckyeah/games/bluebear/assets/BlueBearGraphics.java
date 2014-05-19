@@ -1,5 +1,8 @@
 package org.ohheckyeah.games.bluebear.assets;
 
+import org.ohheckyeah.games.bluebear.BlueBear;
+
+import processing.core.PGraphics;
 import processing.core.PShape;
 
 import com.haxademic.core.app.P;
@@ -54,5 +57,23 @@ public class BlueBearGraphics {
 		// fonts
 		font = FileUtil.getHaxademicDataPath() + "fonts/nunito/Nunito-Bold.ttf";
 	}
+
+	public static void drawBgDots( BlueBear p, PGraphics pg, int dotColor ) {
+		float _bgDotSize = p.scaleV(45);
+		float _bgDotSpaceX = p.scaleV(130);
+		float _bgDotSpaceY = p.scaleV(110);
+		
+		pg.fill( dotColor );
+		pg.noStroke();
+		int row = 0;
+		for( int y=0; y < pg.height + _bgDotSize; y += _bgDotSpaceY ) {
+			int startX = (row % 2 == 0) ? 20 : 20 + P.round( _bgDotSpaceX / 2f );
+			for( int x=startX; x < pg.width + _bgDotSize; x += _bgDotSpaceX ) {
+				pg.ellipse(x, y, _bgDotSize, _bgDotSize);
+			}
+			row++;
+		}
+	}
+	
 
 }

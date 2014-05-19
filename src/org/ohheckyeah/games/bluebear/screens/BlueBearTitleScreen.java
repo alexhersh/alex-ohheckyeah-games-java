@@ -2,6 +2,7 @@ package org.ohheckyeah.games.bluebear.screens;
 
 import org.ohheckyeah.games.bluebear.BlueBear;
 import org.ohheckyeah.games.bluebear.assets.BlueBearColors;
+import org.ohheckyeah.games.bluebear.assets.BlueBearGraphics;
 
 import processing.core.PGraphics;
 
@@ -43,6 +44,7 @@ public class BlueBearTitleScreen {
 		pg.beginDraw();
 		
 		pg.background( _bgColor );
+		BlueBearGraphics.drawBgDots( p, pg, BlueBearColors.TITLE_SCREEN_DOTS );
 		drawLogo();
 		drawBorder();
 		
