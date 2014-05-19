@@ -210,9 +210,11 @@ public class BlueBearGamePlay {
 		if( p.gameState() == GameState.GAME_PLAYING ) updateControls();
 		_scrollSpeed.update();
 		updateGameStarted();
-		checkLaunch();
-		checkObstacleCollisions();
-		checkGoodieCollisions();
+		if( p.gameState() == GameState.GAME_PLAYING ) {
+			checkLaunch();
+			checkObstacleCollisions();
+			checkGoodieCollisions();
+		}
 		drawGraphicsLayers();
 		updateNeighborhood();
 		if( _gameShouldEnd == true ) {

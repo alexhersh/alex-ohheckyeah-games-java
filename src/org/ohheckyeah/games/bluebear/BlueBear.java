@@ -364,7 +364,6 @@ extends PAppletHax
 	}
 
 	protected void runGameStateGameOver() {
-		updateGameplay();
 		if( _gameState == GameState.GAME_OVER && p.millis() > _gameOverTime + 4000 ) {
 			setGameState( GameState.GAME_OVER_OUTRO );
 		}
@@ -378,6 +377,7 @@ extends PAppletHax
 				_tracking.saveCameraImage( _trackingDateStr );
 			}
 		}
+		updateGameplay();
 	}
 	
 	protected void setGameStateGameOverOutro() {
