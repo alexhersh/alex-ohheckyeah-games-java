@@ -1,6 +1,7 @@
 package org.ohheckyeah.games.bluebear.game.characters;
 
 import org.ohheckyeah.games.bluebear.BlueBear;
+import org.ohheckyeah.games.bluebear.BlueBear.GameState;
 import org.ohheckyeah.games.bluebear.game.BlueBearScreenPositions;
 
 import processing.core.PGraphics;
@@ -181,12 +182,14 @@ public class BlueBearNemesis {
 	
 	protected void animateSquirrel() {
 		// animate flame
-		if( _flameIsOn == true && p.frameCount % _flameFrameSwap == 0 ) {
-			_flameIsLarge = !_flameIsLarge;
-			if( _flameIsLarge == true ) {
-				_flameLarge.translate(-FLAME_SHOW_WIDTH, 0);
-			} else {
-				_flameLarge.translate(FLAME_SHOW_WIDTH, 0);
+		if( p.gameState() == GameState.GAME_PLAYING ) {
+			if( _flameIsOn == true && p.frameCount % _flameFrameSwap == 0 ) {
+				_flameIsLarge = !_flameIsLarge;
+				if( _flameIsLarge == true ) {
+					_flameLarge.translate(-FLAME_SHOW_WIDTH, 0);
+				} else {
+					_flameLarge.translate(FLAME_SHOW_WIDTH, 0);
+				}
 			}
 		}
 		
