@@ -271,10 +271,10 @@ extends PAppletHax
 
 	protected void setGameStateIntroOutro() {
 		sounds.fadeOutIntro();
+		_gamePlay.startPlayerDetection();
 	}
 	
 	protected void setGameStateWaitingForPlayers() {
-		_gamePlay.startPlayerDetection();
 		_gamePlay.animateToWinState();
 		_gameMessages.showWaiting();
 		sounds.playWaiting();

@@ -33,7 +33,7 @@ extends BlueBearBasePlayer {
 	protected EasingFloat _laneScale = new EasingFloat(1, 6);
 
 	public BlueBearCharacter( BlueBearPlayerControls playerControls ) {
-		super( playerControls, 0.333f );
+		super( playerControls, 0.3f );
 		
 		// load frame images from directory
 		String imgPath = "games/bluebear/images/bear-run-sequence/";

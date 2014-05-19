@@ -58,6 +58,9 @@ public class BlueBearBasePlayer {
 		_playerControls.resetDetection();
 		_playerDetectedState = null;
 	}
+	public void showSpinner() {
+		_waitingSpinner.show();
+	}
 	
 	public void updateControls() {
 		_playerControls.updateControls();

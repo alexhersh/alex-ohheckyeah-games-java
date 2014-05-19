@@ -15,8 +15,8 @@ extends ColorGroup {
 	public final static int TITLE_SCREEN_BG = ColorUtil.colorFromHex("#fffbd4");
 	public final static int TITLE_SCREEN_BORDER = ColorUtil.colorFromHex("#224194");
 	public final static int TITLE_SCREEN_DOTS = ColorUtil.colorFromHex("#f9fff1");
-	public final static int DETECT_SCREEN_TOP = ColorUtil.colorFromHex("#f07db1");
-	public final static int DETECT_SCREEN_BOTTOM = ColorUtil.colorFromHex("#f072ab");
+	public final static int DETECT_SCREEN_TOP = ColorUtil.colorFromHex("#da6baf");
+	public final static int DETECT_SCREEN_BOTTOM = ColorUtil.colorFromHex("#d95caa");
 	
 	public BlueBearColors( int set ) {
 		super(set);

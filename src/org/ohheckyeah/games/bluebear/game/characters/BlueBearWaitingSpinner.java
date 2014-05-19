@@ -1,17 +1,16 @@
 package org.ohheckyeah.games.bluebear.game.characters;
 
 import org.ohheckyeah.games.bluebear.BlueBear;
-import org.ohheckyeah.games.bluebear.game.BlueBearGamePlay;
 
 import processing.core.PGraphics;
 
 import com.haxademic.core.app.P;
+import com.haxademic.core.draw.util.DrawUtil;
 import com.haxademic.core.math.easing.ElasticFloat;
 
 public class BlueBearWaitingSpinner {
 	
 	protected BlueBear p;
-	protected BlueBearGamePlay catchyGamePlay;
 	protected PGraphics pg;
 	
 	protected float _spinnerX = 0;
@@ -39,8 +38,10 @@ public class BlueBearWaitingSpinner {
 	}
 	
 	public void update() {
+		DrawUtil.setDrawCenter(pg);
+
 		_scale.update();
-		_rotation -= _rotationSpeed;
+		_rotation += _rotationSpeed;
 		if( _scale.val() > 0 ) {
 			pg.pushMatrix();
 			pg.translate( _spinnerX, _spinnerY );
@@ -52,7 +53,7 @@ public class BlueBearWaitingSpinner {
 	}
 	
 	public void show() {
-		_scale.setTarget(1);
+		_scale.setTarget(0.9f);
 		_rotationSpeed = ROTATION_SLOW;
 	}
 	
@@ -62,12 +63,14 @@ public class BlueBearWaitingSpinner {
 	}
 	
 	public void playerEntered() {
-		_scale.setTarget(1.5f);
+		_scale.setTarget(2.0f);
+		_scale.update();
+		_scale.setTarget(1.0f);
 		_rotationSpeed = ROTATION_MEDIUM;
 	}
 	
 	public void playerLeft() {
-		_scale.setTarget(1);
+		_scale.setTarget(0.9f);
 		_rotationSpeed = ROTATION_SLOW;
 	}
 	

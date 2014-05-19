@@ -11,6 +11,7 @@ import org.ohheckyeah.games.bluebear.assets.neighborhoods.BlueBearNeighborhoodDo
 import org.ohheckyeah.games.bluebear.assets.neighborhoods.BlueBearNeighborhoodHighlands;
 import org.ohheckyeah.games.bluebear.assets.neighborhoods.BlueBearNeighborhoodMountains;
 import org.ohheckyeah.games.bluebear.game.characters.BlueBearCharacter;
+import org.ohheckyeah.games.bluebear.game.characters.BlueBearPlayerDetectionBg;
 import org.ohheckyeah.games.bluebear.game.characters.BlueBearNemesis;
 import org.ohheckyeah.games.bluebear.game.characters.BlueBearPlayerControls;
 import org.ohheckyeah.games.bluebear.game.nonscrolling.BlueBearBackground;
@@ -38,6 +39,8 @@ public class BlueBearGamePlay {
 	protected KinectRegionGrid _kinectGrid;
 	protected boolean _gameIsActive = false;
 	protected boolean _gameShouldEnd = false;
+	
+	protected BlueBearPlayerDetectionBg _playerDetectBackground;
 	
 	protected boolean _isRemoteKinect;
 	protected int _countdownTime = 0;
@@ -112,6 +115,7 @@ public class BlueBearGamePlay {
 		_goodies = new BlueBearStreetItems();
 		_bear = new BlueBearCharacter( new BlueBearPlayerControls(_kinectGrid.getRegion(0), _isRemoteKinect) );
 		_nemesis = new BlueBearNemesis( new BlueBearPlayerControls(_kinectGrid.getRegion(1), _isRemoteKinect) );
+		_playerDetectBackground = new BlueBearPlayerDetectionBg();
 		_scoreDisplay = new BlueBearScoreDisplay();
 	}
 	
@@ -156,6 +160,9 @@ public class BlueBearGamePlay {
 		
 	// start/end game methods ------------
 	public void startPlayerDetection() {
+		_playerDetectBackground.show();
+		_bear.showSpinner();
+		_nemesis.showSpinner();
 	}
 	
 	public void startGame() {
@@ -176,6 +183,7 @@ public class BlueBearGamePlay {
 	// handle countdown timer ------------
 	public void playersLockedIn() {
 		_gameIsActive = true;
+		_playerDetectBackground.hide();
 	}
 	
 	public void showCountdown( int countdownTime ) {
@@ -319,10 +327,12 @@ public class BlueBearGamePlay {
 		_obstacles.update(speed, true, _bear.x());
 		_goodies.update(speed, false, _bear.x());
 		
+		_scoreDisplay.update();
+		_playerDetectBackground.update();
+		
 		_bear.update(speed);
 		_nemesis.update();
 		
-		_scoreDisplay.update();
 	}
 	
 }
