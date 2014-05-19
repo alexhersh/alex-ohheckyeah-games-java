@@ -2,10 +2,8 @@ package org.ohheckyeah.games.bluebear.game.characters;
 
 import java.util.ArrayList;
 
-import org.ohheckyeah.games.bluebear.BlueBear;
 import org.ohheckyeah.games.bluebear.game.BlueBearScreenPositions;
 
-import processing.core.PGraphics;
 import processing.core.PImage;
 import processing.core.PShape;
 
@@ -14,17 +12,15 @@ import com.haxademic.core.draw.util.DrawUtil;
 import com.haxademic.core.math.easing.EasingFloat;
 import com.haxademic.core.system.FileUtil;
 
-public class BlueBearCharacter {
+public class BlueBearCharacter
+extends BlueBearBasePlayer {
 
-	protected BlueBear p;
-	protected PGraphics pg;
 	protected PImage[] _frames;
 	protected PImage[] _framesHurt;
 	protected PImage _curFrame;
 	protected float _frameIndex = 0;
 	protected EasingFloat _yPosition = new EasingFloat(0,6);
 	protected float _scale = 0.4f;
-	protected int _lane = 0;
 	protected float _bearX = 0;
 	protected float _bearY = 0;
 	protected float _bearW = 0;
@@ -36,9 +32,8 @@ public class BlueBearCharacter {
 	protected int _hurtTime = 0;
 	protected EasingFloat _laneScale = new EasingFloat(1, 6);
 
-	public BlueBearCharacter() {
-		p = (BlueBear)P.p;
-		pg = p.pg;
+	public BlueBearCharacter( BlueBearPlayerControls playerControls ) {
+		super( playerControls, 0.333f );
 		
 		// load frame images from directory
 		String imgPath = "games/bluebear/images/bear-run-sequence/";
@@ -64,17 +59,13 @@ public class BlueBearCharacter {
 	}
 	
 	public void setLane( int lane ) {
-		_lane = lane;
+		super.setLane( lane );
 		_yPosition.setTarget( BlueBearScreenPositions.LANES_Y[_lane] );
 		_laneScale.setTarget(1f + _lane * 0.1f);
 	}
 	
 	public void hit() {
 		_hurtTime = p.millis();
-	}
-	
-	public void startGameplay() {
-		
 	}
 	
 	public void startMoving() {
@@ -102,6 +93,7 @@ public class BlueBearCharacter {
 	}
 	
 	public void update(float speed) {
+		super.update();
 		_laneScale.update();
 		advanceBearFrame(speed);
 		

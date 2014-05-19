@@ -1,10 +1,8 @@
 package org.ohheckyeah.games.bluebear.game.characters;
 
-import org.ohheckyeah.games.bluebear.BlueBear;
 import org.ohheckyeah.games.bluebear.BlueBear.GameState;
 import org.ohheckyeah.games.bluebear.game.BlueBearScreenPositions;
 
-import processing.core.PGraphics;
 import processing.core.PShape;
 
 import com.haxademic.core.app.P;
@@ -12,11 +10,9 @@ import com.haxademic.core.draw.util.DrawUtil;
 import com.haxademic.core.math.easing.EasingFloat;
 import com.haxademic.core.math.easing.LinearFloat;
 
-public class BlueBearNemesis {
+public class BlueBearNemesis 
+extends BlueBearBasePlayer {
 
-	protected BlueBear p;
-	protected PGraphics pg;
-	
 	protected PShape _squirrel;
 	
 	protected PShape _flameLarge;
@@ -42,7 +38,6 @@ public class BlueBearNemesis {
 	
 	protected EasingFloat _yPosition = new EasingFloat(0,6);
 	protected float _scale = 0.7f;
-	protected int _lane = 0;
 	protected float _squirrelX = 0;
 	protected float _squirrelH = 0;
 	protected float _squirrelShadowOffsetY = -7;
@@ -54,9 +49,8 @@ public class BlueBearNemesis {
 	protected float _launchTime = 0;
 	protected boolean _launchUp = false;
 
-	public BlueBearNemesis() {
-		p = (BlueBear)P.p;
-		pg = p.pg;
+	public BlueBearNemesis( BlueBearPlayerControls playerControls ) {
+		super( playerControls, 0.666f );
 		
 		// init in the top lane
 		setLane( _lane );
@@ -88,16 +82,13 @@ public class BlueBearNemesis {
 	}
 	
 	public void setLane( int lane ) {
-		_lane = lane;
+		super.setLane( lane );
 		_yPosition.setTarget( BlueBearScreenPositions.LANES_Y[_lane] );
 		_laneScale.setTarget(1f + _lane * 0.1f);
 	}
 	
 	public void reset() {
 		_launchTime = 0;
-	}
-	
-	public void startGameplay() {
 	}
 	
 	public void startMoving() {
@@ -140,6 +131,7 @@ public class BlueBearNemesis {
 	}
 	
 	public void update() {
+		super.update();
 		updateLaunchMode();
 		
 		// responsive sizing/placement		

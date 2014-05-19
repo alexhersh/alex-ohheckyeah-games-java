@@ -1,7 +1,5 @@
 package org.ohheckyeah.games.bluebear.game;
 
-import java.util.ArrayList;
-
 import org.ohheckyeah.games.bluebear.BlueBear;
 import org.ohheckyeah.games.bluebear.BlueBear.GameState;
 import org.ohheckyeah.games.bluebear.assets.BlueBearColors;
@@ -14,6 +12,7 @@ import org.ohheckyeah.games.bluebear.assets.neighborhoods.BlueBearNeighborhoodHi
 import org.ohheckyeah.games.bluebear.assets.neighborhoods.BlueBearNeighborhoodMountains;
 import org.ohheckyeah.games.bluebear.game.characters.BlueBearCharacter;
 import org.ohheckyeah.games.bluebear.game.characters.BlueBearNemesis;
+import org.ohheckyeah.games.bluebear.game.characters.BlueBearPlayerControls;
 import org.ohheckyeah.games.bluebear.game.nonscrolling.BlueBearBackground;
 import org.ohheckyeah.games.bluebear.game.nonscrolling.BlueBearGround;
 import org.ohheckyeah.games.bluebear.game.scrolling.BlueBearScrollerBackground;
@@ -37,7 +36,6 @@ public class BlueBearGamePlay {
 	protected PGraphics pg;
 
 	protected KinectRegionGrid _kinectGrid;
-	protected ArrayList<BlueBearPlayerControls> _playerControls;
 	protected boolean _gameIsActive = false;
 	protected boolean _gameShouldEnd = false;
 	
@@ -81,10 +79,6 @@ public class BlueBearGamePlay {
 		
 		_kinectGrid = kinectGrid;
 		_isRemoteKinect = isRemoteKinect;
-		_playerControls = new ArrayList<BlueBearPlayerControls>();
-		for (int i=0; i < _kinectGrid.kinectRegions.size(); i++) {
-			_playerControls.add(new BlueBearPlayerControls(_kinectGrid.getRegion(i), _isRemoteKinect));
-		}
 		
 		SPEED = p.scaleV(SPEED);
 		buildNeighborhoods();
@@ -116,8 +110,8 @@ public class BlueBearGamePlay {
 		
 		_obstacles = new BlueBearStreetItems();
 		_goodies = new BlueBearStreetItems();
-		_bear = new BlueBearCharacter();
-		_nemesis = new BlueBearNemesis();
+		_bear = new BlueBearCharacter( new BlueBearPlayerControls(_kinectGrid.getRegion(0), _isRemoteKinect) );
+		_nemesis = new BlueBearNemesis( new BlueBearPlayerControls(_kinectGrid.getRegion(1), _isRemoteKinect) );
 		_scoreDisplay = new BlueBearScoreDisplay();
 	}
 	
@@ -225,22 +219,16 @@ public class BlueBearGamePlay {
 	
 	public void detectPlayers() {
 		boolean hasPlayers = true;
-		for( int i=0; i < _playerControls.size(); i++ ) {
-			if( _playerControls.get(i).detectPlayer() == false ) {
-				hasPlayers = false;
-			}
-		}
+		if( _bear.detectPlayer() == false ) hasPlayers = false;
+		if( _nemesis.detectPlayer() == false ) hasPlayers = false;
 		if( hasPlayers == true ) {
 			p.setGameState( GameState.GAME_PRE_COUNTDOWN );
 		}
 	}
 	
 	public void updateControls() {
-		for( int i=0; i < _playerControls.size(); i++ ) {
-			_playerControls.get(i).updateControls();
-		}
-		_bear.setLane( _playerControls.get(0).lane() );
-		_nemesis.setLane( _playerControls.get(1).lane() );
+		_bear.updateControls();
+		_nemesis.updateControls();
 	}
 	
 	protected void updateGameStarted() {

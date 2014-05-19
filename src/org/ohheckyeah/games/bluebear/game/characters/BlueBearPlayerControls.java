@@ -1,7 +1,6 @@
-package org.ohheckyeah.games.bluebear.game;
+package org.ohheckyeah.games.bluebear.game.characters;
 
 import org.ohheckyeah.games.bluebear.BlueBear;
-import org.ohheckyeah.games.bluebear.assets.BlueBearSounds;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.hardware.kinect.KinectRegion;
@@ -22,11 +21,22 @@ public class BlueBearPlayerControls {
 	public final static int LANE_MIDDLE = 1;
 	public final static int LANE_BOTTOM = 2;
 	protected int _lane = 0;
+	
+	public enum PlayerDetectedState {
+		PLAYER_WAITING,
+		PLAYER_LOST,
+		PLAYER_DETECTED,
+		PLAYER_LOCKED
+	}
 
 	public BlueBearPlayerControls( KinectRegion kinectRegion, boolean isRemoteKinect ) {
 		p = (BlueBear) P.p;
 		_kinectRegion = kinectRegion;
 		_isRemoteKinect = isRemoteKinect;
+	}
+	
+	public boolean detectedPlayer() {
+		return _detectedPlayer;
 	}
 	
 	public boolean hasPlayer() {
@@ -35,6 +45,11 @@ public class BlueBearPlayerControls {
 	
 	public int lane() {
 		return _lane;
+	}
+	
+	public void resetDetection() {
+		_detectedPlayer = false;
+		_hasPlayer = false;
 	}
 	
 	public void updateControls() {
@@ -57,32 +72,28 @@ public class BlueBearPlayerControls {
 		}
 	}
 	
-	public boolean detectPlayer() {
+	public PlayerDetectedState detectPlayer() {
+		PlayerDetectedState curState = null; // PlayerDetectedState.PLAYER_WAITING;
 		if( _detectedPlayer == false ) {
 			if( _kinectRegion.pixelCount() >= 20 || (p.kinectWrapper == null && _isRemoteKinect == false) ) {
 				_detectedPlayerTime = p.millis();
 				_detectedPlayer = true;
-				// _waitingSpinner.playerEntered();
-				p.sounds.playSound( BlueBearSounds.STEP_IN );
+				curState = PlayerDetectedState.PLAYER_DETECTED;
 			}
 		} else {
 			if( _kinectRegion.pixelCount() < 20 && (p.kinectWrapper != null || _isRemoteKinect == true) ) {
 				_detectedPlayer = false;
 				_hasPlayer = false;
-				// _waitingSpinner.playerLeft();
-				// _character.setWaitingState();
-				p.sounds.playSound( BlueBearSounds.STEP_OUT );
+				curState = PlayerDetectedState.PLAYER_LOST;
 			}
 		}
 		if( _detectedPlayer == true && p.millis() - _detectedPlayerTime > 2000 ) {
 			if( _hasPlayer == false ) {
 				_hasPlayer = true;
-				// _waitingSpinner.playerDetected();
-				// _character.setSelectedState();
-				p.sounds.playSound( BlueBearSounds.PLAYER_LOCKED );
+				curState = PlayerDetectedState.PLAYER_LOCKED;
 			}
 		}
-		return _hasPlayer;
+		return curState;
 	}
 
 }
