@@ -3,6 +3,7 @@ package org.ohheckyeah.games.bluebear.game.text;
 import org.ohheckyeah.games.bluebear.BlueBear;
 
 import processing.core.PGraphics;
+import processing.core.PShape;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.draw.util.DrawUtil;
@@ -16,8 +17,8 @@ public class BlueBearGameMessages {
 	protected float _messageX = 0;
 	protected float _messageYHidden = -150;
 	protected float _messageYShowing = 0;
+	protected float _messageYShowingCenter = 0;
 		
-	protected BlueBearTextMessage _playerDetectionText;
 	protected BlueBearTextMessage _countdownText;
 	protected BlueBearTextMessage _winnerText;
 	protected BlueBearTextMessage _tieText;
@@ -35,7 +36,8 @@ public class BlueBearGameMessages {
 		// calculate responsive sizes
 		_messageX = p.width / 2f;
 		_messageYHidden = p.scaleV(-150);
-		_messageYShowing = p.height * .2f;
+		_messageYShowing = pg.height * .2f;
+		_messageYShowingCenter = pg.height * .5f;
 		
 	}
 	
@@ -45,19 +47,19 @@ public class BlueBearGameMessages {
 		_messageWinnerY.update();
 		_messageTieY.update();
 
-		if( _playerDetectionText != null && _messageWaitingY.val() > 0 ) {
+		if( _messageWaitingY.val() > 0 ) {
 			DrawUtil.setDrawCenter(pg);
 			pg.pushMatrix();
 			pg.translate( _messageX, _messageWaitingY.val() );
-			pg.image( _playerDetectionText.image(), 0, 0, _playerDetectionText.image().width, _playerDetectionText.image().height );
+			pg.shape( p.gameGraphics.textStepIntoZones, 0, 0, p.svgWidth(p.gameGraphics.textStepIntoZones), p.svgHeight(p.gameGraphics.textStepIntoZones) );
 			pg.popMatrix();
 		}
 
-		if( _countdownText != null && _messageCountdownY.val() > 0 ) {
+		if( _messageCountdownY.val() > 0 ) {
 			DrawUtil.setDrawCenter(pg);
 			pg.pushMatrix();
 			pg.translate( _messageX, _messageCountdownY.val() );
-			pg.image( _countdownText.image(), 0, 0, _countdownText.image().width, _countdownText.image().height );
+			pg.shape( p.gameGraphics.textGetReady, 0, 0, p.svgWidth(p.gameGraphics.textGetReady), p.svgHeight(p.gameGraphics.textGetReady) );
 			pg.popMatrix();
 		}
 
@@ -79,9 +81,6 @@ public class BlueBearGameMessages {
 	}
 	
 	public void showWaiting() {
-		if( _playerDetectionText == null ) {
-			_playerDetectionText = new BlueBearTextMessage( "step into a zone to join", 60, 550, 90, 526 );
-		}
 		_messageWaitingY.setTarget(_messageYShowing);
 	}
 	public void hideWaiting() {
@@ -89,10 +88,7 @@ public class BlueBearGameMessages {
 	}
 	
 	public void showCountdown() {
-		if( _countdownText == null ) {
-			_countdownText = new BlueBearTextMessage( "get ready", 60, 250, 90, 224 );
-		}
-		_messageCountdownY.setTarget(_messageYShowing);
+		_messageCountdownY.setTarget(_messageYShowingCenter);
 	}
 	public void hideCountdown() {
 		_messageCountdownY.setTarget(_messageYHidden);
