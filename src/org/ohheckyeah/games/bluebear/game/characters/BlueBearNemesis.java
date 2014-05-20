@@ -36,12 +36,8 @@ extends BlueBearBasePlayer {
 	protected LinearFloat _beamY = new LinearFloat(0, 5f);
 
 	
-	protected EasingFloat _yPosition = new EasingFloat(0,6);
 	protected float _scale = 0.7f;
-	protected float _squirrelX = 0;
-	protected float _squirrelH = 0;
 	protected float _squirrelShadowOffsetY = -7;
-	protected EasingFloat _laneScale = new EasingFloat(1, 6);
 	protected EasingFloat _floatHeight = new EasingFloat(40, 6);
 	protected EasingFloat _shadowScale = new EasingFloat(1, 6);
 	protected float _baseFlyHeight = 80;
@@ -51,13 +47,15 @@ extends BlueBearBasePlayer {
 
 	public BlueBearNemesis( BlueBearPlayerControls playerControls ) {
 		super( playerControls, 0.7f );
-		
+		_detectionSvg = p.gameGraphics.squirrelDetected;
+	
 		// init in the top lane
 		setLane( _lane );
-		_yPosition.setCurrent( _yPosition.target() );
+		_characterPosition.setCurrentY( BlueBearScreenPositions.LANES_Y[_lane] );
 		
 		_baseFlyHeight = p.scaleV(_baseFlyHeight);
 		_launchFlyHeight = p.scaleV(_launchFlyHeight);
+		_squirrelShadowOffsetY = p.scaleV(_squirrelShadowOffsetY);
 		
 		initSquirrel();
 	}
@@ -83,7 +81,8 @@ extends BlueBearBasePlayer {
 	
 	public void setLane( int lane ) {
 		super.setLane( lane );
-		_yPosition.setTarget( BlueBearScreenPositions.LANES_Y[_lane] );
+		_characterPosition.setTargetY( BlueBearScreenPositions.LANES_Y[_lane] );
+		_shadowPosition.setTargetY( BlueBearScreenPositions.LANES_Y[_lane] );
 		_laneScale.setTarget(1f + _lane * 0.1f);
 	}
 	
@@ -118,30 +117,31 @@ extends BlueBearBasePlayer {
 		}
 	}
 	
-	public int lane() {
-		return _lane;
-	}
-	
 	public float launchX() {
-		return _squirrelX;
+		return _characterPosition.x();
 	}
 	
 	public float launchY() {
-		return _yPosition.target();
+		return BlueBearScreenPositions.LANES_Y[_lane];
 	}
 	
-	public void update() {
-		super.update();
+	protected void updateGameplay(float speed) {
 		updateLaunchMode();
 		
 		// responsive sizing/placement		
 		_laneScale.update();
 		float squirrelW = p.scaleV(_squirrel.width * _scale) * _laneScale.value();
-		_squirrelH = p.scaleV(_squirrel.height * _scale) * _laneScale.value();
-		_squirrelX = pg.width - p.scaleV(150);
-		_yPosition.update();
-		float squirrelY = _yPosition.value();// - _squirrelH * 0.5f;
-		float shadowY = _yPosition.value() + _squirrelShadowOffsetY;
+		_characterH = p.scaleV(_squirrel.height * _scale) * _laneScale.value();
+		
+		float characterX = pg.width - p.scaleV(150);
+		
+		_characterPosition.setTargetX( characterX );
+		_characterPosition.update();
+		float squirrelY = _characterPosition.y();
+		
+		_shadowPosition.setTargetX( characterX );
+		_shadowPosition.update();
+		
 		
 		// float the squirrel
 		float floatOsc = P.sin(p.millis() * 0.005f);
@@ -163,12 +163,12 @@ extends BlueBearBasePlayer {
 		pg.translate(0, 0, _lane);
 		pg.shape( 
 				p.gameGraphics.squirrelShadow, 
-				_squirrelX, 
-				shadowY, 
+				_shadowPosition.x(), 
+				_shadowPosition.y() + _squirrelShadowOffsetY, 
 				p.scaleV(p.gameGraphics.squirrelShadow.width) * _laneScale.value() * _shadowScale.value(), 
 				p.scaleV(p.gameGraphics.squirrelShadow.height) * _laneScale.value() * _shadowScale.value()
 		);
-		pg.shape( _squirrel, _squirrelX, squirrelY - _floatHeight.value(), squirrelW, _squirrelH );
+		pg.shape( _squirrel, _characterPosition.x(), squirrelY - _floatHeight.value(), squirrelW, _characterH );
 		pg.popMatrix();
 	}
 	

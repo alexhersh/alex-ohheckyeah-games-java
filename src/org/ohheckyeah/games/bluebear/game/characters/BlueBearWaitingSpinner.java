@@ -52,6 +52,10 @@ public class BlueBearWaitingSpinner {
 		}
 	}
 	
+	public float y() {
+		return _spinnerY;
+	}
+	
 	public void show() {
 		_scale.setTarget(0.9f);
 		_rotationSpeed = ROTATION_SLOW;

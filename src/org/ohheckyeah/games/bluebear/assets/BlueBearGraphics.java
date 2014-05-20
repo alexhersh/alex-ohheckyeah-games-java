@@ -16,6 +16,7 @@ public class BlueBearGraphics {
 	public PShape roadTile, squirrel, squirrelShadow, bearShadow;
 	public PShape explosionSmall, explosionLarge;
 	public PShape blueBearLogo;
+	public PShape blueBearDetected, squirrelDetected;
 	public PShape logoOhyTeam, logoOHY;
 	public PShape textBroughtToYou, textStepIntoZones, textGetReady, textGameOver, textWin;
 
@@ -36,6 +37,8 @@ public class BlueBearGraphics {
 				P.p.loadShape( FileUtil.getHaxademicDataPath() + "games/bluebear/svg/shell/bear-life-5.svg" )
 		};
 		scoreBg = P.p.loadShape( FileUtil.getHaxademicDataPath() + "games/bluebear/svg/shell/bg-score.svg" );
+		blueBearDetected = P.p.loadShape( FileUtil.getHaxademicDataPath() + "games/bluebear/svg/shell/waiting-bear.svg" );
+		squirrelDetected = P.p.loadShape( FileUtil.getHaxademicDataPath() + "games/bluebear/svg/shell/waiting-squirrel.svg" );
 		
 		// shell text
 		textBroughtToYou = P.p.loadShape( FileUtil.getHaxademicDataPath() + "games/bluebear/svg/shell/text-brought-to-you-by.svg" );

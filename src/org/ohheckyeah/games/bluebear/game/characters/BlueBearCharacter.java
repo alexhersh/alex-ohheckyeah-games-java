@@ -9,7 +9,6 @@ import processing.core.PShape;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.draw.util.DrawUtil;
-import com.haxademic.core.math.easing.EasingFloat;
 import com.haxademic.core.system.FileUtil;
 
 public class BlueBearCharacter
@@ -19,21 +18,16 @@ extends BlueBearBasePlayer {
 	protected PImage[] _framesHurt;
 	protected PImage _curFrame;
 	protected float _frameIndex = 0;
-	protected EasingFloat _yPosition = new EasingFloat(0,6);
 	protected float _scale = 0.4f;
-	protected float _bearX = 0;
-	protected float _bearY = 0;
-	protected float _bearW = 0;
-	protected float _bearH = 0;
-	protected float _shadowY = 0;
 	protected float _bearShadowOffsetY = -7;
 	protected float _explosionOffsetY = 2;
 	protected final int HURT_LENGTH = 400;
 	protected int _hurtTime = 0;
-	protected EasingFloat _laneScale = new EasingFloat(1, 6);
 
 	public BlueBearCharacter( BlueBearPlayerControls playerControls ) {
 		super( playerControls, 0.3f );
+		_detectionSvg = p.gameGraphics.blueBearDetected;
+
 		
 		// load frame images from directory
 		String imgPath = "games/bluebear/images/bear-run-sequence/";
@@ -47,7 +41,7 @@ extends BlueBearBasePlayer {
 		
 		// init in the top lane
 		setLane( _lane );
-		_yPosition.setCurrent( _yPosition.target() );
+		_characterPosition.setCurrentY( BlueBearScreenPositions.LANES_Y[_lane] );
 		
 		_bearShadowOffsetY = Math.round(p.scaleV(_bearShadowOffsetY));
 		_explosionOffsetY = Math.round(p.scaleV(_explosionOffsetY));
@@ -60,7 +54,8 @@ extends BlueBearBasePlayer {
 	
 	public void setLane( int lane ) {
 		super.setLane( lane );
-		_yPosition.setTarget( BlueBearScreenPositions.LANES_Y[_lane] );
+		_characterPosition.setTargetY( BlueBearScreenPositions.LANES_Y[_lane] );
+		_shadowPosition.setTargetY( BlueBearScreenPositions.LANES_Y[_lane] + _bearShadowOffsetY );
 		_laneScale.setTarget(1f + _lane * 0.1f);
 	}
 	
@@ -68,42 +63,35 @@ extends BlueBearBasePlayer {
 		_hurtTime = p.millis();
 	}
 	
-	public void startMoving() {
-
-	}
-	
-	public void stopMoving() {
-
-	}
-	
 	public float x() {
-		return _bearX;
+		return _characterPosition.x();
 	}
 	
 	public float xLeft() {
-		return _bearX - _bearW * 0.2f;
+		return _characterPosition.x() - _characterW * 0.2f;
 	}
 	
 	public float xRight() {
-		return _bearX + _bearW * 0.3f;
+		return _characterPosition.x() + _characterW * 0.3f;
 	}
 	
 	public float y() {
-		return _yPosition.value();
+		return _characterPosition.y();
 	}
 	
-	public void update(float speed) {
-		super.update();
-		_laneScale.update();
+	protected void updateGameplay(float speed) {
 		advanceBearFrame(speed);
 		
 		// responsive sizing/placement
-		_bearW = p.scaleV(_curFrame.width * _scale) * _laneScale.value();
-		_bearH = p.scaleV(_curFrame.height * _scale) * _laneScale.value();
-		_bearX = p.scaleV(130);
-		_yPosition.update();
-		_bearY = _yPosition.value() - _bearH * 0.5f;
-		_shadowY = _yPosition.value() + _bearShadowOffsetY;
+		float characterX = p.scaleV(130);
+		_characterW = p.scaleV(_curFrame.width * _scale) * _laneScale.value();
+		_characterH = p.scaleV(_curFrame.height * _scale) * _laneScale.value();
+		_characterPosition.setTargetX( characterX );
+		_characterPosition.update();
+		float characterY = _characterPosition.y() - _characterH * 0.5f;
+		
+		_shadowPosition.setTargetX( characterX );
+		_shadowPosition.update();
 
 		// draw shadow and bear
 		DrawUtil.setDrawCenter(pg);
@@ -111,16 +99,16 @@ extends BlueBearBasePlayer {
 		pg.translate(0, 0, _lane);
 		pg.shape( 
 				p.gameGraphics.bearShadow, 
-				_bearX, 
-				_shadowY, 
+				_shadowPosition.x(), 
+				_shadowPosition.y(), 
 				p.scaleV(p.gameGraphics.bearShadow.width) * _laneScale.value(), 
 				p.scaleV(p.gameGraphics.bearShadow.height) * _laneScale.value() 
 		);
-		pg.image( _curFrame, _bearX, _bearY, _bearW, _bearH );
+		pg.image( _curFrame, _characterPosition.x(), characterY, _characterW, _characterH );
 		showExplosion();
 		pg.popMatrix();
 	}
-
+	
 	protected void advanceBearFrame(float speed) {
 		if( speed > 0 ) {
 			speed *= 0.35f;
@@ -154,8 +142,8 @@ extends BlueBearBasePlayer {
 			float splodeHeight = p.scaleV(explosion.height) * _laneScale.value();
 			pg.shape( 
 					explosion, 
-					_bearX, 
-					_shadowY - splodeHeight * 0.5f + _explosionOffsetY, 
+					_characterPosition.x(), 
+					_characterPosition.y() - splodeHeight * 0.5f + _explosionOffsetY, 
 					p.scaleV(explosion.width) * _laneScale.value(), 
 					splodeHeight
 			);

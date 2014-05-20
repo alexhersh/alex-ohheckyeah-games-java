@@ -184,6 +184,8 @@ public class BlueBearGamePlay {
 	public void playersLockedIn() {
 		_gameIsActive = true;
 		_playerDetectBackground.hide();
+		_bear.prepareForGameplay();
+		_nemesis.prepareForGameplay();
 	}
 	
 	public void showCountdown( int countdownTime ) {
@@ -331,7 +333,7 @@ public class BlueBearGamePlay {
 		_playerDetectBackground.update();
 		
 		_bear.update(speed);
-		_nemesis.update();
+		_nemesis.update(speed);
 		
 	}
 	
