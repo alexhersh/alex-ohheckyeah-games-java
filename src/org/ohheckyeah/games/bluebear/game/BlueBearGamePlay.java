@@ -72,6 +72,7 @@ public class BlueBearGamePlay {
 	protected boolean _gameplayStarted = false;
 	
 	protected float _launchTime = 0;
+	protected float LAUNCH_TIME = 700;
 	protected BlueBearStreetItems _obstacles;
 	protected BlueBearStreetItems _goodies;
 
@@ -266,7 +267,7 @@ public class BlueBearGamePlay {
 	}
 	
 	protected void checkLaunch() {
-		if( _launchTime != 0 && p.millis() > _launchTime + 1000 ) {
+		if( _launchTime != 0 && p.millis() > _launchTime + LAUNCH_TIME ) {
 			_launchTime = p.millis();
 			launch();
 		}
