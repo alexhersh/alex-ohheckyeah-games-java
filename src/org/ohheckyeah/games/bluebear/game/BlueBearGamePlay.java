@@ -44,6 +44,7 @@ public class BlueBearGamePlay {
 	protected BlueBearPlayerDetectionBg _playerDetectBackground;
 	
 	protected boolean _isRemoteKinect;
+	protected int _playersDetectedTime = 0;
 	protected int _countdownTime = 0;
 	protected boolean _countdownShowing = false;
 	protected int _gameStartTime = 0;
@@ -238,7 +239,15 @@ public class BlueBearGamePlay {
 		if( _bear.detectPlayer() == false ) hasPlayers = false;
 		if( _nemesis.detectPlayer() == false ) hasPlayers = false;
 		if( hasPlayers == true ) {
-			p.setGameState( GameState.GAME_PRE_COUNTDOWN );
+			if( _playersDetectedTime == 0 ) {
+				_playersDetectedTime = p.millis();
+			}
+			if( p.millis() > _playersDetectedTime + 2000 ) {
+				_playersDetectedTime = 0;
+				p.setGameState( GameState.GAME_PRE_COUNTDOWN );
+			}
+		} else {
+			_playersDetectedTime = 0;
 		}
 	}
 	
