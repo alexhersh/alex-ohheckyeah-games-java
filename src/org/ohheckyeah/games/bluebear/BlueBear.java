@@ -218,7 +218,7 @@ extends PAppletHax
 	
 	public void setGameState( GameState state ) {
 		_gameStateQueued = state;
-		P.println("GameState: ",_gameStateQueued);
+		// P.println("GameState: ",_gameStateQueued);
 	}
 	
 	protected void swapGameState() {
@@ -305,6 +305,7 @@ extends PAppletHax
 		_countdownStartTime = p.millis();
 		_gamePlay.showCountdown( _countdownSeconds );
 		_gamePlay.animateToGameState();
+		_gameMessages.hideCountdown();
 	}
 
 	protected void runGameStateCountdown() {
@@ -314,11 +315,11 @@ extends PAppletHax
 		if( countdownTime > 0 ) {
 			_gamePlay.updateCountdown( countdownTime );
 		} else {
-			_gameMessages.hideCountdown();
+			_gamePlay.updateCountdown( 0 );
 			setGameState( GameState.GAME_PLAYING );
 		}
 		if( _lastCountdownTime != countdownTime ) {
-			// sounds.playSound( BlueBearSounds.COUNTDOWN );
+			sounds.playSound( BlueBearSounds.COUNTDOWN );
 		}
 		_lastCountdownTime = countdownTime;
 	}
@@ -327,6 +328,7 @@ extends PAppletHax
 		_gamePlay.hideCountdown();
 		_gamePlay.startGame();
 		sounds.playGameplay();
+		sounds.playSound( BlueBearSounds.GAMEPLAY_START );
 	}
 
 	protected void setGameStateFinishing() {
@@ -382,7 +384,6 @@ extends PAppletHax
 	
 	protected void setGameStateGameOverOutro() {
 		_gameMessages.hideWinner();
-		_gameMessages.hideTie();
 		_gamePlay.animateToHiddenState();
 	}
 	

@@ -24,6 +24,7 @@ import org.ohheckyeah.games.bluebear.game.scrolling.BlueBearScrollerSidewalk;
 import org.ohheckyeah.games.bluebear.game.scrolling.BlueBearScrollerSkyline;
 import org.ohheckyeah.games.bluebear.game.streetstuff.BlueBearStreetItem;
 import org.ohheckyeah.games.bluebear.game.streetstuff.BlueBearStreetItems;
+import org.ohheckyeah.games.bluebear.game.text.BlueBearCountdownDisplay;
 
 import processing.core.PGraphics;
 
@@ -66,6 +67,7 @@ public class BlueBearGamePlay {
 	protected BlueBearCharacter _bear;
 	protected BlueBearNemesis _nemesis;
 	protected BlueBearScoreDisplay _scoreDisplay;
+	protected BlueBearCountdownDisplay _countdownDisplay;
 	
 	protected float SPEED = 10;
 	protected LinearFloat _scrollSpeed = new LinearFloat(0,0.2f);
@@ -118,6 +120,7 @@ public class BlueBearGamePlay {
 		_nemesis = new BlueBearNemesis( new BlueBearPlayerControls(_kinectGrid.getRegion(1), _isRemoteKinect) );
 		_playerDetectBackground = new BlueBearPlayerDetectionBg();
 		_scoreDisplay = new BlueBearScoreDisplay();
+		_countdownDisplay = new BlueBearCountdownDisplay();
 	}
 	
 	public void reset() {
@@ -191,9 +194,11 @@ public class BlueBearGamePlay {
 	
 	public void showCountdown( int countdownTime ) {
 		_countdownTime = countdownTime;
+		_countdownDisplay.show();
 	}
 	
 	public void hideCountdown() {
+		_countdownDisplay.hide();
 	}
 	
 	public void updateCountdown( int countdownTime ) {
@@ -330,6 +335,7 @@ public class BlueBearGamePlay {
 		_obstacles.update(speed, true, _bear.x());
 		_goodies.update(speed, false, _bear.x());
 		
+		_countdownDisplay.updateWithNumber(_countdownTime);
 		_scoreDisplay.update();
 		_playerDetectBackground.update();
 		

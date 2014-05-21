@@ -3,7 +3,6 @@ package org.ohheckyeah.games.bluebear.game.text;
 import org.ohheckyeah.games.bluebear.BlueBear;
 
 import processing.core.PGraphics;
-import processing.core.PShape;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.draw.util.DrawUtil;
@@ -21,13 +20,11 @@ public class BlueBearGameMessages {
 		
 	protected BlueBearTextMessage _countdownText;
 	protected BlueBearTextMessage _winnerText;
-	protected BlueBearTextMessage _tieText;
 	
 	protected ElasticFloat _messageWaitingY = new ElasticFloat(_messageYHidden, 0.71f, 0.16f);
 	protected ElasticFloat _messageCountdownY = new ElasticFloat(_messageYHidden, 0.71f, 0.16f);
 	protected float _messageWinnerX = 0;
 	protected ElasticFloat _messageWinnerY = new ElasticFloat(_messageYHidden, 0.71f, 0.16f);
-	protected ElasticFloat _messageTieY = new ElasticFloat(_messageYHidden, 0.71f, 0.16f);
 
 	public BlueBearGameMessages() {
 		p = (BlueBear) P.p;
@@ -45,7 +42,6 @@ public class BlueBearGameMessages {
 		_messageWaitingY.update();
 		_messageCountdownY.update();
 		_messageWinnerY.update();
-		_messageTieY.update();
 
 		if( _messageWaitingY.val() > 0 ) {
 			DrawUtil.setDrawCenter(pg);
@@ -71,13 +67,6 @@ public class BlueBearGameMessages {
 			pg.popMatrix();
 		}
 		
-		if( _tieText != null && _messageTieY.val() > 0 ) {
-			DrawUtil.setDrawCenter(pg);
-			pg.pushMatrix();
-			pg.translate( _messageX, _messageTieY.val() );
-			pg.image( _tieText.image(), 0, 0, _tieText.image().width, _tieText.image().height );
-			pg.popMatrix();
-		}
 	}
 	
 	public void showWaiting() {
@@ -107,14 +96,5 @@ public class BlueBearGameMessages {
 		_messageWinnerY.setTarget(_messageYHidden);
 	}
 	
-	public void showTie() {
-		if( _tieText == null ) {
-			_tieText = new BlueBearTextMessage( "tie", 60, 125, 90, 64 );
-		}
-		_messageTieY.setTarget(_messageYShowing);
-	}
-	public void hideTie() {
-		_messageTieY.setTarget(_messageYHidden);
-	}
 	
 }
