@@ -144,7 +144,7 @@ extends BlueBearBasePlayer {
 		
 		
 		// float the squirrel
-		float floatOsc = P.sin(p.millis() * 0.005f);
+		float floatOsc = ( _flameIsOn == false ) ? P.sin(p.millis() * 0.005f) : 0f;
 		float flyHeight = ( _launchUp == true ) ? _launchFlyHeight : _baseFlyHeight + floatOsc * p.scaleV(9f);
 		flyHeight *= _laneScale.value();
 		_floatHeight.setTarget( flyHeight );
