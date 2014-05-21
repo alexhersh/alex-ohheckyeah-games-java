@@ -210,7 +210,7 @@ extends PAppletHax
 	
 	public void setInitialGameState() {
 		if( _appConfig.getBoolean( "starts_on_game", true ) == true ) {
-			setGameState( GameState.GAME_WAITING_FOR_PLAYERS );
+			setGameState( GameState.GAME_PRE_COUNTDOWN );
 		} else {
 			setGameState( GameState.GAME_INTRO );
 		}
