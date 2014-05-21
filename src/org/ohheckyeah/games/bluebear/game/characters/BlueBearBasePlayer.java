@@ -9,6 +9,7 @@ import processing.core.PGraphics;
 import processing.core.PShape;
 
 import com.haxademic.core.app.P;
+import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.math.easing.EasingFloat;
 import com.haxademic.core.math.easing.EasingFloat3d;
 
@@ -28,6 +29,7 @@ public class BlueBearBasePlayer {
 	protected int _lane = 0;
 	protected EasingFloat _laneScale = new EasingFloat(1, 6);
 	protected EasingFloat _detectedScale = new EasingFloat(0,4);
+	protected float _detectedOsc = 0;
 
 	protected EasingFloat3d _characterPosition = new EasingFloat3d(0,0,0,6);
 	protected EasingFloat3d _shadowPosition = new EasingFloat3d(0,0,0,6);
@@ -51,6 +53,7 @@ public class BlueBearBasePlayer {
 				case PLAYER_DETECTED:
 					_waitingSpinner.playerEntered();
 					p.sounds.playSound( BlueBearSounds.STEP_IN );
+					_detectedOsc = MathUtil.randRangeDecimel(0, P.TWO_PI);
 					break;
 				case PLAYER_LOST:
 					_waitingSpinner.playerLeft();
@@ -115,7 +118,7 @@ public class BlueBearBasePlayer {
 		
 		_characterPosition.setCurrentX( _waitingSpinnerX );
 		_characterPosition.setTargetX( _waitingSpinnerX );
-		_characterPosition.setTargetY( _waitingSpinner.y() + p.scaleV(8f) * P.sin( p.millis() * 0.004f ) );
+		_characterPosition.setTargetY( _waitingSpinner.y() + p.scaleV(8f) * P.sin( p.millis() * 0.004f + _detectedOsc ) );
 		_characterPosition.update();
 		
 		_shadowPosition.setCurrentX( _waitingSpinnerX );
