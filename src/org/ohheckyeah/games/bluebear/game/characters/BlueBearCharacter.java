@@ -98,7 +98,10 @@ extends BlueBearBasePlayer {
 			if( _didWin == true ) {
 				_characterPosition.setTargetY( pg.height * 0.5f + p.svgHeight(p.gameGraphics.blueBearWin ) * 0.5f );
 			} else {
-				_characterPosition.setTargetY( pg.height * 0.5f + p.svgHeight(p.gameGraphics.blueBearLose ) * 0.5f );
+				if( p.gameState() == GameState.GAME_OVER )
+					_characterPosition.setTargetY( pg.height * 0.5f + p.svgHeight(p.gameGraphics.blueBearLose ) * 0.5f );
+				else if( p.gameState() == GameState.GAME_OVER_OUTRO )
+					_characterPosition.setTargetY( -pg.height * 0.5f );
 			}
 		}
 
