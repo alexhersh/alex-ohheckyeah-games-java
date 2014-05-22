@@ -3,6 +3,7 @@ package org.ohheckyeah.games.bluebear.game.streetstuff;
 import java.util.ArrayList;
 
 import org.ohheckyeah.games.bluebear.BlueBear;
+import org.ohheckyeah.games.bluebear.BlueBear.GameState;
 
 import processing.core.PGraphics;
 import processing.core.PShape;
@@ -115,7 +116,8 @@ public class BlueBearStreetItems {
 				}
 				// draw obstacle
 				pg.pushMatrix();
-				pg.translate( obstacle.x, obstacle.y - p.svgHeight(obstacle.graphic) * 0.5f * obstacle.scale(), obstacle.lane );
+				int obstacleLane = ( p.gameState() == GameState.GAME_PLAYING ) ? obstacle.lane : 0; // adjust z-depth only during gameply - intro screens should be in front of obstacles
+				pg.translate( obstacle.x, obstacle.y - p.svgHeight(obstacle.graphic) * 0.5f * obstacle.scale(), obstacleLane );
 				pg.rotate( obstacle.rotation );
 				if( flipped && ( obstacle.x > bearCenter || obstacle.isPerson == false ) ) pg.scale(-1, 1, 1);
 				if( obstacle.isPerson == true ) pg.rotate( obstacle.walkRotation );
