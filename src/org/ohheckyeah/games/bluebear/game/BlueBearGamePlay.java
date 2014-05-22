@@ -54,7 +54,7 @@ public class BlueBearGamePlay {
 	protected int _gameStartTime = 0;
 	protected int _neighborhoodTime = 15 * 1000;
 	protected float _endTime = 0;
-	protected int GAME_OVER_WIN_TIME = 7000;
+	protected int GAME_OVER_WIN_TIME = 7500;
 	protected int GAME_OVER_LOSE_TIME = 5000;
 	
 	protected int _bgColor;
