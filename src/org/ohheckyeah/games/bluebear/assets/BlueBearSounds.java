@@ -16,6 +16,7 @@ public class BlueBearSounds {
 	protected AudioPlayer _waitingSound;
 	protected AudioPlayer _gameplaySound;
 	protected AudioPlayer _winSound;
+	protected AudioPlayer _loseSound;
 	protected AudioPlayer _ohySound;
 	
 	protected AudioPlayer _curSoundtrack;
@@ -45,6 +46,7 @@ public class BlueBearSounds {
 		_waitingSound = 	p.minim.loadFile( FileUtil.getHaxademicDataPath() + "games/bluebear/audio/soundtrack/waiting-loop.wav", 512 );
 		_gameplaySound = 	p.minim.loadFile( FileUtil.getHaxademicDataPath() + "games/bluebear/audio/soundtrack/bluebear-play-loop.wav", 512 );
 		_winSound = 		p.minim.loadFile( FileUtil.getHaxademicDataPath() + "games/bluebear/audio/soundtrack/win.wav", 512 );
+		_loseSound = 		p.minim.loadFile( FileUtil.getHaxademicDataPath() + "games/bluebear/audio/soundtrack/lose.wav", 512 );
 		_ohySound = 		p.minim.loadFile( FileUtil.getHaxademicDataPath() + "games/bluebear/audio/soundtrack/hug-it-out.wav", 512 );
 	}
 	
@@ -53,6 +55,7 @@ public class BlueBearSounds {
 	public void playWaiting() { playSoundtrack( _waitingSound ); }
 	public void playGameplay() { playSoundtrack( _gameplaySound ); }
 	public void playWin() { playSoundtrack( _winSound ); }
+	public void playLose() { playSoundtrack( _loseSound ); }
 	public void playOHY() { playSoundtrack( _ohySound ); }
 	
 	protected void playSoundtrack( AudioPlayer newSoundTrack ) {
@@ -60,7 +63,7 @@ public class BlueBearSounds {
 		_curSoundtrack = newSoundTrack;
 		_curSoundtrack.setGain(0);
 		_curSoundtrack.play(0);
-		if( _curSoundtrack != _winSound && _curSoundtrack != _ohySound )_curSoundtrack.loop(-1);
+		if( _curSoundtrack != _winSound && _curSoundtrack != _loseSound && _curSoundtrack != _ohySound )_curSoundtrack.loop(-1);
 	}
 	
 	public void stopSoundtrack() {

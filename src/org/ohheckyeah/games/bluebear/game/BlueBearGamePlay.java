@@ -351,11 +351,12 @@ public class BlueBearGamePlay {
 	}
 	
 	protected void showWinSequence() {
-
+		p.sounds.playWin();
 	}
 	
 	protected void showLoseSequence() {
 		_endScreen.showLoseScreen();
+		p.sounds.playLose();
 	}
 	
 	// draw graphics ------------------------------------------------------------------

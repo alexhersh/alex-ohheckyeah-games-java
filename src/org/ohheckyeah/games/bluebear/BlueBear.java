@@ -346,9 +346,6 @@ extends PAppletHax
 	    //		} else {
 	    //			_gameMessages.showTie();
 	    //		}
-		
-		// update game shell 
-		sounds.playWin();
 
 		// set time to advance back to intro screen
 		_gameOverTime = p.millis();
