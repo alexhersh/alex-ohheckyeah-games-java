@@ -25,6 +25,7 @@ import org.ohheckyeah.games.bluebear.game.scrolling.BlueBearScrollerSkyline;
 import org.ohheckyeah.games.bluebear.game.streetstuff.BlueBearStreetItem;
 import org.ohheckyeah.games.bluebear.game.streetstuff.BlueBearStreetItems;
 import org.ohheckyeah.games.bluebear.game.text.BlueBearCountdownDisplay;
+import org.ohheckyeah.games.bluebear.game.text.BlueBearGameMessages;
 
 import processing.core.PGraphics;
 
@@ -40,6 +41,7 @@ public class BlueBearGamePlay {
 	protected KinectRegionGrid _kinectGrid;
 	protected boolean _gameIsActive = false;
 	protected boolean _gameShouldEnd = false;
+	protected boolean _gameLose = false;
 	
 	protected BlueBearPlayerDetectionBg _playerDetectBackground;
 	
@@ -69,7 +71,9 @@ public class BlueBearGamePlay {
 	protected BlueBearNemesis _nemesis;
 	protected BlueBearScoreDisplay _scoreDisplay;
 	protected BlueBearCountdownDisplay _countdownDisplay;
-	
+	protected BlueBearEndScreen _endScreen;
+	protected BlueBearGameMessages _gameMessages;
+
 	protected float SPEED = 10;
 	protected LinearFloat _scrollSpeed = new LinearFloat(0,0.2f);
 	protected boolean _gameplayStarted = false;
@@ -122,18 +126,22 @@ public class BlueBearGamePlay {
 		_playerDetectBackground = new BlueBearPlayerDetectionBg();
 		_scoreDisplay = new BlueBearScoreDisplay();
 		_countdownDisplay = new BlueBearCountdownDisplay();
+		_endScreen = new BlueBearEndScreen();
+		_gameMessages = new BlueBearGameMessages();
 	}
 	
 	public void reset() {
 		_bgColor = BlueBearColors.STAGE_BG;
 		_gameIsActive = false;
 		_gameShouldEnd = false;
+		_gameLose = false;
 		
 		_obstacles.reset();
 		_goodies.reset();
 		_bear.reset();
 		_nemesis.reset();
 		_scoreDisplay.reset();
+		_endScreen.reset();
 		
 		_road.reset();
 		_background.reset();
@@ -180,9 +188,14 @@ public class BlueBearGamePlay {
 	public void gameOver() {
 		_launchTime = 0;
 		_scrollSpeed.setTarget(0);
-		p.setGameState( GameState.GAME_OVER );
 		_bear.stopMoving();
 		_nemesis.stopMoving();
+		if( _gameLose ) {
+			showLoseSequence();
+		} else {
+			showWinSequence();
+		}
+		p.setGameState( GameState.GAME_OVER );
 	}
 	
 	// handle countdown timer ------------
@@ -191,6 +204,8 @@ public class BlueBearGamePlay {
 		_playerDetectBackground.hide();
 		_bear.prepareForGameplay();
 		_nemesis.prepareForGameplay();
+		_gameMessages.hideWaiting();
+		_gameMessages.showCountdown();
 	}
 	
 	public void showCountdown( int countdownTime ) {
@@ -208,12 +223,15 @@ public class BlueBearGamePlay {
 	
 	// handle game states ----------------
 	public void animateToGameState() {
+		_gameMessages.hideCountdown();
 	}
 	
-	public void animateToHiddenState() {
+	public void animateToPostGameOverState() {
+		_gameMessages.hideWinner();
 	}
 	
-	public void animateToWinState() {
+	public void animateToPlayerDetection() {
+		_gameMessages.showWaiting();
 	}
 	
 	public void update() {
@@ -231,6 +249,7 @@ public class BlueBearGamePlay {
 		if( _gameShouldEnd == true ) {
 			gameOver();
 			_gameShouldEnd = false;
+			_gameLose = false;
 		}
 	}
 	
@@ -310,7 +329,10 @@ public class BlueBearGamePlay {
 			_bear.hit();
 			p.sounds.playSound( BlueBearSounds.HIT );
 			boolean gameOver = _scoreDisplay.hit() == 0;
-			if( gameOver ) _gameShouldEnd = true;
+			if( gameOver ) {
+				_gameShouldEnd = true;
+				_gameLose = true;
+			}
 		}
 	}
 	
@@ -326,6 +348,14 @@ public class BlueBearGamePlay {
 				p.sounds.playSound( BlueBearSounds.HEALTH_UP );
 			}
 		}
+	}
+	
+	protected void showWinSequence() {
+
+	}
+	
+	protected void showLoseSequence() {
+		_endScreen.showLoseScreen();
 	}
 	
 	// draw graphics ------------------------------------------------------------------
@@ -347,10 +377,12 @@ public class BlueBearGamePlay {
 		_countdownDisplay.updateWithNumber(_countdownTime);
 		_scoreDisplay.update();
 		_playerDetectBackground.update();
-		
+		_endScreen.update();
+
 		_bear.update(speed);
 		_nemesis.update(speed);
 		
+		_gameMessages.update();
 	}
 	
 }

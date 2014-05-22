@@ -17,6 +17,7 @@ public class BlueBearGameMessages {
 	protected float _messageYHidden = -150;
 	protected float _messageYShowing = 0;
 	protected float _messageYShowingCenter = 0;
+	protected float _messageYShowingLower = 0;
 		
 	protected BlueBearTextMessage _countdownText;
 	protected BlueBearTextMessage _winnerText;
@@ -25,6 +26,7 @@ public class BlueBearGameMessages {
 	protected ElasticFloat _messageCountdownY = new ElasticFloat(_messageYHidden, 0.71f, 0.16f);
 	protected float _messageWinnerX = 0;
 	protected ElasticFloat _messageWinnerY = new ElasticFloat(_messageYHidden, 0.71f, 0.16f);
+	protected ElasticFloat _messageLoseY = new ElasticFloat(_messageYHidden, 0.71f, 0.16f);
 
 	public BlueBearGameMessages() {
 		p = (BlueBear) P.p;
@@ -35,30 +37,27 @@ public class BlueBearGameMessages {
 		_messageYHidden = p.scaleV(-150);
 		_messageYShowing = pg.height * .2f;
 		_messageYShowingCenter = pg.height * .5f;
-		
+		_messageYShowingLower = pg.height * .75f;
 	}
 	
 	public void update() {
+		DrawUtil.setDrawCenter(pg);
+
 		_messageWaitingY.update();
 		_messageCountdownY.update();
 		_messageWinnerY.update();
+		_messageLoseY.update();
 
 		if( _messageWaitingY.val() > 0 ) {
-			DrawUtil.setDrawCenter(pg);
-			pg.pushMatrix();
-			pg.translate( _messageX, _messageWaitingY.val() );
-			pg.shape( p.gameGraphics.textStepIntoZones, 0, 0, p.svgWidth(p.gameGraphics.textStepIntoZones), p.svgHeight(p.gameGraphics.textStepIntoZones) );
-			pg.popMatrix();
+			pg.shape( p.gameGraphics.textStepIntoZones, _messageX, _messageWaitingY.val(), p.svgWidth(p.gameGraphics.textStepIntoZones), p.svgHeight(p.gameGraphics.textStepIntoZones) );
 		}
-
 		if( _messageCountdownY.val() > 0 ) {
-			DrawUtil.setDrawCenter(pg);
-			pg.pushMatrix();
-			pg.translate( _messageX, _messageCountdownY.val() );
-			pg.shape( p.gameGraphics.textGetReady, 0, 0, p.svgWidth(p.gameGraphics.textGetReady), p.svgHeight(p.gameGraphics.textGetReady) );
-			pg.popMatrix();
+			pg.shape( p.gameGraphics.textGetReady, _messageX, _messageCountdownY.val(), p.svgWidth(p.gameGraphics.textGetReady), p.svgHeight(p.gameGraphics.textGetReady) );
 		}
-
+		if( _messageLoseY.val() > 0 ) {
+			pg.shape( p.gameGraphics.textGameOver, _messageX, _messageLoseY.val(), p.svgWidth(p.gameGraphics.textGameOver), p.svgHeight(p.gameGraphics.textGameOver) );
+		}
+		
 		if( _winnerText != null && _messageWinnerY.val() > 0 ) {
 			DrawUtil.setDrawCenter(pg);
 			pg.pushMatrix();
@@ -81,6 +80,13 @@ public class BlueBearGameMessages {
 	}
 	public void hideCountdown() {
 		_messageCountdownY.setTarget(_messageYHidden);
+	}
+	
+	public void showLose() {
+		_messageLoseY.setTarget(_messageYShowingLower);
+	}
+	public void hideLose() {
+		_messageLoseY.setTarget(_messageYHidden);
 	}
 	
 	public void setWinnerX( float winnerX ) {		

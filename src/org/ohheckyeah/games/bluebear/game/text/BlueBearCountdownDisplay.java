@@ -1,7 +1,6 @@
 package org.ohheckyeah.games.bluebear.game.text;
 
 import org.ohheckyeah.games.bluebear.BlueBear;
-import org.ohheckyeah.games.bluebear.game.BlueBearGamePlay;
 
 import processing.core.PGraphics;
 
@@ -12,7 +11,6 @@ import com.haxademic.core.math.easing.ElasticFloat3D;
 public class BlueBearCountdownDisplay {
 
 	protected BlueBear p;
-	protected BlueBearGamePlay catchyGamePlay;
 	protected PGraphics pg;
 
 	protected ElasticFloat3D[] _positions;

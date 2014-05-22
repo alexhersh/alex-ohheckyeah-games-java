@@ -105,9 +105,7 @@ extends PAppletHax
 
 	// non-gameplay screens
 	protected BlueBearIntroScreens _introScreens;
-	protected BlueBearGameMessages _gameMessages;
-	
-	
+
 	
 	public void setup() {
 		_customPropsFile = FileUtil.getHaxademicDataPath() + "properties/bluebear.properties";
@@ -125,7 +123,6 @@ extends PAppletHax
 		loadMedia();
 		
 		_introScreens = new BlueBearIntroScreens( _appConfig.getString( "sponsor_images", null ) );
-		_gameMessages = new BlueBearGameMessages();
 		
 		// set flags and props	
 		setKinectProperties();
@@ -257,13 +254,12 @@ extends PAppletHax
 	protected void setGameStateIntro() {
 		_introScreens.reset();
 		sounds.playOHY();
-		_gamePlay.reset();
 	}
 
 	protected void runGameStateIntro() {
-		if( _gameState == GameState.GAME_INTRO_OUTRO ) {
+//		if( _gameState == GameState.GAME_INTRO_OUTRO ) {
 			updateGameplay();
-		}
+//		}
 		_introScreens.update();
 		DrawUtil.setDrawCorner(pg);
 		pg.image( _introScreens.pg, 0, 0, _introScreens.pg.width, _introScreens.pg.height );
@@ -271,12 +267,12 @@ extends PAppletHax
 
 	protected void setGameStateIntroOutro() {
 		sounds.fadeOutIntro();
+		_gamePlay.reset();
 		_gamePlay.startPlayerDetection();
 	}
 	
 	protected void setGameStateWaitingForPlayers() {
-		_gamePlay.animateToWinState();
-		_gameMessages.showWaiting();
+		_gamePlay.animateToPlayerDetection();
 		sounds.playWaiting();
 	}
 
@@ -287,8 +283,6 @@ extends PAppletHax
 	
 	protected void setGameStatePreCountdown() {
 		_preCountdownStartTime = p.millis();
-		_gameMessages.hideWaiting();
-		_gameMessages.showCountdown();
 		_gamePlay.playersLockedIn();
 		sounds.playSound( BlueBearSounds.PLAYERS_DETECTED );
 		sounds.stopSoundtrack();
@@ -305,7 +299,6 @@ extends PAppletHax
 		_countdownStartTime = p.millis();
 		_gamePlay.showCountdown( _countdownSeconds );
 		_gamePlay.animateToGameState();
-		_gameMessages.hideCountdown();
 	}
 
 	protected void runGameStateCountdown() {
@@ -383,8 +376,7 @@ extends PAppletHax
 	}
 	
 	protected void setGameStateGameOverOutro() {
-		_gameMessages.hideWinner();
-		_gamePlay.animateToHiddenState();
+		_gamePlay.animateToPostGameOverState();
 	}
 	
 	// FRAME LOOP --------------------------------------------------------------------------------------
@@ -407,7 +399,6 @@ extends PAppletHax
 	protected void updateGameplay() {
 		_kinectGrid.update();
 		_gamePlay.update();
-		_gameMessages.update();
 	}
 	
 }

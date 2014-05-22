@@ -35,7 +35,7 @@ public class BlueBearHugItOutScreen {
 	public void update() {
 		pg.beginDraw();
 		pg.clear();
-		
+		pg.background(255);
 		DrawUtil.setDrawCenter(pg);
 		
 		drawMessage();
