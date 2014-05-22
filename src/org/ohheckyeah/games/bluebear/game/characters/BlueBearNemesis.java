@@ -46,7 +46,7 @@ extends BlueBearBasePlayer {
 	protected boolean _launchUp = false;
 
 	public BlueBearNemesis( BlueBearPlayerControls playerControls ) {
-		super( playerControls, 0.7f );
+		super( playerControls, 0.7f, 20 );
 		_detectionSvg = p.gameGraphics.squirrelDetected;
 	
 		// init in the top lane

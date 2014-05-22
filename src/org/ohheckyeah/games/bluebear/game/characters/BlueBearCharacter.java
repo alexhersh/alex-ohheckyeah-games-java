@@ -25,7 +25,7 @@ extends BlueBearBasePlayer {
 	protected int _hurtTime = 0;
 
 	public BlueBearCharacter( BlueBearPlayerControls playerControls ) {
-		super( playerControls, 0.3f );
+		super( playerControls, 0.3f, 0 );
 		_detectionSvg = p.gameGraphics.blueBearDetected;
 
 		

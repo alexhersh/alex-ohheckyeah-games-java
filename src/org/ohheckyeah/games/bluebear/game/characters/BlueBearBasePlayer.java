@@ -35,15 +35,19 @@ public class BlueBearBasePlayer {
 	protected EasingFloat3d _shadowPosition = new EasingFloat3d(0,0,0,6);
 	protected float _characterW = 0;
 	protected float _characterH = 0;
+	protected float _waitingCharacterOffsetY = 0;
+	protected float _waitingCharacterOscY = 0;
 	
 
-	public BlueBearBasePlayer( BlueBearPlayerControls playerControls, float xPosition ) {
+	public BlueBearBasePlayer( BlueBearPlayerControls playerControls, float xPosition, float yOffset ) {
 		p = (BlueBear)P.p;
 		pg = p.pg;
 
 		_playerControls = playerControls;
 		_waitingSpinnerX = P.round( pg.width * xPosition );
 		_waitingSpinner = new BlueBearWaitingSpinner( _waitingSpinnerX );
+		_waitingCharacterOffsetY = p.scaleV(yOffset);
+		_waitingCharacterOscY = p.scaleV(8f);
 	}
 
 	public boolean detectPlayer() {
@@ -118,7 +122,7 @@ public class BlueBearBasePlayer {
 		
 		_characterPosition.setCurrentX( _waitingSpinnerX );
 		_characterPosition.setTargetX( _waitingSpinnerX );
-		_characterPosition.setTargetY( _waitingSpinner.y() + p.scaleV(8f) * P.sin( p.millis() * 0.004f + _detectedOsc ) );
+		_characterPosition.setTargetY( _waitingSpinner.y() + _waitingCharacterOffsetY + _waitingCharacterOscY * P.sin( p.millis() * 0.004f + _detectedOsc ) );
 		_characterPosition.update();
 		
 		_shadowPosition.setCurrentX( _waitingSpinnerX );
