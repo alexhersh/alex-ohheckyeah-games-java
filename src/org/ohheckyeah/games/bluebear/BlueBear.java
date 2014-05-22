@@ -307,12 +307,12 @@ extends PAppletHax
 		int countdownTime = _countdownSeconds - countdownSecondsElapsed;
 		if( countdownTime > 0 ) {
 			_gamePlay.updateCountdown( countdownTime );
+			if( _lastCountdownTime != countdownTime ) {
+				sounds.playSound( BlueBearSounds.COUNTDOWN );
+			}
 		} else {
 			_gamePlay.updateCountdown( 0 );
 			setGameState( GameState.GAME_PLAYING );
-		}
-		if( _lastCountdownTime != countdownTime ) {
-			sounds.playSound( BlueBearSounds.COUNTDOWN );
 		}
 		_lastCountdownTime = countdownTime;
 	}
