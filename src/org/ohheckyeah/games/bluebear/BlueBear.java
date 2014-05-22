@@ -9,7 +9,6 @@ import org.ohheckyeah.games.bluebear.assets.BlueBearGraphics;
 import org.ohheckyeah.games.bluebear.assets.BlueBearSounds;
 import org.ohheckyeah.games.bluebear.game.BlueBearGamePlay;
 import org.ohheckyeah.games.bluebear.game.BlueBearTracking;
-import org.ohheckyeah.games.bluebear.game.text.BlueBearGameMessages;
 import org.ohheckyeah.games.bluebear.screens.BlueBearIntroScreens;
 
 import processing.core.PApplet;
