@@ -227,7 +227,8 @@ public class BlueBearGamePlay {
 	}
 	
 	public void animateToPostGameOverState() {
-		_gameMessages.hideWinner();
+		_gameMessages.hideWin();
+		_gameMessages.hideLose();
 	}
 	
 	public void animateToPlayerDetection() {
@@ -356,6 +357,7 @@ public class BlueBearGamePlay {
 	
 	protected void showLoseSequence() {
 		_endScreen.showLoseScreen();
+		_gameMessages.showLose();
 		p.sounds.playLose();
 	}
 	

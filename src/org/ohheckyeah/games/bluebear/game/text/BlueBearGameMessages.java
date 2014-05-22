@@ -25,7 +25,7 @@ public class BlueBearGameMessages {
 	protected ElasticFloat _messageWaitingY = new ElasticFloat(_messageYHidden, 0.71f, 0.16f);
 	protected ElasticFloat _messageCountdownY = new ElasticFloat(_messageYHidden, 0.71f, 0.16f);
 	protected float _messageWinnerX = 0;
-	protected ElasticFloat _messageWinnerY = new ElasticFloat(_messageYHidden, 0.71f, 0.16f);
+	protected ElasticFloat _messageWinY = new ElasticFloat(_messageYHidden, 0.71f, 0.16f);
 	protected ElasticFloat _messageLoseY = new ElasticFloat(_messageYHidden, 0.71f, 0.16f);
 
 	public BlueBearGameMessages() {
@@ -45,7 +45,7 @@ public class BlueBearGameMessages {
 
 		_messageWaitingY.update();
 		_messageCountdownY.update();
-		_messageWinnerY.update();
+		_messageWinY.update();
 		_messageLoseY.update();
 
 		if( _messageWaitingY.val() > 0 ) {
@@ -57,15 +57,9 @@ public class BlueBearGameMessages {
 		if( _messageLoseY.val() > 0 ) {
 			pg.shape( p.gameGraphics.textGameOver, _messageX, _messageLoseY.val(), p.svgWidth(p.gameGraphics.textGameOver), p.svgHeight(p.gameGraphics.textGameOver) );
 		}
-		
-		if( _winnerText != null && _messageWinnerY.val() > 0 ) {
-			DrawUtil.setDrawCenter(pg);
-			pg.pushMatrix();
-			pg.translate( _messageWinnerX, _messageWinnerY.val() );
-			pg.image( _winnerText.image(), 0, 0, _winnerText.image().width, _winnerText.image().height );
-			pg.popMatrix();
+		if( _messageWinY.val() > 0 ) {
+			pg.shape( p.gameGraphics.textWin, _messageX, _messageWinY.val(), p.svgWidth(p.gameGraphics.textWin), p.svgHeight(p.gameGraphics.textWin) );
 		}
-		
 	}
 	
 	public void showWaiting() {
@@ -92,14 +86,11 @@ public class BlueBearGameMessages {
 	public void setWinnerX( float winnerX ) {		
 		_messageWinnerX = winnerX;
 	}
-	public void showWinner() {
-		if( _winnerText == null ) {
-			_winnerText = new BlueBearTextMessage( "winner", 60, 250, 90, 173 );
-		}
-		_messageWinnerY.setTarget(_messageYShowing);
+	public void showWin() {
+		_messageWinY.setTarget(_messageYShowing);
 	}
-	public void hideWinner() {
-		_messageWinnerY.setTarget(_messageYHidden);
+	public void hideWin() {
+		_messageWinY.setTarget(_messageYHidden);
 	}
 	
 	

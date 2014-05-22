@@ -104,6 +104,9 @@ extends BlueBearBasePlayer {
 		}
 	}
 	
+	public void gameOver() {
+	}
+	
 	public void launch() {
 		_launchUp = true;
 		_launchTime = p.millis();
@@ -134,6 +137,7 @@ extends BlueBearBasePlayer {
 		_characterH = p.scaleV(_squirrel.height * _scale) * _laneScale.value();
 		
 		float characterX = pg.width - p.scaleV(150);
+		if( p.gameState() == GameState.GAME_OVER || p.gameState() == GameState.GAME_OVER_OUTRO) characterX = pg.width * 1.25f;
 		
 		_characterPosition.setTargetX( characterX );
 		_characterPosition.update();

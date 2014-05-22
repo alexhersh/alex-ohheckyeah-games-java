@@ -2,6 +2,7 @@ package org.ohheckyeah.games.bluebear.game.characters;
 
 import java.util.ArrayList;
 
+import org.ohheckyeah.games.bluebear.BlueBear.GameState;
 import org.ohheckyeah.games.bluebear.game.BlueBearScreenPositions;
 
 import processing.core.PImage;
@@ -23,6 +24,7 @@ extends BlueBearBasePlayer {
 	protected float _explosionOffsetY = 2;
 	protected final int HURT_LENGTH = 400;
 	protected int _hurtTime = 0;
+	protected boolean _didWin = false;
 
 	public BlueBearCharacter( BlueBearPlayerControls playerControls ) {
 		super( playerControls, 0.3f, 0 );
@@ -84,10 +86,27 @@ extends BlueBearBasePlayer {
 		
 		// responsive sizing/placement
 		float characterX = p.scaleV(130);
+		if( p.gameState() == GameState.GAME_OVER || p.gameState() == GameState.GAME_OVER_OUTRO) {
+			if( _didWin == true ) {
+				characterX = pg.width * 0.5f;
+			} else {
+				characterX = pg.width * 0.5f;
+			}
+		}
+		
+		if( p.gameState() == GameState.GAME_OVER || p.gameState() == GameState.GAME_OVER_OUTRO) {
+			if( _didWin == true ) {
+				_characterPosition.setTargetY( pg.height * 0.5f + p.svgHeight(p.gameGraphics.blueBearWin ) * 0.5f );
+			} else {
+				_characterPosition.setTargetY( pg.height * 0.5f + p.svgHeight(p.gameGraphics.blueBearLose ) * 0.5f );
+			}
+		}
+
 		_characterW = p.scaleV(_curFrame.width * _scale) * _laneScale.value();
 		_characterH = p.scaleV(_curFrame.height * _scale) * _laneScale.value();
 		_characterPosition.setTargetX( characterX );
 		_characterPosition.update();
+		
 		float characterY = _characterPosition.y() - _characterH * 0.5f;
 		
 		_shadowPosition.setTargetX( characterX );
@@ -95,18 +114,23 @@ extends BlueBearBasePlayer {
 
 		// draw shadow and bear
 		DrawUtil.setDrawCenter(pg);
-		pg.pushMatrix();
-		pg.translate(0, 0, _lane);
-		pg.shape( 
-				p.gameGraphics.bearShadow, 
-				_shadowPosition.x(), 
-				_shadowPosition.y(), 
-				p.scaleV(p.gameGraphics.bearShadow.width) * _laneScale.value(), 
-				p.scaleV(p.gameGraphics.bearShadow.height) * _laneScale.value() 
-		);
-		pg.image( _curFrame, _characterPosition.x(), characterY, _characterW, _characterH );
-		showExplosion();
-		pg.popMatrix();
+		if( p.gameState() == GameState.GAME_OVER || p.gameState() == GameState.GAME_OVER_OUTRO) {
+			if( _didWin == true ) {
+				characterX = pg.width * 0.5f;
+				pg.shape( p.gameGraphics.bearShadow, _shadowPosition.x(), _shadowPosition.y(), p.scaleV(p.gameGraphics.bearShadow.width) * _laneScale.value(), p.scaleV(p.gameGraphics.bearShadow.height) * _laneScale.value() );
+				pg.shape( p.gameGraphics.blueBearWin, _characterPosition.x(), characterY, p.scaleV(p.gameGraphics.blueBearWin.width) * _laneScale.value(), p.scaleV(p.gameGraphics.blueBearWin.height) * _laneScale.value() );
+			} else {
+				characterX = pg.width * 0.5f;
+				pg.shape( p.gameGraphics.blueBearLose, _characterPosition.x(), characterY, p.scaleV(p.gameGraphics.blueBearLose.width), p.scaleV(p.gameGraphics.blueBearLose.height) );
+			}
+		} else {
+			pg.pushMatrix();
+			pg.translate(0, 0, _lane);
+			pg.shape( p.gameGraphics.bearShadow, _shadowPosition.x(), _shadowPosition.y(), p.scaleV(p.gameGraphics.bearShadow.width) * _laneScale.value(), p.scaleV(p.gameGraphics.bearShadow.height) * _laneScale.value() );
+			pg.image( _curFrame, _characterPosition.x(), characterY, _characterW, _characterH );
+			showExplosion();
+			pg.popMatrix();
+		}
 	}
 	
 	protected void advanceBearFrame(float speed) {
@@ -129,6 +153,14 @@ extends BlueBearBasePlayer {
 			}
 		}
 		if( _curFrame == null ) return;
+	}
+	
+	public void win() {
+		_didWin = true;
+	}
+	
+	public void lose() {
+		
 	}
 	
 	protected void showExplosion() {
