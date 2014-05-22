@@ -307,7 +307,7 @@ public class BlueBearGamePlay {
 			int curLevel = P.floor( elapsedTime / _neighborhoodTime );
 			if( curLevel != _neighborhoodIndex ) {
 				_neighborhoodIndex = curLevel;
-				if( _neighborhoodIndex < 1 ) {
+				if( _neighborhoodIndex < _neighborhoods.length ) {
 					setLevel(_neighborhoodIndex);
 				} else {
 					_gameShouldEnd = true;
