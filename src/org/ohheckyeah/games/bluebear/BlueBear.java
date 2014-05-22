@@ -356,10 +356,10 @@ extends PAppletHax
 	}
 
 	protected void runGameStateGameOver() {
-		if( _gameState == GameState.GAME_OVER && p.millis() > _gameOverTime + 4000 ) {
+		if( _gameState == GameState.GAME_OVER && p.millis() > _gameOverTime + _gamePlay.gameOverTime() ) {
 			setGameState( GameState.GAME_OVER_OUTRO );
 		}
-		if( p.millis() > _gameOverTime + 5000 ) {
+		if( p.millis() > _gameOverTime + _gamePlay.gameOverTime() + 1000 ) {
 			setGameState( GameState.GAME_INTRO );
 		}
 		// take a screenshot & kinect image

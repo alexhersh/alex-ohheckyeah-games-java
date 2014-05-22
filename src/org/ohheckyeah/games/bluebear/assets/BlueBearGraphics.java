@@ -17,7 +17,7 @@ public class BlueBearGraphics {
 	public PShape roadTile, squirrel, squirrelShadow, bearShadow;
 	public PShape explosionSmall, explosionLarge;
 	public PShape blueBearLogo;
-	public PShape blueBearDetected, squirrelDetected, blueBearWin, blueBearLose;
+	public PShape blueBearDetected, squirrelDetected, blueBearWin, blueBearLose, conventionCenter;
 	public PShape logoOhyTeam, logoOHY;
 	public PShape textBroughtToYou, textStepIntoZones, textGetReady, textGameOver, textWin;
 
@@ -64,6 +64,7 @@ public class BlueBearGraphics {
 		squirrelShadow = P.p.loadShape( FileUtil.getHaxademicDataPath() + "games/bluebear/svg/scene/squirrel-shadow.svg" );
 		explosionSmall = P.p.loadShape( FileUtil.getHaxademicDataPath() + "games/bluebear/svg/scene/explosion-small.svg" );
 		explosionLarge = P.p.loadShape( FileUtil.getHaxademicDataPath() + "games/bluebear/svg/scene/explosion-large.svg" );
+		conventionCenter = P.p.loadShape( FileUtil.getHaxademicDataPath() + "games/bluebear/svg/scene/convention-center.svg" );
 
 		// common OHY svgs
 		logoOhyTeam = P.p.loadShape( FileUtil.getHaxademicDataPath() + "svg/logo-partners-white.svg" );

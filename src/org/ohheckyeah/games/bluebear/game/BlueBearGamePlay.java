@@ -11,9 +11,11 @@ import org.ohheckyeah.games.bluebear.assets.neighborhoods.BlueBearNeighborhoodDo
 import org.ohheckyeah.games.bluebear.assets.neighborhoods.BlueBearNeighborhoodHighlands;
 import org.ohheckyeah.games.bluebear.assets.neighborhoods.BlueBearNeighborhoodMountains;
 import org.ohheckyeah.games.bluebear.game.characters.BlueBearCharacter;
-import org.ohheckyeah.games.bluebear.game.characters.BlueBearPlayerDetectionBg;
 import org.ohheckyeah.games.bluebear.game.characters.BlueBearNemesis;
 import org.ohheckyeah.games.bluebear.game.characters.BlueBearPlayerControls;
+import org.ohheckyeah.games.bluebear.game.characters.BlueBearPlayerDetectionBg;
+import org.ohheckyeah.games.bluebear.game.gameover.BlueBearLoseScreen;
+import org.ohheckyeah.games.bluebear.game.gameover.BlueBearWinScreen;
 import org.ohheckyeah.games.bluebear.game.nonscrolling.BlueBearBackground;
 import org.ohheckyeah.games.bluebear.game.nonscrolling.BlueBearGround;
 import org.ohheckyeah.games.bluebear.game.scrolling.BlueBearScrollerBackground;
@@ -51,6 +53,9 @@ public class BlueBearGamePlay {
 	protected boolean _countdownShowing = false;
 	protected int _gameStartTime = 0;
 	protected int _neighborhoodTime = 15 * 1000;
+	protected float _endTime = 0;
+	protected int GAME_OVER_WIN_TIME = 7000;
+	protected int GAME_OVER_LOSE_TIME = 5000;
 	
 	protected int _bgColor;
 	
@@ -71,7 +76,8 @@ public class BlueBearGamePlay {
 	protected BlueBearNemesis _nemesis;
 	protected BlueBearScoreDisplay _scoreDisplay;
 	protected BlueBearCountdownDisplay _countdownDisplay;
-	protected BlueBearLoseScreen _endScreen;
+	protected BlueBearLoseScreen _loseScreen;
+	protected BlueBearWinScreen _winScreen;
 	protected BlueBearGameMessages _gameMessages;
 
 	protected float SPEED = 10;
@@ -126,7 +132,8 @@ public class BlueBearGamePlay {
 		_playerDetectBackground = new BlueBearPlayerDetectionBg();
 		_scoreDisplay = new BlueBearScoreDisplay();
 		_countdownDisplay = new BlueBearCountdownDisplay();
-		_endScreen = new BlueBearLoseScreen();
+		_loseScreen = new BlueBearLoseScreen();
+		_winScreen = new BlueBearWinScreen();
 		_gameMessages = new BlueBearGameMessages();
 	}
 	
@@ -141,7 +148,8 @@ public class BlueBearGamePlay {
 		_bear.reset();
 		_nemesis.reset();
 		_scoreDisplay.reset();
-		_endScreen.reset();
+		_loseScreen.reset();
+		_winScreen.reset();
 		
 		_road.reset();
 		_background.reset();
@@ -151,6 +159,7 @@ public class BlueBearGamePlay {
 
 		setLevel(0);
 		_gameplayStarted = false;
+		_gameMessages.hideWin();
 	}
 	
 	protected void setLevel( int index ) {
@@ -187,7 +196,6 @@ public class BlueBearGamePlay {
 	
 	public void gameOver() {
 		_launchTime = 0;
-		_scrollSpeed.setTarget(0);
 		_bear.stopMoving();
 		_nemesis.stopMoving();
 		if( _gameLose ) {
@@ -196,6 +204,14 @@ public class BlueBearGamePlay {
 			showWinSequence();
 		}
 		p.setGameState( GameState.GAME_OVER );
+	}
+	
+	public int gameOverTime() {
+		if( _gameLose ) {
+			return GAME_OVER_LOSE_TIME;
+		} else {
+			return GAME_OVER_WIN_TIME;
+		}
 	}
 	
 	// handle countdown timer ------------
@@ -227,7 +243,6 @@ public class BlueBearGamePlay {
 	}
 	
 	public void animateToPostGameOverState() {
-		_gameMessages.hideWin();
 		_gameMessages.hideLose();
 	}
 	
@@ -245,6 +260,7 @@ public class BlueBearGamePlay {
 			checkObstacleCollisions();
 			checkGoodieCollisions();
 		}
+		if( p.gameState() == GameState.GAME_OVER ) checkStopSpeed();
 		drawGraphicsLayers();
 		updateNeighborhood();
 		if( _gameShouldEnd == true ) {
@@ -291,7 +307,7 @@ public class BlueBearGamePlay {
 			int curLevel = P.floor( elapsedTime / _neighborhoodTime );
 			if( curLevel != _neighborhoodIndex ) {
 				_neighborhoodIndex = curLevel;
-				if( _neighborhoodIndex < _neighborhoods.length ) {
+				if( _neighborhoodIndex < 1 ) {
 					setLevel(_neighborhoodIndex);
 				} else {
 					_gameShouldEnd = true;
@@ -353,11 +369,23 @@ public class BlueBearGamePlay {
 	
 	protected void showWinSequence() {
 		_bear.win();
+		_winScreen.startEnd();
 		p.sounds.playWin();
+		_endTime = p.millis();
+	}
+	
+	protected void checkStopSpeed() {
+		if( _endTime != 0 && p.millis() > _endTime + 1500 ) {
+			_bear.winJump();
+			_scrollSpeed.setTarget(0);
+			_gameMessages.showWin();
+			_endTime = 0;
+		}
 	}
 	
 	protected void showLoseSequence() {
-		_endScreen.showLoseScreen();
+		_scrollSpeed.setTarget(0);
+		_loseScreen.showLoseScreen();
 		_gameMessages.showLose();
 		p.sounds.playLose();
 	}
@@ -381,7 +409,8 @@ public class BlueBearGamePlay {
 		_countdownDisplay.updateWithNumber(_countdownTime);
 		_scoreDisplay.update();
 		_playerDetectBackground.update();
-		_endScreen.update();
+		_loseScreen.update();
+		_winScreen.update(speed);
 
 		_bear.update(speed);
 		_nemesis.update(speed);

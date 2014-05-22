@@ -25,6 +25,9 @@ extends BlueBearBasePlayer {
 	protected final int HURT_LENGTH = 400;
 	protected int _hurtTime = 0;
 	protected boolean _didWin = false;
+	protected float _winWalkSpeed = 5;
+	protected float _winWalkProgress = 0;
+	protected boolean _winJump = false;
 
 	public BlueBearCharacter( BlueBearPlayerControls playerControls ) {
 		super( playerControls, 0.3f, 0 );
@@ -47,11 +50,14 @@ extends BlueBearBasePlayer {
 		
 		_bearShadowOffsetY = Math.round(p.scaleV(_bearShadowOffsetY));
 		_explosionOffsetY = Math.round(p.scaleV(_explosionOffsetY));
+		_winWalkSpeed = p.scaleV(_winWalkSpeed);
 	}
 	
 	public void reset() {
 		_frameIndex = 0;
 		_curFrame = _frames[P.floor(_frameIndex)];
+		_didWin = false;
+		_winWalkProgress = 0;
 	}
 	
 	public void setLane( int lane ) {
@@ -80,23 +86,34 @@ extends BlueBearBasePlayer {
 	public float y() {
 		return _characterPosition.y();
 	}
+	public void prepareForGameplay() {
+		super.prepareForGameplay();
+		_winJump = false;
+	}
 	
 	protected void updateGameplay(float speed) {
 		advanceBearFrame(speed);
 		
+		// ALL OF THIS STATE CHECKING IS TERRIBLE!!! TODO: FIX THIS MESS
+
 		// responsive sizing/placement
 		float characterX = p.scaleV(130);
 		if( p.gameState() == GameState.GAME_OVER || p.gameState() == GameState.GAME_OVER_OUTRO) {
 			if( _didWin == true ) {
-				characterX = pg.width * 0.5f;
+				if( _winJump == true ) {
+					characterX = pg.width * 0.5f;
+				} else {
+					_winWalkProgress += _winWalkSpeed;
+					characterX += _winWalkProgress; 
+				}
 			} else {
 				characterX = pg.width * 0.5f;
 			}
 		}
 		
-		if( p.gameState() == GameState.GAME_OVER || p.gameState() == GameState.GAME_OVER_OUTRO) {
+		if( _winJump == true || p.gameState() == GameState.GAME_OVER || p.gameState() == GameState.GAME_OVER_OUTRO || p.gameState() == GameState.GAME_INTRO ) {
 			if( _didWin == true ) {
-				_characterPosition.setTargetY( pg.height * 0.5f + p.svgHeight(p.gameGraphics.blueBearWin ) * 0.5f );
+				if( _winJump == true ) _characterPosition.setTargetY( pg.height * 0.5f + p.svgHeight(p.gameGraphics.blueBearWin ) * 0.5f );
 			} else {
 				if( p.gameState() == GameState.GAME_OVER )
 					_characterPosition.setTargetY( pg.height * 0.4f + p.svgHeight(p.gameGraphics.blueBearLose ) * 0.5f );
@@ -117,15 +134,13 @@ extends BlueBearBasePlayer {
 
 		// draw shadow and bear
 		DrawUtil.setDrawCenter(pg);
-		if( p.gameState() == GameState.GAME_OVER || p.gameState() == GameState.GAME_OVER_OUTRO) {
-			if( _didWin == true ) {
-				characterX = pg.width * 0.5f;
-				pg.shape( p.gameGraphics.bearShadow, _shadowPosition.x(), _shadowPosition.y(), p.scaleV(p.gameGraphics.bearShadow.width) * _laneScale.value(), p.scaleV(p.gameGraphics.bearShadow.height) * _laneScale.value() );
-				pg.shape( p.gameGraphics.blueBearWin, _characterPosition.x(), characterY, p.scaleV(p.gameGraphics.blueBearWin.width) * _laneScale.value(), p.scaleV(p.gameGraphics.blueBearWin.height) * _laneScale.value() );
-			} else {
-				characterX = pg.width * 0.5f;
-				pg.shape( p.gameGraphics.blueBearLose, _characterPosition.x(), characterY, p.scaleV(p.gameGraphics.blueBearLose.width), p.scaleV(p.gameGraphics.blueBearLose.height) );
-			}
+		if( _winJump == true ) {
+			characterX = pg.width * 0.5f;
+			pg.shape( p.gameGraphics.bearShadow, _shadowPosition.x(), _shadowPosition.y(), p.scaleV(p.gameGraphics.bearShadow.width) * _laneScale.value(), p.scaleV(p.gameGraphics.bearShadow.height) * _laneScale.value() );
+			pg.shape( p.gameGraphics.blueBearWin, _characterPosition.x(), characterY, p.scaleV(p.gameGraphics.blueBearWin.width) * _laneScale.value(), p.scaleV(p.gameGraphics.blueBearWin.height) * _laneScale.value() );
+		} else if( _didWin == false && ( p.gameState() == GameState.GAME_OVER || p.gameState() == GameState.GAME_OVER_OUTRO || p.gameState() == GameState.GAME_INTRO ) ) {
+			characterX = pg.width * 0.5f;
+			pg.shape( p.gameGraphics.blueBearLose, _characterPosition.x(), characterY, p.scaleV(p.gameGraphics.blueBearLose.width), p.scaleV(p.gameGraphics.blueBearLose.height) );
 		} else {
 			pg.pushMatrix();
 			pg.translate(0, 0, _lane);
@@ -160,6 +175,10 @@ extends BlueBearBasePlayer {
 	
 	public void win() {
 		_didWin = true;
+	}
+	
+	public void winJump() {
+		_winJump = true;
 	}
 	
 	public void lose() {

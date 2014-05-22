@@ -87,7 +87,7 @@ public class BlueBearGameMessages {
 		_messageWinnerX = winnerX;
 	}
 	public void showWin() {
-		_messageWinY.setTarget(_messageYShowing);
+		_messageWinY.setTarget(_messageYShowingLower);
 	}
 	public void hideWin() {
 		_messageWinY.setTarget(_messageYHidden);
