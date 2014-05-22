@@ -54,12 +54,12 @@ public class BlueBearScroller {
 		setGraphicPool(null, null);
 	}
 	
-	protected int svgWidth( PShape shape ) {
-		return P.round(p.scaleV(shape.width));
+	protected float svgWidth( PShape shape ) {
+		return p.scaleV(shape.width);
 	}
 	
-	protected int svgHeight( PShape shape ) {
-		return P.round(p.scaleV(shape.height));
+	protected float svgHeight( PShape shape ) {
+		return p.scaleV(shape.height);
 	}
 	
 	public void setGraphicPool( PShape[] pool, String[] poolFiles ) {
