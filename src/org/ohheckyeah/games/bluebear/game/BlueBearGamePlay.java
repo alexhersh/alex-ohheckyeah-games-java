@@ -71,7 +71,7 @@ public class BlueBearGamePlay {
 	protected BlueBearNemesis _nemesis;
 	protected BlueBearScoreDisplay _scoreDisplay;
 	protected BlueBearCountdownDisplay _countdownDisplay;
-	protected BlueBearEndScreen _endScreen;
+	protected BlueBearLoseScreen _endScreen;
 	protected BlueBearGameMessages _gameMessages;
 
 	protected float SPEED = 10;
@@ -126,7 +126,7 @@ public class BlueBearGamePlay {
 		_playerDetectBackground = new BlueBearPlayerDetectionBg();
 		_scoreDisplay = new BlueBearScoreDisplay();
 		_countdownDisplay = new BlueBearCountdownDisplay();
-		_endScreen = new BlueBearEndScreen();
+		_endScreen = new BlueBearLoseScreen();
 		_gameMessages = new BlueBearGameMessages();
 	}
 	
@@ -352,6 +352,7 @@ public class BlueBearGamePlay {
 	}
 	
 	protected void showWinSequence() {
+		_bear.win();
 		p.sounds.playWin();
 	}
 	

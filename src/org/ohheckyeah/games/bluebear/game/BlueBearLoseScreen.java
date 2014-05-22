@@ -11,7 +11,7 @@ import com.haxademic.core.draw.util.DrawUtil;
 import com.haxademic.core.draw.util.OpenGLUtil;
 import com.haxademic.core.math.easing.EasingFloat;
 
-public class BlueBearEndScreen {
+public class BlueBearLoseScreen {
 
 	protected BlueBear p;
 	protected PGraphics pg;
@@ -20,7 +20,7 @@ public class BlueBearEndScreen {
 	protected EasingFloat _backdropY = new EasingFloat(0, 6);
 	protected boolean _isLose;
 
-	public BlueBearEndScreen() {
+	public BlueBearLoseScreen() {
 		p = (BlueBear)P.p;
 		pg = p.pg;
 		
