@@ -1,6 +1,7 @@
 package org.ohheckyeah.games.bluebear.game.characters;
 
 import org.ohheckyeah.games.bluebear.BlueBear.GameState;
+import org.ohheckyeah.games.bluebear.game.BlueBearGamePlay;
 import org.ohheckyeah.games.bluebear.game.BlueBearScreenPositions;
 
 import processing.core.PShape;
@@ -13,6 +14,7 @@ import com.haxademic.core.math.easing.LinearFloat;
 public class BlueBearNemesis 
 extends BlueBearBasePlayer {
 
+	BlueBearGamePlay _gamePlay;
 	protected PShape _squirrel;
 	
 	protected PShape _flameLarge;
@@ -44,10 +46,12 @@ extends BlueBearBasePlayer {
 	protected float _launchFlyHeight = 100;
 	protected float _launchTime = 0;
 	protected boolean _launchUp = false;
+	protected boolean _launchQueued = false;
 
-	public BlueBearNemesis( BlueBearPlayerControls playerControls ) {
+	public BlueBearNemesis( BlueBearPlayerControls playerControls, BlueBearGamePlay gamePlay ) {
 		super( playerControls, 0.7f, 20 );
 		_detectionSvg = p.gameGraphics.squirrelDetected;
+		_gamePlay = gamePlay;
 	
 		// init in the top lane
 		setLane( _lane );
@@ -80,14 +84,17 @@ extends BlueBearBasePlayer {
 	}
 	
 	public void setLane( int lane ) {
+		boolean laneChanged = ( lane != _lane );
+		_characterPosition.setTargetY( BlueBearScreenPositions.LANES_Y[lane] );
+		_shadowPosition.setTargetY( BlueBearScreenPositions.LANES_Y[lane] );
+		_laneScale.setTarget(1f + lane * 0.1f);
 		super.setLane( lane );
-		_characterPosition.setTargetY( BlueBearScreenPositions.LANES_Y[_lane] );
-		_shadowPosition.setTargetY( BlueBearScreenPositions.LANES_Y[_lane] );
-		_laneScale.setTarget(1f + _lane * 0.1f);
+		if( laneChanged ) launch();
 	}
 	
 	public void reset() {
 		_launchTime = 0;
+		_launchQueued = false;
 	}
 	
 	public void startMoving() {
@@ -107,13 +114,26 @@ extends BlueBearBasePlayer {
 	public void gameOver() {
 	}
 	
+	public boolean launchQueued() {
+		return _launchQueued;
+	}
+	
 	public void launch() {
-		_launchUp = true;
-		_launchTime = p.millis();
-		tubeDown();
+		if( p.millis() < _launchTime + 750 ) {
+			_launchQueued = true;
+		} else {
+			_launchQueued = false;
+			_launchUp = true;
+			_launchTime = p.millis();
+			_gamePlay.launchObstacle();
+			tubeDown();
+		}
 	}
 	
 	protected void updateLaunchMode() {
+		if( _launchQueued == true ) {
+			launch();
+		}
 		if( _launchUp == true && p.millis() > _launchTime + 300 ) {
 			_launchUp = false;
 			tubeUp();

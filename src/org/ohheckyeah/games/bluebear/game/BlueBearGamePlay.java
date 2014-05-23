@@ -128,7 +128,7 @@ public class BlueBearGamePlay {
 		_obstacles = new BlueBearStreetItems();
 		_goodies = new BlueBearStreetItems();
 		_bear = new BlueBearCharacter( new BlueBearPlayerControls(_kinectGrid.getRegion(0), _isRemoteKinect) );
-		_nemesis = new BlueBearNemesis( new BlueBearPlayerControls(_kinectGrid.getRegion(1), _isRemoteKinect) );
+		_nemesis = new BlueBearNemesis( new BlueBearPlayerControls(_kinectGrid.getRegion(1), _isRemoteKinect), this );
 		_playerDetectBackground = new BlueBearPlayerDetectionBg();
 		_scoreDisplay = new BlueBearScoreDisplay();
 		_countdownDisplay = new BlueBearCountdownDisplay();
@@ -319,16 +319,17 @@ public class BlueBearGamePlay {
 	protected void checkLaunch() {
 		if( _launchTime != 0 && p.millis() > _launchTime + LAUNCH_TIME ) {
 			_launchTime = p.millis();
-			launch();
+			launchGoodie();
 		}
 	}
 	
-	protected void launch() {
+	public void launchObstacle() {
 		// launch obstacle
-		_nemesis.launch();
 		_obstacles.launch( _nemesis.launchX(), _nemesis.launchY(), _nemesis.lane() );
 		p.sounds.playSound( BlueBearSounds.LAUNCH );
-		
+	}
+	
+	protected void launchGoodie() {
 		// launch a goodie in a different lane
 		int goodieLane = BlueBearScreenPositions.randomLane();
 		while( goodieLane == _nemesis.lane() ) {

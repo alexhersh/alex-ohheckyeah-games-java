@@ -28,20 +28,14 @@ Watch the trailer on [Vimeo](https://vimeo.com/95688462).
 ##### TODO
 
 * Sidewalk people should look at bear
-* Build player detection screen
-* Work out end of game: WIN
-* Work out end of game: LOSE
 * Track game metrics
 * Rebuild clouds layer
 * Refine squirrel beam / obstacle launch animation sequence
 * Build keystone handles into game PGraphics
 * Enable reversed controls (multiply kinect region z value by -1)
-* Replace text with svg-based text bits
 * Sidewalk elements move at different speed than buildings when game is slowing down [bug]
 * Update sky & sidewalk colors per neighborhood - need colors from Legwork
 * Neighborhoods should be read in via directory structure for better reuse down the road
-* There should be a coin in between the first 2 obstacles
-
 
 
 ![OhHeckYeah](https://avatars2.githubusercontent.com/u/6227089?s=140)

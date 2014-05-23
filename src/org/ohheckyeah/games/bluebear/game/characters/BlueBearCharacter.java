@@ -61,10 +61,10 @@ extends BlueBearBasePlayer {
 	}
 	
 	public void setLane( int lane ) {
+		_characterPosition.setTargetY( BlueBearScreenPositions.LANES_Y[lane] );
+		_shadowPosition.setTargetY( BlueBearScreenPositions.LANES_Y[lane] + _bearShadowOffsetY );
+		_laneScale.setTarget(1f + lane * 0.1f);
 		super.setLane( lane );
-		_characterPosition.setTargetY( BlueBearScreenPositions.LANES_Y[_lane] );
-		_shadowPosition.setTargetY( BlueBearScreenPositions.LANES_Y[_lane] + _bearShadowOffsetY );
-		_laneScale.setTarget(1f + _lane * 0.1f);
 	}
 	
 	public void hit() {
