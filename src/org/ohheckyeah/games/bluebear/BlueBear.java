@@ -35,7 +35,6 @@ extends OHYBaseGame
 	protected float _gameOrigHeight = 630.0f;
 
 	// graphics
-	protected int _bgColor;
 	public BlueBearGraphics gameGraphics;
 
 	// audio 
@@ -67,8 +66,6 @@ extends OHYBaseGame
 	public void initGame() {
 		buildCanvas();
 		
-		_bgColor = BlueBearColors.STAGE_BG;
-
 		timeFactor = new TimeFactoredFps( p, 50 );
 				
 		loadMedia();
@@ -274,7 +271,7 @@ extends OHYBaseGame
 		
 		// draw game to off-screen canvas
 		pg.beginDraw();
-		pg.background( _bgColor );
+		pg.background( BlueBearColors.STAGE_BG );
 		pg.noStroke();
 		runGameState();
 		pg.endDraw();
