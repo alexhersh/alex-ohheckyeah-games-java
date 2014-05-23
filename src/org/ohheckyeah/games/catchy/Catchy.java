@@ -1,7 +1,5 @@
 package org.ohheckyeah.games.catchy;
 
-import hypermedia.net.UDP;
-
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -13,22 +11,19 @@ import org.ohheckyeah.games.catchy.game.CatchyGamePlay;
 import org.ohheckyeah.games.catchy.game.CatchyGameTimer;
 import org.ohheckyeah.games.catchy.game.CatchyTracking;
 import org.ohheckyeah.games.catchy.screens.CatchyIntroScreens;
+import org.ohheckyeah.shared.OHYBaseGame;
 
 import processing.core.PApplet;
 
 import com.haxademic.core.app.P;
-import com.haxademic.core.app.PAppletHax;
-import com.haxademic.core.data.ConvertUtil;
-import com.haxademic.core.draw.color.ColorGroup;
 import com.haxademic.core.draw.util.DrawUtil;
 import com.haxademic.core.draw.util.OpenGLUtil;
 import com.haxademic.core.hardware.kinect.KinectRegionGrid;
 import com.haxademic.core.math.easing.EasingFloat;
-import com.haxademic.core.system.FileUtil;
 import com.haxademic.core.system.TimeFactoredFps;
 
 public class Catchy
-extends PAppletHax  
+extends OHYBaseGame  
 {
 	/**
 	 * 
@@ -40,33 +35,13 @@ extends PAppletHax
 	 * @param args
 	 */
 	public static void main(String args[]) {
-		_isFullScreen = true;
+		// _isFullScreen = true;
 		PApplet.main(new String[] { "--hide-stop", "--bgcolor=000000", "org.ohheckyeah.games.catchy.Catchy" });
 	}
 
-	// input
-	public static float KINECT_MIN_DIST = 1500;
-	public static float KINECT_MAX_DIST = 2000;
-	public static int KINECT_TOP = 0;
-	public static int KINECT_BOTTOM = 480;
-
-	// remote kinect
-	protected UDP _udp;
-	protected boolean _remoteDebugging = false;
-	protected String _receiverIp = "";
-	protected int _receiverPort = 0;
-	protected boolean _isRemoteKinect = false;
-	
-	// debug 
-	protected boolean _isDebugging = false;
-	
-	// dimensions
-	protected float _gameOrigHeight = 680.0f;
-	public float gameScaleV = 1;
 	protected int _gameWidth = 0;
 
 	// graphics
-	protected int _bgColor;
 	public CatchyGraphics gameGraphics;
 	protected EasingFloat _dividerYOffset = new EasingFloat(0, 6);
 
@@ -74,25 +49,7 @@ extends PAppletHax
 	public CatchySounds sounds; 
 	
 	// game state
-	protected ColorGroup _gameColors;
-	public static int NUM_PLAYERS = 2;
-	protected KinectRegionGrid _kinectGrid;
 	protected ArrayList<CatchyGamePlay> _gamePlays;
-
-	// game state
-	public enum GameState {
-		GAME_INTRO,
-		GAME_INTRO_OUTRO,
-		GAME_WAITING_FOR_PLAYERS,
-		GAME_PRE_COUNTDOWN,
-		GAME_COUNTDOWN,
-		GAME_PLAYING,
-		GAME_FINISHING,
-		GAME_OVER,
-		GAME_OVER_OUTRO
-	}
-	protected GameState _gameState;
-	protected GameState _gameStateQueued;	// wait until beginning on the next frame to switch states to avoid mid-frame conflicts
 
 	protected CatchyTracking _tracking;
 	protected String _trackingDateStr;
@@ -114,17 +71,14 @@ extends PAppletHax
 	
 	
 	public void setup() {
-		_customPropsFile = FileUtil.getHaxademicDataPath() + "properties/catchy.properties";
-		super.setup();
+		super.setup( "catchy.properties", 680 );
 		initGame();
 	}
 
 	public void initGame() {
 		p.smooth( OpenGLUtil.SMOOTH_MEDIUM );
-		_bgColor = CatchyColors.STAGE_BG;
 
 		timeFactor = new TimeFactoredFps( p, 50 );
-		gameScaleV = p.height / _gameOrigHeight;
 				
 		loadMedia();
 		
@@ -132,33 +86,12 @@ extends PAppletHax
 		_gameMessages = new CatchyGameMessages();
 		
 		// set flags and props	
-		setKinectProperties();
 		buildGameplays();
 		buildGameTimer();
 		setInitialGameState();
 		_tracking = new CatchyTracking();
 	}
 	
-	protected void setKinectProperties() {
-		// default kinect camera distance is for up-close indoor testing. not good for real games - suggested use is 2300-3300
-		// default pixel rows are the center 200 kinect data rows
-		KINECT_MIN_DIST = _appConfig.getInt( "kinect_min_mm", 1500 );
-		KINECT_MAX_DIST = _appConfig.getInt( "kinect_max_mm", 2000 );
-		KINECT_TOP = _appConfig.getInt( "kinect_top_pixel", 240 );
-		KINECT_BOTTOM = _appConfig.getInt( "kinect_bottom_pixel", 400 );
-		NUM_PLAYERS = _appConfig.getInt( "num_players", 2 );
-		
-		_remoteDebugging = _appConfig.getBoolean( "kinect_remote_debug", false );
-		_receiverIp = _appConfig.getString( "kinect_remote_receiver_ip", "" );
-		_receiverPort = _appConfig.getInt( "kinect_remote_receiver_port", 0 );
-		_isRemoteKinect = _appConfig.getBoolean("kinect_remote_active", false);
-		if( _isRemoteKinect == true ) initRemoteKinect();
-	}
-	
-	public float scaleV( float input ) {
-		return input * gameScaleV;
-	}
-		
 	protected void buildGameTimer() {
 		gameTimer = new CatchyGameTimer( _appConfig.getInt( "game_seconds", 30 ) );
 		gameTimer.startTimer();
@@ -191,32 +124,9 @@ extends PAppletHax
 			}
 		}
 	}
-	
-	protected void initRemoteKinect() {
-		_udp = new UDP( this, _receiverPort );
-		_udp.log( _remoteDebugging );
-		_udp.listen( true );	
-	}
-	
-	public void receive( byte[] data, String ip, int port ) {
-		String message = new String( data );
-		if( _remoteDebugging == true ) P.println( "received: \""+message+"\" from "+ip+" on port "+port );
 		
-		String[] remoteKinectPlayersData = message.split("~");
-		for( int i=0; i < remoteKinectPlayersData.length; i++ ) {
-			// P.println("PLAYER "+i+" = "+remoteKinectPlayersData[i]);
-			String[] kinectPlayerData = remoteKinectPlayersData[i].split(":");
-			_kinectGrid.getRegion(i).controlX( ConvertUtil.stringToFloat( kinectPlayerData[0].trim() ) );
-			_kinectGrid.getRegion(i).controlZ( ConvertUtil.stringToFloat( kinectPlayerData[1].trim() ) );
-			_kinectGrid.getRegion(i).pixelCount( ConvertUtil.stringToInt( kinectPlayerData[2].trim() ) );
-		}
-	}
-
-	
 	// PUBLIC ACCESSORS FOR GAME OBJECTS --------------------------------------------------------------------------------------
 	public int gameWidth() { return _gameWidth; }
-	public GameState gameState() { return _gameState; }
-	public ColorGroup gameColors() { return _gameColors; }
 	public boolean isDebugging() { return _isDebugging; }
 	
 	public boolean isLastGameplay( CatchyGamePlay gameplay ) {
@@ -239,7 +149,7 @@ extends PAppletHax
 	
 	public void setGameState( GameState state ) {
 		_gameStateQueued = state;
-		P.println("GameState: ",_gameStateQueued);
+		// P.println("GameState: ",_gameStateQueued);
 	}
 	
 	protected void swapGameState() {
@@ -467,7 +377,7 @@ extends PAppletHax
 	// FRAME LOOP --------------------------------------------------------------------------------------
 	
 	public void drawApp() {
-		p.background(_bgColor);
+		p.background( CatchyColors.STAGE_BG );
 
 		// update timing
 		timeFactor.update();

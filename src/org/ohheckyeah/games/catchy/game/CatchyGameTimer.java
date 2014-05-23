@@ -1,8 +1,8 @@
 package org.ohheckyeah.games.catchy.game;
 
 import org.ohheckyeah.games.catchy.Catchy;
-import org.ohheckyeah.games.catchy.Catchy.GameState;
 import org.ohheckyeah.games.catchy.assets.CatchyColors;
+import org.ohheckyeah.shared.OHYBaseGame.GameState;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.draw.text.CustomFontText2D;

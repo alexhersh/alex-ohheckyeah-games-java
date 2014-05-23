@@ -1,8 +1,8 @@
 package org.ohheckyeah.games.catchy.screens;
 
 import org.ohheckyeah.games.catchy.Catchy;
-import org.ohheckyeah.games.catchy.Catchy.GameState;
 import org.ohheckyeah.games.catchy.assets.CatchyColors;
+import org.ohheckyeah.shared.OHYBaseGame.GameState;
 
 import processing.core.PGraphics;
 
