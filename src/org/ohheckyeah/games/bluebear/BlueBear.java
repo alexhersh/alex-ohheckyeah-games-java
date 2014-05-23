@@ -76,7 +76,6 @@ extends OHYBaseGame
 		_introScreens = new BlueBearIntroScreens( _appConfig.getString( "sponsor_images", null ) );
 		
 		// set flags and props	
-		setKinectProperties();
 		buildGameplay();
 		setInitialGameState();
 		_tracking = new BlueBearTracking();

@@ -61,6 +61,7 @@ extends PAppletHax {
 		_customPropsFile = FileUtil.getHaxademicDataPath() + "properties/" + propertiesFile;
 		super.setup();
 		gameScaleV = p.height / gameOriginalHeight;
+		setKinectProperties();
 	}
 	
 	// Getters ---------------------------------------------------------------------------------------------------------
