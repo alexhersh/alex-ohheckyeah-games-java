@@ -1,4 +1,4 @@
-package org.ohheckyeah.games.bluebear.game.text;
+package org.ohheckyeah.shared;
 
 import org.ohheckyeah.games.bluebear.BlueBear;
 import org.ohheckyeah.games.bluebear.assets.BlueBearColors;
@@ -10,12 +10,12 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.draw.text.CustomFontText2D;
 import com.haxademic.core.draw.util.DrawUtil;
 
-public class BlueBearTextMessage {
+public class OHYTextMessage {
 		
 	protected PGraphics pg;
 	protected BlueBear p;
 
-	public BlueBearTextMessage( String text, float fontSize, float baseWidth, float baseHeight, float lineWidth ) {
+	public OHYTextMessage( String text, float fontSize, float baseWidth, float baseHeight, float lineWidth ) {
 		p = (BlueBear) P.p;
 		
 		// build text 

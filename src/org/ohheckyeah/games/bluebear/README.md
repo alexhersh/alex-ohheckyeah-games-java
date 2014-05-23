@@ -8,7 +8,7 @@ Big Blue's Hood Slam is a 2-player Kinect-based video game, and part of the inag
 
 Watch the trailer on [Vimeo](https://vimeo.com/95688462).
 
-##### Running Catchy (from OS X)
+##### Running Big Blue's Hood Slam (from OS X)
 
 
 * Make sure the machine is set to 1024 x 768

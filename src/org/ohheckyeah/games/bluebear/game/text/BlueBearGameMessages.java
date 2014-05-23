@@ -18,9 +18,6 @@ public class BlueBearGameMessages {
 	protected float _messageYShowing = 0;
 	protected float _messageYShowingCenter = 0;
 	protected float _messageYShowingLower = 0;
-		
-	protected BlueBearTextMessage _countdownText;
-	protected BlueBearTextMessage _winnerText;
 	
 	protected ElasticFloat _messageWaitingY = new ElasticFloat(_messageYHidden, 0.71f, 0.16f);
 	protected ElasticFloat _messageCountdownY = new ElasticFloat(_messageYHidden, 0.71f, 0.16f);

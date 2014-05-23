@@ -3,7 +3,7 @@ package org.ohheckyeah.games.bluebear.screens;
 import java.util.ArrayList;
 
 import org.ohheckyeah.games.bluebear.BlueBear;
-import org.ohheckyeah.games.bluebear.game.text.BlueBearTextMessage;
+import org.ohheckyeah.shared.OHYTextMessage;
 
 import processing.core.PGraphics;
 
@@ -16,7 +16,7 @@ public class BlueBearHugItOutScreen {
 	protected BlueBear p;
 	public PGraphics pg;
 	
-	protected ArrayList<BlueBearTextMessage> _messages;
+	protected ArrayList<OHYTextMessage> _messages;
 	protected int _messagesIndex = 0;
 	
 	public BlueBearHugItOutScreen() {
@@ -46,12 +46,12 @@ public class BlueBearHugItOutScreen {
 	
 	protected void drawMessage() {
 		if( _messages == null ) {
-			_messages = new ArrayList<BlueBearTextMessage>();
-			_messages.add( new BlueBearTextMessage( "#OhHeckYeah", 60, 450, 90, 410 ) );
-			_messages.add( new BlueBearTextMessage( "now hug it out", 60, 450, 90, 410 ) );
-			_messages.add( new BlueBearTextMessage( "how about a high five?", 60, 1050, 90, 1050 ) );
-			_messages.add( new BlueBearTextMessage( "meet someone new today!", 60, 850, 90, 850 ) );
-			_messages.add( new BlueBearTextMessage( "nice match!", 60, 850, 90, 850 ) );
+			_messages = new ArrayList<OHYTextMessage>();
+			_messages.add( new OHYTextMessage( "#OhHeckYeah", 60, 450, 90, 410 ) );
+			_messages.add( new OHYTextMessage( "now hug it out", 60, 450, 90, 410 ) );
+			_messages.add( new OHYTextMessage( "how about a high five?", 60, 1050, 90, 1050 ) );
+			_messages.add( new OHYTextMessage( "meet someone new today!", 60, 850, 90, 850 ) );
+			_messages.add( new OHYTextMessage( "nice match!", 60, 850, 90, 850 ) );
 		}
 		pg.pushMatrix();
 		pg.translate( pg.width/2, pg.height * 0.4f );

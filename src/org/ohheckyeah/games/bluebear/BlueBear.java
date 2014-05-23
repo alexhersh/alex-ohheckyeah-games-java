@@ -18,7 +18,6 @@ import processing.core.PShape;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.data.ConvertUtil;
-import com.haxademic.core.draw.color.ColorGroup;
 import com.haxademic.core.draw.util.DrawUtil;
 import com.haxademic.core.draw.util.OpenGLUtil;
 import com.haxademic.core.hardware.kinect.KinectRegionGrid;
@@ -68,7 +67,6 @@ extends PAppletHax
 	public BlueBearSounds sounds; 
 	
 	// game state
-	protected ColorGroup _gameColors;
 	public static int NUM_PLAYERS = 2;
 	protected KinectRegionGrid _kinectGrid;
 
@@ -256,9 +254,7 @@ extends PAppletHax
 	}
 
 	protected void runGameStateIntro() {
-//		if( _gameState == GameState.GAME_INTRO_OUTRO ) {
-			updateGameplay();
-//		}
+		updateGameplay();
 		_introScreens.update();
 		DrawUtil.setDrawCorner(pg);
 		pg.image( _introScreens.pg, 0, 0, _introScreens.pg.width, _introScreens.pg.height );
