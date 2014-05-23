@@ -1,6 +1,9 @@
 package org.ohheckyeah.shared;
 
 import hypermedia.net.UDP;
+
+import org.ohheckyeah.shared.assets.OHYGraphics;
+
 import processing.core.PGraphics;
 import processing.core.PShape;
 
@@ -54,6 +57,9 @@ extends PAppletHax {
 	protected GameState _gameState;
 	protected GameState _gameStateQueued;	// wait until beginning on the next frame to switch states to avoid mid-frame conflicts
 
+	// media
+	public OHYGraphics ohyGraphics;
+
 	
 	// shared setup methods --------------------------------------------------------------------------------------------
 	
@@ -61,6 +67,7 @@ extends PAppletHax {
 		_customPropsFile = FileUtil.getHaxademicDataPath() + "properties/" + propertiesFile;
 		super.setup();
 		gameScaleV = p.height / gameOriginalHeight;
+		ohyGraphics = new OHYGraphics();
 		setKinectProperties();
 	}
 	

@@ -3,6 +3,7 @@ package org.ohheckyeah.games.catchy.screens;
 import org.ohheckyeah.games.catchy.Catchy;
 import org.ohheckyeah.games.catchy.assets.CatchyColors;
 import org.ohheckyeah.shared.OHYBaseGame.GameState;
+import org.ohheckyeah.shared.OHYHugItOutScreen;
 
 import processing.core.PGraphics;
 
@@ -22,7 +23,7 @@ public class CatchyIntroScreens {
 	
 	protected CatchyTitleScreen _logoScreen;
 	protected CatchyCreditsScreen _creditsScreen;
-	protected CatchyHugItOutScreen _hugItOutScreen;
+	protected OHYHugItOutScreen _hugItOutScreen;
 	
 	public enum Screen {
 	    HUG_IT_OUT, TITLE, CREDITS, DONE 
@@ -45,7 +46,7 @@ public class CatchyIntroScreens {
 		// build sub-screens
 		_logoScreen = new CatchyTitleScreen();
 		_creditsScreen = new CatchyCreditsScreen( sponsorsImagePath );
-		_hugItOutScreen = new CatchyHugItOutScreen();
+		_hugItOutScreen = new OHYHugItOutScreen();
 		
 		reset();
 	}

@@ -2,6 +2,7 @@ package org.ohheckyeah.games.bluebear.screens;
 
 import org.ohheckyeah.games.bluebear.BlueBear;
 import org.ohheckyeah.games.bluebear.assets.BlueBearColors;
+import org.ohheckyeah.shared.OHYHugItOutScreen;
 import org.ohheckyeah.shared.OHYBaseGame.GameState;
 
 import processing.core.PGraphics;
@@ -22,7 +23,7 @@ public class BlueBearIntroScreens {
 	
 	protected BlueBearTitleScreen _logoScreen;
 	protected BlueBearCreditsScreen _creditsScreen;
-	protected BlueBearHugItOutScreen _hugItOutScreen;
+	protected OHYHugItOutScreen _hugItOutScreen;
 	
 	public enum Screen {
 	    HUG_IT_OUT, TITLE, CREDITS, DONE 
@@ -45,7 +46,7 @@ public class BlueBearIntroScreens {
 		// build sub-screens
 		_logoScreen = new BlueBearTitleScreen();
 		_creditsScreen = new BlueBearCreditsScreen( sponsorsImagePath );
-		_hugItOutScreen = new BlueBearHugItOutScreen();
+		_hugItOutScreen = new OHYHugItOutScreen();
 		
 		reset();
 	}

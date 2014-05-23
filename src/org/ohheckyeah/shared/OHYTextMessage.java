@@ -1,7 +1,6 @@
 package org.ohheckyeah.shared;
 
-import org.ohheckyeah.games.bluebear.BlueBear;
-import org.ohheckyeah.games.bluebear.assets.BlueBearColors;
+import org.ohheckyeah.shared.assets.OHYColors;
 
 import processing.core.PGraphics;
 import processing.core.PImage;
@@ -13,13 +12,13 @@ import com.haxademic.core.draw.util.DrawUtil;
 public class OHYTextMessage {
 		
 	protected PGraphics pg;
-	protected BlueBear p;
+	protected OHYBaseGame p;
 
 	public OHYTextMessage( String text, float fontSize, float baseWidth, float baseHeight, float lineWidth ) {
-		p = (BlueBear) P.p;
+		p = (OHYBaseGame) P.p;
 		
 		// build text 
-		CustomFontText2D messageFontRenderer = new CustomFontText2D( p, p.gameGraphics.font, p.scaleV(fontSize), BlueBearColors.MAIN_TEXT_COLOR, CustomFontText2D.ALIGN_CENTER, (int) p.scaleV(baseWidth), (int)p.scaleV(fontSize * 2) );
+		CustomFontText2D messageFontRenderer = new CustomFontText2D( p, p.ohyGraphics.font, p.scaleV(fontSize), OHYColors.MAIN_TEXT_COLOR, CustomFontText2D.ALIGN_CENTER, (int) p.scaleV(baseWidth), (int)p.scaleV(fontSize * 2) );
 		messageFontRenderer.updateText( text );
 
 		pg = p.createGraphics( (int) p.scaleV(baseWidth), (int) p.scaleV(baseHeight), P.OPENGL );
