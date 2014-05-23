@@ -1,8 +1,8 @@
 package org.ohheckyeah.games.bluebear.game.characters;
 
-import org.ohheckyeah.games.bluebear.BlueBear.GameState;
 import org.ohheckyeah.games.bluebear.game.BlueBearGamePlay;
 import org.ohheckyeah.games.bluebear.game.BlueBearScreenPositions;
+import org.ohheckyeah.shared.OHYBaseGame.GameState;
 
 import processing.core.PShape;
 

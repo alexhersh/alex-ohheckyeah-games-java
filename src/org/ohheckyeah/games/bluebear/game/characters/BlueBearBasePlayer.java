@@ -1,9 +1,9 @@
 package org.ohheckyeah.games.bluebear.game.characters;
 
 import org.ohheckyeah.games.bluebear.BlueBear;
-import org.ohheckyeah.games.bluebear.BlueBear.GameState;
 import org.ohheckyeah.games.bluebear.assets.BlueBearSounds;
 import org.ohheckyeah.games.bluebear.game.characters.BlueBearPlayerControls.PlayerDetectedState;
+import org.ohheckyeah.shared.OHYBaseGame.GameState;
 
 import processing.core.PGraphics;
 import processing.core.PShape;

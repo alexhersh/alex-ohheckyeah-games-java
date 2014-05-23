@@ -2,8 +2,8 @@ package org.ohheckyeah.games.bluebear.game.characters;
 
 import java.util.ArrayList;
 
-import org.ohheckyeah.games.bluebear.BlueBear.GameState;
 import org.ohheckyeah.games.bluebear.game.BlueBearScreenPositions;
+import org.ohheckyeah.shared.OHYBaseGame.GameState;
 
 import processing.core.PImage;
 import processing.core.PShape;

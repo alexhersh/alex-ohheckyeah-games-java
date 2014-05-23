@@ -3,7 +3,7 @@ package org.ohheckyeah.games.bluebear.game.streetstuff;
 import java.util.ArrayList;
 
 import org.ohheckyeah.games.bluebear.BlueBear;
-import org.ohheckyeah.games.bluebear.BlueBear.GameState;
+import org.ohheckyeah.shared.OHYBaseGame.GameState;
 
 import processing.core.PGraphics;
 import processing.core.PShape;

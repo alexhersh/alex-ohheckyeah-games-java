@@ -1,7 +1,6 @@
 package org.ohheckyeah.games.bluebear.game;
 
 import org.ohheckyeah.games.bluebear.BlueBear;
-import org.ohheckyeah.games.bluebear.BlueBear.GameState;
 import org.ohheckyeah.games.bluebear.assets.BlueBearColors;
 import org.ohheckyeah.games.bluebear.assets.BlueBearSounds;
 import org.ohheckyeah.games.bluebear.assets.neighborhoods.BlueBearNeighborhood;
@@ -28,6 +27,7 @@ import org.ohheckyeah.games.bluebear.game.streetstuff.BlueBearStreetItem;
 import org.ohheckyeah.games.bluebear.game.streetstuff.BlueBearStreetItems;
 import org.ohheckyeah.games.bluebear.game.text.BlueBearCountdownDisplay;
 import org.ohheckyeah.games.bluebear.game.text.BlueBearGameMessages;
+import org.ohheckyeah.shared.OHYBaseGame.GameState;
 
 import processing.core.PGraphics;
 
