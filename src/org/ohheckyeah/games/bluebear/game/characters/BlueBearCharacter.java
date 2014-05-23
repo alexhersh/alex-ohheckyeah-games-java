@@ -24,10 +24,12 @@ extends BlueBearBasePlayer {
 	protected float _explosionOffsetY = 2;
 	protected final int HURT_LENGTH = 400;
 	protected int _hurtTime = 0;
-	protected boolean _didWin = false;
 	protected float _winWalkSpeed = 5;
 	protected float _winWalkProgress = 0;
+	protected boolean _didWin = false;
 	protected boolean _winJump = false;
+	protected boolean _didLose = false;
+	protected boolean _loseSad = false;
 
 	public BlueBearCharacter( BlueBearPlayerControls playerControls ) {
 		super( playerControls, 0.3f, 0 );
@@ -57,6 +59,7 @@ extends BlueBearBasePlayer {
 		_frameIndex = 0;
 		_curFrame = _frames[P.floor(_frameIndex)];
 		_didWin = false;
+		_didLose = false;
 		_winWalkProgress = 0;
 	}
 	
@@ -89,6 +92,7 @@ extends BlueBearBasePlayer {
 	public void prepareForGameplay() {
 		super.prepareForGameplay();
 		_winJump = false;
+		_loseSad = false;
 	}
 	
 	protected void updateGameplay(float speed) {
@@ -107,19 +111,22 @@ extends BlueBearBasePlayer {
 					characterX += _winWalkProgress; 
 				}
 			} else {
-				characterX = pg.width * 0.5f;
+				if( _loseSad == true ) {
+					characterX = pg.width * 0.5f;
+				} else {
+					// leave x as-is
+				}
 			}
 		}
 		
-		if( _winJump == true || p.gameState() == GameState.GAME_OVER || p.gameState() == GameState.GAME_OVER_OUTRO || p.gameState() == GameState.GAME_INTRO ) {
-			if( _didWin == true ) {
-				if( _winJump == true ) _characterPosition.setTargetY( pg.height * 0.5f + p.svgHeight(p.gameGraphics.blueBearWin ) * 0.5f );
-			} else {
-				if( p.gameState() == GameState.GAME_OVER )
-					_characterPosition.setTargetY( pg.height * 0.4f + p.svgHeight(p.gameGraphics.blueBearLose ) * 0.5f );
-				else if( p.gameState() == GameState.GAME_OVER_OUTRO )
-					_characterPosition.setTargetY( pg.height * 2.2f );
-			}
+		if( _winJump == true ) { // || p.gameState() == GameState.GAME_OVER || p.gameState() == GameState.GAME_OVER_OUTRO || p.gameState() == GameState.GAME_INTRO ) {
+			_characterPosition.setTargetY( pg.height * 0.5f + p.svgHeight(p.gameGraphics.blueBearWin ) * 0.5f );
+		}
+		if( _loseSad == true ) {
+			if( p.gameState() == GameState.GAME_OVER )
+				_characterPosition.setTargetY( pg.height * 0.4f + p.svgHeight(p.gameGraphics.blueBearLose ) * 0.5f );
+			else if( p.gameState() == GameState.GAME_OVER_OUTRO )
+				_characterPosition.setTargetY( pg.height * 2.2f );
 		}
 
 		_characterW = p.scaleV(_curFrame.width * _scale) * _laneScale.value();
@@ -138,7 +145,7 @@ extends BlueBearBasePlayer {
 			characterX = pg.width * 0.5f;
 			pg.shape( p.gameGraphics.bearShadow, _shadowPosition.x(), _shadowPosition.y(), p.scaleV(p.gameGraphics.bearShadow.width) * _laneScale.value(), p.scaleV(p.gameGraphics.bearShadow.height) * _laneScale.value() );
 			pg.shape( p.gameGraphics.blueBearWin, _characterPosition.x(), characterY, p.scaleV(p.gameGraphics.blueBearWin.width) * _laneScale.value(), p.scaleV(p.gameGraphics.blueBearWin.height) * _laneScale.value() );
-		} else if( _didWin == false && ( p.gameState() == GameState.GAME_OVER || p.gameState() == GameState.GAME_OVER_OUTRO || p.gameState() == GameState.GAME_INTRO ) ) {
+		} else if( _loseSad == true ) {
 			characterX = pg.width * 0.5f;
 			pg.shape( p.gameGraphics.blueBearLose, _characterPosition.x(), characterY, p.scaleV(p.gameGraphics.blueBearLose.width), p.scaleV(p.gameGraphics.blueBearLose.height) );
 		} else {
@@ -146,7 +153,7 @@ extends BlueBearBasePlayer {
 			pg.translate(0, 0, _lane);
 			pg.shape( p.gameGraphics.bearShadow, _shadowPosition.x(), _shadowPosition.y(), p.scaleV(p.gameGraphics.bearShadow.width) * _laneScale.value(), p.scaleV(p.gameGraphics.bearShadow.height) * _laneScale.value() );
 			pg.image( _curFrame, _characterPosition.x(), characterY, _characterW, _characterH );
-			showExplosion();
+			if( p.gameState() == GameState.GAME_PLAYING ) showExplosion();
 			pg.popMatrix();
 		}
 	}
@@ -182,7 +189,12 @@ extends BlueBearBasePlayer {
 	}
 	
 	public void lose() {
-		
+		_didLose = true;
+		_hurtTime = p.millis() + 4000;
+	}
+	
+	public void loseSad() {
+		_loseSad = true;
 	}
 	
 	protected void showExplosion() {

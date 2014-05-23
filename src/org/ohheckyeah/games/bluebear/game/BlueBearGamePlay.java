@@ -53,7 +53,8 @@ public class BlueBearGamePlay {
 	protected boolean _countdownShowing = false;
 	protected int _gameStartTime = 0;
 	protected int _neighborhoodTime = 15 * 1000;
-	protected float _endTime = 0;
+	protected float _winTime = 0;
+	protected float _loseTime = 0;
 	protected int GAME_OVER_WIN_TIME = 7500;
 	protected int GAME_OVER_LOSE_TIME = 5000;
 	
@@ -372,23 +373,29 @@ public class BlueBearGamePlay {
 		_bear.win();
 		_winScreen.startEnd();
 		p.sounds.playWin();
-		_endTime = p.millis();
+		_winTime = p.millis();
 	}
 	
 	protected void checkStopSpeed() {
-		if( _endTime != 0 && p.millis() > _endTime + 1500 ) {
+		if( _winTime != 0 && p.millis() > _winTime + 1500 ) {
 			_bear.winJump();
 			_scrollSpeed.setTarget(0);
 			_gameMessages.showWin();
-			_endTime = 0;
+			_winTime = 0;
+		}
+		if( _loseTime != 0 && p.millis() > _loseTime + 2000 ) {
+			_bear.loseSad();
+			_loseScreen.showLoseScreen();
+			_gameMessages.showLose();
+			p.sounds.playLose();
+			_loseTime = 0;
 		}
 	}
 	
 	protected void showLoseSequence() {
+		_bear.lose();
+		_loseTime = p.millis();
 		_scrollSpeed.setTarget(0);
-		_loseScreen.showLoseScreen();
-		_gameMessages.showLose();
-		p.sounds.playLose();
 	}
 	
 	// draw graphics ------------------------------------------------------------------
