@@ -47,9 +47,11 @@ public class BlueBearHugItOutScreen {
 	protected void drawMessage() {
 		if( _messages == null ) {
 			_messages = new ArrayList<BlueBearTextMessage>();
+			_messages.add( new BlueBearTextMessage( "#OhHeckYeah", 60, 450, 90, 410 ) );
 			_messages.add( new BlueBearTextMessage( "now hug it out", 60, 450, 90, 410 ) );
-			_messages.add( new BlueBearTextMessage( "how about a high five for your opponent?", 60, 1050, 90, 1050 ) );
-			_messages.add( new BlueBearTextMessage( "try meeting someone new tonight!", 60, 850, 90, 850 ) );
+			_messages.add( new BlueBearTextMessage( "how about a high five?", 60, 1050, 90, 1050 ) );
+			_messages.add( new BlueBearTextMessage( "meet someone new today!", 60, 850, 90, 850 ) );
+			_messages.add( new BlueBearTextMessage( "nice match!", 60, 850, 90, 850 ) );
 		}
 		pg.pushMatrix();
 		pg.translate( pg.width/2, pg.height * 0.4f );
