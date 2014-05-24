@@ -33,7 +33,6 @@ public class OHYTextMessage {
 		pg.rect( centerX, pg.height - p.scaleV(10)/2f, p.scaleV(lineWidth), p.scaleV(10) );
 
 		pg.endDraw();
-
 	}
 
 	public PImage image() {
