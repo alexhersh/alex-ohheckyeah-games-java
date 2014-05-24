@@ -57,6 +57,13 @@ extends PAppletHax {
 	protected GameState _gameState;
 	protected GameState _gameStateQueued;	// wait until beginning on the next frame to switch states to avoid mid-frame conflicts
 
+	public enum PlayerDetectedState {
+		PLAYER_WAITING,
+		PLAYER_LOST,
+		PLAYER_DETECTED,
+		PLAYER_LOCKED
+	}
+
 	// media
 	public OHYGraphics ohyGraphics;
 

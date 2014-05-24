@@ -1,6 +1,7 @@
 package org.ohheckyeah.games.bluebear.game.characters;
 
 import org.ohheckyeah.games.bluebear.BlueBear;
+import org.ohheckyeah.shared.OHYBaseGame.PlayerDetectedState;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.hardware.kinect.KinectRegion;
@@ -22,13 +23,6 @@ public class BlueBearPlayerControls {
 	public final static int LANE_BOTTOM = 2;
 	protected int _lane = 0;
 	
-	public enum PlayerDetectedState {
-		PLAYER_WAITING,
-		PLAYER_LOST,
-		PLAYER_DETECTED,
-		PLAYER_LOCKED
-	}
-
 	public BlueBearPlayerControls( KinectRegion kinectRegion, boolean isRemoteKinect ) {
 		p = (BlueBear) P.p;
 		_kinectRegion = kinectRegion;
