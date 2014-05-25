@@ -8,7 +8,8 @@ import com.haxademic.core.system.FileUtil;
 public class TinkerBotGraphics {
 
 
-	public PShape waitingSpinner, scoreBg;
+	public PShape waitingSpinner;
+	public PShape scoreBg;
 	public PShape[] scores;
 	public PShape[] countdownNumbers;
 	public PShape roadTile, squirrel, squirrelShadow, bearShadow;
@@ -26,8 +27,9 @@ public class TinkerBotGraphics {
 		tinkerBotLogo = P.p.loadShape( FileUtil.getHaxademicDataPath() + "games/tinkerbot/svg/shell/tinker-bot-logo.svg" );
 
 		// shell
-		gameplayBackground = P.p.loadShape( FileUtil.getHaxademicDataPath() + "games/tinkerbot/svg/shell/gameplay-background.svg" );
+		waitingSpinner = P.p.loadShape( FileUtil.getHaxademicDataPath() + "games/tinkerbot/svg/shell/waiting-gear.svg" );
 		gameplayBackgroundWaiting = P.p.loadShape( FileUtil.getHaxademicDataPath() + "games/tinkerbot/svg/shell/gameplay-background-waiting.svg" );
+		gameplayBackground = P.p.loadShape( FileUtil.getHaxademicDataPath() + "games/tinkerbot/svg/shell/gameplay-background.svg" );
 		scoreBg = P.p.loadShape( FileUtil.getHaxademicDataPath() + "games/bluebear/svg/shell/bg-score.svg" );
 		win = P.p.loadShape( FileUtil.getHaxademicDataPath() + "games/bluebear/svg/scene/bear-win.svg" );
 		

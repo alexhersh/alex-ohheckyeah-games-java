@@ -1,6 +1,8 @@
 package org.ohheckyeah.games.tinkerbot.game;
 
 import org.ohheckyeah.games.tinkerbot.TinkerBot;
+import org.ohheckyeah.games.tinkerbot.screens.TinkerBotPlayerDetectionScreen;
+import org.ohheckyeah.shared.OHYBaseGame;
 import org.ohheckyeah.shared.OHYBaseGame.GameState;
 
 import processing.core.PGraphics;
@@ -23,8 +25,9 @@ public class TinkerBotGamePlay {
 	protected boolean _countdownShowing = false;
 	protected int _gameStartTime = 0;
 	
-	protected TinkerBotPlayerDetectionBg _playerDetectBackground;
+	protected TinkerBotPlayerDetectionScreen _playerDetectBackground;
 	protected TinkerBotBackground _backgroundColor;
+	protected TinkerBotPlayer[] _players;
 	protected TinkerBotScoreDisplay _scoreDisplay;
 	protected TinkerBotGameMessages _gameMessages;
 
@@ -45,7 +48,10 @@ public class TinkerBotGamePlay {
 	
 	protected void buildGraphicsLayers() {
 		_backgroundColor = new TinkerBotBackground();
-		_playerDetectBackground = new TinkerBotPlayerDetectionBg();
+		_playerDetectBackground = new TinkerBotPlayerDetectionScreen();
+		float playerSpacing = 1f / ( OHYBaseGame.NUM_PLAYERS + 1 ); // +2 from last index for spacing on the sides
+		_players = new TinkerBotPlayer[OHYBaseGame.NUM_PLAYERS];
+		for( int i=0; i < OHYBaseGame.NUM_PLAYERS; i++ ) _players[i] = new TinkerBotPlayer(_kinectGrid.getRegion(i), _isRemoteKinect, (float) (i+1) * playerSpacing );
 		_scoreDisplay = new TinkerBotScoreDisplay();
 		_gameMessages = new TinkerBotGameMessages();
 	}
@@ -77,6 +83,7 @@ public class TinkerBotGamePlay {
 	public void playersLockedIn() {
 		_gameIsActive = true;
 		_playerDetectBackground.hide();
+		for( TinkerBotPlayer player: _players ) player.prepareForGameplay();
 		_gameMessages.hideWaiting();
 		_gameMessages.showCountdown();
 	}
@@ -103,6 +110,7 @@ public class TinkerBotGamePlay {
 	
 	public void animateToPlayerDetection() {
 		_gameMessages.showWaiting();
+		for( TinkerBotPlayer player: _players ) player.startDetection();
 	}
 	
 	public void update() {
@@ -120,12 +128,10 @@ public class TinkerBotGamePlay {
 	public void detectPlayers() {
 		boolean hasPlayers = true;
 		for( int i=0; i < TinkerBot.NUM_PLAYERS; i++ ) {
-			if( _kinectGrid.getRegion(i).pixelCount() < 10 ) hasPlayers = false;
+			if( _players[i].detectedPlayer() == false ) hasPlayers = false;
 		}
 		if( hasPlayers == true ) {
-			if( _playersDetectedTime == 0 ) {
-				_playersDetectedTime = p.millis();
-			}
+			if( _playersDetectedTime == 0 ) _playersDetectedTime = p.millis();
 			if( p.millis() > _playersDetectedTime + 2000 ) {
 				_playersDetectedTime = 0;
 				p.setGameState( GameState.GAME_PRE_COUNTDOWN );
@@ -140,28 +146,13 @@ public class TinkerBotGamePlay {
 			_gameplayStarted = true;
 		}
 	}
-	
-	
-//	protected void checkLaunch() {
-//		if( _launchTime != 0 && p.millis() > _launchTime + LAUNCH_TIME ) {
-//			_launchTime = p.millis();
-//			launchGoodie();
-//		}
-//	}
-	
+		
 	// draw graphics ------------------------------------------------------------------
 	protected void drawGraphicsLayers() {
 		_backgroundColor.update();
 		_scoreDisplay.update();
 		_playerDetectBackground.update();
-		
-		// TODO: create player objects to handle kinect grid data
-		P.println( " " );
-		for( int i=0; i < TinkerBot.NUM_PLAYERS; i++ ) {
-			P.print( _kinectGrid.getRegion(i).controlZ(), " " );
-		}
-
-		
+		for( TinkerBotPlayer player: _players ) player.update();
 		_gameMessages.update();
 	}
 	

@@ -1,4 +1,4 @@
-package org.ohheckyeah.games.tinkerbot.game;
+package org.ohheckyeah.games.tinkerbot.screens;
 
 import org.ohheckyeah.games.tinkerbot.TinkerBot;
 
@@ -8,14 +8,14 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.draw.util.DrawUtil;
 import com.haxademic.core.math.easing.EasingFloat;
 
-public class TinkerBotPlayerDetectionBg {
+public class TinkerBotPlayerDetectionScreen {
 	
 	protected TinkerBot p;
 	protected PGraphics pg;
 	
 	protected EasingFloat _backgroundY = new EasingFloat(0, 6);
 
-	public TinkerBotPlayerDetectionBg() {
+	public TinkerBotPlayerDetectionScreen() {
 		p = (TinkerBot)P.p;
 		pg = p.pg;
 	}

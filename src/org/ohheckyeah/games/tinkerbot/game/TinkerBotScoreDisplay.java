@@ -4,7 +4,6 @@ import org.ohheckyeah.games.tinkerbot.TinkerBot;
 import org.ohheckyeah.games.tinkerbot.assets.TinkerBotColors;
 
 import processing.core.PGraphics;
-import processing.core.PShape;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.draw.text.CustomFontText2D;
