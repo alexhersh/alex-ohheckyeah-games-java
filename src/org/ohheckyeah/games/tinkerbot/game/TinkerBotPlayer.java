@@ -11,6 +11,7 @@ import processing.core.PShape;
 import com.haxademic.core.app.P;
 import com.haxademic.core.hardware.kinect.KinectRegion;
 import com.haxademic.core.math.MathUtil;
+import com.haxademic.core.math.easing.EasingFloat;
 
 
 public class TinkerBotPlayer {
@@ -23,8 +24,13 @@ public class TinkerBotPlayer {
 
 	protected TinkerBotWaitingSpinner _waitingSpinner;
 	protected PShape _detectionSvg;
-	protected int _waitingSpinnerX = 0;
+	protected int _playerX = 0;
+	protected EasingFloat _playerY = new EasingFloat(0,2);
 	protected int KINECT_PIXEL_DETECT_THRESH = 10;
+	protected int NUM_POSITIONS = 11;
+	protected int _halfPositions = (NUM_POSITIONS - 1) / 2;
+	protected int _playerYCenter;
+	protected int _playerYInc;
 	protected PlayerDetectedState _playerDetectedState;
 
 	protected boolean _controlsActive = false;
@@ -42,8 +48,10 @@ public class TinkerBotPlayer {
 		_kinectRegion = kinectRegion;
 		_isRemoteKinect = isRemoteKinect;
 
-		_waitingSpinnerX = P.round( pg.width * xPosition );
-		_waitingSpinner = new TinkerBotWaitingSpinner( _waitingSpinnerX );
+		_playerX = P.round( pg.width * xPosition );
+		_waitingSpinner = new TinkerBotWaitingSpinner( _playerX );
+		_playerYCenter = P.round( pg.height * 0.5f );
+		_playerYInc = P.round( pg.height * 0.75f / NUM_POSITIONS );
 	}
 	
 	public boolean detectedPlayer() {
@@ -136,19 +144,26 @@ public class TinkerBotPlayer {
 	
 	public void updateControls() {
 		if( p.kinectWrapper != null || _isRemoteKinect == true ) {
-			_position = P.round( 10f * MathUtil.getPercentWithinRange( -0.5f, 0.5f, _kinectRegion.controlZ() ) );
+			// _position = P.round( NUM_POSITIONS * MathUtil.getPercentWithinRange( -0.5f, 0.5f, _kinectRegion.controlZ() ) );
+			_position = P.round( _kinectRegion.controlZ() * 10 );
+			_playerY.setTarget( _playerYCenter + p.scaleV( _position * _playerYInc ) );
 		} else {
 			if( _isRemoteKinect == false ) {
 				// fake test controls
 				if( p.millis() > _autoControlTime + 2500 ) {
 					_autoControlTime = p.millis();
-					_position = MathUtil.randRange(0, 2);
+					_position = MathUtil.randRange(-_halfPositions, _halfPositions);
+					_playerY.setTarget( _playerYCenter + p.scaleV( _position * _playerYInc ) );
 				}
 			}
 		}
 	}
 	
 	protected void updateGameplay() {
-		
+		_playerY.update();
+		pg.pushMatrix();
+		pg.translate(_playerX, _playerY.value() );
+		pg.rect(0, 0, 60f, 30f);
+		pg.popMatrix();
 	}
 }
