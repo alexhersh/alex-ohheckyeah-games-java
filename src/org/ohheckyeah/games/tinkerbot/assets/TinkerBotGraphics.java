@@ -12,8 +12,7 @@ public class TinkerBotGraphics {
 	public PShape scoreBg;
 	public PShape[] scores;
 	public PShape[] countdownNumbers;
-	public PShape roadTile, squirrel, squirrelShadow, bearShadow;
-	public PShape explosionSmall, explosionLarge;
+	public PShape playerBar;
 	public PShape tinkerBotLogo;
 	public PShape gameplayBackground, gameplayBackgroundWaiting;
 	public PShape win;
@@ -41,6 +40,7 @@ public class TinkerBotGraphics {
 		textWin = P.p.loadShape( FileUtil.getHaxademicDataPath() + "games/bluebear/svg/shell/text-you-did-it.svg" );
 		
 		// scene
+		playerBar = P.p.loadShape( FileUtil.getHaxademicDataPath() + "games/tinkerbot/svg/scene/player-bar.svg" );
 	}
 
 }

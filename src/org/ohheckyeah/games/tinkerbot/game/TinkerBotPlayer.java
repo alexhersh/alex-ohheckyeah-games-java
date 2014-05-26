@@ -9,6 +9,7 @@ import processing.core.PGraphics;
 import processing.core.PShape;
 
 import com.haxademic.core.app.P;
+import com.haxademic.core.draw.util.DrawUtil;
 import com.haxademic.core.hardware.kinect.KinectRegion;
 import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.math.easing.EasingFloat;
@@ -161,9 +162,10 @@ public class TinkerBotPlayer {
 	
 	protected void updateGameplay() {
 		_playerY.update();
-		pg.pushMatrix();
-		pg.translate(_playerX, _playerY.value() );
-		pg.rect(0, 0, 60f, 30f);
-		pg.popMatrix();
+		
+		// draw top & bottom bar
+		DrawUtil.setDrawCorner(p);
+		pg.shape(p.gameGraphics.playerBar, _playerX - p.gameGraphics.playerBar.width / 2, 0, p.scaleV( p.gameGraphics.playerBar.width ), _playerY.value() - p.scaleV(30) );
+		pg.shape(p.gameGraphics.playerBar, _playerX - p.gameGraphics.playerBar.width / 2, _playerY.value() + p.scaleV(30), p.scaleV( p.gameGraphics.playerBar.width ), pg.height - _playerY.value() );
 	}
 }
