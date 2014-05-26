@@ -115,9 +115,7 @@ public class TinkerBotGamePlay {
 	
 	public void update() {
 		if( p.gameState() == GameState.GAME_WAITING_FOR_PLAYERS ) detectPlayers();
-		if( p.gameState() == GameState.GAME_PLAYING ) {
-
-		}
+		if( p.gameState() == GameState.GAME_PLAYING ) {}
 		drawGraphicsLayers();
 		if( _gameShouldEnd == true ) {
 			gameOver();

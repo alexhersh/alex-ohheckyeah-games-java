@@ -140,9 +140,7 @@ extends OHYBaseGame
 	}
 
 	protected void runGameStateIntro() {
-//		if( _gameState == GameState.GAME_INTRO_OUTRO ) {
-			updateGameplay();
-//		}
+		updateGameplay();
 		_introScreens.update();
 		DrawUtil.setDrawCorner(pg);
 		pg.image( _introScreens.pg, 0, 0, _introScreens.pg.width, _introScreens.pg.height );
