@@ -4,5 +4,7 @@ lib-full/
 output/
 docs/
 lib/processing-2.0/*
+lib/SimpleOpenNI/*
+lib/LeapMotionForProcessing/*
 *output/text/
 *output/camera/
