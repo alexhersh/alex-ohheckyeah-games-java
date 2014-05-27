@@ -8,13 +8,12 @@ import org.ohheckyeah.games.tinkerbot.assets.TinkerBotSounds;
 import org.ohheckyeah.games.tinkerbot.game.TinkerBotGamePlay;
 import org.ohheckyeah.games.tinkerbot.game.TinkerBotTracking;
 import org.ohheckyeah.games.tinkerbot.screens.TinkerBotIntroScreens;
-import org.ohheckyeah.shared.OHYBaseGame;
+import org.ohheckyeah.shared.app.OHYBaseGame;
 
 import processing.core.PApplet;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.draw.util.DrawUtil;
-import com.haxademic.core.hardware.kinect.KinectRegionGrid;
 import com.haxademic.core.system.TimeFactoredFps;
 
 public class TinkerBot
@@ -69,14 +68,9 @@ extends OHYBaseGame
 		_introScreens = new TinkerBotIntroScreens( _appConfig.getString( "sponsor_images", null ) );
 		
 		// set flags and props	
-		buildGameplay();
+		_gamePlay = new TinkerBotGamePlay( _kinectGrid, _isRemoteKinect );
 		setInitialGameState();
 		_tracking = new TinkerBotTracking();
-	}
-	
-	protected void buildGameplay() {
-		_kinectGrid = new KinectRegionGrid(p, NUM_PLAYERS, 1, (int)KINECT_MIN_DIST, (int)KINECT_MAX_DIST, 50, (int)KINECT_TOP, (int)KINECT_BOTTOM);
-		_gamePlay = new TinkerBotGamePlay( _kinectGrid, _isRemoteKinect );
 	}
 	
 	protected void loadMedia() {

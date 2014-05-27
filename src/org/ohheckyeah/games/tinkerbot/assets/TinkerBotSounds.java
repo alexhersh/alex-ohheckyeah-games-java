@@ -1,6 +1,6 @@
 package org.ohheckyeah.games.tinkerbot.assets;
 
-import org.ohheckyeah.shared.OHYBaseGame;
+import org.ohheckyeah.shared.app.OHYBaseGame;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.audio.AudioPool;

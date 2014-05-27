@@ -27,7 +27,7 @@ import org.ohheckyeah.games.bluebear.game.streetstuff.BlueBearStreetItem;
 import org.ohheckyeah.games.bluebear.game.streetstuff.BlueBearStreetItems;
 import org.ohheckyeah.games.bluebear.game.text.BlueBearCountdownDisplay;
 import org.ohheckyeah.games.bluebear.game.text.BlueBearGameMessages;
-import org.ohheckyeah.shared.OHYBaseGame.GameState;
+import org.ohheckyeah.shared.app.OHYBaseGame.GameState;
 
 import processing.core.PGraphics;
 

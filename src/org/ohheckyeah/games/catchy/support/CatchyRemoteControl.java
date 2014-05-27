@@ -1,7 +1,7 @@
 package org.ohheckyeah.games.catchy.support;
 
 import org.ohheckyeah.games.catchy.assets.CatchyColors;
-import org.ohheckyeah.shared.OHYBaseRemoteControl;
+import org.ohheckyeah.shared.app.OHYBaseRemoteControl;
 
 import processing.core.PApplet;
 import processing.core.PShape;

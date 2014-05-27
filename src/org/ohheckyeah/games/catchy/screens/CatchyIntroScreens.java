@@ -2,7 +2,7 @@ package org.ohheckyeah.games.catchy.screens;
 
 import org.ohheckyeah.games.catchy.Catchy;
 import org.ohheckyeah.games.catchy.assets.CatchyColors;
-import org.ohheckyeah.shared.OHYBaseGame.GameState;
+import org.ohheckyeah.shared.app.OHYBaseGame.GameState;
 import org.ohheckyeah.shared.OHYHugItOutScreen;
 
 import processing.core.PGraphics;

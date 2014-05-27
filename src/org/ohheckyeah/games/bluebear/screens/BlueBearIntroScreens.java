@@ -3,7 +3,7 @@ package org.ohheckyeah.games.bluebear.screens;
 import org.ohheckyeah.games.bluebear.BlueBear;
 import org.ohheckyeah.games.bluebear.assets.BlueBearColors;
 import org.ohheckyeah.shared.OHYHugItOutScreen;
-import org.ohheckyeah.shared.OHYBaseGame.GameState;
+import org.ohheckyeah.shared.app.OHYBaseGame.GameState;
 
 import processing.core.PGraphics;
 

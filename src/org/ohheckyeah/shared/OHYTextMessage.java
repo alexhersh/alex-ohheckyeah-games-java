@@ -1,5 +1,6 @@
 package org.ohheckyeah.shared;
 
+import org.ohheckyeah.shared.app.OHYBaseGame;
 import org.ohheckyeah.shared.assets.OHYColors;
 
 import processing.core.PGraphics;

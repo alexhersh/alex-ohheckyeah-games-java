@@ -2,8 +2,8 @@ package org.ohheckyeah.games.tinkerbot.game;
 
 import org.ohheckyeah.games.tinkerbot.TinkerBot;
 import org.ohheckyeah.games.tinkerbot.screens.TinkerBotPlayerDetectionScreen;
-import org.ohheckyeah.shared.OHYBaseGame;
-import org.ohheckyeah.shared.OHYBaseGame.GameState;
+import org.ohheckyeah.shared.app.OHYBaseGame;
+import org.ohheckyeah.shared.app.OHYBaseGame.GameState;
 
 import processing.core.PGraphics;
 

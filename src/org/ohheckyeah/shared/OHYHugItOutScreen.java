@@ -2,6 +2,8 @@ package org.ohheckyeah.shared;
 
 import java.util.ArrayList;
 
+import org.ohheckyeah.shared.app.OHYBaseGame;
+
 import processing.core.PGraphics;
 
 import com.haxademic.core.app.P;

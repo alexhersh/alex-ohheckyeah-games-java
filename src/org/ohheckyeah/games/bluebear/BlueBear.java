@@ -8,13 +8,12 @@ import org.ohheckyeah.games.bluebear.assets.BlueBearSounds;
 import org.ohheckyeah.games.bluebear.game.BlueBearGamePlay;
 import org.ohheckyeah.games.bluebear.game.BlueBearTracking;
 import org.ohheckyeah.games.bluebear.screens.BlueBearIntroScreens;
-import org.ohheckyeah.shared.OHYBaseGame;
+import org.ohheckyeah.shared.app.OHYBaseGame;
 
 import processing.core.PApplet;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.draw.util.DrawUtil;
-import com.haxademic.core.hardware.kinect.KinectRegionGrid;
 import com.haxademic.core.system.TimeFactoredFps;
 
 public class BlueBear
@@ -73,21 +72,14 @@ extends OHYBaseGame
 		_introScreens = new BlueBearIntroScreens( _appConfig.getString( "sponsor_images", null ) );
 		
 		// set flags and props	
-		buildGameplay();
+		_gamePlay = new BlueBearGamePlay( _kinectGrid, _isRemoteKinect );
 		setInitialGameState();
 		_tracking = new BlueBearTracking();
-	}
-
-	
-	protected void buildGameplay() {
-		_kinectGrid = new KinectRegionGrid(p, NUM_PLAYERS, 1, (int)KINECT_MIN_DIST, (int)KINECT_MAX_DIST, 250, (int)KINECT_TOP, (int)KINECT_BOTTOM);
-		_gamePlay = new BlueBearGamePlay( _kinectGrid, _isRemoteKinect );
 	}
 	
 	protected void loadMedia() {
 		sounds = new BlueBearSounds();
 		gameGraphics = new BlueBearGraphics();
-		
 //		gameGraphics.shuffleCharacters();
 	}
 		

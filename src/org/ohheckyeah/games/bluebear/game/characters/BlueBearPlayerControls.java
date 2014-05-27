@@ -1,7 +1,7 @@
 package org.ohheckyeah.games.bluebear.game.characters;
 
 import org.ohheckyeah.games.bluebear.BlueBear;
-import org.ohheckyeah.shared.OHYBaseGame.PlayerDetectedState;
+import org.ohheckyeah.shared.app.OHYBaseGame.PlayerDetectedState;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.hardware.kinect.KinectRegion;

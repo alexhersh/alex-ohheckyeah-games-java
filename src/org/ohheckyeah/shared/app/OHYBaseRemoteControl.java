@@ -1,25 +1,15 @@
-package org.ohheckyeah.shared;
+package org.ohheckyeah.shared.app;
 
 import hypermedia.net.UDP;
 
 import com.haxademic.core.app.P;
-import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.hardware.kinect.KinectRegion;
-import com.haxademic.core.hardware.kinect.KinectRegionGrid;
 import com.haxademic.core.system.FileUtil;
 
+@SuppressWarnings("serial")
 public class OHYBaseRemoteControl
-extends PAppletHax{
+extends OHYKinectApp {
 
-	// input
-	public static float KINECT_MIN_DIST = 1500;
-	public static float KINECT_MAX_DIST = 2000;
-	public static int KINECT_TOP = 0;
-	public static int KINECT_BOTTOM = 480;
-	
-	public static int NUM_PLAYERS = 2;
-	protected KinectRegionGrid _kinectGrid;
-	
 	protected UDP _udp;
 	protected boolean _debugging = false;
 	protected String _receiverIp = "";
@@ -28,23 +18,11 @@ extends PAppletHax{
 	public void setup( String propertiesFile ) {
 		_customPropsFile = FileUtil.getHaxademicDataPath() + "properties/" + propertiesFile;
 		super.setup();
-		initControls();
+		setKinectProperties();
 		initUDP();
 	}
 	
-	protected void initControls() {
-		setKinectProperties();
-		_kinectGrid = new KinectRegionGrid(p, NUM_PLAYERS, 1, (int)KINECT_MIN_DIST, (int)KINECT_MAX_DIST, 250, (int)KINECT_TOP, (int)KINECT_BOTTOM);
-	}
-	
-	protected void setKinectProperties() {
-		// default pixel rows are the center 200 kinect data rows
-		KINECT_MIN_DIST = _appConfig.getInt( "kinect_min_mm", 1500 );
-		KINECT_MAX_DIST = _appConfig.getInt( "kinect_max_mm", 2000 );
-		KINECT_TOP = _appConfig.getInt( "kinect_top_pixel", 240 );
-		KINECT_BOTTOM = _appConfig.getInt( "kinect_bottom_pixel", 400 );
-		NUM_PLAYERS = _appConfig.getInt( "num_players", 2 );
-		
+	protected void setKinectRemoteProperties() {
 		_debugging = _appConfig.getBoolean( "kinect_remote_debug", false );
 		_receiverIp = _appConfig.getString( "kinect_remote_receiver_ip", "" );
 		_receiverPort = _appConfig.getInt( "kinect_remote_receiver_port", 0 );

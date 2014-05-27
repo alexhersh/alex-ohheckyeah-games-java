@@ -2,7 +2,7 @@ package org.ohheckyeah.games.tinkerbot.screens;
 
 import org.ohheckyeah.games.bluebear.assets.BlueBearColors;
 import org.ohheckyeah.games.tinkerbot.TinkerBot;
-import org.ohheckyeah.shared.OHYBaseGame.GameState;
+import org.ohheckyeah.shared.app.OHYBaseGame.GameState;
 import org.ohheckyeah.shared.OHYHugItOutScreen;
 
 import processing.core.PGraphics;

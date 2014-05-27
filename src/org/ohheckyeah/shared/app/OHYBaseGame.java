@@ -1,4 +1,4 @@
-package org.ohheckyeah.shared;
+package org.ohheckyeah.shared.app;
 
 import hypermedia.net.UDP;
 
@@ -8,22 +8,14 @@ import processing.core.PGraphics;
 import processing.core.PShape;
 
 import com.haxademic.core.app.P;
-import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.data.ConvertUtil;
 import com.haxademic.core.draw.util.OpenGLUtil;
-import com.haxademic.core.hardware.kinect.KinectRegionGrid;
 import com.haxademic.core.system.FileUtil;
 
 @SuppressWarnings("serial")
 public class OHYBaseGame
-extends PAppletHax {
+extends OHYKinectApp {
 	
-	// input
-	public static float KINECT_MIN_DIST = 1500;
-	public static float KINECT_MAX_DIST = 2000;
-	public static int KINECT_TOP = 0;
-	public static int KINECT_BOTTOM = 480;
-
 	// remote kinect
 	protected UDP _udp;
 	protected boolean _remoteDebugging = false;
@@ -34,10 +26,6 @@ extends PAppletHax {
 	// debug 
 	protected boolean _isDebugging = false;
 	
-	// game state
-	public static int NUM_PLAYERS = 2;
-	protected KinectRegionGrid _kinectGrid;
-
 	// game canvas & responsive scale
 	public PGraphics pg;
 	public float gameScaleV = 1;
@@ -76,6 +64,7 @@ extends PAppletHax {
 		gameScaleV = p.height / gameOriginalHeight;
 		ohyGraphics = new OHYGraphics();
 		setKinectProperties();
+		setRemoteKinectReceiverProperties();
 	}
 	
 	// Getters ---------------------------------------------------------------------------------------------------------
@@ -102,17 +91,9 @@ extends PAppletHax {
 		pg.smooth(OpenGLUtil.SMOOTH_MEDIUM);
 	}
 	
-	// Kinect input --------------------------------------------------------------------------------------
+	// Kinect remote control --------------------------------------------------------------------------------------
 	
-	protected void setKinectProperties() {
-		// default kinect camera distance is for up-close indoor testing. not good for real games - suggested use is 2300-3300
-		// default pixel rows are the center 200 kinect data rows
-		KINECT_MIN_DIST = _appConfig.getInt( "kinect_min_mm", 1500 );
-		KINECT_MAX_DIST = _appConfig.getInt( "kinect_max_mm", 2000 );
-		KINECT_TOP = _appConfig.getInt( "kinect_top_pixel", 240 );
-		KINECT_BOTTOM = _appConfig.getInt( "kinect_bottom_pixel", 400 );
-		NUM_PLAYERS = _appConfig.getInt( "num_players", 2 );
-		
+	protected void setRemoteKinectReceiverProperties() {
 		_remoteDebugging = _appConfig.getBoolean( "kinect_remote_debug", false );
 		_receiverIp = _appConfig.getString( "kinect_remote_receiver_ip", "" );
 		_receiverPort = _appConfig.getInt( "kinect_remote_receiver_port", 0 );
