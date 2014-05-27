@@ -146,7 +146,8 @@ public class TinkerBotPlayer {
 	public void updateControls() {
 		if( p.kinectWrapper != null || _isRemoteKinect == true ) {
 			// _position = P.round( NUM_POSITIONS * MathUtil.getPercentWithinRange( -0.5f, 0.5f, _kinectRegion.controlZ() ) );
-			_position = P.round( _kinectRegion.controlZ() * 10 );
+			// turn -0.5, 0.5 into number of positions int
+			_position = P.round( P.map( _kinectRegion.controlZ(), -0.5f, 0.5f, -HALF_POSITIONS * 0.1f, HALF_POSITIONS * 0.1f ) * 10 );
 			_playerY.setTarget( PLAYER_Y_CENTER + p.scaleV( _position * PLAYER_Y_INC ) );
 		} else {
 			if( _isRemoteKinect == false ) {
