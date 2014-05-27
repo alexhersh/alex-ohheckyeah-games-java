@@ -1,6 +1,8 @@
 package org.ohheckyeah.games.tinkerbot.game;
 
 import org.ohheckyeah.games.tinkerbot.TinkerBot;
+import org.ohheckyeah.games.tinkerbot.game.display.TinkerBotGameTimer;
+import org.ohheckyeah.games.tinkerbot.game.display.TinkerBotScoreDisplay;
 import org.ohheckyeah.games.tinkerbot.screens.TinkerBotPlayerDetectionScreen;
 import org.ohheckyeah.shared.app.OHYBaseGame;
 import org.ohheckyeah.shared.app.OHYBaseGame.GameState;
@@ -78,8 +80,9 @@ public class TinkerBotGamePlay {
 	
 	public void startGame() {
 		_gameTimer.startTimer();
-		_gameTimer.show();
 		_gameTimer.newLevel();
+		_gameTimer.show();
+		_scoreDisplay.show();
 		_gameStartTime = p.millis();
 	}
 	
@@ -162,11 +165,14 @@ public class TinkerBotGamePlay {
 	
 	public void checkPlayersLineup() {
 		boolean isLinedUp = true;
+		P.println("goal:",_curGoalPosition);
 		for( TinkerBotPlayer player: _players ) {
 			if( player.position() != _curGoalPosition ) isLinedUp = false;
+			P.print(player.position(),"  ");
 		}
 		if( isLinedUp == true ) {
 			P.println("!!!!!!!!!!! isLinedUp",isLinedUp);
+			_scoreDisplay.addScore();
 			newLevel();
 		}
 	}
