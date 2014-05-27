@@ -1,27 +1,17 @@
 package org.ohheckyeah.shared.app;
 
-import hypermedia.net.UDP;
-
 import org.ohheckyeah.shared.assets.OHYGraphics;
 
 import processing.core.PGraphics;
 import processing.core.PShape;
 
 import com.haxademic.core.app.P;
-import com.haxademic.core.data.ConvertUtil;
 import com.haxademic.core.draw.util.OpenGLUtil;
 import com.haxademic.core.system.FileUtil;
 
 @SuppressWarnings("serial")
 public class OHYBaseGame
 extends OHYKinectApp {
-	
-	// remote kinect
-	protected UDP _udp;
-	protected boolean _remoteDebugging = false;
-	protected String _receiverIp = "";
-	protected int _receiverPort = 0;
-	protected boolean _isRemoteKinect = false;
 	
 	// debug 
 	protected boolean _isDebugging = false;
@@ -91,34 +81,4 @@ extends OHYKinectApp {
 		pg.smooth(OpenGLUtil.SMOOTH_MEDIUM);
 	}
 	
-	// Kinect remote control --------------------------------------------------------------------------------------
-	
-	protected void setRemoteKinectReceiverProperties() {
-		_remoteDebugging = _appConfig.getBoolean( "kinect_remote_debug", false );
-		_receiverIp = _appConfig.getString( "kinect_remote_receiver_ip", "" );
-		_receiverPort = _appConfig.getInt( "kinect_remote_receiver_port", 0 );
-		_isRemoteKinect = _appConfig.getBoolean("kinect_remote_active", false);
-		if( _isRemoteKinect == true ) initRemoteKinect();
-	}
-	
-	protected void initRemoteKinect() {
-		_udp = new UDP( this, _receiverPort );
-		_udp.log( _remoteDebugging );
-		_udp.listen( true );	
-	}
-	
-	public void receive( byte[] data, String ip, int port ) {
-		String message = new String( data );
-		if( _remoteDebugging == true ) P.println( "received: \""+message+"\" from "+ip+" on port "+port );
-		
-		String[] remoteKinectPlayersData = message.split("~");
-		for( int i=0; i < remoteKinectPlayersData.length; i++ ) {
-			// P.println("PLAYER "+i+" = "+remoteKinectPlayersData[i]);
-			String[] kinectPlayerData = remoteKinectPlayersData[i].split(":");
-			_kinectGrid.getRegion(i).controlX( ConvertUtil.stringToFloat( kinectPlayerData[0].trim() ) );
-			_kinectGrid.getRegion(i).controlZ( ConvertUtil.stringToFloat( kinectPlayerData[1].trim() ) );
-			_kinectGrid.getRegion(i).pixelCount( ConvertUtil.stringToInt( kinectPlayerData[2].trim() ) );
-		}
-	}
-
 }
