@@ -182,9 +182,11 @@ public class TinkerBotGamePlay {
 	protected void drawGraphicsLayers() {
 		_backgroundColor.update();
 		_playerDetectBackground.update();
+
 		DrawUtil.setDrawCenter(pg);
 		pg.shape(p.gameGraphics.targetLine, pg.width / 2, TinkerBotPlayer.PLAYER_Y_CENTER + _curGoalPosition * TinkerBotPlayer.PLAYER_Y_INC );
-		for( TinkerBotPlayer player: _players ) player.update( _gameTimer.isActiveControl() );
+		
+		for( TinkerBotPlayer player: _players ) player.update( _gameTimer.isActiveControl(), _gameTimer.isError() );
 		_gameTimer.update();
 		_scoreDisplay.update();
 		_gameMessages.update();

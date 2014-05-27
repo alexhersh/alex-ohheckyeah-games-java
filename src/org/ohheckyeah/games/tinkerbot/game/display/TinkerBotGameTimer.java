@@ -36,6 +36,18 @@ extends TinkerBotBaseDisplay {
 		GAME_LENGTH = GAME_LENGTH_SECONDS * 1000;
 	}
 	
+	public boolean isActiveControl() {
+		return ( _failTime == 0 && _winTime == 0 );
+	}
+	
+	public boolean isWin() {
+		return ( _winTime != 0 );
+	}
+
+	public boolean isError() {
+		return ( _failTime != 0 );
+	}
+	
 	public void startTimer() {
 		_gameStartTime = p.millis();
 		_curGameTime = GAME_LENGTH;
@@ -58,7 +70,7 @@ extends TinkerBotBaseDisplay {
 		// check level ending for a fail
 		if( p.gameState() == GameState.GAME_PLAYING ) {
 			if( p.millis() > _levelStartTime + LEVEL_LENGTH ) {
-				if( _failTime == 0 ) lineUpFail();
+				if( _failTime == 0 && _winTime == 0 ) lineUpFail();
 			}
 		}
 		
@@ -89,18 +101,12 @@ extends TinkerBotBaseDisplay {
 		pg.popMatrix();
 	}
 	
-	public boolean isActiveControl() {
-		return ( _failTime == 0 && _winTime == 0 );
-	}
-	
 	public void lineUpWin() {
 		_winTime = p.millis();
-		P.println("WIN!!!!!");
 	}
 	
 	public void lineUpFail() {
 		_failTime = p.millis();
-		P.println("LOSE!!!!!");
 	}
 	
 	public void newLevel() {

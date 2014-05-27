@@ -12,7 +12,7 @@ public class TinkerBotGraphics {
 	public PShape scoreBg, timeBg, levelTimerBg;
 	public PShape[] scores;
 	public PShape[] countdownNumbers;
-	public PShape playerBar, targetLine;
+	public PShape playerBar, playerBarError, targetLine;
 	public PShape tinkerBotLogo;
 	public PShape gameplayBackground, gameplayBackgroundWaiting;
 	public PShape win;
@@ -45,6 +45,7 @@ public class TinkerBotGraphics {
 		
 		// scene
 		playerBar = P.p.loadShape( FileUtil.getHaxademicDataPath() + "games/tinkerbot/svg/scene/player-bar.svg" );
+		playerBarError = P.p.loadShape( FileUtil.getHaxademicDataPath() + "games/tinkerbot/svg/scene/player-bar-error.svg" );
 		targetLine = P.p.loadShape( FileUtil.getHaxademicDataPath() + "games/tinkerbot/svg/scene/target-line.svg" );
 	}
 

@@ -77,11 +77,11 @@ public class TinkerBotPlayer {
 	}
 	
 	public void startGameplay() {
-		resetDetection();
-		_playerDetectedState = null;
 	}
 	
 	public void startDetection() {
+		resetDetection();
+		_playerDetectedState = null;
 		_waitingSpinner.show();
 	}
 
@@ -133,13 +133,13 @@ public class TinkerBotPlayer {
 		}
 	}
 	
-	public void update( boolean shouldUpdateControls ) {
+	public void update( boolean shouldUpdateControls, boolean isError ) {
 		if( p.gameState() == GameState.GAME_WAITING_FOR_PLAYERS || p.gameState() == GameState.GAME_PRE_COUNTDOWN ) {
 			detectPlayer( detectPlayerCurState() );
 			_waitingSpinner.update();
 		} else if( p.gameState() == GameState.GAME_PLAYING ) {
 			if( shouldUpdateControls ) updateControls();
-			updateGameplay();
+			updateGameplay( isError );
 		}
 	}
 	
@@ -148,7 +148,7 @@ public class TinkerBotPlayer {
 			// _position = P.round( NUM_POSITIONS * MathUtil.getPercentWithinRange( -0.5f, 0.5f, _kinectRegion.controlZ() ) );
 			// turn -0.5, 0.5 into number of positions int
 			_position = P.round( P.map( _kinectRegion.controlZ(), -0.5f, 0.5f, -HALF_POSITIONS * 0.1f, HALF_POSITIONS * 0.1f ) * 10 );
-			_playerY.setTarget( PLAYER_Y_CENTER + p.scaleV( _position * PLAYER_Y_INC ) );
+			_playerY.setTarget( PLAYER_Y_CENTER + _position * PLAYER_Y_INC );
 		} else {
 			if( _isRemoteKinect == false ) {
 				// fake test controls
@@ -161,12 +161,14 @@ public class TinkerBotPlayer {
 		}
 	}
 	
-	protected void updateGameplay() {
+	protected void updateGameplay( boolean isError ) {
 		_playerY.update();
 		
 		// draw top & bottom bar
-		DrawUtil.setDrawCorner(p);
-		pg.shape(p.gameGraphics.playerBar, _playerX - p.gameGraphics.playerBar.width / 2, 0, p.scaleV( p.gameGraphics.playerBar.width ), _playerY.value() - p.scaleV(30) );
-		pg.shape(p.gameGraphics.playerBar, _playerX - p.gameGraphics.playerBar.width / 2, _playerY.value() + p.scaleV(30), p.scaleV( p.gameGraphics.playerBar.width ), pg.height - _playerY.value() );
+		DrawUtil.setDrawCorner(pg);
+		PShape barSvg = ( isError ) ? p.gameGraphics.playerBarError : p.gameGraphics.playerBar;
+		float barWidth = p.svgWidth( barSvg );
+		pg.shape(barSvg, _playerX - barWidth / 2f, 0, barWidth, _playerY.value() - p.scaleV(30) );
+		pg.shape(barSvg, _playerX - barWidth / 2f, _playerY.value() + p.scaleV(30), p.svgWidth( barSvg ), pg.height - _playerY.value() );
 	}
 }
