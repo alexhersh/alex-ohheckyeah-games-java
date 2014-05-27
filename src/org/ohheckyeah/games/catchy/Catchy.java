@@ -18,7 +18,6 @@ import processing.core.PApplet;
 import com.haxademic.core.app.P;
 import com.haxademic.core.draw.util.DrawUtil;
 import com.haxademic.core.draw.util.OpenGLUtil;
-import com.haxademic.core.hardware.kinect.KinectRegionGrid;
 import com.haxademic.core.math.easing.EasingFloat;
 import com.haxademic.core.system.TimeFactoredFps;
 
