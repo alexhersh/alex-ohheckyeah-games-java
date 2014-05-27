@@ -133,12 +133,12 @@ public class TinkerBotPlayer {
 		}
 	}
 	
-	public void update() {
+	public void update( boolean shouldUpdateControls ) {
 		if( p.gameState() == GameState.GAME_WAITING_FOR_PLAYERS || p.gameState() == GameState.GAME_PRE_COUNTDOWN ) {
 			detectPlayer( detectPlayerCurState() );
 			_waitingSpinner.update();
-		} else {
-			updateControls();
+		} else if( p.gameState() == GameState.GAME_PLAYING ) {
+			if( shouldUpdateControls ) updateControls();
 			updateGameplay();
 		}
 	}

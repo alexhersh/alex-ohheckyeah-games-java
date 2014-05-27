@@ -159,21 +159,22 @@ public class TinkerBotGamePlay {
 		
 	// gameplay logic ------------------------------------------------------------------
 	public void newLevel() {
-		_curGoalPosition = MathUtil.randRange( -TinkerBotPlayer.HALF_POSITIONS, TinkerBotPlayer.HALF_POSITIONS );
-		P.println("_curGoalPosition",_curGoalPosition);
+		// make sure we get a different goal position
+		int oldPosition = _curGoalPosition;
+		while( _curGoalPosition == oldPosition ) {
+			_curGoalPosition = MathUtil.randRange( -TinkerBotPlayer.HALF_POSITIONS, TinkerBotPlayer.HALF_POSITIONS );
+		}
 	}
 	
 	public void checkPlayersLineup() {
+		if( _gameTimer.isActiveControl() == false ) return;
 		boolean isLinedUp = true;
-		P.println("goal:",_curGoalPosition);
 		for( TinkerBotPlayer player: _players ) {
 			if( player.position() != _curGoalPosition ) isLinedUp = false;
-			P.print(player.position(),"  ");
 		}
 		if( isLinedUp == true ) {
-			P.println("!!!!!!!!!!! isLinedUp",isLinedUp);
 			_scoreDisplay.addScore();
-			newLevel();
+			_gameTimer.lineUpWin();
 		}
 	}
 	
@@ -183,9 +184,9 @@ public class TinkerBotGamePlay {
 		_playerDetectBackground.update();
 		DrawUtil.setDrawCenter(pg);
 		pg.shape(p.gameGraphics.targetLine, pg.width / 2, TinkerBotPlayer.PLAYER_Y_CENTER + _curGoalPosition * TinkerBotPlayer.PLAYER_Y_INC );
+		for( TinkerBotPlayer player: _players ) player.update( _gameTimer.isActiveControl() );
 		_gameTimer.update();
 		_scoreDisplay.update();
-		for( TinkerBotPlayer player: _players ) player.update();
 		_gameMessages.update();
 	}
 	
