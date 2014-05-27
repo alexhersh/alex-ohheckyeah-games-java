@@ -9,8 +9,9 @@ extends OHYKinectApp {
 
 	protected void overridePropsFile() {
 		_appConfig.setProperty( "kinect_active", "true" );
-		_appConfig.setProperty( "width", "640" );
-		_appConfig.setProperty( "height", "480" );
+		_appConfig.setProperty( "fills_screen", "true" );
+//		_appConfig.setProperty( "width", "640" );
+//		_appConfig.setProperty( "height", "480" );
 	}
 		
 	public void setup( String propertiesFile ) {
@@ -26,11 +27,15 @@ extends OHYKinectApp {
 		p.lights();
 		p.background(0);
 		
+		float scaleRatio = p.height / 480;
+		p.translate( ( p.width / 2f ) - 640, 0);
+		p.scale(scaleRatio);
+		
 		DrawUtil.setDrawCorner(p);
 		DrawUtil.setColorForPImage(p);
+		_kinectGrid.updateDebug();
 		// p.image( p.kinectWrapper.getRgbImage(), 0, 0);
 		// _kinectGrid.update();
-		_kinectGrid.updateDebug();
 		// P.println( _kinectGrid.getRegion(0).controlX() + " , " + _kinectGrid.getRegion(0).controlZ() );
 	}
 	
