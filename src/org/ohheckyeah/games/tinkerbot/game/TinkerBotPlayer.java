@@ -28,10 +28,10 @@ public class TinkerBotPlayer {
 	protected int _playerX = 0;
 	protected EasingFloat _playerY = new EasingFloat(0,2);
 	protected int KINECT_PIXEL_DETECT_THRESH = 10;
-	protected int NUM_POSITIONS = 11;
-	protected int _halfPositions = (NUM_POSITIONS - 1) / 2;
-	protected int _playerYCenter;
-	protected int _playerYInc;
+	public static int NUM_POSITIONS = 7;
+	public static int HALF_POSITIONS = (NUM_POSITIONS - 1) / 2;
+	public static int PLAYER_Y_CENTER;
+	public static int PLAYER_Y_INC;
 	protected PlayerDetectedState _playerDetectedState;
 
 	protected boolean _controlsActive = false;
@@ -51,8 +51,8 @@ public class TinkerBotPlayer {
 
 		_playerX = P.round( pg.width * xPosition );
 		_waitingSpinner = new TinkerBotWaitingSpinner( _playerX );
-		_playerYCenter = P.round( pg.height * 0.5f );
-		_playerYInc = P.round( pg.height * 0.75f / NUM_POSITIONS );
+		PLAYER_Y_CENTER = P.round( pg.height * 0.5f );
+		PLAYER_Y_INC = P.round( pg.height * 0.75f / NUM_POSITIONS );
 	}
 	
 	public boolean detectedPlayer() {
@@ -147,14 +147,14 @@ public class TinkerBotPlayer {
 		if( p.kinectWrapper != null || _isRemoteKinect == true ) {
 			// _position = P.round( NUM_POSITIONS * MathUtil.getPercentWithinRange( -0.5f, 0.5f, _kinectRegion.controlZ() ) );
 			_position = P.round( _kinectRegion.controlZ() * 10 );
-			_playerY.setTarget( _playerYCenter + p.scaleV( _position * _playerYInc ) );
+			_playerY.setTarget( PLAYER_Y_CENTER + p.scaleV( _position * PLAYER_Y_INC ) );
 		} else {
 			if( _isRemoteKinect == false ) {
 				// fake test controls
-				if( p.millis() > _autoControlTime + 2500 ) {
+				if( p.millis() > _autoControlTime + 40 ) {
 					_autoControlTime = p.millis();
-					_position = MathUtil.randRange(-_halfPositions, _halfPositions);
-					_playerY.setTarget( _playerYCenter + p.scaleV( _position * _playerYInc ) );
+					_position = MathUtil.randRange(-HALF_POSITIONS, HALF_POSITIONS);
+					_playerY.setTarget( PLAYER_Y_CENTER + p.scaleV( _position * PLAYER_Y_INC ) );
 				}
 			}
 		}

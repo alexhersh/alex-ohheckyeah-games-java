@@ -8,7 +8,9 @@ import org.ohheckyeah.shared.app.OHYBaseGame.GameState;
 import processing.core.PGraphics;
 
 import com.haxademic.core.app.P;
+import com.haxademic.core.draw.util.DrawUtil;
 import com.haxademic.core.hardware.kinect.KinectRegionGrid;
+import com.haxademic.core.math.MathUtil;
 
 public class TinkerBotGamePlay {
 	
@@ -28,10 +30,12 @@ public class TinkerBotGamePlay {
 	protected TinkerBotPlayerDetectionScreen _playerDetectBackground;
 	protected TinkerBotBackground _backgroundColor;
 	protected TinkerBotPlayer[] _players;
+	protected TinkerBotGameTimer _gameTimer;
 	protected TinkerBotScoreDisplay _scoreDisplay;
 	protected TinkerBotGameMessages _gameMessages;
 
 	protected boolean _gameplayStarted = false;
+	protected int _curGoalPosition = 999;
 
 	
 	public TinkerBotGamePlay( KinectRegionGrid kinectGrid, boolean isRemoteKinect ) {
@@ -53,6 +57,7 @@ public class TinkerBotGamePlay {
 		_players = new TinkerBotPlayer[OHYBaseGame.NUM_PLAYERS];
 		for( int i=0; i < OHYBaseGame.NUM_PLAYERS; i++ ) _players[i] = new TinkerBotPlayer(_kinectGrid.getRegion(i), _isRemoteKinect, (float) (i+1) * playerSpacing );
 		_scoreDisplay = new TinkerBotScoreDisplay();
+		_gameTimer = new TinkerBotGameTimer( this, p.appConfig.getInt( "game_seconds", 30 ) );
 		_gameMessages = new TinkerBotGameMessages();
 	}
 	
@@ -72,6 +77,9 @@ public class TinkerBotGamePlay {
 	}
 	
 	public void startGame() {
+		_gameTimer.startTimer();
+		_gameTimer.show();
+		_gameTimer.newLevel();
 		_gameStartTime = p.millis();
 	}
 	
@@ -116,6 +124,7 @@ public class TinkerBotGamePlay {
 	public void update() {
 		if( p.gameState() == GameState.GAME_WAITING_FOR_PLAYERS ) detectPlayers();
 		if( p.gameState() == GameState.GAME_PLAYING ) {}
+		checkPlayersLineup();
 		drawGraphicsLayers();
 		if( _gameShouldEnd == true ) {
 			gameOver();
@@ -145,11 +154,31 @@ public class TinkerBotGamePlay {
 		}
 	}
 		
+	// gameplay logic ------------------------------------------------------------------
+	public void newLevel() {
+		_curGoalPosition = MathUtil.randRange( -TinkerBotPlayer.HALF_POSITIONS, TinkerBotPlayer.HALF_POSITIONS );
+		P.println("_curGoalPosition",_curGoalPosition);
+	}
+	
+	public void checkPlayersLineup() {
+		boolean isLinedUp = true;
+		for( TinkerBotPlayer player: _players ) {
+			if( player.position() != _curGoalPosition ) isLinedUp = false;
+		}
+		if( isLinedUp == true ) {
+			P.println("!!!!!!!!!!! isLinedUp",isLinedUp);
+			newLevel();
+		}
+	}
+	
 	// draw graphics ------------------------------------------------------------------
 	protected void drawGraphicsLayers() {
 		_backgroundColor.update();
-		_scoreDisplay.update();
 		_playerDetectBackground.update();
+		DrawUtil.setDrawCenter(pg);
+		pg.shape(p.gameGraphics.targetLine, pg.width / 2, TinkerBotPlayer.PLAYER_Y_CENTER + _curGoalPosition * TinkerBotPlayer.PLAYER_Y_INC );
+		_gameTimer.update();
+		_scoreDisplay.update();
 		for( TinkerBotPlayer player: _players ) player.update();
 		_gameMessages.update();
 	}

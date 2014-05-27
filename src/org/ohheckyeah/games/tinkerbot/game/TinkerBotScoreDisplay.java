@@ -28,7 +28,7 @@ public class TinkerBotScoreDisplay {
 	
 	protected void buildScoreText() {
 		float fontSize = 40;
-		_scoreText = new CustomFontText2D( p, p.ohyGraphics.font, p.scaleV(fontSize), TinkerBotColors.RED_TEXT_COLOR, CustomFontText2D.ALIGN_CENTER, (int) p.scaleV(p.gameGraphics.scoreBg.width), (int)p.scaleV(fontSize * 1.5f) );
+		_scoreText = new CustomFontText2D( p, p.ohyGraphics.font, p.scaleV(fontSize), TinkerBotColors.MAIN_TEXT_COLOR, CustomFontText2D.ALIGN_CENTER, (int) p.scaleV(p.gameGraphics.scoreBg.width), (int)p.scaleV(fontSize * 1.5f) );
 		_scoreText.updateText( "0" );
 		_scoreEaser = new EasingFloat(0,5);
 	}

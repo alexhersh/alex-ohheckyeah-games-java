@@ -9,10 +9,10 @@ public class TinkerBotGraphics {
 
 
 	public PShape waitingSpinner;
-	public PShape scoreBg;
+	public PShape scoreBg, timeBg, levelTimerBg;
 	public PShape[] scores;
 	public PShape[] countdownNumbers;
-	public PShape playerBar;
+	public PShape playerBar, targetLine;
 	public PShape tinkerBotLogo;
 	public PShape gameplayBackground, gameplayBackgroundWaiting;
 	public PShape win;
@@ -32,6 +32,10 @@ public class TinkerBotGraphics {
 		scoreBg = P.p.loadShape( FileUtil.getHaxademicDataPath() + "games/bluebear/svg/shell/bg-score.svg" );
 		win = P.p.loadShape( FileUtil.getHaxademicDataPath() + "games/bluebear/svg/scene/bear-win.svg" );
 		
+		scoreBg = P.p.loadShape( FileUtil.getHaxademicDataPath() + "games/tinkerbot/svg/shell/text-bg-score.svg" );
+		timeBg = P.p.loadShape( FileUtil.getHaxademicDataPath() + "games/tinkerbot/svg/shell/text-bg-time.svg" );
+		levelTimerBg = P.p.loadShape( FileUtil.getHaxademicDataPath() + "games/tinkerbot/svg/shell/text-bg-level-timer.svg" );
+		
 		// shell text
 		textBroughtToYou = P.p.loadShape( FileUtil.getHaxademicDataPath() + "games/tinkerbot/svg/shell/text-brought-to-you-by.svg" );
 		textStepIntoZones = P.p.loadShape( FileUtil.getHaxademicDataPath() + "games/tinkerbot/svg/shell/text-step-into-your-zone.svg" );
@@ -41,6 +45,7 @@ public class TinkerBotGraphics {
 		
 		// scene
 		playerBar = P.p.loadShape( FileUtil.getHaxademicDataPath() + "games/tinkerbot/svg/scene/player-bar.svg" );
+		targetLine = P.p.loadShape( FileUtil.getHaxademicDataPath() + "games/tinkerbot/svg/scene/target-line.svg" );
 	}
 
 }
