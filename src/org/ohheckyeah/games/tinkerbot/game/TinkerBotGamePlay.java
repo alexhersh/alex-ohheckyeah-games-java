@@ -197,8 +197,10 @@ public class TinkerBotGamePlay {
 		_backgroundColor.update();
 		_playerDetectBackground.update();
 
-		DrawUtil.setDrawCenter(pg);
-		pg.shape(p.gameGraphics.targetLine, pg.width / 2, TinkerBotPlayer.PLAYER_Y_CENTER + _curGoalPosition * TinkerBotPlayer.PLAYER_Y_INC );
+		if( _gameTimer.isActiveControl() == true ) {
+			DrawUtil.setDrawCenter(pg);
+			pg.shape(p.gameGraphics.targetLine, pg.width / 2, TinkerBotPlayer.PLAYER_Y_CENTER + _curGoalPosition * TinkerBotPlayer.PLAYER_Y_INC );
+		}
 		
 		for( TinkerBotPlayer player: _players ) player.update( _gameTimer.isActiveControl(), _gameTimer.isError() );
 		_gameTimer.update();
