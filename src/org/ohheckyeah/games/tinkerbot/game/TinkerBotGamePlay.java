@@ -197,9 +197,11 @@ public class TinkerBotGamePlay {
 		_playerDetectBackground.update();
 		if( p.gameState() != GameState.GAME_WAITING_FOR_PLAYERS && p.gameState() != GameState.GAME_INTRO_OUTRO ) _background.update();
 
-		if( _gameTimer.isActiveControl() == true ) {
-			DrawUtil.setDrawCenter(pg);
-			pg.shape(p.gameGraphics.targetLine, pg.width / 2, TinkerBotPlayer.PLAYER_Y_CENTER + _curGoalPosition * TinkerBotPlayer.PLAYER_Y_INC );
+		if( p.gameState() == GameState.GAME_PLAYING ) {
+			if( _gameTimer.isActiveControl() == true ) {
+				DrawUtil.setDrawCenter(pg);
+				pg.shape(p.gameGraphics.targetLine, pg.width / 2, TinkerBotPlayer.PLAYER_Y_CENTER + _curGoalPosition * TinkerBotPlayer.PLAYER_Y_INC );
+			}
 		}
 		
 		for( TinkerBotPlayer player: _players ) player.update( _gameTimer.isActiveControl(), _gameTimer.isError() );
