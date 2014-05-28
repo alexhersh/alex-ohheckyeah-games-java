@@ -7,7 +7,7 @@ extends BlueBearNeighborhood {
 	
 	public BlueBearNeighborhoodBaker() {
 		super("baker");
-		backgroundColor = ColorUtil.colorFromHex("#555555");
-		groundColor = ColorUtil.colorFromHex("#222222");
+		backgroundColor = ColorUtil.colorFromHex("#b4e1e0");
+		groundColor = ColorUtil.colorFromHex("#fecc64");
 	}
 }
