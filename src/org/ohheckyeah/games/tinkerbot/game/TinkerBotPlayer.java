@@ -137,7 +137,7 @@ public class TinkerBotPlayer {
 		if( p.gameState() == GameState.GAME_WAITING_FOR_PLAYERS || p.gameState() == GameState.GAME_PRE_COUNTDOWN ) {
 			detectPlayer( detectPlayerCurState() );
 			_waitingSpinner.update();
-		} else if( p.gameState() == GameState.GAME_PLAYING ) {
+		} else if( p.gameState() == GameState.GAME_PLAYING || p.gameState() == GameState.GAME_COUNTDOWN ) {
 			if( shouldUpdateControls ) updateControls();
 			updateGameplay( isError );
 		}
