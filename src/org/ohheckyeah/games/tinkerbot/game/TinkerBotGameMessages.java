@@ -23,7 +23,7 @@ public class TinkerBotGameMessages {
 	protected ElasticFloat _messageCountdownY = new ElasticFloat(_messageYHidden, 0.71f, 0.16f);
 	protected float _messageWinnerX = 0;
 	protected ElasticFloat _messageWinY = new ElasticFloat(_messageYHidden, 0.71f, 0.16f);
-	protected ElasticFloat _messageLoseY = new ElasticFloat(_messageYHidden, 0.71f, 0.16f);
+	protected ElasticFloat _messageFailY = new ElasticFloat(_messageYHidden, 0.71f, 0.16f);
 
 	public TinkerBotGameMessages() {
 		p = (TinkerBot) P.p;
@@ -31,7 +31,7 @@ public class TinkerBotGameMessages {
 		
 		// calculate responsive sizes
 		_messageX = p.width / 2f;
-		_messageYHidden = p.scaleV(-150);
+		_messageYHidden = p.scaleV(-250);
 		_messageYShowing = pg.height * .2f;
 		_messageYShowingCenter = pg.height * .5f;
 		_messageYShowingLower = pg.height * .75f;
@@ -43,7 +43,7 @@ public class TinkerBotGameMessages {
 		_messageWaitingY.update();
 		_messageCountdownY.update();
 		_messageWinY.update();
-		_messageLoseY.update();
+		_messageFailY.update();
 
 		if( _messageWaitingY.val() > 0 ) {
 			pg.shape( p.gameGraphics.textStepIntoZones, _messageX, _messageWaitingY.val(), p.svgWidth(p.gameGraphics.textStepIntoZones), p.svgHeight(p.gameGraphics.textStepIntoZones) );
@@ -51,8 +51,8 @@ public class TinkerBotGameMessages {
 		if( _messageCountdownY.val() > 0 ) {
 			pg.shape( p.gameGraphics.textGetReady, _messageX, _messageCountdownY.val(), p.svgWidth(p.gameGraphics.textGetReady), p.svgHeight(p.gameGraphics.textGetReady) );
 		}
-		if( _messageLoseY.val() > 0 ) {
-			pg.shape( p.gameGraphics.textGameOver, _messageX, _messageLoseY.val(), p.svgWidth(p.gameGraphics.textGameOver), p.svgHeight(p.gameGraphics.textGameOver) );
+		if( _messageFailY.val() > 0 ) {
+			pg.shape( p.gameGraphics.textFail, _messageX, _messageFailY.val(), p.svgWidth(p.gameGraphics.textFail), p.svgHeight(p.gameGraphics.textFail) );
 		}
 		if( _messageWinY.val() > 0 ) {
 			pg.shape( p.gameGraphics.textWin, _messageX, _messageWinY.val(), p.svgWidth(p.gameGraphics.textWin), p.svgHeight(p.gameGraphics.textWin) );
@@ -73,18 +73,18 @@ public class TinkerBotGameMessages {
 		_messageCountdownY.setTarget(_messageYHidden);
 	}
 	
-	public void showLose() {
-		_messageLoseY.setTarget(_messageYShowingLower);
+	public void showFail() {
+		_messageFailY.setTarget(_messageYShowingCenter);
 	}
-	public void hideLose() {
-		_messageLoseY.setTarget(_messageYHidden);
+	public void hideFail() {
+		_messageFailY.setTarget(_messageYHidden);
 	}
 	
 	public void setWinnerX( float winnerX ) {		
 		_messageWinnerX = winnerX;
 	}
 	public void showWin() {
-		_messageWinY.setTarget(_messageYShowingLower);
+		_messageWinY.setTarget(_messageYShowingCenter);
 	}
 	public void hideWin() {
 		_messageWinY.setTarget(_messageYHidden);

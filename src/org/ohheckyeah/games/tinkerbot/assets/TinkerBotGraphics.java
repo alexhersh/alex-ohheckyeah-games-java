@@ -15,8 +15,7 @@ public class TinkerBotGraphics {
 	public PShape playerBar, playerBarError, targetLine;
 	public PShape tinkerBotLogo;
 	public PShape gameplayBackground, gameplayBackgroundWaiting;
-	public PShape win;
-	public PShape textBroughtToYou, textStepIntoZones, textGetReady, textGameOver, textWin;
+	public PShape textBroughtToYou, textStepIntoZones, textGetReady, textGameOver, textWin, textFail;
 
 	public String font;
 
@@ -29,8 +28,6 @@ public class TinkerBotGraphics {
 		waitingSpinner = P.p.loadShape( FileUtil.getHaxademicDataPath() + "games/tinkerbot/svg/shell/waiting-gear.svg" );
 		gameplayBackgroundWaiting = P.p.loadShape( FileUtil.getHaxademicDataPath() + "games/tinkerbot/svg/shell/gameplay-background-waiting.svg" );
 		gameplayBackground = P.p.loadShape( FileUtil.getHaxademicDataPath() + "games/tinkerbot/svg/shell/gameplay-background.svg" );
-		scoreBg = P.p.loadShape( FileUtil.getHaxademicDataPath() + "games/bluebear/svg/shell/bg-score.svg" );
-		win = P.p.loadShape( FileUtil.getHaxademicDataPath() + "games/bluebear/svg/scene/bear-win.svg" );
 		
 		scoreBg = P.p.loadShape( FileUtil.getHaxademicDataPath() + "games/tinkerbot/svg/shell/text-bg-score.svg" );
 		timeBg = P.p.loadShape( FileUtil.getHaxademicDataPath() + "games/tinkerbot/svg/shell/text-bg-time.svg" );
@@ -39,9 +36,9 @@ public class TinkerBotGraphics {
 		// shell text
 		textBroughtToYou = P.p.loadShape( FileUtil.getHaxademicDataPath() + "games/tinkerbot/svg/shell/text-brought-to-you-by.svg" );
 		textStepIntoZones = P.p.loadShape( FileUtil.getHaxademicDataPath() + "games/tinkerbot/svg/shell/text-step-into-your-zone.svg" );
-		textGetReady = P.p.loadShape( FileUtil.getHaxademicDataPath() + "games/bluebear/svg/shell/text-get-ready.svg" );
-		textGameOver = P.p.loadShape( FileUtil.getHaxademicDataPath() + "games/bluebear/svg/shell/text-game-over.svg" );
-		textWin = P.p.loadShape( FileUtil.getHaxademicDataPath() + "games/bluebear/svg/shell/text-you-did-it.svg" );
+		textGetReady = P.p.loadShape( FileUtil.getHaxademicDataPath() + "games/tinkerbot/svg/shell/text-prepare.svg" );
+		textWin = P.p.loadShape( FileUtil.getHaxademicDataPath() + "games/tinkerbot/svg/shell/text-win.svg" );
+		textFail = P.p.loadShape( FileUtil.getHaxademicDataPath() + "games/tinkerbot/svg/shell/text-fail-error.svg" );
 		
 		// scene
 		playerBar = P.p.loadShape( FileUtil.getHaxademicDataPath() + "games/tinkerbot/svg/scene/player-bar.svg" );

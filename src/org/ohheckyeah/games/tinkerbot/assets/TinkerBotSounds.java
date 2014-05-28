@@ -27,12 +27,10 @@ public class TinkerBotSounds {
 	public static final String STEP_OUT = "step-out";
 	public static final String PLAYER_LOCKED = "player-locked";
 	public static final String PLAYERS_DETECTED = "players-detected";
-	public static final String HIT = "hit";
-	public static final String LAUNCH = "launch";
-	public static final String SCORE = "score";
-	public static final String HEALTH_UP = "health-up";
 	public static final String COUNTDOWN = "countdown";
 	public static final String GAMEPLAY_START = "gameplay-start";
+	public static final String LASER = "laser";
+	public static final String ERROR = "error";
 	
 	public TinkerBotSounds() {
 		p = (OHYBaseGame)P.p;
@@ -42,9 +40,9 @@ public class TinkerBotSounds {
 	}
 	
 	protected void loadSoundtracks() {
-		_introSound = 		p.minim.loadFile( FileUtil.getHaxademicDataPath() + "games/bluebear/audio/soundtrack/intro-screens.wav", 512 );
-		_waitingSound = 	p.minim.loadFile( FileUtil.getHaxademicDataPath() + "games/bluebear/audio/soundtrack/waiting-loop.wav", 512 );
-		_gameplaySound = 	p.minim.loadFile( FileUtil.getHaxademicDataPath() + "games/bluebear/audio/soundtrack/bluebear-play-loop.wav", 512 );
+		_introSound = 		p.minim.loadFile( FileUtil.getHaxademicDataPath() + "games/tinkerbot/audio/soundtrack/title-screen.wav", 512 );
+		_waitingSound = 	p.minim.loadFile( FileUtil.getHaxademicDataPath() + "games/tinkerbot/audio/soundtrack/waiting-loop.wav", 512 );
+		_gameplaySound = 	p.minim.loadFile( FileUtil.getHaxademicDataPath() + "games/tinkerbot/audio/soundtrack/tinkerbot-soundtrack.wav", 512 );
 		_winSound = 		p.minim.loadFile( FileUtil.getHaxademicDataPath() + "games/bluebear/audio/soundtrack/win.wav", 512 );
 		_loseSound = 		p.minim.loadFile( FileUtil.getHaxademicDataPath() + "games/bluebear/audio/soundtrack/lose.wav", 512 );
 		_ohySound = 		p.minim.loadFile( FileUtil.getHaxademicDataPath() + "games/bluebear/audio/soundtrack/hug-it-out.wav", 512 );
@@ -74,16 +72,12 @@ public class TinkerBotSounds {
 	public void loadSoundEffects() {
 		_soundEffects = new AudioPool( p, p.minim );
 
-		_soundEffects.loadAudioFile( TinkerBotSounds.PLAYER_LOCKED, 1, 		FileUtil.getHaxademicDataPath() + "games/bluebear/audio/sfx/players-locked.wav" );
-		_soundEffects.loadAudioFile( TinkerBotSounds.PLAYERS_DETECTED, 1, 	FileUtil.getHaxademicDataPath() + "games/bluebear/audio/sfx/player-detected.wav" );
-		_soundEffects.loadAudioFile( TinkerBotSounds.STEP_IN, 1, 			FileUtil.getHaxademicDataPath() + "games/bluebear/audio/sfx/player-enter.wav" );
-		_soundEffects.loadAudioFile( TinkerBotSounds.STEP_OUT, 1, 			FileUtil.getHaxademicDataPath() + "games/bluebear/audio/sfx/player-leave.wav" );
-		_soundEffects.loadAudioFile( TinkerBotSounds.HIT, 1, 				FileUtil.getHaxademicDataPath() + "games/bluebear/audio/sfx/hit.wav" );
-		_soundEffects.loadAudioFile( TinkerBotSounds.LAUNCH, 0.5f,			FileUtil.getHaxademicDataPath() + "games/bluebear/audio/sfx/launch.wav" );
-		_soundEffects.loadAudioFile( TinkerBotSounds.SCORE, 1f,				FileUtil.getHaxademicDataPath() + "games/bluebear/audio/sfx/score.wav" );
-		_soundEffects.loadAudioFile( TinkerBotSounds.HEALTH_UP, 1f,			FileUtil.getHaxademicDataPath() + "games/bluebear/audio/sfx/health-up.wav" );
-		_soundEffects.loadAudioFile( TinkerBotSounds.COUNTDOWN, 1f,			FileUtil.getHaxademicDataPath() + "games/bluebear/audio/sfx/countdown.wav" );
-		_soundEffects.loadAudioFile( TinkerBotSounds.GAMEPLAY_START, 1f,		FileUtil.getHaxademicDataPath() + "games/bluebear/audio/sfx/gameplay-start.wav" );
+		_soundEffects.loadAudioFile( TinkerBotSounds.PLAYER_LOCKED, 1, 		FileUtil.getHaxademicDataPath() + "games/tinkerbot/audio/sfx/trinkle.wav" );
+		_soundEffects.loadAudioFile( TinkerBotSounds.PLAYERS_DETECTED, 1, 	FileUtil.getHaxademicDataPath() + "games/tinkerbot/audio/sfx/player-detected.wav" );
+		_soundEffects.loadAudioFile( TinkerBotSounds.STEP_IN, 1, 			FileUtil.getHaxademicDataPath() + "games/tinkerbot/audio/sfx/player-enter.wav" );
+		_soundEffects.loadAudioFile( TinkerBotSounds.STEP_OUT, 1, 			FileUtil.getHaxademicDataPath() + "games/tinkerbot/audio/sfx/player-leave-2.wav" );
+		_soundEffects.loadAudioFile( TinkerBotSounds.COUNTDOWN, 1f,			FileUtil.getHaxademicDataPath() + "games/tinkerbot/audio/sfx/countdown.wav" );
+		_soundEffects.loadAudioFile( TinkerBotSounds.GAMEPLAY_START, 1f,	FileUtil.getHaxademicDataPath() + "games/tinkerbot/audio/sfx/crash.wav" );
 	}
 
 	public void playSound( String id ) {

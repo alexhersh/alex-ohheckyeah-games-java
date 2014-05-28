@@ -103,10 +103,12 @@ extends TinkerBotBaseDisplay {
 	
 	public void lineUpWin() {
 		_winTime = p.millis();
+		_gamePlay.win();
 	}
 	
 	public void lineUpFail() {
 		_failTime = p.millis();
+		_gamePlay.fail();
 	}
 	
 	public void newLevel() {

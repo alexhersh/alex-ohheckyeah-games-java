@@ -1,6 +1,7 @@
 package org.ohheckyeah.games.tinkerbot.game;
 
 import org.ohheckyeah.games.tinkerbot.TinkerBot;
+import org.ohheckyeah.games.tinkerbot.assets.TinkerBotSounds;
 import org.ohheckyeah.games.tinkerbot.game.display.TinkerBotGameTimer;
 import org.ohheckyeah.games.tinkerbot.game.display.TinkerBotScoreDisplay;
 import org.ohheckyeah.games.tinkerbot.screens.TinkerBotPlayerDetectionScreen;
@@ -116,7 +117,8 @@ public class TinkerBotGamePlay {
 	}
 	
 	public void animateToPostGameOverState() {
-		_gameMessages.hideLose();
+		_gameMessages.hideWin();
+		_gameMessages.hideFail();
 	}
 	
 	public void animateToPlayerDetection() {
@@ -164,6 +166,18 @@ public class TinkerBotGamePlay {
 		while( _curGoalPosition == oldPosition ) {
 			_curGoalPosition = MathUtil.randRange( -TinkerBotPlayer.HALF_POSITIONS, TinkerBotPlayer.HALF_POSITIONS );
 		}
+		_gameMessages.hideWin();
+		_gameMessages.hideFail();
+	}
+	
+	public void win() {
+		p.sounds.playSound(TinkerBotSounds.LASER);
+		_gameMessages.showWin();
+	}
+	
+	public void fail() {
+		p.sounds.playSound(TinkerBotSounds.ERROR);
+		_gameMessages.showFail();
 	}
 	
 	public void checkPlayersLineup() {
