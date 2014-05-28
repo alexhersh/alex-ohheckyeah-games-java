@@ -12,7 +12,7 @@ import com.haxademic.core.system.FileUtil;
 public class TinkerBotGraphics {
 
 
-	public PShape waitingSpinner;
+	public PShape waitingSpinner, gearBackgroundMask;
 	public PShape scoreBg, timeBg, levelTimerBg;
 	public PShape[] scores;
 	public PShape[] countdownNumbers;
@@ -32,6 +32,7 @@ public class TinkerBotGraphics {
 
 		// shell
 		waitingSpinner = P.p.loadShape( FileUtil.getHaxademicDataPath() + "games/tinkerbot/svg/shell/waiting-gear.svg" );
+		gearBackgroundMask = P.p.loadShape( FileUtil.getHaxademicDataPath() + "games/tinkerbot/svg/shell/gear-background-mask.svg" );
 		gameplayBackgroundWaiting = P.p.loadShape( FileUtil.getHaxademicDataPath() + "games/tinkerbot/svg/shell/gameplay-background-waiting.svg" );
 		gameplayBackground = P.p.loadShape( FileUtil.getHaxademicDataPath() + "games/tinkerbot/svg/shell/gameplay-background.svg" );
 		

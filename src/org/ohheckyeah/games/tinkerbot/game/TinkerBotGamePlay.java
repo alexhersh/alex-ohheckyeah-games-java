@@ -98,6 +98,7 @@ public class TinkerBotGamePlay {
 		for( TinkerBotPlayer player: _players ) player.prepareForGameplay();
 		_gameMessages.hideWaiting();
 		_gameMessages.showCountdown();
+		_background.startUnmasking();
 	}
 	
 	public void showCountdown( int countdownTime ) {
