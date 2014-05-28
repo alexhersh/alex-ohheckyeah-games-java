@@ -20,7 +20,7 @@ public class TinkerBotGameMessages {
 	protected float _messageYShowingLower = 0;
 	
 	protected ElasticFloat _messageWaitingY = new ElasticFloat(_messageYHidden, 0.71f, 0.16f);
-	protected ElasticFloat _messageCountdownY = new ElasticFloat(_messageYHidden, 0.71f, 0.16f);
+	protected ElasticFloat _messageCountdownScale = new ElasticFloat(0, 0.71f, 0.16f);
 	protected float _messageWinnerX = 0;
 	protected ElasticFloat _messageWinScale = new ElasticFloat(0, 0.71f, 0.16f);
 	protected ElasticFloat _messageFailScale = new ElasticFloat(0, 0.71f, 0.16f);
@@ -41,15 +41,15 @@ public class TinkerBotGameMessages {
 		DrawUtil.setDrawCenter(pg);
 
 		_messageWaitingY.update();
-		_messageCountdownY.update();
+		_messageCountdownScale.update();
 		_messageWinScale.update();
 		_messageFailScale.update();
 
 		if( _messageWaitingY.val() > 0 ) {
 			pg.shape( p.gameGraphics.textStepIntoZones, _messageX, _messageWaitingY.val(), p.svgWidth(p.gameGraphics.textStepIntoZones), p.svgHeight(p.gameGraphics.textStepIntoZones) );
 		}
-		if( _messageCountdownY.val() > 0.1 ) {
-			pg.shape( p.gameGraphics.textGetReady, _messageX, _messageCountdownY.val(), p.svgWidth(p.gameGraphics.textGetReady), p.svgHeight(p.gameGraphics.textGetReady) );
+		if( _messageCountdownScale.val() > 0.1 ) {
+			pg.shape( p.gameGraphics.textGetReady, _messageX, _messageYShowingCenter, p.svgWidth(p.gameGraphics.textGetReady) * _messageCountdownScale.val(), p.svgHeight(p.gameGraphics.textGetReady) * _messageCountdownScale.val());
 		}
 		if( _messageFailScale.val() > 0.1 ) {
 			pg.shape( p.gameGraphics.textFail, _messageX, _messageYShowingCenter, p.svgWidth(p.gameGraphics.textFail) * _messageFailScale.val(), p.svgHeight(p.gameGraphics.textFail) * _messageFailScale.val());
@@ -67,10 +67,10 @@ public class TinkerBotGameMessages {
 	}
 	
 	public void showCountdown() {
-		_messageCountdownY.setTarget(_messageYShowingCenter);
+		_messageCountdownScale.setTarget(1);
 	}
 	public void hideCountdown() {
-		_messageCountdownY.setTarget(_messageYHidden);
+		_messageCountdownScale.setTarget(0);
 	}
 	
 	public void showFail() {
