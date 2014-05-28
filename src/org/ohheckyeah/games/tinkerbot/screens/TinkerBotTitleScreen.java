@@ -14,7 +14,6 @@ public class TinkerBotTitleScreen {
 	
 	protected TinkerBot p;
 	public PGraphics pg;
-	public PGraphics pgBackground;
 	public boolean _bgCached = false;
 	
 	protected int _bgColor;
@@ -26,8 +25,6 @@ public class TinkerBotTitleScreen {
 		p = (TinkerBot) P.p;
 		pg = p.createGraphics( p.width, p.height, P.OPENGL );
 		pg.smooth(OpenGLUtil.SMOOTH_MEDIUM);
-		pgBackground = p.createGraphics( p.width, p.height, P.OPENGL );
-		pgBackground.smooth(OpenGLUtil.SMOOTH_MEDIUM);
 	}
 	
 	public void reset() {
@@ -57,14 +54,8 @@ public class TinkerBotTitleScreen {
 	}
 	
 	protected void drawBackground() {
-		if( _bgCached == false ) {
-			_bgCached = true;
-			pgBackground.beginDraw();
-			pgBackground.shape( p.gameGraphics.gameplayBackground, 0, 0, p.scaleV(p.gameGraphics.gameplayBackground.width), p.scaleV(p.gameGraphics.gameplayBackground.height) );
-			pgBackground.endDraw();
-		}
-		DrawUtil.setDrawCorner(pg);
-		pg.image( pgBackground, 0, 0, pgBackground.width, pgBackground.height );
+		DrawUtil.setDrawCenter(pg);
+		pg.image( p.gameGraphics.gameplayBackgroundImage, pg.width * 0.5f, pg.height * 0.5f, p.gameGraphics.gameplayBackgroundImage.width, p.gameGraphics.gameplayBackgroundImage.height );
 	}
 	
 	protected void drawLogo() {

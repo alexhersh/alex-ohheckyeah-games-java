@@ -1,8 +1,12 @@
 package org.ohheckyeah.games.tinkerbot.assets;
 
+import org.ohheckyeah.games.tinkerbot.TinkerBot;
+
+import processing.core.PGraphics;
 import processing.core.PShape;
 
 import com.haxademic.core.app.P;
+import com.haxademic.core.draw.util.OpenGLUtil;
 import com.haxademic.core.system.FileUtil;
 
 public class TinkerBotGraphics {
@@ -18,6 +22,8 @@ public class TinkerBotGraphics {
 	public PShape textBroughtToYou, textStepIntoZones, textGetReady, textGameOver, textWin, textFail;
 
 	public String font;
+
+	public PGraphics gameplayBackgroundImage;
 
 	public TinkerBotGraphics() {
 
@@ -44,6 +50,18 @@ public class TinkerBotGraphics {
 		playerBar = P.p.loadShape( FileUtil.getHaxademicDataPath() + "games/tinkerbot/svg/scene/player-bar.svg" );
 		playerBarError = P.p.loadShape( FileUtil.getHaxademicDataPath() + "games/tinkerbot/svg/scene/player-bar-error.svg" );
 		targetLine = P.p.loadShape( FileUtil.getHaxademicDataPath() + "games/tinkerbot/svg/scene/target-line.svg" );
+		
+		
+		
+		// cache gameplay background
+		TinkerBot p = (TinkerBot) P.p;
+		gameplayBackgroundImage = p.createGraphics( p.width, p.height, P.OPENGL );
+		gameplayBackgroundImage.smooth(OpenGLUtil.SMOOTH_HIGHER);
+
+		gameplayBackgroundImage.beginDraw();
+		gameplayBackgroundImage.shape( gameplayBackground, 0, 0, p.scaleV(gameplayBackground.width), p.scaleV(gameplayBackground.height) );
+		gameplayBackgroundImage.endDraw();
+
 	}
 
 }
