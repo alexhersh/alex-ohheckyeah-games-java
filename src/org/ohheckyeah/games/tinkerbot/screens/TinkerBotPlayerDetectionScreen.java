@@ -21,11 +21,11 @@ public class TinkerBotPlayerDetectionScreen {
 	}
 	
 	public void update() {
-		DrawUtil.setDrawCorner(pg);
 		_backgroundY.update();		
 		
 		if( _backgroundY.value() < pg.height ) {
-			pg.shape( p.gameGraphics.gameplayBackgroundWaiting, 0, 0, p.svgWidth(p.gameGraphics.gameplayBackgroundWaiting), p.svgHeight(p.gameGraphics.gameplayBackgroundWaiting) );
+			DrawUtil.setDrawCenter(pg);
+			pg.shape( p.gameGraphics.gameplayBackgroundWaiting, pg.width * 0.5f, _backgroundY.value() + pg.height * 0.5f, p.svgWidth(p.gameGraphics.gameplayBackgroundWaiting), p.svgHeight(p.gameGraphics.gameplayBackgroundWaiting) );
 		}
 	}
 	
@@ -35,7 +35,7 @@ public class TinkerBotPlayerDetectionScreen {
 	}
 	
 	public void hide() {
-		_backgroundY.setTarget(-pg.height);
+		// _backgroundY.setTarget(-pg.height);
 	}
 
 }

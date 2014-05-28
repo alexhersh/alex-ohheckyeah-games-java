@@ -31,7 +31,7 @@ public class TinkerBotGamePlay {
 	protected int _gameStartTime = 0;
 	
 	protected TinkerBotPlayerDetectionScreen _playerDetectBackground;
-	protected TinkerBotBackground _backgroundColor;
+	protected TinkerBotBackground _background;
 	protected TinkerBotPlayer[] _players;
 	protected TinkerBotGameTimer _gameTimer;
 	protected TinkerBotScoreDisplay _scoreDisplay;
@@ -54,7 +54,7 @@ public class TinkerBotGamePlay {
 	}
 	
 	protected void buildGraphicsLayers() {
-		_backgroundColor = new TinkerBotBackground();
+		_background = new TinkerBotBackground();
 		_playerDetectBackground = new TinkerBotPlayerDetectionScreen();
 		float playerSpacing = 1f / ( OHYBaseGame.NUM_PLAYERS + 1 ); // +2 from last index for spacing on the sides
 		_players = new TinkerBotPlayer[OHYBaseGame.NUM_PLAYERS];
@@ -194,8 +194,8 @@ public class TinkerBotGamePlay {
 	
 	// draw graphics ------------------------------------------------------------------
 	protected void drawGraphicsLayers() {
-		_backgroundColor.update();
 		_playerDetectBackground.update();
+		if( p.gameState() != GameState.GAME_WAITING_FOR_PLAYERS && p.gameState() != GameState.GAME_INTRO_OUTRO ) _background.update();
 
 		if( _gameTimer.isActiveControl() == true ) {
 			DrawUtil.setDrawCenter(pg);
