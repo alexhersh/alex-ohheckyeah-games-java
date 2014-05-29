@@ -174,6 +174,7 @@ extends OHYBaseGame
 		_countdownStartTime = p.millis();
 		_gamePlay.showCountdown( _countdownSeconds );
 		_gamePlay.animateToGameState();
+		sounds.playSound( TinkerBotSounds.COUNTDOWN );
 	}
 
 	protected void runGameStateCountdown() {
@@ -182,9 +183,6 @@ extends OHYBaseGame
 		int countdownTime = _countdownSeconds - countdownSecondsElapsed;
 		if( countdownTime > 0 ) {
 			_gamePlay.updateCountdown( countdownTime );
-			if( _lastCountdownTime != countdownTime ) {
-				sounds.playSound( TinkerBotSounds.COUNTDOWN );
-			}
 		} else {
 			_gamePlay.updateCountdown( 0 );
 			setGameState( GameState.GAME_PLAYING );

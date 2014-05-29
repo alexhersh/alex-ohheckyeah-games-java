@@ -61,7 +61,7 @@ public class TinkerBotSounds {
 		_curSoundtrack = newSoundTrack;
 		_curSoundtrack.setGain(0);
 		_curSoundtrack.play(0);
-		if( _curSoundtrack != _winSound && _curSoundtrack != _loseSound && _curSoundtrack != _ohySound )_curSoundtrack.loop(-1);
+		if( _curSoundtrack != _winSound && _curSoundtrack != _loseSound && _curSoundtrack != _ohySound ) _curSoundtrack.loop(-1);
 	}
 	
 	public void stopSoundtrack() {
@@ -78,6 +78,8 @@ public class TinkerBotSounds {
 		_soundEffects.loadAudioFile( TinkerBotSounds.STEP_OUT, 1, 			FileUtil.getHaxademicDataPath() + "games/tinkerbot/audio/sfx/player-leave-2.wav" );
 		_soundEffects.loadAudioFile( TinkerBotSounds.COUNTDOWN, 1f,			FileUtil.getHaxademicDataPath() + "games/tinkerbot/audio/sfx/countdown.wav" );
 		_soundEffects.loadAudioFile( TinkerBotSounds.GAMEPLAY_START, 1f,	FileUtil.getHaxademicDataPath() + "games/tinkerbot/audio/sfx/crash.wav" );
+		_soundEffects.loadAudioFile( TinkerBotSounds.LASER, 1f,				FileUtil.getHaxademicDataPath() + "games/tinkerbot/audio/sfx/laser.wav" );
+		_soundEffects.loadAudioFile( TinkerBotSounds.ERROR, 1f,				FileUtil.getHaxademicDataPath() + "games/tinkerbot/audio/sfx/error.wav" );
 	}
 
 	public void playSound( String id ) {
