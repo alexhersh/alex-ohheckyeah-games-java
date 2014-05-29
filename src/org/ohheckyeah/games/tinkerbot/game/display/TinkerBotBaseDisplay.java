@@ -15,13 +15,13 @@ public class TinkerBotBaseDisplay {
 	protected EasingFloat _offsetY;
 	protected float _offsetYShowing;
 	protected float _offsetYHiding;
-
+	
 	protected float FONT_SIZE = 55;
 
 	public TinkerBotBaseDisplay() {
 		p = (TinkerBot)P.p;
 		pg = p.pg;
-
+		
 		_offsetYShowing = p.scaleV(15);
 		_offsetYHiding = p.scaleV(-150);
 		_offsetY = new EasingFloat(_offsetYHiding,4);

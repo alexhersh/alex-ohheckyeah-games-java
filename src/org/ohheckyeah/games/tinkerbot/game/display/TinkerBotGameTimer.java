@@ -30,7 +30,7 @@ extends TinkerBotBaseDisplay {
 		super();
 		_gamePlay = gamePlay;
 		
-		_timerFontRenderer = new CustomFontText2D( p, p.ohyGraphics.font, p.scaleV(FONT_SIZE), TinkerBotColors.MAIN_TEXT_COLOR, CustomFontText2D.ALIGN_CENTER, (int) p.scaleV(197), (int)p.scaleV(FONT_SIZE * 1.5f) );
+		_timerFontRenderer = new CustomFontText2D( p, p.ohyGraphics.font, p.scaleH(FONT_SIZE), TinkerBotColors.MAIN_TEXT_COLOR, CustomFontText2D.ALIGN_CENTER, (int) p.scaleH(197), (int)p.scaleH(FONT_SIZE * 1.5f) );
 		
 		GAME_LENGTH_SECONDS = gameSeconds;
 		GAME_LENGTH = GAME_LENGTH_SECONDS * 1000;
@@ -93,10 +93,10 @@ extends TinkerBotBaseDisplay {
 		pg.translate( 0, _offsetY.value() );
 		
 		DrawUtil.setDrawCorner(pg);
-		pg.shape( p.gameGraphics.timeBg, p.scaleV(752), 0, p.scaleV(p.gameGraphics.timeBg.width), p.scaleV(p.gameGraphics.timeBg.height) );
+		pg.shape( p.gameGraphics.timeBg, p.scaleH(752), 0, p.scaleH(p.gameGraphics.timeBg.width), p.scaleH(p.gameGraphics.timeBg.height) );
 		int time = ( _curGameTime <= 0 ) ? 0 : _curGameTime;
 		_timerFontRenderer.updateText( StringFormatter.timeFromMilliseconds( time, false) );
-		pg.image( _timerFontRenderer.getTextPImage(), p.scaleV(768), p.scaleV(9), _timerFontRenderer.getTextPImage().width, _timerFontRenderer.getTextPImage().height );
+		pg.image( _timerFontRenderer.getTextPImage(), p.scaleH(768), p.scaleH(9), _timerFontRenderer.getTextPImage().width, _timerFontRenderer.getTextPImage().height );
 		
 		pg.popMatrix();
 	}

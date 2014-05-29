@@ -35,21 +35,21 @@ extends TinkerBotBaseDisplay {
 		
 		// draw it!
 		pg.pushMatrix();
-		pg.translate( p.scaleV(296), _offsetY.value() );
+		pg.translate( p.scaleH(296), _offsetY.value() );
 		
 		// draw bg
 		DrawUtil.setDrawCorner(pg);
-		pg.shape( p.gameGraphics.levelTimerBg, 0, 0, p.scaleV(p.gameGraphics.levelTimerBg.width), p.scaleV(p.gameGraphics.levelTimerBg.height) );
+		pg.shape( p.gameGraphics.levelTimerBg, 0, 0, p.scaleH(p.gameGraphics.levelTimerBg.width), p.scaleH(p.gameGraphics.levelTimerBg.height) );
 		
 		// draw bars
 		if( _startTime != 0 ) {
-			pg.translate( p.scaleV(38), p.scaleV(20) );
+			pg.translate( p.scaleH(38), p.scaleH(20) );
 			float percentDone = (float) ( p.millis() - _startTime ) / (float) TinkerBotGameTimer.LEVEL_LENGTH;
 			_curBars = P.ceil( percentDone * TOTAL_BARS );
 			if( _curBars > TOTAL_BARS ) _curBars = TOTAL_BARS;
 			pg.fill( TinkerBotColors.TIMER_BARS_COLOR );
 			for( int i=0; i < _curBars; i++ ) {
-				pg.rect( i * p.scaleV(17), 0, p.scaleV(13), p.scaleV(55) );
+				pg.rect( i * p.scaleH(17), 0, p.scaleH(13), p.scaleH(55) );
 			}
 		}
 		

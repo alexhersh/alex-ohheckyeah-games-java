@@ -21,7 +21,7 @@ extends TinkerBotBaseDisplay {
 	}
 	
 	protected void buildScoreText() {
-		_scoreText = new CustomFontText2D( p, p.ohyGraphics.font, p.scaleV(FONT_SIZE), TinkerBotColors.MAIN_TEXT_COLOR, CustomFontText2D.ALIGN_CENTER, (int) p.scaleV(197), (int)p.scaleV(FONT_SIZE * 1.5f) );
+		_scoreText = new CustomFontText2D( p, p.ohyGraphics.font, p.scaleH(FONT_SIZE), TinkerBotColors.MAIN_TEXT_COLOR, CustomFontText2D.ALIGN_CENTER, (int) p.scaleH(197), (int)p.scaleH(FONT_SIZE * 1.5f) );
 		_scoreText.updateText( "0" );
 		_scoreEaser = new EasingFloat(0,5);
 	}
@@ -50,11 +50,11 @@ extends TinkerBotBaseDisplay {
 
 		// draw score bg
 		DrawUtil.setDrawCorner(pg);
-		pg.shape( p.gameGraphics.scoreBg, p.scaleV(992), 0, p.svgWidth(p.gameGraphics.scoreBg), p.svgHeight(p.gameGraphics.scoreBg) );
+		pg.shape( p.gameGraphics.scoreBg, p.scaleH(992), 0, p.scaleH(p.gameGraphics.scoreBg.width), p.scaleH(p.gameGraphics.scoreBg.height) );
 		
 		// draw score text
 		easeScore();
-		pg.image( _scoreText.getTextPImage(), p.scaleV(1009), p.scaleV(9), _scoreText.getTextPImage().width, _scoreText.getTextPImage().height );
+		pg.image( _scoreText.getTextPImage(), p.scaleH(1009), p.scaleH(9), _scoreText.getTextPImage().width, _scoreText.getTextPImage().height );
 
 		pg.popMatrix();
 	}
