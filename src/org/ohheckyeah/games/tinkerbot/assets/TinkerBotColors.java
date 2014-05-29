@@ -6,6 +6,7 @@ public class TinkerBotColors {
 	
 	public final static int STAGE_BG = ColorUtil.colorFromHex("#ffffff");
 	public final static int MAIN_TEXT_COLOR = ColorUtil.colorFromHex("#5EBC8B");
+	public final static int TIMER_BARS_COLOR = ColorUtil.colorFromHex("#54ffaf");
 	public final static int RED_TEXT_COLOR = ColorUtil.colorFromHex("#EB2227");
 	public final static int CREDITS_BG = ColorUtil.colorFromHex("#f6921e");
 	public final static int CREDITS_DOTS = ColorUtil.colorFromHex("#f9a137");

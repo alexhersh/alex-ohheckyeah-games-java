@@ -3,6 +3,7 @@ package org.ohheckyeah.games.tinkerbot.game;
 import org.ohheckyeah.games.tinkerbot.TinkerBot;
 import org.ohheckyeah.games.tinkerbot.assets.TinkerBotSounds;
 import org.ohheckyeah.games.tinkerbot.game.display.TinkerBotGameTimer;
+import org.ohheckyeah.games.tinkerbot.game.display.TinkerBotLevelTimer;
 import org.ohheckyeah.games.tinkerbot.game.display.TinkerBotScoreDisplay;
 import org.ohheckyeah.games.tinkerbot.screens.TinkerBotPlayerDetectionScreen;
 import org.ohheckyeah.shared.app.OHYBaseGame;
@@ -34,6 +35,7 @@ public class TinkerBotGamePlay {
 	protected TinkerBotBackground _background;
 	protected TinkerBotPlayer[] _players;
 	protected TinkerBotGameTimer _gameTimer;
+	protected TinkerBotLevelTimer _levelTimer;
 	protected TinkerBotScoreDisplay _scoreDisplay;
 	protected TinkerBotGameMessages _gameMessages;
 
@@ -61,6 +63,7 @@ public class TinkerBotGamePlay {
 		for( int i=0; i < OHYBaseGame.NUM_PLAYERS; i++ ) _players[i] = new TinkerBotPlayer(_kinectGrid.getRegion(i), _isRemoteKinect, (float) (i+1) * playerSpacing );
 		_scoreDisplay = new TinkerBotScoreDisplay();
 		_gameTimer = new TinkerBotGameTimer( this, p.appConfig.getInt( "game_seconds", 30 ) );
+		_levelTimer = new TinkerBotLevelTimer();
 		_gameMessages = new TinkerBotGameMessages();
 	}
 	
@@ -80,6 +83,8 @@ public class TinkerBotGamePlay {
 	}
 	
 	public void startGame() {
+		_levelTimer.startTimer();
+		_levelTimer.show();
 		_gameTimer.startTimer();
 		_gameTimer.newLevel();
 		_gameTimer.show();
@@ -167,6 +172,7 @@ public class TinkerBotGamePlay {
 		while( _curGoalPosition == oldPosition ) {
 			_curGoalPosition = MathUtil.randRange( -TinkerBotPlayer.HALF_POSITIONS, TinkerBotPlayer.HALF_POSITIONS );
 		}
+		_levelTimer.startTimer();
 		_gameMessages.hideWin();
 		_gameMessages.hideFail();
 	}
@@ -174,11 +180,13 @@ public class TinkerBotGamePlay {
 	public void win() {
 		p.sounds.playSound(TinkerBotSounds.LASER);
 		_gameMessages.showWin();
+		_levelTimer.reset();
 	}
 	
 	public void fail() {
 		p.sounds.playSound(TinkerBotSounds.ERROR);
 		_gameMessages.showFail();
+		_levelTimer.reset();
 	}
 	
 	public void checkPlayersLineup() {
@@ -190,6 +198,7 @@ public class TinkerBotGamePlay {
 		if( isLinedUp == true ) {
 			_scoreDisplay.addScore();
 			_gameTimer.lineUpWin();
+			_levelTimer.reset();
 		}
 	}
 	
@@ -206,6 +215,7 @@ public class TinkerBotGamePlay {
 		}
 		
 		for( TinkerBotPlayer player: _players ) player.update( _gameTimer.isActiveControl(), _gameTimer.isError() );
+		_levelTimer.update();
 		_gameTimer.update();
 		_scoreDisplay.update();
 		_gameMessages.update();
