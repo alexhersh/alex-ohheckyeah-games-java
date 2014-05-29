@@ -58,7 +58,7 @@ extends OHYBaseGame
 
 	
 	public void setup() {
-		super.setup( "bluebear.properties", 630 );
+		super.setup( "bluebear.properties", 630, 1536 );
 		initGame();
 	}
 

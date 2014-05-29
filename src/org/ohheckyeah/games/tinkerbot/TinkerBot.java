@@ -54,7 +54,7 @@ extends OHYBaseGame
 
 	
 	public void setup() {
-		super.setup( "tinkerbot.properties", 864 );
+		super.setup( "tinkerbot.properties", 864, 1536 );
 		initGame();
 	}
 

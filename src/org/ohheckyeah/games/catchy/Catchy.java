@@ -70,7 +70,7 @@ extends OHYBaseGame
 	
 	
 	public void setup() {
-		super.setup( "catchy.properties", 680 );
+		super.setup( "catchy.properties", 680, 1536 );
 		initGame();
 	}
 

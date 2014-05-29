@@ -19,6 +19,7 @@ extends OHYKinectApp {
 	// game canvas & responsive scale
 	public PGraphics pg;
 	public float gameScaleV = 1;
+	public float gameScaleH = 1;
 
 	// game state
 	public enum GameState {
@@ -48,10 +49,11 @@ extends OHYKinectApp {
 	
 	// shared setup methods --------------------------------------------------------------------------------------------
 	
-	public void setup( String propertiesFile, int gameOriginalHeight ) {
+	public void setup( String propertiesFile, int gameOriginalHeight, int gameOriginalWidth ) {
 		_customPropsFile = FileUtil.getHaxademicDataPath() + "properties/" + propertiesFile;
 		super.setup();
 		gameScaleV = (float) p.height / (float) gameOriginalHeight;
+		gameScaleH = (float) p.width / (float) gameOriginalWidth;
 		ohyGraphics = new OHYGraphics();
 		setKinectProperties();
 		setRemoteKinectReceiverProperties();
@@ -68,6 +70,10 @@ extends OHYKinectApp {
 		return input * gameScaleV;
 	}
 
+	public float scaleH( float input ) {
+		return input * gameScaleH;
+	}
+	
 	public int svgWidth( PShape shape ) {
 		return P.round(scaleV(shape.width));
 	}
