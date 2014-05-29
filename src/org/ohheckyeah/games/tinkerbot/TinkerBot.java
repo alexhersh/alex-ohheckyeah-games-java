@@ -205,6 +205,7 @@ extends OHYBaseGame
 	}
 	
 	protected void setGameStateGameOver() {
+		_gamePlay.animateToGameOverState();
 		// set up tracking vars
 		String winIndexes = "";
 	    Date gameDate = new Date();

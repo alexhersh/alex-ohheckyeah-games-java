@@ -122,6 +122,12 @@ public class TinkerBotGamePlay {
 		_gameMessages.hideCountdown();
 	}
 	
+	public void animateToGameOverState() {
+		_levelTimer.hide();
+		_scoreDisplay.hide();
+		_gameTimer.hide();
+	}
+	
 	public void animateToPostGameOverState() {
 		_gameMessages.hideWin();
 		_gameMessages.hideFail();
