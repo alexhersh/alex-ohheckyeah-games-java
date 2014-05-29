@@ -126,6 +126,7 @@ public class TinkerBotGamePlay {
 		_levelTimer.hide();
 		_scoreDisplay.hide();
 		_gameTimer.hide();
+		for( TinkerBotPlayer player: _players ) player.gameOver();
 	}
 	
 	public void animateToPostGameOverState() {

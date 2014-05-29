@@ -27,6 +27,7 @@ public class TinkerBotPlayer {
 	protected PShape _detectionSvg;
 	protected int _playerX = 0;
 	protected EasingFloat _playerY = new EasingFloat(0,2);
+	protected EasingFloat _playerYBuildOffset = new EasingFloat(0,7);
 	protected int KINECT_PIXEL_DETECT_THRESH = 10;
 	public static int NUM_POSITIONS = 7;
 	public static int HALF_POSITIONS = (NUM_POSITIONS - 1) / 2;
@@ -81,8 +82,12 @@ public class TinkerBotPlayer {
 
 	public void prepareForGameplay() {
 		_waitingSpinner.hide();
+		// pick player parts for the round
 		_barOverlayIndexTop = MathUtil.randRange(0, p.gameGraphics.barParts.length - 1);
 		_barOverlayIndexBot = MathUtil.randRange(0, p.gameGraphics.barParts.length - 1);
+		// send the parts in via offset animation
+		_playerYBuildOffset.setCurrent(pg.height);
+		_playerYBuildOffset.setTarget(0);
 	}
 	
 	public void startGameplay() {
@@ -92,6 +97,10 @@ public class TinkerBotPlayer {
 		resetDetection();
 		_playerDetectedState = null;
 		_waitingSpinner.show();
+	}
+
+	public void gameOver() {
+		_playerYBuildOffset.setTarget(pg.height);
 	}
 
 	protected PlayerDetectedState detectPlayerCurState() {
@@ -172,6 +181,7 @@ public class TinkerBotPlayer {
 	
 	protected void updateGameplay( boolean isError ) {
 		_playerY.update();
+		_playerYBuildOffset.update();
 		
 		// set error rotation when error first happens in a level
 		if( isError == true ) {
@@ -192,6 +202,9 @@ public class TinkerBotPlayer {
 		float bottomBarHeight = pg.height - _playerY.value() - PLAYER_Y_GAP;
 		PShape overlayBottom = ( isError ) ? p.gameGraphics.barPartsError[_barOverlayIndexBot] : p.gameGraphics.barParts[_barOverlayIndexBot];
 		
+		// translate build in/out y offset
+		pg.pushMatrix();
+		pg.translate( 0, -_playerYBuildOffset.value() );
 		// draw top bar
 		pg.shape(barSvg, _playerX, topBarHeight / 2f, barWidth, topBarHeight );
 		// and overlay, with rotation if errored
@@ -201,7 +214,11 @@ public class TinkerBotPlayer {
 		pg.rotate(_errorRotation);
 		pg.shape(overlay, 0, 0, p.scaleV(overlay.width + 2), p.scaleV(overlay.height + 2) );
 		pg.popMatrix();
+		pg.popMatrix();
 		
+		// translate build in/out y offset
+		pg.pushMatrix();
+		pg.translate( 0, _playerYBuildOffset.value() );
 		// draw bottom bar
 		pg.shape(barSvg, _playerX, pg.height - bottomBarHeight / 2f, barWidth, bottomBarHeight );
 		// and overlay, with rotation if errored
@@ -209,6 +226,7 @@ public class TinkerBotPlayer {
 		pg.translate( _playerX, _playerY.value() + p.scaleV(overlayBottom.height / 2f) + PLAYER_Y_GAP );
 		pg.rotate(_errorRotation);
 		pg.shape(overlayBottom, 0, 0, p.scaleV(overlayBottom.width + 2), p.scaleV(overlayBottom.height + 2) );
+		pg.popMatrix();
 		pg.popMatrix();
 	}
 }
