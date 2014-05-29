@@ -51,7 +51,7 @@ extends OHYKinectApp {
 	public void setup( String propertiesFile, int gameOriginalHeight ) {
 		_customPropsFile = FileUtil.getHaxademicDataPath() + "properties/" + propertiesFile;
 		super.setup();
-		gameScaleV = p.height / gameOriginalHeight;
+		gameScaleV = (float) p.height / (float) gameOriginalHeight;
 		ohyGraphics = new OHYGraphics();
 		setKinectProperties();
 		setRemoteKinectReceiverProperties();
