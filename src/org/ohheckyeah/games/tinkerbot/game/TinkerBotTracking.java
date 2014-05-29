@@ -14,11 +14,11 @@ public class TinkerBotTracking {
 	private final static String rfc1123Pattern ="EEE, dd MMM yyyyy HH:mm:ss z";
 	public final static SimpleDateFormat rfc1123Format = new SimpleDateFormat(rfc1123Pattern, loc);
 
-	protected String outputDir = FileUtil.getHaxademicDataPath() + "games/bluebear/output/";
+	protected String outputDir = FileUtil.getHaxademicDataPath() + "games/tinkerbot/output/";
 	protected String cameraImageDir = outputDir + "camera/";
 	protected String trackingFileDir = outputDir + "text/";
-	protected String trackingGamesFilePath = trackingFileDir + "bluebear-game-history.csv";
-	protected String trackingPlayersFilePath = trackingFileDir + "bluebear-player-history.csv";
+	protected String trackingGamesFilePath = trackingFileDir + "tinkerbot-game-history.csv";
+	protected String trackingPlayersFilePath = trackingFileDir + "tinkerbot-player-history.csv";
 	
 	public TinkerBotTracking() {
 		initTrackingFile();
