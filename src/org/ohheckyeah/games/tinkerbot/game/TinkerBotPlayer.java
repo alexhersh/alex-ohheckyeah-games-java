@@ -32,6 +32,7 @@ public class TinkerBotPlayer {
 	public static int HALF_POSITIONS = (NUM_POSITIONS - 1) / 2;
 	public static int PLAYER_Y_CENTER;
 	public static int PLAYER_Y_INC;
+	public static float PLAYER_Y_GAP;
 	protected PlayerDetectedState _playerDetectedState;
 
 	protected boolean _controlsActive = false;
@@ -40,6 +41,11 @@ public class TinkerBotPlayer {
 	protected int _detectedPlayerTime = 0;
 	protected int _autoControlTime = 0;
 	protected int _position = 0;
+	
+	protected int _barOverlayIndexTop = 0;
+	protected int _barOverlayIndexBot = 0;
+	protected boolean _wasError = false;
+	protected float _errorRotation = 0;
 
 
 	public TinkerBotPlayer( KinectRegion kinectRegion, boolean isRemoteKinect, float xPosition ) {
@@ -53,6 +59,7 @@ public class TinkerBotPlayer {
 		_waitingSpinner = new TinkerBotWaitingSpinner( _playerX );
 		PLAYER_Y_CENTER = P.round( pg.height * 0.5f );
 		PLAYER_Y_INC = P.round( pg.height * 0.75f / NUM_POSITIONS );
+		PLAYER_Y_GAP = p.scaleV(45);
 	}
 	
 	public boolean detectedPlayer() {
@@ -74,6 +81,8 @@ public class TinkerBotPlayer {
 
 	public void prepareForGameplay() {
 		_waitingSpinner.hide();
+		_barOverlayIndexTop = MathUtil.randRange(0, p.gameGraphics.barParts.length - 1);
+		_barOverlayIndexBot = MathUtil.randRange(0, p.gameGraphics.barParts.length - 1);
 	}
 	
 	public void startGameplay() {
@@ -164,11 +173,42 @@ public class TinkerBotPlayer {
 	protected void updateGameplay( boolean isError ) {
 		_playerY.update();
 		
+		// set error rotation when error first happens in a level
+		if( isError == true ) {
+			if( _wasError == false ) {
+				_errorRotation = MathUtil.randRangeDecimel(-0.1f, 0.1f);
+			}
+		} else {
+			_errorRotation = 0;
+		}
+		_wasError = isError;
+		
 		// draw top & bottom bar
-		DrawUtil.setDrawCorner(pg);
+		DrawUtil.setDrawCenter(pg);
 		PShape barSvg = ( isError ) ? p.gameGraphics.playerBarError : p.gameGraphics.playerBar;
 		float barWidth = p.svgWidth( barSvg );
-		pg.shape(barSvg, _playerX - barWidth / 2f, 0, barWidth, _playerY.value() - p.scaleV(30) );
-		pg.shape(barSvg, _playerX - barWidth / 2f, _playerY.value() + p.scaleV(30), p.svgWidth( barSvg ), pg.height - _playerY.value() );
+		float topBarHeight = _playerY.value() - PLAYER_Y_GAP;
+		PShape overlay = ( isError ) ? p.gameGraphics.barPartsError[_barOverlayIndexTop] : p.gameGraphics.barParts[_barOverlayIndexTop];
+		float bottomBarHeight = pg.height - _playerY.value() - PLAYER_Y_GAP;
+		PShape overlayBottom = ( isError ) ? p.gameGraphics.barPartsError[_barOverlayIndexBot] : p.gameGraphics.barParts[_barOverlayIndexBot];
+		
+		// draw top bar
+		pg.shape(barSvg, _playerX, topBarHeight / 2f, barWidth, topBarHeight );
+		// and overlay, with rotation if errored
+		pg.pushMatrix();
+		pg.translate( _playerX, _playerY.value() - p.scaleV(overlay.height / 2f) - PLAYER_Y_GAP );
+		pg.rotate(P.PI);
+		pg.rotate(_errorRotation);
+		pg.shape(overlay, 0, 0, p.scaleV(overlay.width + 2), p.scaleV(overlay.height + 2) );
+		pg.popMatrix();
+		
+		// draw bottom bar
+		pg.shape(barSvg, _playerX, pg.height - bottomBarHeight / 2f, barWidth, bottomBarHeight );
+		// and overlay, with rotation if errored
+		pg.pushMatrix();
+		pg.translate( _playerX, _playerY.value() + p.scaleV(overlayBottom.height / 2f) + PLAYER_Y_GAP );
+		pg.rotate(_errorRotation);
+		pg.shape(overlayBottom, 0, 0, p.scaleV(overlayBottom.width + 2), p.scaleV(overlayBottom.height + 2) );
+		pg.popMatrix();
 	}
 }
