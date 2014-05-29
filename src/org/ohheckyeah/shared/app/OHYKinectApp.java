@@ -13,24 +13,28 @@ extends PAppletHax {
 
 	// Kinect input ----------------------------------------------------------------------------------------------
 	
-	public static float KINECT_MIN_DIST = 1500;
-	public static float KINECT_MAX_DIST = 2000;
-	public static int KINECT_TOP = 0;
-	public static int KINECT_BOTTOM = 480;
-	public static int KINECT_PLAYER_GAP = 0;
-	public static int NUM_PLAYERS = 2;
+	public static int KINECT_MIN_DIST;
+	public static int KINECT_MAX_DIST;
+	public static int KINECT_TOP;
+	public static int KINECT_BOTTOM;
+	public static int KINECT_PLAYER_GAP;
+	public static int NUM_PLAYERS;
+	public static int KINECT_PIXEL_SKIP;
+	public static int PLAYER_MIN_PIXELS;
 	protected KinectRegionGrid _kinectGrid;
 
 	protected void setKinectProperties() {
-		KINECT_MIN_DIST = _appConfig.getInt( "kinect_min_mm", 1500 );
-		KINECT_MAX_DIST = _appConfig.getInt( "kinect_max_mm", 2000 );
-		KINECT_TOP = _appConfig.getInt( "kinect_top_pixel", 240 );
-		KINECT_BOTTOM = _appConfig.getInt( "kinect_bottom_pixel", 400 );
+		KINECT_MIN_DIST = 	_appConfig.getInt( "kinect_min_mm", 1500 );
+		KINECT_MAX_DIST = 	_appConfig.getInt( "kinect_max_mm", 2000 );
+		KINECT_TOP = 		_appConfig.getInt( "kinect_top_pixel", 0 );
+		KINECT_BOTTOM = 	_appConfig.getInt( "kinect_bottom_pixel", 480 );
 		KINECT_PLAYER_GAP = _appConfig.getInt( "kinect_player_gap", 0 );
-		NUM_PLAYERS = _appConfig.getInt( "num_players", 2 );
+		NUM_PLAYERS = 		_appConfig.getInt( "num_players", 2 );
+		KINECT_PIXEL_SKIP = _appConfig.getInt( "kinect_pixel_skip", 20 );
+		PLAYER_MIN_PIXELS = _appConfig.getInt( "player_min_pixels", 10 );
 		
 		// build kinect grid!
-		_kinectGrid = new KinectRegionGrid(p, NUM_PLAYERS, 1, (int)KINECT_MIN_DIST, (int)KINECT_MAX_DIST, (int)KINECT_PLAYER_GAP, (int)KINECT_TOP, (int)KINECT_BOTTOM);
+		_kinectGrid = new KinectRegionGrid(p, NUM_PLAYERS, 1, KINECT_MIN_DIST, KINECT_MAX_DIST, KINECT_PLAYER_GAP, KINECT_TOP, KINECT_BOTTOM, KINECT_PIXEL_SKIP, PLAYER_MIN_PIXELS);
 	}
 	
 	
