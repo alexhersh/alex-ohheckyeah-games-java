@@ -78,7 +78,7 @@ public class TinkerBotGraphics {
 		// cache gameplay background
 		TinkerBot p = (TinkerBot) P.p;
 		gameplayBackgroundImage = p.createGraphics( p.width, p.height, P.OPENGL );
-		gameplayBackgroundImage.smooth(OpenGLUtil.SMOOTH_HIGHER);
+		gameplayBackgroundImage.smooth(OpenGLUtil.SMOOTH_HIGH);
 
 		gameplayBackgroundImage.beginDraw();
 		gameplayBackgroundImage.shape( gameplayBackground, 0, 0, p.scaleV(gameplayBackground.width), p.scaleV(gameplayBackground.height) );
