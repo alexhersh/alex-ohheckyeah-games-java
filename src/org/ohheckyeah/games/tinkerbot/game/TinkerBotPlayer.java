@@ -83,8 +83,8 @@ public class TinkerBotPlayer {
 	public void prepareForGameplay() {
 		_waitingSpinner.hide();
 		// pick player parts for the round
-		_barOverlayIndexTop = MathUtil.randRange(0, p.gameGraphics.barParts.length - 1);
-		_barOverlayIndexBot = MathUtil.randRange(0, p.gameGraphics.barParts.length - 1);
+		_barOverlayIndexTop = MathUtil.randRange(0, p.gameGraphics.playerParts.length - 1);
+		_barOverlayIndexBot = MathUtil.randRange(0, p.gameGraphics.playerParts.length - 1);
 		// send the parts in via offset animation
 		_playerYBuildOffset.setCurrent(pg.height);
 		_playerYBuildOffset.setTarget(0);
@@ -180,6 +180,7 @@ public class TinkerBotPlayer {
 	}
 	
 	protected void updateGameplay( boolean isError ) {
+		// update easing
 		_playerY.update();
 		_playerYBuildOffset.update();
 		
@@ -198,9 +199,9 @@ public class TinkerBotPlayer {
 		PShape barSvg = ( isError ) ? p.gameGraphics.playerBarError : p.gameGraphics.playerBar;
 		float barWidth = p.svgWidth( barSvg );
 		float topBarHeight = _playerY.value() - PLAYER_Y_GAP;
-		PShape overlay = ( isError ) ? p.gameGraphics.barPartsError[_barOverlayIndexTop] : p.gameGraphics.barParts[_barOverlayIndexTop];
+		PShape overlay = ( isError ) ? p.gameGraphics.playerPartsError[_barOverlayIndexTop] : p.gameGraphics.playerParts[_barOverlayIndexTop];
 		float bottomBarHeight = pg.height - _playerY.value() - PLAYER_Y_GAP;
-		PShape overlayBottom = ( isError ) ? p.gameGraphics.barPartsError[_barOverlayIndexBot] : p.gameGraphics.barParts[_barOverlayIndexBot];
+		PShape overlayBottom = ( isError ) ? p.gameGraphics.playerPartsError[_barOverlayIndexBot] : p.gameGraphics.playerParts[_barOverlayIndexBot];
 		
 		// translate build in/out y offset
 		pg.pushMatrix();

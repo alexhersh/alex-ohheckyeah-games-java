@@ -14,8 +14,8 @@ public class TinkerBotGraphics {
 
 	public PShape waitingSpinner, gearBackgroundMask;
 	public PShape scoreBg, timeBg, levelTimerBg;
-	public PShape[] barParts;
-	public PShape[] barPartsError;
+	public PShape[] playerParts;
+	public PShape[] playerPartsError;
 	public PShape playerBar, playerBarError, targetLine;
 	public PShape tinkerBotLogo;
 	public PShape gameplayBackground, gameplayBackgroundWaiting;
@@ -52,7 +52,9 @@ public class TinkerBotGraphics {
 		playerBarError = P.p.loadShape( FileUtil.getHaxademicDataPath() + "games/tinkerbot/svg/scene/player-bar-error.svg" );
 		targetLine = P.p.loadShape( FileUtil.getHaxademicDataPath() + "games/tinkerbot/svg/scene/target-line.svg" );
 		
-		barParts = new PShape[]{
+		
+		
+		playerParts = new PShape[]{
 				P.p.loadShape( FileUtil.getHaxademicDataPath() + "games/tinkerbot/svg/scene/player-part-01.svg" ), 
 				P.p.loadShape( FileUtil.getHaxademicDataPath() + "games/tinkerbot/svg/scene/player-part-02.svg" ), 
 				P.p.loadShape( FileUtil.getHaxademicDataPath() + "games/tinkerbot/svg/scene/player-part-03.svg" ), 
@@ -63,7 +65,7 @@ public class TinkerBotGraphics {
 				P.p.loadShape( FileUtil.getHaxademicDataPath() + "games/tinkerbot/svg/scene/player-part-08.svg" ), 
 				P.p.loadShape( FileUtil.getHaxademicDataPath() + "games/tinkerbot/svg/scene/player-part-09.svg" )
 		};
-		barPartsError = new PShape[]{
+		playerPartsError = new PShape[]{
 				P.p.loadShape( FileUtil.getHaxademicDataPath() + "games/tinkerbot/svg/scene/player-part-01-error.svg" ), 
 				P.p.loadShape( FileUtil.getHaxademicDataPath() + "games/tinkerbot/svg/scene/player-part-02-error.svg" ), 
 				P.p.loadShape( FileUtil.getHaxademicDataPath() + "games/tinkerbot/svg/scene/player-part-03-error.svg" ), 
