@@ -33,13 +33,13 @@ public class TinkerBotGamePlay {
 	
 	protected TinkerBotPlayerDetectionScreen _playerDetectBackground;
 	protected TinkerBotBackground _background;
+	protected TinkerBotRobots _robots;
 	protected TinkerBotPlayer[] _players;
 	protected TinkerBotGameTimer _gameTimer;
 	protected TinkerBotLevelTimer _levelTimer;
 	protected TinkerBotScoreDisplay _scoreDisplay;
 	protected TinkerBotGameMessages _gameMessages;
 
-	protected boolean _gameplayStarted = false;
 	protected int _curGoalPosition = 999;
 
 	
@@ -58,6 +58,7 @@ public class TinkerBotGamePlay {
 	protected void buildGraphicsLayers() {
 		_background = new TinkerBotBackground();
 		_playerDetectBackground = new TinkerBotPlayerDetectionScreen();
+		_robots = new TinkerBotRobots();
 		float playerSpacing = 1f / ( OHYBaseGame.NUM_PLAYERS + 1 ); // +2 from last index for spacing on the sides
 		_players = new TinkerBotPlayer[OHYBaseGame.NUM_PLAYERS];
 		for( int i=0; i < OHYBaseGame.NUM_PLAYERS; i++ ) _players[i] = new TinkerBotPlayer(_kinectGrid.getRegion(i), _isRemoteKinect, (float) (i+1) * playerSpacing );
@@ -72,7 +73,6 @@ public class TinkerBotGamePlay {
 		_gameShouldEnd = false;
 		
 		_scoreDisplay.reset();
-		_gameplayStarted = false;
 		_gameMessages.hideWin();
 	}
 	
@@ -120,6 +120,7 @@ public class TinkerBotGamePlay {
 	// handle game states ----------------
 	public void animateToGameState() {
 		_gameMessages.hideCountdown();
+		_robots.show();
 	}
 	
 	public void animateToGameOverState() {
@@ -127,6 +128,7 @@ public class TinkerBotGamePlay {
 		_scoreDisplay.hide();
 		_gameTimer.hide();
 		for( TinkerBotPlayer player: _players ) player.gameOver();
+		_robots.hide();
 	}
 	
 	public void animateToPostGameOverState() {
@@ -166,12 +168,6 @@ public class TinkerBotGamePlay {
 		}
 	}
 	
-	protected void updateGameStarted() {
-		if( _gameplayStarted == false ) {
-			_gameplayStarted = true;
-		}
-	}
-		
 	// gameplay logic ------------------------------------------------------------------
 	public void newLevel() {
 		// make sure we get a different goal position
@@ -224,6 +220,7 @@ public class TinkerBotGamePlay {
 			}
 		}
 		
+		_robots.update();
 		for( TinkerBotPlayer player: _players ) player.update( _gameTimer.isActiveControl(), _gameTimer.isError() );
 		_levelTimer.update();
 		_gameTimer.update();

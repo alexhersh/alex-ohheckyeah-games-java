@@ -26,7 +26,7 @@ public class TinkerBotPlayer {
 	protected TinkerBotWaitingSpinner _waitingSpinner;
 	protected PShape _detectionSvg;
 	protected int _playerX = 0;
-	protected EasingFloat _playerY = new EasingFloat(0,2);
+	protected EasingFloat _playerY = new EasingFloat(0,4);
 	protected EasingFloat _playerYBuildOffset = new EasingFloat(0,7);
 	protected int KINECT_PIXEL_DETECT_THRESH = 10;
 	public static int NUM_POSITIONS = 9; // must be an odd number
