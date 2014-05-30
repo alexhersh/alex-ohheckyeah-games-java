@@ -176,8 +176,8 @@ public class TinkerBotGamePlay {
 	public void newLevel() {
 		// make sure we get a different goal position
 		int oldPosition = _curGoalPosition;
-		while( _curGoalPosition == oldPosition ) {
-			_curGoalPosition = MathUtil.randRange( -TinkerBotPlayer.HALF_POSITIONS, TinkerBotPlayer.HALF_POSITIONS );
+		while( P.abs( _curGoalPosition - oldPosition ) < 2 ) {
+			_curGoalPosition = MathUtil.randRange( -TinkerBotPlayer.HALF_POSITIONS + 1, TinkerBotPlayer.HALF_POSITIONS - 1 );	// never go to last position on either end. allow players to go 1 notch further
 		}
 		_levelTimer.startTimer();
 		_gameMessages.hideWin();

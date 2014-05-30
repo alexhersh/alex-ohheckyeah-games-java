@@ -29,7 +29,7 @@ public class TinkerBotPlayer {
 	protected EasingFloat _playerY = new EasingFloat(0,2);
 	protected EasingFloat _playerYBuildOffset = new EasingFloat(0,7);
 	protected int KINECT_PIXEL_DETECT_THRESH = 10;
-	public static int NUM_POSITIONS = 7;
+	public static int NUM_POSITIONS = 9; // must be an odd number
 	public static int HALF_POSITIONS = (NUM_POSITIONS - 1) / 2;
 	public static int PLAYER_Y_CENTER;
 	public static int PLAYER_Y_INC;
@@ -58,7 +58,7 @@ public class TinkerBotPlayer {
 
 		_playerX = P.round( pg.width * xPosition );
 		_waitingSpinner = new TinkerBotWaitingSpinner( _playerX );
-		PLAYER_Y_CENTER = P.round( pg.height * 0.5f );
+		PLAYER_Y_CENTER = P.round( pg.height * 0.55f );
 		PLAYER_Y_INC = P.round( pg.height * 0.75f / NUM_POSITIONS );
 		PLAYER_Y_GAP = p.scaleV(45);
 	}
