@@ -182,18 +182,21 @@ public class TinkerBotGamePlay {
 		_levelTimer.startTimer();
 		_gameMessages.hideWin();
 		_gameMessages.hideFail();
+		_background.levelStart();
 	}
 	
 	public void win() {
 		p.sounds.playSound(TinkerBotSounds.LASER);
 		_gameMessages.showWin();
 		_levelTimer.reset();
+		_background.levelEnd();
 	}
 	
 	public void fail() {
 		p.sounds.playSound(TinkerBotSounds.ERROR);
 		_gameMessages.showFail();
 		_levelTimer.reset();
+		_background.levelEnd();
 	}
 	
 	public void checkPlayersLineup() {
