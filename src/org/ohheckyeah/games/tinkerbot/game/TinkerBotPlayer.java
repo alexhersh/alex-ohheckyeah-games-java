@@ -25,6 +25,7 @@ public class TinkerBotPlayer {
 
 	protected TinkerBotWaitingSpinner _waitingSpinner;
 	protected PShape _detectionSvg;
+	protected int _playerDetectionX = 0;
 	protected int _playerX = 0;
 	protected EasingFloat _playerY = new EasingFloat(0,4);
 	protected EasingFloat _playerYBuildOffset = new EasingFloat(0,7);
@@ -49,15 +50,16 @@ public class TinkerBotPlayer {
 	protected float _errorRotation = 0;
 
 
-	public TinkerBotPlayer( KinectRegion kinectRegion, boolean isRemoteKinect, float xPosition ) {
+	public TinkerBotPlayer( KinectRegion kinectRegion, boolean isRemoteKinect, float xPositionDetection, float xPosition ) {
 		p = (TinkerBot)P.p;
 		pg = p.pg;
 
 		_kinectRegion = kinectRegion;
 		_isRemoteKinect = isRemoteKinect;
 
+		_playerDetectionX = P.round( pg.width * xPositionDetection );
+		_waitingSpinner = new TinkerBotWaitingSpinner( _playerDetectionX );
 		_playerX = P.round( pg.width * xPosition );
-		_waitingSpinner = new TinkerBotWaitingSpinner( _playerX );
 		PLAYER_Y_CENTER = P.round( pg.height * 0.55f );
 		PLAYER_Y_INC = P.round( pg.height * 0.75f / NUM_POSITIONS );
 		PLAYER_Y_GAP = p.scaleV(45);

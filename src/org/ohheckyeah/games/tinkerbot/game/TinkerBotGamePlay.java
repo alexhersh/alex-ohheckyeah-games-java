@@ -59,9 +59,10 @@ public class TinkerBotGamePlay {
 		_background = new TinkerBotBackground();
 		_playerDetectBackground = new TinkerBotPlayerDetectionScreen();
 		_robots = new TinkerBotRobots();
-		float playerSpacing = 1f / ( OHYBaseGame.NUM_PLAYERS + 1 ); // +2 from last index for spacing on the sides
+		float detectionSpacing = 1f / ( OHYBaseGame.NUM_PLAYERS + 1 ); // +2 from last index for spacing on the sides
+		float playerSpacing = 1f / ( OHYBaseGame.NUM_PLAYERS + 3 ); // +4 from last index for spacing on the sides
 		_players = new TinkerBotPlayer[OHYBaseGame.NUM_PLAYERS];
-		for( int i=0; i < OHYBaseGame.NUM_PLAYERS; i++ ) _players[i] = new TinkerBotPlayer(_kinectGrid.getRegion(i), _isRemoteKinect, (float) (i+1) * playerSpacing );
+		for( int i=0; i < OHYBaseGame.NUM_PLAYERS; i++ ) _players[i] = new TinkerBotPlayer(_kinectGrid.getRegion(i), _isRemoteKinect, (float) (i+1) * detectionSpacing, (float) (i+2) * playerSpacing );
 		_scoreDisplay = new TinkerBotScoreDisplay();
 		_gameTimer = new TinkerBotGameTimer( this, p.appConfig.getInt( "game_seconds", 30 ) );
 		_levelTimer = new TinkerBotLevelTimer();
