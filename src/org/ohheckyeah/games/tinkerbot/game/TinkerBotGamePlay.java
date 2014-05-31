@@ -236,7 +236,7 @@ public class TinkerBotGamePlay {
 		}
 		
 		_robots.update();
-		for( TinkerBotPlayer player: _players ) player.update( _controlsActive, _isError );
+		for( TinkerBotPlayer player: _players ) player.update( _controlsActive, _isError && _robots.isErrorShowable() );
 		_levelTimer.update();
 		_gameTimer.update();
 		_scoreDisplay.update();
