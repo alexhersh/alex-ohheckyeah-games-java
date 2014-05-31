@@ -23,7 +23,7 @@ public class TinkerBotLayout {
 		pg = p.pg;
 
 		PLAYER_Y_CENTER = P.round( pg.height * 0.55f );
-		PLAYER_Y_INC = P.round( pg.height * 0.75f / NUM_POSITIONS );
+		PLAYER_Y_INC = P.round( pg.height * 0.60f / NUM_POSITIONS );
 		PLAYER_Y_GAP = p.scaleV(45);
 	}
 	
