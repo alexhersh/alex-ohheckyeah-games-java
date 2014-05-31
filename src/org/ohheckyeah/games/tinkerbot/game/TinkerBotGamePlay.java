@@ -14,7 +14,6 @@ import processing.core.PGraphics;
 import com.haxademic.core.app.P;
 import com.haxademic.core.draw.util.DrawUtil;
 import com.haxademic.core.hardware.kinect.KinectRegionGrid;
-import com.haxademic.core.math.MathUtil;
 
 public class TinkerBotGamePlay {
 	
@@ -30,6 +29,8 @@ public class TinkerBotGamePlay {
 	protected int _countdownTime = 0;
 	protected boolean _countdownShowing = false;
 	protected int _gameStartTime = 0;
+	protected boolean _controlsActive = false;
+	protected boolean _isError = false;
 	
 	protected TinkerBotPlayerDetectionScreen _playerDetectBackground;
 	protected TinkerBotBackground _background;
@@ -58,11 +59,11 @@ public class TinkerBotGamePlay {
 	protected void buildGraphicsLayers() {
 		_background = new TinkerBotBackground();
 		_playerDetectBackground = new TinkerBotPlayerDetectionScreen();
-		_robots = new TinkerBotRobots();
 		float detectionSpacing = 1f / ( OHYBaseGame.NUM_PLAYERS + 1 ); // +2 from last index for spacing on the sides
 		float playerSpacing = 1f / ( OHYBaseGame.NUM_PLAYERS + 3 ); // +4 from last index for spacing on the sides
 		_players = new TinkerBotPlayer[OHYBaseGame.NUM_PLAYERS];
 		for( int i=0; i < OHYBaseGame.NUM_PLAYERS; i++ ) _players[i] = new TinkerBotPlayer(_kinectGrid.getRegion(i), _isRemoteKinect, (float) (i+1) * detectionSpacing, (float) (i+2) * playerSpacing );
+		_robots = new TinkerBotRobots();
 		_scoreDisplay = new TinkerBotScoreDisplay();
 		_gameTimer = new TinkerBotGameTimer( this, p.appConfig.getInt( "game_seconds", 30 ) );
 		_levelTimer = new TinkerBotLevelTimer();
@@ -81,16 +82,19 @@ public class TinkerBotGamePlay {
 	// start/end game methods ------------
 	public void startPlayerDetection() {
 		_playerDetectBackground.show();
+		_controlsActive = true;
+		_isError = false;
 	}
 	
 	public void startGame() {
 		_levelTimer.startTimer();
 		_levelTimer.show();
 		_gameTimer.startTimer();
-		_gameTimer.newLevel();
+		newLevel();
 		_gameTimer.show();
 		_scoreDisplay.show();
 		_gameStartTime = p.millis();
+		_isError = false;
 	}
 	
 	public void gameOver() {
@@ -145,6 +149,7 @@ public class TinkerBotGamePlay {
 	public void update() {
 		if( p.gameState() == GameState.GAME_WAITING_FOR_PLAYERS ) detectPlayers();
 		if( p.gameState() == GameState.GAME_PLAYING ) {}
+		if( _robots.readyForNewLevel() == true ) newLevel();
 		checkPlayersLineup();
 		drawGraphicsLayers();
 		if( _gameShouldEnd == true ) {
@@ -172,40 +177,49 @@ public class TinkerBotGamePlay {
 	// gameplay logic ------------------------------------------------------------------
 	public void newLevel() {
 		// make sure we get a different goal position
-		int oldPosition = _curGoalPosition;
-		while( P.abs( _curGoalPosition - oldPosition ) < 2 ) {
-			_curGoalPosition = MathUtil.randRange( -TinkerBotPlayer.HALF_POSITIONS + 1, TinkerBotPlayer.HALF_POSITIONS - 1 );	// never go to last position on either end. allow players to go 1 notch further
-		}
+		_curGoalPosition =  TinkerBotLayout.randomPosition( _curGoalPosition );
+		_gameTimer.newLevel();
 		_levelTimer.startTimer();
 		_gameMessages.hideWin();
 		_gameMessages.hideFail();
 		_background.levelStart();
+		_robots.levelStart();
+		_isError = false;
+		_controlsActive = true;
 	}
 	
 	public void win() {
-		p.sounds.playSound(TinkerBotSounds.LASER);
-		_gameMessages.showWin();
-		_levelTimer.reset();
-		_background.levelEnd();
+		if( _controlsActive == true ) {
+			_controlsActive = false;
+			p.sounds.playSound(TinkerBotSounds.LASER);
+			_gameMessages.showWin();
+			_levelTimer.reset();
+			_background.levelEnd();
+			_robots.shootBeam( _curGoalPosition );
+			_scoreDisplay.addScore();
+		}
 	}
 	
 	public void fail() {
-		p.sounds.playSound(TinkerBotSounds.ERROR);
-		_gameMessages.showFail();
-		_levelTimer.reset();
-		_background.levelEnd();
+		if( _controlsActive == true ) {
+			_controlsActive = false;
+			p.sounds.playSound(TinkerBotSounds.ERROR);
+			_gameMessages.showFail();
+			_levelTimer.reset();
+			_background.levelEnd();
+			_robots.shootBeam( _curGoalPosition );
+			_isError = true;
+		}
 	}
 	
 	public void checkPlayersLineup() {
-		if( _gameTimer.isActiveControl() == false ) return;
+		if( _controlsActive == false ) return;
 		boolean isLinedUp = true;
 		for( TinkerBotPlayer player: _players ) {
 			if( player.position() != _curGoalPosition ) isLinedUp = false;
 		}
 		if( isLinedUp == true ) {
-			_scoreDisplay.addScore();
-			_gameTimer.lineUpWin();
-			_levelTimer.reset();
+			win();
 		}
 	}
 	
@@ -215,14 +229,14 @@ public class TinkerBotGamePlay {
 		if( p.gameState() != GameState.GAME_WAITING_FOR_PLAYERS && p.gameState() != GameState.GAME_INTRO_OUTRO ) _background.update();
 
 		if( p.gameState() == GameState.GAME_PLAYING ) {
-			if( _gameTimer.isActiveControl() == true ) {
+			if( _controlsActive == true ) {
 				DrawUtil.setDrawCenter(pg);
-				pg.shape(p.gameGraphics.targetLine, pg.width / 2, TinkerBotPlayer.PLAYER_Y_CENTER + _curGoalPosition * TinkerBotPlayer.PLAYER_Y_INC );
+				pg.shape(p.gameGraphics.targetLine, pg.width / 2, TinkerBotLayout.PLAYER_Y_CENTER + _curGoalPosition * TinkerBotLayout.PLAYER_Y_INC );
 			}
 		}
 		
 		_robots.update();
-		for( TinkerBotPlayer player: _players ) player.update( _gameTimer.isActiveControl(), _gameTimer.isError() );
+		for( TinkerBotPlayer player: _players ) player.update( _controlsActive, _isError );
 		_levelTimer.update();
 		_gameTimer.update();
 		_scoreDisplay.update();

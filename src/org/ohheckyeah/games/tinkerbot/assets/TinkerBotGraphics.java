@@ -18,6 +18,7 @@ public class TinkerBotGraphics {
 	public PShape[] playerPartsError;
 	public PShape playerBar, playerBarError, targetLine;
 	public PShape robotBallBottom, robotBallTop, robotBar;
+	public PShape robotGun, robotHead, robotMouth;
 	public PShape tinkerBotLogo;
 	public PShape gameplayBackground, gameplayBackgroundWaiting;
 	public PShape textBroughtToYou, textStepIntoZones, textGetReady, textGameOver, textWin, textFail;
@@ -56,6 +57,10 @@ public class TinkerBotGraphics {
 		robotBallBottom = P.p.loadShape( FileUtil.getHaxademicDataPath() + "games/tinkerbot/svg/scene/robot-ball-bottom.svg" );
 		robotBallTop = P.p.loadShape( FileUtil.getHaxademicDataPath() + "games/tinkerbot/svg/scene/robot-ball-top.svg" );
 		robotBar = P.p.loadShape( FileUtil.getHaxademicDataPath() + "games/tinkerbot/svg/scene/robot-bar.svg" );
+		
+		robotGun = P.p.loadShape( FileUtil.getHaxademicDataPath() + "games/tinkerbot/svg/scene/robot-gun.svg" );
+		robotHead = P.p.loadShape( FileUtil.getHaxademicDataPath() + "games/tinkerbot/svg/scene/robot-head.svg" );
+		robotMouth = P.p.loadShape( FileUtil.getHaxademicDataPath() + "games/tinkerbot/svg/scene/robot-mouth.svg" );
 		
 		playerParts = new PShape[]{
 				P.p.loadShape( FileUtil.getHaxademicDataPath() + "games/tinkerbot/svg/scene/player-part-01.svg" ), 

@@ -4,7 +4,6 @@ import org.ohheckyeah.games.tinkerbot.assets.TinkerBotColors;
 import org.ohheckyeah.games.tinkerbot.game.TinkerBotGamePlay;
 import org.ohheckyeah.shared.app.OHYBaseGame.GameState;
 
-import com.haxademic.core.app.P;
 import com.haxademic.core.draw.text.CustomFontText2D;
 import com.haxademic.core.draw.util.DrawUtil;
 import com.haxademic.core.text.StringFormatter;
@@ -36,18 +35,6 @@ extends TinkerBotBaseDisplay {
 		GAME_LENGTH = GAME_LENGTH_SECONDS * 1000;
 	}
 	
-	public boolean isActiveControl() {
-		return ( _failTime == 0 && _winTime == 0 );
-	}
-	
-	public boolean isWin() {
-		return ( _winTime != 0 );
-	}
-
-	public boolean isError() {
-		return ( _failTime != 0 );
-	}
-	
 	public void startTimer() {
 		_gameStartTime = p.millis();
 		_curGameTime = GAME_LENGTH;
@@ -70,21 +57,7 @@ extends TinkerBotBaseDisplay {
 		// check level ending for a fail
 		if( p.gameState() == GameState.GAME_PLAYING ) {
 			if( p.millis() > _levelStartTime + LEVEL_LENGTH ) {
-				if( _failTime == 0 && _winTime == 0 ) lineUpFail();
-			}
-		}
-		
-		// check level restart after win/lose
-		if( _winTime != 0 ) {
-			if( p.millis() > _winTime + 1500 ) {
-				newLevel();
-				P.println("WIN OVER");
-			}
-		}
-		if( _failTime != 0 ) {
-			if( p.millis() > _failTime + 1500 ) {
-				newLevel();
-				P.println("FAIL OVER");
+				if( _failTime == 0 && _winTime == 0 ) _gamePlay.fail();
 			}
 		}
 		
@@ -101,19 +74,8 @@ extends TinkerBotBaseDisplay {
 		pg.popMatrix();
 	}
 	
-	public void lineUpWin() {
-		_winTime = p.millis();
-		_gamePlay.win();
-	}
-	
-	public void lineUpFail() {
-		_failTime = p.millis();
-		_gamePlay.fail();
-	}
-	
 	public void newLevel() {
 		_levelStartTime = p.millis();
-		_gamePlay.newLevel();
 		_winTime = 0;
 		_failTime = 0;
 	}

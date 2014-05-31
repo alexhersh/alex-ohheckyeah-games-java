@@ -30,11 +30,6 @@ public class TinkerBotPlayer {
 	protected EasingFloat _playerY = new EasingFloat(0,4);
 	protected EasingFloat _playerYBuildOffset = new EasingFloat(0,7);
 	protected int KINECT_PIXEL_DETECT_THRESH = 10;
-	public static int NUM_POSITIONS = 9; // must be an odd number
-	public static int HALF_POSITIONS = (NUM_POSITIONS - 1) / 2;
-	public static int PLAYER_Y_CENTER;
-	public static int PLAYER_Y_INC;
-	public static float PLAYER_Y_GAP;
 	protected PlayerDetectedState _playerDetectedState;
 
 	protected boolean _controlsActive = false;
@@ -60,9 +55,6 @@ public class TinkerBotPlayer {
 		_playerDetectionX = P.round( pg.width * xPositionDetection );
 		_waitingSpinner = new TinkerBotWaitingSpinner( _playerDetectionX );
 		_playerX = P.round( pg.width * xPosition );
-		PLAYER_Y_CENTER = P.round( pg.height * 0.55f );
-		PLAYER_Y_INC = P.round( pg.height * 0.75f / NUM_POSITIONS );
-		PLAYER_Y_GAP = p.scaleV(45);
 	}
 	
 	public boolean detectedPlayer() {
@@ -167,15 +159,15 @@ public class TinkerBotPlayer {
 		if( p.kinectWrapper != null || _isRemoteKinect == true ) {
 			// _position = P.round( NUM_POSITIONS * MathUtil.getPercentWithinRange( -0.5f, 0.5f, _kinectRegion.controlZ() ) );
 			// turn -0.5, 0.5 into number of positions int
-			_position = P.round( P.map( _kinectRegion.controlZ(), -0.5f, 0.5f, -HALF_POSITIONS * 0.1f, HALF_POSITIONS * 0.1f ) * 10 );
-			_playerY.setTarget( PLAYER_Y_CENTER + _position * PLAYER_Y_INC );
+			_position = P.round( P.map( _kinectRegion.controlZ(), -0.5f, 0.5f, -TinkerBotLayout.HALF_POSITIONS * 0.1f, TinkerBotLayout.HALF_POSITIONS * 0.1f ) * 10 );
+			_playerY.setTarget( TinkerBotLayout.yForPosition( _position ) );
 		} else {
 			if( _isRemoteKinect == false ) {
 				// fake test controls
 				if( p.millis() > _autoControlTime + 40 ) {
 					_autoControlTime = p.millis();
-					_position = MathUtil.randRange(-HALF_POSITIONS, HALF_POSITIONS);
-					_playerY.setTarget( PLAYER_Y_CENTER + p.scaleV( _position * PLAYER_Y_INC ) );
+					_position = TinkerBotLayout.randomPosition( _position );
+					_playerY.setTarget( TinkerBotLayout.yForPosition( _position ) );
 				}
 			}
 		}
@@ -200,9 +192,9 @@ public class TinkerBotPlayer {
 		DrawUtil.setDrawCenter(pg);
 		PShape barSvg = ( isError ) ? p.gameGraphics.playerBarError : p.gameGraphics.playerBar;
 		float barWidth = p.svgWidth( barSvg );
-		float topBarHeight = _playerY.value() - PLAYER_Y_GAP;
+		float topBarHeight = _playerY.value() - TinkerBotLayout.PLAYER_Y_GAP;
 		PShape overlay = ( isError ) ? p.gameGraphics.playerPartsError[_barOverlayIndexTop] : p.gameGraphics.playerParts[_barOverlayIndexTop];
-		float bottomBarHeight = pg.height - _playerY.value() - PLAYER_Y_GAP;
+		float bottomBarHeight = pg.height - _playerY.value() - TinkerBotLayout.PLAYER_Y_GAP;
 		PShape overlayBottom = ( isError ) ? p.gameGraphics.playerPartsError[_barOverlayIndexBot] : p.gameGraphics.playerParts[_barOverlayIndexBot];
 		
 		// translate build in/out y offset
@@ -212,7 +204,7 @@ public class TinkerBotPlayer {
 		pg.shape(barSvg, _playerX, topBarHeight / 2f, barWidth, topBarHeight );
 		// and overlay, with rotation if errored
 		pg.pushMatrix();
-		pg.translate( _playerX, _playerY.value() - p.scaleV(overlay.height / 2f) - PLAYER_Y_GAP );
+		pg.translate( _playerX, _playerY.value() - p.scaleV(overlay.height / 2f) - TinkerBotLayout.PLAYER_Y_GAP );
 		pg.rotate(P.PI);
 		pg.rotate(_errorRotation);
 		pg.shape(overlay, 0, 0, p.scaleV(overlay.width + 2), p.scaleV(overlay.height + 2) );
@@ -226,7 +218,7 @@ public class TinkerBotPlayer {
 		pg.shape(barSvg, _playerX, pg.height - bottomBarHeight / 2f, barWidth, bottomBarHeight );
 		// and overlay, with rotation if errored
 		pg.pushMatrix();
-		pg.translate( _playerX, _playerY.value() + p.scaleV(overlayBottom.height / 2f) + PLAYER_Y_GAP );
+		pg.translate( _playerX, _playerY.value() + p.scaleV(overlayBottom.height / 2f) + TinkerBotLayout.PLAYER_Y_GAP );
 		pg.rotate(_errorRotation);
 		pg.shape(overlayBottom, 0, 0, p.scaleV(overlayBottom.width + 2), p.scaleV(overlayBottom.height + 2) );
 		pg.popMatrix();

@@ -6,6 +6,7 @@ import org.ohheckyeah.games.tinkerbot.assets.TinkerBotColors;
 import org.ohheckyeah.games.tinkerbot.assets.TinkerBotGraphics;
 import org.ohheckyeah.games.tinkerbot.assets.TinkerBotSounds;
 import org.ohheckyeah.games.tinkerbot.game.TinkerBotGamePlay;
+import org.ohheckyeah.games.tinkerbot.game.TinkerBotLayout;
 import org.ohheckyeah.games.tinkerbot.game.TinkerBotTracking;
 import org.ohheckyeah.games.tinkerbot.screens.TinkerBotIntroScreens;
 import org.ohheckyeah.shared.app.OHYBaseGame;
@@ -36,6 +37,7 @@ extends OHYBaseGame
 	// audio 
 	public TinkerBotSounds sounds; 
 
+	protected TinkerBotLayout _gameLayout;
 	protected TinkerBotGamePlay _gamePlay;
 	protected TinkerBotTracking _tracking;
 	protected String _trackingDateStr;
@@ -68,6 +70,7 @@ extends OHYBaseGame
 		_introScreens = new TinkerBotIntroScreens( _appConfig.getString( "sponsor_images", null ) );
 		
 		// set flags and props	
+		_gameLayout = new TinkerBotLayout();
 		_gamePlay = new TinkerBotGamePlay( _kinectGrid, _isRemoteKinect );
 		setInitialGameState();
 		_tracking = new TinkerBotTracking();
