@@ -21,6 +21,7 @@ public class TinkerBotRobots {
 		WAITING,
 		MOVING_TO_TARGET,
 		OPENING,
+		BEAM_WARMUP,
 		BEAMING,
 		CLOSING
 	}
@@ -61,6 +62,12 @@ public class TinkerBotRobots {
 	protected float _shootPosition;
 	protected boolean _readyForNewLevel;
 
+	// beam
+	protected LinearFloat _beamEndScale;
+	protected LinearFloat _beamWidth;
+	
+	// extra properties
+	protected boolean _errorShowable = false;
 	
 	
 	public TinkerBotRobots() {
@@ -88,7 +95,7 @@ public class TinkerBotRobots {
 		_animStartTime = 0;
 		_readyForNewLevel = true;
 		
-		_gunXHidden = p.scaleV(-50);
+		_gunXHidden = p.scaleV(-30);
 		_gunXIncOpen = p.scaleV(1);
 		_gunXIncClose = p.scaleV(3);
 		_gunX = new LinearFloat(_gunXHidden, _gunXIncOpen);
@@ -97,6 +104,9 @@ public class TinkerBotRobots {
 		_mouthYShowingIncOpen = p.scaleV(6);
 		_mouthYShowingIncClose = p.scaleV(2);
 		_mouthY = new LinearFloat(0, _mouthYShowingIncOpen);
+		
+		_beamEndScale = new LinearFloat(0, 0.1f);
+		_beamWidth = new LinearFloat(0, pg.width / 20);
 	}
 	
 	public void show() {
@@ -138,9 +148,17 @@ public class TinkerBotRobots {
 		_animStartTime = p.millis();
 	}
 	
-	protected void beam() {
+	protected void beamWarmup() {
+		_animState = RobotAnimState.BEAM_WARMUP;
+		_animStartTime = p.millis();
+		_beamEndScale.setTarget(1);
+	}
+	
+	protected void shootBeam() {
 		_animState = RobotAnimState.BEAMING;
 		_animStartTime = p.millis();
+		_beamWidth.setTarget( pg.width * 0.5f );
+		_errorShowable = true;
 	}
 	
 	protected void closeMouth() {
@@ -149,14 +167,23 @@ public class TinkerBotRobots {
 		_gunX.setTarget(_gunXHidden);
 		_mouthY.setInc( _mouthYShowingIncClose );
 		_mouthY.setTarget(0);
+		_beamEndScale.setTarget(0);
+		_beamEndScale.setCurrent(0);
+		_beamWidth.setTarget(0);
+		_beamWidth.setCurrent(0);
 	}
 	
 	protected void beamDone() {
 		_readyForNewLevel = true;
+		_errorShowable = false;
 	}
 	
 	protected boolean readyForNewLevel() {
 		return _readyForNewLevel;
+	}
+	
+	protected boolean isErrorShowable() {
+		return _errorShowable;
 	}
 	
 	public void update() {
@@ -166,6 +193,8 @@ public class TinkerBotRobots {
 		_gunX.update();
 		_mouthY.update();
 		_headY.update();
+		_beamEndScale.update();
+		_beamWidth.update();
 		
 		// update animation/movement state
 		switch ( _animState ) {
@@ -185,11 +214,15 @@ public class TinkerBotRobots {
 				break;
 				
 			case OPENING:
-				if( _gunX.value() > -2 ) beam();
+				if( _gunX.value() > -2 ) beamWarmup();
+				break;
+				
+			case BEAM_WARMUP:
+				if( p.millis() > _animStartTime + 300 ) shootBeam();
 				break;
 				
 			case BEAMING:
-				if( p.millis() > _animStartTime + 1000 ) closeMouth();
+				if( p.millis() > _animStartTime + 500 ) closeMouth();
 				break;
 				
 			case CLOSING:
@@ -221,6 +254,20 @@ public class TinkerBotRobots {
 		pg.pushMatrix();
 		pg.translate( leftX, pg.height + _ballYOffset.value() );
 		pg.shape(p.gameGraphics.robotBallBottom, 0, 0, _ballWidth, _ballHeight );
+		pg.popMatrix();
+		
+		// draw beam end
+		float beamEndX = leftX + ( p.svgWidth(p.gameGraphics.robotGun) * 0.5f ) + ( p.svgWidth(p.gameGraphics.robotBeamEnd) * _beamEndScale.value() * 0.5f );
+		
+		pg.pushMatrix();
+		pg.translate( beamEndX, _headY.value() + p.scaleV(1) );
+		pg.shape(p.gameGraphics.robotBeamEnd, 0, 0, p.svgWidth(p.gameGraphics.robotBeamEnd) * _beamEndScale.value(), p.svgHeight(p.gameGraphics.robotBeamEnd) * _beamEndScale.value() );
+		pg.popMatrix();
+		
+		// draw beam
+		pg.pushMatrix();
+		pg.translate( beamEndX + p.scaleV(10) + _beamWidth.value() * 0.5f, _headY.value() + p.scaleV(1) );
+		pg.shape(p.gameGraphics.robotBeamBar, 0, 0, _beamWidth.value(), p.svgHeight(p.gameGraphics.robotBeamBar) );
 		pg.popMatrix();
 		
 		// draw robot head
@@ -255,6 +302,13 @@ public class TinkerBotRobots {
 		pg.shape(p.gameGraphics.robotBallTop, 0, 0, _ballWidth, _ballHeight );
 		pg.popMatrix();
 
+		// draw beam
+		pg.pushMatrix();
+		pg.translate( rightX - p.svgWidth(p.gameGraphics.robotGun) * 0.5f, _headY.value() );
+		pg.rotate( P.PI );
+		pg.shape(p.gameGraphics.robotBeamEnd, 0, 0, p.svgWidth(p.gameGraphics.robotBeamEnd) * _beamEndScale.value(), p.svgHeight(p.gameGraphics.robotBeamEnd) * _beamEndScale.value() );
+		pg.popMatrix();
+		
 		// draw robot head
 		pg.pushMatrix();
 		pg.translate( rightX, _headY.value() );
