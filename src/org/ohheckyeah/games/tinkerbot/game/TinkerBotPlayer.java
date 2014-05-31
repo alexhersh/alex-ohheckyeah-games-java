@@ -164,7 +164,7 @@ public class TinkerBotPlayer {
 		} else {
 			if( _isRemoteKinect == false ) {
 				// fake test controls
-				if( p.millis() > _autoControlTime + 40 ) {
+				if( p.millis() > _autoControlTime + 1000 ) {
 					_autoControlTime = p.millis();
 					_position = TinkerBotLayout.randomPosition( _position );
 					_playerY.setTarget( TinkerBotLayout.yForPosition( _position ) );
