@@ -3,8 +3,8 @@ bin/
 lib-full/
 output/
 docs/
-lib/processing-2.0/*
+lib/processing-2/*
 lib/SimpleOpenNI/*
-lib/LeapMotionForProcessing/*
+lib/leap-motion-processing/*
 *output/text/
 *output/camera/

@@ -8,23 +8,23 @@
 	<classpathentry kind="lib" path="lib/toxiclibs-complete-0020/volumeutils/library/volumeutils.jar"/>
 	<classpathentry kind="lib" path="lib/toxiclibs-complete-0020/colorutils/library/colorutils.jar"/>
 	<classpathentry kind="lib" path="lib/SimpleOpenNI/library/SimpleOpenNI.jar"/>
-	<classpathentry kind="lib" path="lib/processing-2.0/libraries/minim/library/jl1.0.jar"/>
-	<classpathentry kind="lib" path="lib/processing-2.0/libraries/minim/library/jsminim.jar"/>
-	<classpathentry kind="lib" path="lib/processing-2.0/libraries/minim/library/minim.jar"/>
-	<classpathentry kind="lib" path="lib/processing-2.0/libraries/minim/library/mp3spi1.9.4.jar"/>
-	<classpathentry kind="lib" path="lib/processing-2.0/libraries/minim/library/tritonus_aos.jar"/>
-	<classpathentry kind="lib" path="lib/processing-2.0/libraries/minim/library/tritonus_share.jar"/>
-	<classpathentry kind="lib" path="lib/processing-2.0/core/core.jar"/>
-	<classpathentry kind="lib" path="lib/processing-2.0/core/gluegen-rt.jar"/>
-	<classpathentry kind="lib" path="lib/processing-2.0/core/jogl-all.jar"/>
-	<classpathentry kind="lib" path="lib/processing-2.0/libraries/video/library/video.jar"/>
-	<classpathentry kind="lib" path="lib/processing-2.0/libraries/video/library/gstreamer-java.jar"/>
-	<classpathentry kind="lib" path="lib/processing-2.0/libraries/video/library/jna.jar"/>
-	<classpathentry kind="lib" path="lib/processing-2.0/libraries/net/library/net.jar"/>
-	<classpathentry kind="lib" path="lib/LeapMotionForProcessing/library/LeapJava.jar"/>
-	<classpathentry kind="lib" path="lib/LeapMotionForProcessing/library/LeapMotionForProcessing.jar">
+	<classpathentry kind="lib" path="lib/processing-2/libraries/minim/library/jl1.0.jar"/>
+	<classpathentry kind="lib" path="lib/processing-2/libraries/minim/library/jsminim.jar"/>
+	<classpathentry kind="lib" path="lib/processing-2/libraries/minim/library/minim.jar"/>
+	<classpathentry kind="lib" path="lib/processing-2/libraries/minim/library/mp3spi1.9.4.jar"/>
+	<classpathentry kind="lib" path="lib/processing-2/libraries/minim/library/tritonus_aos.jar"/>
+	<classpathentry kind="lib" path="lib/processing-2/libraries/minim/library/tritonus_share.jar"/>
+	<classpathentry kind="lib" path="lib/processing-2/core/core.jar"/>
+	<classpathentry kind="lib" path="lib/processing-2/core/gluegen-rt.jar"/>
+	<classpathentry kind="lib" path="lib/processing-2/core/jogl-all.jar"/>
+	<classpathentry kind="lib" path="lib/processing-2/libraries/video/library/video.jar"/>
+	<classpathentry kind="lib" path="lib/processing-2/libraries/video/library/gstreamer-java.jar"/>
+	<classpathentry kind="lib" path="lib/processing-2/libraries/video/library/jna.jar"/>
+	<classpathentry kind="lib" path="lib/processing-2/libraries/net/library/net.jar"/>
+	<classpathentry kind="lib" path="lib/leap-motion-processing/library/LeapJava.jar"/>
+	<classpathentry kind="lib" path="lib/leap-motion-processing/library/LeapMotionForProcessing.jar">
 		<attributes>
-			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="haxademic-2/lib/LeapMotionForProcessing/library/macosx"/>
+			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="ohheckyeah-games-java/lib/leap-motion-processing/library/macosx"/>
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="lib/UMovieMaker/library/monte-cc.jar"/>
