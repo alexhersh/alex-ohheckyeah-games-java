@@ -10,6 +10,9 @@ import com.haxademic.core.system.FileUtil;
 public class OHYBaseRemoteControl
 extends OHYKinectApp {
 
+	public static final String DATA_GRID_DELIMITER = "~";
+	public static final String DATA_REGION_DELIMITER = ":";
+	
 	protected UDP _udp;
 	protected boolean _debugging = false;
 	protected String _receiverIp = "";
@@ -19,6 +22,7 @@ extends OHYKinectApp {
 		_customPropsFile = FileUtil.getHaxademicDataPath() + "properties/" + propertiesFile;
 		super.setup();
 		setKinectProperties();
+		setKinectRemoteProperties();
 		initUDP();
 	}
 	
@@ -44,8 +48,8 @@ extends OHYKinectApp {
 		KinectRegion kinectRegion = null;
 		for( int i=0; i < NUM_PLAYERS; i++ ) {
 			kinectRegion = _kinectGrid.getRegion(i);
-			if( i > 0 ) kinectOutput += "|"; 
-			kinectOutput += kinectRegion.controlX() + ":" + kinectRegion.controlZ() + ":" + kinectRegion.pixelCount();
+			if( i > 0 ) kinectOutput += DATA_GRID_DELIMITER; 
+			kinectOutput += kinectRegion.controlX() + DATA_REGION_DELIMITER + kinectRegion.controlZ() + DATA_REGION_DELIMITER + kinectRegion.pixelCount();
 		}
 		return kinectOutput;
 	}

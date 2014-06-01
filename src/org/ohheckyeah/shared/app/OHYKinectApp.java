@@ -64,10 +64,10 @@ extends PAppletHax {
 		String message = new String( data );
 		if( _remoteDebugging == true ) P.println( "received: \""+message+"\" from "+ip+" on port "+port );
 		
-		String[] remoteKinectPlayersData = message.split("~");
+		String[] remoteKinectPlayersData = message.split( OHYBaseRemoteControl.DATA_GRID_DELIMITER );
 		for( int i=0; i < remoteKinectPlayersData.length; i++ ) {
 			// P.println("PLAYER "+i+" = "+remoteKinectPlayersData[i]);
-			String[] kinectPlayerData = remoteKinectPlayersData[i].split(":");
+			String[] kinectPlayerData = remoteKinectPlayersData[i].split( OHYBaseRemoteControl.DATA_REGION_DELIMITER );
 			_kinectGrid.getRegion(i).controlX( ConvertUtil.stringToFloat( kinectPlayerData[0].trim() ) );
 			_kinectGrid.getRegion(i).controlZ( ConvertUtil.stringToFloat( kinectPlayerData[1].trim() ) );
 			_kinectGrid.getRegion(i).pixelCount( ConvertUtil.stringToInt( kinectPlayerData[2].trim() ) );
