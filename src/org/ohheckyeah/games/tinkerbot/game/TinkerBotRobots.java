@@ -257,7 +257,7 @@ public class TinkerBotRobots {
 		pg.popMatrix();
 		
 		// draw beam end
-		float beamEndX = leftX + ( p.svgWidth(p.gameGraphics.robotGun) * 0.5f ) + ( p.svgWidth(p.gameGraphics.robotBeamEnd) * _beamEndScale.value() * 0.5f );
+		float beamEndX = leftX + ( p.svgWidth(p.gameGraphics.robotGun) * 0.5f ) + ( p.svgWidth(p.gameGraphics.robotBeamEnd) * _beamEndScale.value() * 0.5f ) - p.scaleV(6);
 		
 		pg.pushMatrix();
 		pg.translate( beamEndX, _headY.value() + p.scaleV(1) );
@@ -302,19 +302,27 @@ public class TinkerBotRobots {
 		pg.shape(p.gameGraphics.robotBallTop, 0, 0, _ballWidth, _ballHeight );
 		pg.popMatrix();
 
-		// draw beam
+		// draw beam end
+		float beamEndXRight = pg.width - beamEndX;
+		
 		pg.pushMatrix();
-		pg.translate( rightX - p.svgWidth(p.gameGraphics.robotGun) * 0.5f, _headY.value() );
+		pg.translate( beamEndXRight, _headY.value() + p.scaleV(1) );
 		pg.rotate( P.PI );
 		pg.shape(p.gameGraphics.robotBeamEnd, 0, 0, p.svgWidth(p.gameGraphics.robotBeamEnd) * _beamEndScale.value(), p.svgHeight(p.gameGraphics.robotBeamEnd) * _beamEndScale.value() );
+		pg.popMatrix();
+		
+		// draw beam
+		pg.pushMatrix();
+		pg.translate( beamEndXRight - p.scaleV(10) - _beamWidth.value() * 0.5f, _headY.value() + p.scaleV(1) );
+		pg.shape(p.gameGraphics.robotBeamBar, 0, 0, _beamWidth.value(), p.svgHeight(p.gameGraphics.robotBeamBar) );
 		pg.popMatrix();
 		
 		// draw robot head
 		pg.pushMatrix();
 		pg.translate( rightX, _headY.value() );
-		pg.shape(p.gameGraphics.robotGun, _gunX.value(), 0, p.svgWidth(p.gameGraphics.robotGun), p.svgHeight(p.gameGraphics.robotGun) );
-		pg.shape(p.gameGraphics.robotMouth, 0, _mouthY.value(), p.svgWidth(p.gameGraphics.robotMouth), p.svgHeight(p.gameGraphics.robotMouth) );
-		pg.shape(p.gameGraphics.robotHead, 0, 0, p.svgWidth(p.gameGraphics.robotHead), p.svgHeight(p.gameGraphics.robotHead) );
+		pg.shape(p.gameGraphics.robotGunRight, _gunX.value() * -1f, 0, p.svgWidth(p.gameGraphics.robotGunRight), p.svgHeight(p.gameGraphics.robotGunRight) );
+		pg.shape(p.gameGraphics.robotMouthRight, 0, _mouthY.value(), p.svgWidth(p.gameGraphics.robotMouthRight), p.svgHeight(p.gameGraphics.robotMouthRight) );
+		pg.shape(p.gameGraphics.robotHeadRight, 0, 0, p.svgWidth(p.gameGraphics.robotHeadRight), p.svgHeight(p.gameGraphics.robotHeadRight) );
 		pg.popMatrix();
 		
 	}
