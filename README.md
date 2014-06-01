@@ -51,8 +51,8 @@ OhHeckYeah uses the following Java & Processing libraries, which I've included i
 
 Use the following VM Arguments when running the Java Application to increase memory allocated to your app
 
-* `-Xmx1024M`
 * `-Xms1024M`
+* `-Xmx2048M`
 
 General Use / Tips
 
