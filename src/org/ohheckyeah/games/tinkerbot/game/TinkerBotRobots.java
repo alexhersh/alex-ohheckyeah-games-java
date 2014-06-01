@@ -95,14 +95,14 @@ public class TinkerBotRobots {
 		_animStartTime = 0;
 		_readyForNewLevel = true;
 		
-		_gunXHidden = p.scaleV(-30);
+		_gunXHidden = p.scaleV(-50);
 		_gunXIncOpen = p.scaleV(1);
 		_gunXIncClose = p.scaleV(3);
 		_gunX = new LinearFloat(_gunXHidden, _gunXIncOpen);
 		
 		_mouthYShowing = p.scaleV(48);
-		_mouthYShowingIncOpen = p.scaleV(6);
-		_mouthYShowingIncClose = p.scaleV(2);
+		_mouthYShowingIncOpen = p.scaleV(5);
+		_mouthYShowingIncClose = p.scaleV(1);
 		_mouthY = new LinearFloat(0, _mouthYShowingIncOpen);
 		
 		_beamEndScale = new LinearFloat(0, 0.1f);
