@@ -18,7 +18,6 @@ public class TinkerBotTracking {
 	protected String cameraImageDir = outputDir + "camera/";
 	protected String trackingFileDir = outputDir + "text/";
 	protected String trackingGamesFilePath = trackingFileDir + "tinkerbot-game-history.csv";
-	protected String trackingPlayersFilePath = trackingFileDir + "tinkerbot-player-history.csv";
 	
 	public TinkerBotTracking() {
 		initTrackingFile();
@@ -31,32 +30,19 @@ public class TinkerBotTracking {
 		if( FileUtil.fileOrPathExists( trackingFileDir ) == false ) FileUtil.createDir( trackingFileDir );
 		// create csv files with headers
 		if( FileUtil.fileOrPathExists( trackingGamesFilePath ) == false ) {
-			FileUtil.writeTextToFile( trackingGamesFilePath, "Date,Number of Players,Winner Indexes,Winner Score,Low Score" + "\n" );
-		}
-		if( FileUtil.fileOrPathExists( trackingPlayersFilePath ) == false ) {
-			FileUtil.writeTextToFile( trackingPlayersFilePath, "Date,Player Index,Score,Win,Character" + "\n" );
+			FileUtil.writeTextToFile( trackingGamesFilePath, "Date,Number of Players,Game Length,Wins,Fails,Score" + "\n" );
 		}
 	}
 	
-	public void trackGameResult( String date, int numPlayers, String winIndexes, int winScore, int lowScore ) {
+	public void trackGameResult( String date, int numPlayers, int gameLength, int wins, int fails, int score ) {
 		FileUtil.appendTextToFile( 
 				trackingGamesFilePath, 
 				date +","+ 
 				numPlayers +","+ 
-				winIndexes +","+ 
-				winScore +","+ 
-				lowScore + "\n" 
-		);
-	}
-	
-	public void trackPlayerResult( String date, int gameIndex, int score, boolean didWin, String characterName ) {
-		FileUtil.appendTextToFile( 
-				trackingPlayersFilePath, 
-				date +","+ 
-				gameIndex +","+ 
-				score +","+ 
-				didWin +","+ 
-				characterName + "\n" 
+				gameLength +","+ 
+				wins +","+ 
+				fails +","+ 
+				score + "\n" 
 		);
 	}
 	

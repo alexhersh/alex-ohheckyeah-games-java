@@ -30,6 +30,10 @@ public class TinkerBotGamePlay {
 	protected boolean _controlsActive = false;
 	protected boolean _isError = false;
 	
+	protected int _numWins = 0;
+	protected int _numFails = 0;
+	protected int _score = 0;
+
 	protected TinkerBotPlayerDetectionScreen _playerDetectBackground;
 	protected TinkerBotBackground _background;
 	protected TinkerBotRobots _robots;
@@ -79,9 +83,25 @@ public class TinkerBotGamePlay {
 		_gameMessages.hideWin();
 		_gameMessages.hideFail();
 		_closingDoors.hide();
+		
+		_numWins = 0;
+		_numFails = 0;
+		_score = 0;
 	}
 	
+	// getters for tracking
+	public int numWins() {
+		return _numWins;
+	}
 		
+	public int numFails() {
+		return _numFails;
+	}
+	
+	public int score() {
+		return _score;
+	}
+	
 	// start/end game methods ------------
 	public void startPlayerDetection() {
 		_playerDetectBackground.show();
@@ -195,8 +215,9 @@ public class TinkerBotGamePlay {
 			_levelTimer.reset();
 			_background.levelEnd();
 			_robots.shootBeam( _curGoalPosition, pg.width, 0 );
-			_scoreDisplay.addScore();
+			_score = _scoreDisplay.addScore();
 			_dashedLine.hide();
+			_numWins++;
 		}
 	}
 	
@@ -208,6 +229,7 @@ public class TinkerBotGamePlay {
 			_robots.shootBeam( _curGoalPosition, getLeftmostPlayerError(), getRightmostPlayerError() );
 			_isError = true;
 			_dashedLine.hide();
+			_numFails++;
 		}
 	}
 	

@@ -10,6 +10,7 @@ import com.haxademic.core.math.easing.EasingFloat;
 public class TinkerBotScoreDisplay
 extends TinkerBotBaseDisplay {
 
+	public static final int SCORE_POINTS = 100;
 	protected int _score = 0;
 	
 	protected CustomFontText2D _scoreText;
@@ -27,7 +28,7 @@ extends TinkerBotBaseDisplay {
 	}
 	
 	public int addScore() {
-		_score += 100;
+		_score += SCORE_POINTS;
 		_scoreEaser.setTarget(_score);
 		return _score;
 	}
