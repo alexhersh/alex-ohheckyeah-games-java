@@ -256,6 +256,8 @@ extends OHYBaseGame
 	// FRAME LOOP --------------------------------------------------------------------------------------
 	
 	public void drawApp() {
+		super.drawApp();
+		
 		p.background(0);
 		timeFactor.update();
 		
@@ -271,7 +273,6 @@ extends OHYBaseGame
 	}
 	
 	protected void updateGameplay() {
-		_kinectGrid.update();
 		_gamePlay.update();
 	}
 	

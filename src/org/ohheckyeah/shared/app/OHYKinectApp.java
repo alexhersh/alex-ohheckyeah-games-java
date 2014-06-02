@@ -37,6 +37,9 @@ extends PAppletHax {
 		_kinectGrid = new KinectRegionGrid(p, NUM_PLAYERS, 1, KINECT_MIN_DIST, KINECT_MAX_DIST, KINECT_PLAYER_GAP, KINECT_TOP, KINECT_BOTTOM, KINECT_PIXEL_SKIP, PLAYER_MIN_PIXELS);
 	}
 	
+	public void drawApp() {
+		_kinectGrid.update();
+	}
 	
 	// Kinect remote control --------------------------------------------------------------------------------------
 	

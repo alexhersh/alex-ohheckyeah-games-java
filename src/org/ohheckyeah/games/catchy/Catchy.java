@@ -375,6 +375,8 @@ extends OHYBaseGame
 	// FRAME LOOP --------------------------------------------------------------------------------------
 	
 	public void drawApp() {
+		super.drawApp();
+		
 		p.background( CatchyColors.STAGE_BG );
 
 		// update timing
@@ -385,8 +387,6 @@ extends OHYBaseGame
 	}
 	
 	protected void updateGameplays() {
-		_kinectGrid.update();
-
 		// update and draw gamePlays
 		DrawUtil.setDrawCorner(p);
 		for( int i=0; i < NUM_PLAYERS; i++ ) {
