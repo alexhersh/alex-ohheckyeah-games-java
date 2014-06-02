@@ -27,7 +27,7 @@ extends TinkerBotBaseDisplay {
 	}
 	
 	public int addScore() {
-		_score += 10;
+		_score += 100;
 		_scoreEaser.setTarget(_score);
 		return _score;
 	}
