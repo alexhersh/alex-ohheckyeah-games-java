@@ -25,7 +25,11 @@ public class TinkerBotPlayerDetectionScreen {
 		
 		if( _backgroundY.value() < pg.height ) {
 			DrawUtil.setDrawCenter(pg);
-			pg.shape( p.gameGraphics.gameplayBackgroundWaiting, pg.width * 0.5f, _backgroundY.value() + pg.height * 0.5f, p.svgWidth(p.gameGraphics.gameplayBackgroundWaiting), p.svgHeight(p.gameGraphics.gameplayBackgroundWaiting) );
+			if( p.gameScaleV > p.gameScaleH ) {
+				pg.shape( p.gameGraphics.gameplayBackgroundWaiting, pg.width / 2f, pg.height / 2f, p.scaleV(p.gameGraphics.gameplayBackgroundWaiting.width), p.scaleV(p.gameGraphics.gameplayBackgroundWaiting.height) );
+			} else {
+				pg.shape( p.gameGraphics.gameplayBackgroundWaiting, pg.width / 2f, pg.height / 2f, p.scaleH(p.gameGraphics.gameplayBackgroundWaiting.width), p.scaleH(p.gameGraphics.gameplayBackgroundWaiting.height) );
+			}
 		}
 	}
 	

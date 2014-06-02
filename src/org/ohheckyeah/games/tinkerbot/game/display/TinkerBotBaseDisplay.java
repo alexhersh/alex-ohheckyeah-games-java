@@ -23,7 +23,7 @@ public class TinkerBotBaseDisplay {
 		pg = p.pg;
 		
 		_offsetYShowing = p.scaleV(15);
-		_offsetYHiding = p.scaleV(-150);
+		_offsetYHiding = p.scaleV(-200);
 		_offsetY = new EasingFloat(_offsetYHiding,4);
 	}
 	

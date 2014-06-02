@@ -6,6 +6,7 @@ import processing.core.PGraphics;
 import processing.core.PShape;
 
 import com.haxademic.core.app.P;
+import com.haxademic.core.draw.util.DrawUtil;
 import com.haxademic.core.draw.util.OpenGLUtil;
 import com.haxademic.core.system.FileUtil;
 
@@ -103,8 +104,13 @@ public class TinkerBotGraphics {
 		gameplayBackgroundImage = p.createGraphics( p.width, p.height, P.OPENGL );
 		gameplayBackgroundImage.smooth(OpenGLUtil.SMOOTH_HIGH);
 
+		DrawUtil.setDrawCenter(gameplayBackgroundImage);
 		gameplayBackgroundImage.beginDraw();
-		gameplayBackgroundImage.shape( gameplayBackground, 0, 0, p.scaleV(gameplayBackground.width), p.scaleV(gameplayBackground.height) );
+		if( p.gameScaleV > p.gameScaleH ) {
+			gameplayBackgroundImage.shape( gameplayBackground, gameplayBackgroundImage.width / 2f, gameplayBackgroundImage.height / 2f, p.scaleV(gameplayBackground.width), p.scaleV(gameplayBackground.height) );
+		} else {
+			gameplayBackgroundImage.shape( gameplayBackground, gameplayBackgroundImage.width / 2f, gameplayBackgroundImage.height / 2f, p.scaleH(gameplayBackground.width), p.scaleH(gameplayBackground.height) );
+		}
 		gameplayBackgroundImage.endDraw();
 
 	}
