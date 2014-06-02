@@ -40,6 +40,7 @@ public class TinkerBotGamePlay {
 	protected TinkerBotScoreDisplay _scoreDisplay;
 	protected TinkerBotGameMessages _gameMessages;
 	protected TinkerBotDashedLine _dashedLine;
+	protected TinkerBotClosingDoors _closingDoors;
 
 	protected int _curGoalPosition = 999;
 
@@ -69,6 +70,7 @@ public class TinkerBotGamePlay {
 		_levelTimer = new TinkerBotLevelTimer();
 		_gameMessages = new TinkerBotGameMessages();
 		_dashedLine = new TinkerBotDashedLine();
+		_closingDoors = new TinkerBotClosingDoors();
 	}
 	
 	public void reset() {
@@ -78,6 +80,7 @@ public class TinkerBotGamePlay {
 		_scoreDisplay.reset();
 		_gameMessages.hideWin();
 		_gameMessages.hideFail();
+		_closingDoors.hide();
 	}
 	
 		
@@ -137,6 +140,7 @@ public class TinkerBotGamePlay {
 		for( TinkerBotPlayer player: _players ) player.gameOver();
 		_robots.hide();
 		_dashedLine.hide();
+		_closingDoors.show();
 	}
 	
 	public void animateToPostGameOverState() {
@@ -258,6 +262,7 @@ public class TinkerBotGamePlay {
 		_dashedLine.update( _curGoalPosition );
 		_robots.update();
 		for( TinkerBotPlayer player: _players ) player.update( _controlsActive, _isError && _robots.isErrorShowable() );
+		if( p.gameState() == GameState.GAME_OVER || p.gameState() == GameState.GAME_OVER_OUTRO || p.gameState() == GameState.GAME_INTRO ) _closingDoors.update();
 		_levelTimer.update();
 		_gameTimer.update();
 		_scoreDisplay.update();

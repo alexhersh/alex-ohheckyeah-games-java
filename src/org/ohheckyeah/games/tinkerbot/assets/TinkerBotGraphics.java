@@ -24,6 +24,7 @@ public class TinkerBotGraphics {
 	public PShape tinkerBotLogo;
 	public PShape gameplayBackground, gameplayBackgroundWaiting;
 	public PShape textBroughtToYou, textStepIntoZones, textGetReady, textGameOver, textWin, textFail;
+	public PShape doorLeft, doorRight;
 
 	public String font;
 
@@ -43,6 +44,9 @@ public class TinkerBotGraphics {
 		scoreBg = P.p.loadShape( FileUtil.getHaxademicDataPath() + "games/tinkerbot/svg/shell/text-bg-score.svg" );
 		timeBg = P.p.loadShape( FileUtil.getHaxademicDataPath() + "games/tinkerbot/svg/shell/text-bg-time.svg" );
 		levelTimerBg = P.p.loadShape( FileUtil.getHaxademicDataPath() + "games/tinkerbot/svg/shell/text-bg-level-timer.svg" );
+		
+		doorLeft = P.p.loadShape( FileUtil.getHaxademicDataPath() + "games/tinkerbot/svg/shell/door-left.svg" );
+		doorRight = P.p.loadShape( FileUtil.getHaxademicDataPath() + "games/tinkerbot/svg/shell/door-right.svg" );
 		
 		// shell text
 		textBroughtToYou = P.p.loadShape( FileUtil.getHaxademicDataPath() + "games/tinkerbot/svg/shell/text-brought-to-you-by.svg" );
