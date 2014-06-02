@@ -51,6 +51,12 @@ extends TinkerBotBaseDisplay {
 			for( int i=0; i < _curBars; i++ ) {
 				pg.rect( i * p.scaleH(17), 0, p.scaleH(13), p.scaleH(55) );
 			}
+			// last partial bar
+			if( _curBars < TOTAL_BARS ) {
+				float remainder = 1 - (_curBars - (percentDone * TOTAL_BARS));
+				pg.fill( TinkerBotColors.TIMER_BARS_COLOR, remainder * 255 );
+				pg.rect( _curBars * p.scaleH(17), 0, p.scaleH(13), p.scaleH(55) );
+			}
 		}
 		
 		pg.popMatrix();
