@@ -96,7 +96,7 @@ public class TinkerBotRobots {
 		_headY = new LinearFloat( TinkerBotLayout.PLAYER_Y_CENTER, _headYIncWander );
 		_wanderTime = 0;
 		_animStartTime = 0;
-		_readyForNewLevel = true;
+		_readyForNewLevel = false;
 		
 		_gunXHidden = p.scaleV(-50);
 		_gunXIncOpen = p.scaleV(2);

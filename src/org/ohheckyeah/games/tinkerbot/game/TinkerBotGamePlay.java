@@ -12,7 +12,6 @@ import org.ohheckyeah.shared.app.OHYBaseGame.GameState;
 import processing.core.PGraphics;
 
 import com.haxademic.core.app.P;
-import com.haxademic.core.draw.util.DrawUtil;
 import com.haxademic.core.hardware.kinect.KinectRegionGrid;
 
 public class TinkerBotGamePlay {
@@ -40,6 +39,7 @@ public class TinkerBotGamePlay {
 	protected TinkerBotLevelTimer _levelTimer;
 	protected TinkerBotScoreDisplay _scoreDisplay;
 	protected TinkerBotGameMessages _gameMessages;
+	protected TinkerBotDashedLine _dashedLine;
 
 	protected int _curGoalPosition = 999;
 
@@ -68,6 +68,7 @@ public class TinkerBotGamePlay {
 		_gameTimer = new TinkerBotGameTimer( this, p.appConfig.getInt( "game_seconds", 30 ) );
 		_levelTimer = new TinkerBotLevelTimer();
 		_gameMessages = new TinkerBotGameMessages();
+		_dashedLine = new TinkerBotDashedLine();
 	}
 	
 	public void reset() {
@@ -135,6 +136,7 @@ public class TinkerBotGamePlay {
 		_gameTimer.hide();
 		for( TinkerBotPlayer player: _players ) player.gameOver();
 		_robots.hide();
+		_dashedLine.hide();
 	}
 	
 	public void animateToPostGameOverState() {
@@ -184,25 +186,30 @@ public class TinkerBotGamePlay {
 		_robots.levelStart();
 		_isError = false;
 		_controlsActive = true;
+		_dashedLine.show();
 	}
 	
 	public void win() {
 		if( _controlsActive == true ) {
+			P.println("== win");
 			_controlsActive = false;
 			_levelTimer.reset();
 			_background.levelEnd();
 			_robots.shootBeam( _curGoalPosition, pg.width, 0 );
 			_scoreDisplay.addScore();
+			_dashedLine.hide();
 		}
 	}
 	
 	public void fail() {
 		if( _controlsActive == true ) {
+			P.println("== fail");
 			_controlsActive = false;
 			_levelTimer.reset();
 			_background.levelEnd();
 			_robots.shootBeam( _curGoalPosition, getLeftmostPlayerError(), getRightmostPlayerError() );
 			_isError = true;
+			_dashedLine.hide();
 		}
 	}
 	
@@ -248,13 +255,7 @@ public class TinkerBotGamePlay {
 		_playerDetectBackground.update();
 		if( p.gameState() != GameState.GAME_WAITING_FOR_PLAYERS && p.gameState() != GameState.GAME_INTRO_OUTRO ) _background.update();
 
-		if( p.gameState() == GameState.GAME_PLAYING ) {
-			if( _controlsActive == true ) {
-				DrawUtil.setDrawCenter(pg);
-				pg.shape(p.gameGraphics.targetLine, pg.width / 2, TinkerBotLayout.PLAYER_Y_CENTER + _curGoalPosition * TinkerBotLayout.PLAYER_Y_INC );
-			}
-		}
-		
+		_dashedLine.update( _curGoalPosition );
 		_robots.update();
 		for( TinkerBotPlayer player: _players ) player.update( _controlsActive, _isError && _robots.isErrorShowable() );
 		_levelTimer.update();
