@@ -215,7 +215,6 @@ public class TinkerBotGamePlay {
 			_levelTimer.reset();
 			_background.levelEnd();
 			_robots.shootBeam( _curGoalPosition, pg.width, 0 );
-			_score = _scoreDisplay.addScore();
 			_dashedLine.hide();
 			_numWins++;
 		}
@@ -266,6 +265,7 @@ public class TinkerBotGamePlay {
 			} else {
 				p.sounds.playSound(TinkerBotSounds.LASER);
 				_gameMessages.showWin();
+				_score = _scoreDisplay.addScore();
 			}
 		}
 	}

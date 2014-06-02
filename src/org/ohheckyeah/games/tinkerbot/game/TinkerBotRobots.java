@@ -247,7 +247,7 @@ public class TinkerBotRobots {
 				break;
 				
 			case BEAMING:
-				if( p.millis() > _animStartTime + 500 ) closeMouth();
+				if( p.millis() > _animStartTime + 800 ) closeMouth();
 				break;
 				
 			case CLOSING:
