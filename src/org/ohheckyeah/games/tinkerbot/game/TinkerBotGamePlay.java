@@ -21,7 +21,6 @@ public class TinkerBotGamePlay {
 
 	protected KinectRegionGrid _kinectGrid;
 	protected boolean _gameIsActive = false;
-	protected boolean _gameShouldEnd = false;
 	
 	protected boolean _isRemoteKinect;
 	protected int _playersDetectedTime = 0;
@@ -75,7 +74,6 @@ public class TinkerBotGamePlay {
 	
 	public void reset() {
 		_gameIsActive = false;
-		_gameShouldEnd = false;
 		
 		_scoreDisplay.reset();
 		_gameMessages.hideWin();
@@ -100,10 +98,6 @@ public class TinkerBotGamePlay {
 		_scoreDisplay.show();
 		_gameStartTime = p.millis();
 		_isError = false;
-	}
-	
-	public void gameOver() {
-		p.setGameState( GameState.GAME_OVER );
 	}
 	
 	// handle countdown timer ------------
@@ -156,15 +150,13 @@ public class TinkerBotGamePlay {
 	
 	public void update() {
 		if( p.gameState() == GameState.GAME_WAITING_FOR_PLAYERS ) detectPlayers();
-		if( p.gameState() == GameState.GAME_PLAYING ) {}
-		if( _robots.readyForNewLevel() == true ) newLevel();
-		checkPlayersLineup();
-		drawGraphicsLayers();
-		extraWinFailResponse();
-		if( _gameShouldEnd == true ) {
-			gameOver();
-			_gameShouldEnd = false;
+		if( p.gameState() == GameState.GAME_PLAYING ) {			
+			if( _robots.readyForNewLevel() == true ) newLevel();
+			checkPlayersLineup();
+			extraWinFailResponse();
+			checkGameOver();
 		}
+		drawGraphicsLayers();
 	}
 	
 	public void detectPlayers() {
@@ -198,7 +190,6 @@ public class TinkerBotGamePlay {
 	
 	public void win() {
 		if( _controlsActive == true ) {
-			P.println("== win");
 			_controlsActive = false;
 			_levelTimer.reset();
 			_background.levelEnd();
@@ -210,7 +201,6 @@ public class TinkerBotGamePlay {
 	
 	public void fail() {
 		if( _controlsActive == true ) {
-			P.println("== fail");
 			_controlsActive = false;
 			_levelTimer.reset();
 			_background.levelEnd();
@@ -253,6 +243,14 @@ public class TinkerBotGamePlay {
 			} else {
 				p.sounds.playSound(TinkerBotSounds.LASER);
 				_gameMessages.showWin();
+			}
+		}
+	}
+	
+	protected void checkGameOver() {
+		if( p.gameState() == GameState.GAME_PLAYING ) {
+			if( _gameTimer.isGameOver() == true && _robots.isAnimating() == false ) {
+				p.setGameState( GameState.GAME_OVER );
 			}
 		}
 	}

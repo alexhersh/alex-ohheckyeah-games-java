@@ -14,7 +14,7 @@ extends TinkerBotBaseDisplay {
 	protected TinkerBotGamePlay _gamePlay;
 	
 	protected int _gameStartTime = 0;
-	protected int _gameEndTime = 0;
+	protected boolean _isGameOver = false;
 	protected int _curGameTime = 0;
 	protected boolean _active = false;
 	public static int GAME_LENGTH_SECONDS;
@@ -35,10 +35,14 @@ extends TinkerBotBaseDisplay {
 		GAME_LENGTH = GAME_LENGTH_SECONDS * 1000;
 	}
 	
+	public boolean isGameOver() {
+		return _isGameOver;
+	}
+	
 	public void startTimer() {
 		_gameStartTime = p.millis();
 		_curGameTime = GAME_LENGTH;
-		_gameEndTime = 0;
+		_isGameOver = false;
 		_levelStartTime = p.millis();
 		_active = true;
 	}
@@ -50,8 +54,7 @@ extends TinkerBotBaseDisplay {
 		_curGameTime = GAME_LENGTH - ( p.millis() - _gameStartTime );
 		if( _curGameTime < 0 && _active == true ) {
 			_active = false;
-			_gameEndTime = 0;
-			p.setGameState( GameState.GAME_OVER );
+			_isGameOver = true;
 		}
 
 		// check level ending for a fail

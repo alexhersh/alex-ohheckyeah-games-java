@@ -71,6 +71,7 @@ public class TinkerBotRobots {
 	// extra properties
 	protected boolean _errorShowable = false;
 	protected boolean _isBeaming = false;
+	protected boolean _isAnimating = false;
 	
 	
 	public TinkerBotRobots() {
@@ -164,7 +165,7 @@ public class TinkerBotRobots {
 	protected void shootBeam() {
 		_animState = RobotAnimState.BEAMING;
 		_animStartTime = p.millis();
-		_beamWidth.setTarget( pg.width * 0.5f );
+		_beamWidth.setTarget( pg.width - 2f * ( _robotX + p.svgWidth(p.gameGraphics.robotHead) ) );
 		_errorShowable = true;
 		_isBeaming = true;
 	}
@@ -192,6 +193,10 @@ public class TinkerBotRobots {
 	
 	protected boolean isErrorShowable() {
 		return _errorShowable;
+	}
+	
+	protected boolean isAnimating() {
+		return ( _animState != RobotAnimState.WAITING && _animState != RobotAnimState.WANDERING );
 	}
 	
 	protected boolean isBeaming() {
