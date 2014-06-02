@@ -56,7 +56,8 @@ extends OHYKinectApp {
 		gameScaleH = (float) p.width / (float) gameOriginalWidth;
 		ohyGraphics = new OHYGraphics();
 		setKinectProperties();
-		setRemoteKinectReceiverProperties();
+		setRemoteKinectProperties();
+		if( _isRemoteKinect == true ) initReceiverUDP();
 	}
 	
 	// Getters ---------------------------------------------------------------------------------------------------------

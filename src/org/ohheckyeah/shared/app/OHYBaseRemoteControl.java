@@ -1,7 +1,5 @@
 package org.ohheckyeah.shared.app;
 
-import hypermedia.net.UDP;
-
 import com.haxademic.core.app.P;
 import com.haxademic.core.hardware.kinect.KinectRegion;
 import com.haxademic.core.system.FileUtil;
@@ -13,33 +11,16 @@ extends OHYKinectApp {
 	public static final String DATA_GRID_DELIMITER = "~";
 	public static final String DATA_REGION_DELIMITER = ":";
 	
-	protected UDP _udp;
-	protected boolean _debugging = false;
-	protected String _receiverIp = "";
-	protected int _receiverPort = 0;
-
 	public void setup( String propertiesFile ) {
-		_customPropsFile = FileUtil.getHaxademicDataPath() + "properties/" + propertiesFile;
+		if( propertiesFile != null ) _customPropsFile = FileUtil.getHaxademicDataPath() + "properties/" + propertiesFile;
 		super.setup();
 		setKinectProperties();
-		setKinectRemoteProperties();
-		initUDP();
-	}
-	
-	protected void setKinectRemoteProperties() {
-		_debugging = _appConfig.getBoolean( "kinect_remote_debug", false );
-		_receiverIp = _appConfig.getString( "kinect_remote_receiver_ip", "" );
-		_receiverPort = _appConfig.getInt( "kinect_remote_receiver_port", 0 );
-	}
-	
-	protected void initUDP() {
-		_udp = new UDP( this, 9999 );	// TODO: fix 9999????
-		_udp.log( _debugging );
-		_udp.listen( true );	
+		setRemoteKinectProperties();
+		initSenderUDP();
 	}
 	
 	public void drawApp() {
-		_kinectGrid.update();
+		super.drawApp();
 		sendKinectGrid( buildKinectString() );
 	}
 	
@@ -55,7 +36,7 @@ extends OHYKinectApp {
 	}
 	
 	protected void sendKinectGrid( String kinectData ) {
-		if( _debugging == true ) P.println("kinectData = "+kinectData);
+		if( _remoteDebugging == true ) P.println("sending data: = "+kinectData);
 		_udp.send( kinectData, _receiverIp, _receiverPort );
 	}
 

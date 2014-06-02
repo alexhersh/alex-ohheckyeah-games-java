@@ -38,7 +38,7 @@ extends PAppletHax {
 	}
 	
 	public void drawApp() {
-		_kinectGrid.update();
+		if( _kinectGrid != null ) _kinectGrid.update();
 	}
 	
 	// Kinect remote control --------------------------------------------------------------------------------------
@@ -47,18 +47,27 @@ extends PAppletHax {
 	protected boolean _remoteDebugging = false;
 	protected String _receiverIp = "";
 	protected int _receiverPort = 0;
+	protected String _senderIp = "";
+	protected int _senderPort = 0;
 	protected boolean _isRemoteKinect = false;
-	
-	protected void setRemoteKinectReceiverProperties() {
+
+	protected void setRemoteKinectProperties() {
 		_remoteDebugging = _appConfig.getBoolean( "kinect_remote_debug", false );
 		_receiverIp = _appConfig.getString( "kinect_remote_receiver_ip", "" );
 		_receiverPort = _appConfig.getInt( "kinect_remote_receiver_port", 0 );
+		_senderIp = _appConfig.getString( "kinect_remote_sender_ip", "" );
+		_senderPort = _appConfig.getInt( "kinect_remote_sender_port", 0 );
 		_isRemoteKinect = _appConfig.getBoolean("kinect_remote_active", false);
-		if( _isRemoteKinect == true ) initRemoteKinect();
 	}
 	
-	protected void initRemoteKinect() {
+	protected void initReceiverUDP() {
 		_udp = new UDP( this, _receiverPort );
+		_udp.log( _remoteDebugging );
+		_udp.listen( true );	
+	}
+	
+	protected void initSenderUDP() {
+		_udp = new UDP( this, _senderPort );
 		_udp.log( _remoteDebugging );
 		_udp.listen( true );	
 	}
@@ -76,6 +85,5 @@ extends PAppletHax {
 			_kinectGrid.getRegion(i).pixelCount( ConvertUtil.stringToInt( kinectPlayerData[2].trim() ) );
 		}
 	}
-
 
 }
