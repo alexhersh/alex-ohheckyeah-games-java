@@ -166,9 +166,10 @@ public class TinkerBotGamePlay {
 		}
 		if( hasPlayers == true ) {
 			if( _playersDetectedTime == 0 ) _playersDetectedTime = p.millis();
-			if( p.millis() > _playersDetectedTime + 2000 ) {
+			if( p.millis() > _playersDetectedTime + 1500 ) {
 				_playersDetectedTime = 0;
 				p.setGameState( GameState.GAME_PRE_COUNTDOWN );
+				p.sounds.stopSoundtrack();
 			}
 		} else {
 			_playersDetectedTime = 0;

@@ -162,8 +162,8 @@ extends OHYBaseGame
 	protected void setGameStatePreCountdown() {
 		_preCountdownStartTime = p.millis();
 		_gamePlay.playersLockedIn();
-		sounds.playSound( TinkerBotSounds.PLAYERS_DETECTED );
 		sounds.stopSoundtrack();
+		sounds.playSound( TinkerBotSounds.PLAYERS_DETECTED );
 	}
 
 	protected void runGameStatePreCountdown() {
