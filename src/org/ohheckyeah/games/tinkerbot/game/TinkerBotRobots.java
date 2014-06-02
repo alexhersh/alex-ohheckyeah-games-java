@@ -68,6 +68,7 @@ public class TinkerBotRobots {
 	
 	// extra properties
 	protected boolean _errorShowable = false;
+	protected boolean _isBeaming = false;
 	
 	
 	public TinkerBotRobots() {
@@ -159,6 +160,7 @@ public class TinkerBotRobots {
 		_animStartTime = p.millis();
 		_beamWidth.setTarget( pg.width * 0.5f );
 		_errorShowable = true;
+		_isBeaming = true;
 	}
 	
 	protected void closeMouth() {
@@ -184,6 +186,14 @@ public class TinkerBotRobots {
 	
 	protected boolean isErrorShowable() {
 		return _errorShowable;
+	}
+	
+	protected boolean isBeaming() {
+		if( _isBeaming == true ) {
+			_isBeaming = false;
+			return true;
+		}
+		return false;
 	}
 	
 	public void update() {

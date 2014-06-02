@@ -76,6 +76,7 @@ public class TinkerBotGamePlay {
 		
 		_scoreDisplay.reset();
 		_gameMessages.hideWin();
+		_gameMessages.hideFail();
 	}
 	
 		
@@ -137,8 +138,6 @@ public class TinkerBotGamePlay {
 	}
 	
 	public void animateToPostGameOverState() {
-		_gameMessages.hideWin();
-		_gameMessages.hideFail();
 	}
 	
 	public void animateToPlayerDetection() {
@@ -152,6 +151,7 @@ public class TinkerBotGamePlay {
 		if( _robots.readyForNewLevel() == true ) newLevel();
 		checkPlayersLineup();
 		drawGraphicsLayers();
+		extraWinFailResponse();
 		if( _gameShouldEnd == true ) {
 			gameOver();
 			_gameShouldEnd = false;
@@ -180,8 +180,6 @@ public class TinkerBotGamePlay {
 		_curGoalPosition =  TinkerBotLayout.randomPosition( _curGoalPosition );
 		_gameTimer.newLevel();
 		_levelTimer.startTimer();
-		_gameMessages.hideWin();
-		_gameMessages.hideFail();
 		_background.levelStart();
 		_robots.levelStart();
 		_isError = false;
@@ -191,8 +189,6 @@ public class TinkerBotGamePlay {
 	public void win() {
 		if( _controlsActive == true ) {
 			_controlsActive = false;
-			p.sounds.playSound(TinkerBotSounds.LASER);
-			_gameMessages.showWin();
 			_levelTimer.reset();
 			_background.levelEnd();
 			_robots.shootBeam( _curGoalPosition );
@@ -203,8 +199,6 @@ public class TinkerBotGamePlay {
 	public void fail() {
 		if( _controlsActive == true ) {
 			_controlsActive = false;
-			p.sounds.playSound(TinkerBotSounds.ERROR);
-			_gameMessages.showFail();
 			_levelTimer.reset();
 			_background.levelEnd();
 			_robots.shootBeam( _curGoalPosition );
@@ -220,6 +214,18 @@ public class TinkerBotGamePlay {
 		}
 		if( isLinedUp == true ) {
 			win();
+		}
+	}
+	
+	protected void extraWinFailResponse() {
+		if( _robots.isBeaming() == true ) {
+			if( _isError ) {
+				p.sounds.playSound(TinkerBotSounds.ERROR);
+				_gameMessages.showFail();
+			} else {
+				p.sounds.playSound(TinkerBotSounds.LASER);
+				_gameMessages.showWin();
+			}
 		}
 	}
 	

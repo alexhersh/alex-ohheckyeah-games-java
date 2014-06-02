@@ -25,6 +25,8 @@ public class TinkerBotGameMessages {
 	protected ElasticFloat _messageWinScale = new ElasticFloat(0, 0.71f, 0.16f);
 	protected ElasticFloat _messageFailScale = new ElasticFloat(0, 0.71f, 0.16f);
 
+	protected int _winFailTime = 0;
+	
 	public TinkerBotGameMessages() {
 		p = (TinkerBot) P.p;
 		pg = p.pg;
@@ -44,6 +46,12 @@ public class TinkerBotGameMessages {
 		_messageCountdownScale.update();
 		_messageWinScale.update();
 		_messageFailScale.update();
+		
+		if( _winFailTime != 0 && p.millis() > _winFailTime + 2000 ) {
+			_winFailTime = 0;
+			hideFail();
+			hideWin();
+		}
 
 		if( _messageWaitingY.val() > 0 ) {
 			pg.shape( p.gameGraphics.textStepIntoZones, _messageX, _messageWaitingY.val(), p.svgWidth(p.gameGraphics.textStepIntoZones), p.svgHeight(p.gameGraphics.textStepIntoZones) );
@@ -75,6 +83,8 @@ public class TinkerBotGameMessages {
 	
 	public void showFail() {
 		_messageFailScale.setTarget(1f);
+		_winFailTime = p.millis();
+		hideWin();
 	}
 	public void hideFail() {
 		_messageFailScale.setTarget(0f);
@@ -85,6 +95,8 @@ public class TinkerBotGameMessages {
 	}
 	public void showWin() {
 		_messageWinScale.setTarget(1f);
+		_winFailTime = p.millis();
+		hideFail();
 	}
 	public void hideWin() {
 		_messageWinScale.setTarget(0f);
