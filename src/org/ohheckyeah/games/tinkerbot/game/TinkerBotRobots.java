@@ -61,6 +61,7 @@ public class TinkerBotRobots {
 	protected int _animStartTime;
 	protected float _shootPosition;
 	protected boolean _readyForNewLevel;
+	protected float _boltsRot;
 
 	// beam
 	protected LinearFloat _beamEndScale;
@@ -98,6 +99,7 @@ public class TinkerBotRobots {
 		_wanderTime = 0;
 		_animStartTime = 0;
 		_readyForNewLevel = false;
+		_boltsRot = 0;
 		
 		_gunXHidden = p.scaleV(-50);
 		_gunXIncOpen = p.scaleV(2);
@@ -213,7 +215,9 @@ public class TinkerBotRobots {
 		_ballYOffset.update();
 		_gunX.update();
 		_mouthY.update();
+		float latHeadY = _headY.value();
 		_headY.update();
+		_boltsRot += ( latHeadY - _headY.value() ) * 0.075f;
 		_beamEndScale.update();
 		_beamWidth.update();
 		
@@ -305,6 +309,19 @@ public class TinkerBotRobots {
 		pg.shape(p.gameGraphics.robotHead, 0, 0, p.svgWidth(p.gameGraphics.robotHead), p.svgHeight(p.gameGraphics.robotHead) );
 		pg.popMatrix();
 		
+		// draw rotating bolts
+		pg.pushMatrix();
+		pg.translate( leftX - p.scaleV(36), _headY.value() - p.scaleV(38) );
+		pg.rotate(_boltsRot);
+		pg.shape(p.gameGraphics.robotBoltTop, 0, 0, p.svgWidth(p.gameGraphics.robotBoltTop), p.svgHeight(p.gameGraphics.robotBoltTop) );
+		pg.popMatrix();
+		
+		pg.pushMatrix();
+		pg.translate( leftX - p.scaleV(35), _headY.value() + p.scaleV(89) );
+		pg.rotate(-_boltsRot);
+		pg.shape(p.gameGraphics.robotBoltBottom, 0, 0, p.svgWidth(p.gameGraphics.robotBoltBottom), p.svgHeight(p.gameGraphics.robotBoltBottom) );
+		pg.popMatrix();
+		
 		// right robot ================================================================
 		float rightX = (pg.width - _robotX) - _robotXOffset.value();
 		
@@ -356,6 +373,19 @@ public class TinkerBotRobots {
 		pg.shape(p.gameGraphics.robotGunRight, _gunX.value() * -1f, 0, p.svgWidth(p.gameGraphics.robotGunRight), p.svgHeight(p.gameGraphics.robotGunRight) );
 		pg.shape(p.gameGraphics.robotMouthRight, 0, _mouthY.value(), p.svgWidth(p.gameGraphics.robotMouthRight), p.svgHeight(p.gameGraphics.robotMouthRight) );
 		pg.shape(p.gameGraphics.robotHeadRight, 0, 0, p.svgWidth(p.gameGraphics.robotHeadRight), p.svgHeight(p.gameGraphics.robotHeadRight) );
+		pg.popMatrix();
+		
+		// draw rotating bolts
+		pg.pushMatrix();
+		pg.translate( rightX + p.scaleV(36), _headY.value() - p.scaleV(38) );
+		pg.rotate(-_boltsRot + P.PI / 2f);
+		pg.shape(p.gameGraphics.robotBoltTop, 0, 0, p.svgWidth(p.gameGraphics.robotBoltTop), p.svgHeight(p.gameGraphics.robotBoltTop) );
+		pg.popMatrix();
+		
+		pg.pushMatrix();
+		pg.translate( rightX + p.scaleV(35), _headY.value() + p.scaleV(89) );
+		pg.rotate(_boltsRot + P.PI / 2f);
+		pg.shape(p.gameGraphics.robotBoltBottom, 0, 0, p.svgWidth(p.gameGraphics.robotBoltBottom), p.svgHeight(p.gameGraphics.robotBoltBottom) );
 		pg.popMatrix();
 		
 	}
