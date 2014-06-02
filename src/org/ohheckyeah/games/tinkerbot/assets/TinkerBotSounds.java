@@ -79,7 +79,7 @@ public class TinkerBotSounds {
 		_soundEffects.loadAudioFile( TinkerBotSounds.COUNTDOWN, 1f,			FileUtil.getHaxademicDataPath() + "games/tinkerbot/audio/sfx/countdown.wav" );
 		_soundEffects.loadAudioFile( TinkerBotSounds.GAMEPLAY_START, 1f,	FileUtil.getHaxademicDataPath() + "games/tinkerbot/audio/sfx/crash.wav" );
 		_soundEffects.loadAudioFile( TinkerBotSounds.LASER, 1f,				FileUtil.getHaxademicDataPath() + "games/tinkerbot/audio/sfx/laser.wav" );
-		_soundEffects.loadAudioFile( TinkerBotSounds.ERROR, 1f,				FileUtil.getHaxademicDataPath() + "games/tinkerbot/audio/sfx/error.wav" );
+		_soundEffects.loadAudioFile( TinkerBotSounds.ERROR, 1f,				FileUtil.getHaxademicDataPath() + "games/tinkerbot/audio/sfx/error-big-deep-note.wav" );
 	}
 
 	public void playSound( String id ) {
