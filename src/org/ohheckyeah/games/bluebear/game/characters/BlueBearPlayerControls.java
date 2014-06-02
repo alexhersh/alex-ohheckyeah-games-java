@@ -48,9 +48,10 @@ public class BlueBearPlayerControls {
 	
 	public void updateControls() {
 		if( p.kinectWrapper != null || _isRemoteKinect == true ) {
-			if( _kinectRegion.controlZ() < -0.1666 ) {				
+			float controlZ = ( p.kinectWrapper.isMirrored() == true ) ? _kinectRegion.controlZ() : _kinectRegion.controlZ() * -1f;
+			if( controlZ < -0.1666 ) {				
 				_lane = LANE_TOP;
-			} else if( _kinectRegion.controlZ() > 0.1666 ) {
+			} else if( controlZ > 0.1666 ) {
 				_lane = LANE_BOTTOM;
 			} else {
 				_lane = LANE_MIDDLE;
