@@ -1,6 +1,7 @@
 package org.ohheckyeah.games.tinkerbot.game;
 
 import org.ohheckyeah.games.tinkerbot.TinkerBot;
+import org.ohheckyeah.games.tinkerbot.assets.TinkerBotColors;
 
 import processing.core.PGraphics;
 
@@ -8,6 +9,7 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.draw.util.DrawUtil;
 import com.haxademic.core.image.ImageUtil;
 import com.haxademic.core.math.easing.EasingFloat;
+import com.haxademic.core.math.easing.LinearFloat;
 
 public class TinkerBotClosingDoors {
 
@@ -29,6 +31,8 @@ public class TinkerBotClosingDoors {
 	protected float _rightW;
 	protected float _rightH;
 	
+	protected LinearFloat _overlayOpacity = new LinearFloat(0, 0.01f);
+
 	public TinkerBotClosingDoors() {
 		p = (TinkerBot)P.p;
 		pg = p.pg;
@@ -51,6 +55,7 @@ public class TinkerBotClosingDoors {
 	}
 
 	public void update() {
+		// draw doors
 		_leftOffset.update();
 		_topOffset.update();
 		_rightOffset.update();
@@ -58,6 +63,12 @@ public class TinkerBotClosingDoors {
 		DrawUtil.setDrawCorner(pg);
 		pg.shape( p.gameGraphics.doorLeft, _leftX + _leftOffset.value(), _leftY + _topOffset.value(), _leftW, _leftH );
 		pg.shape( p.gameGraphics.doorRight, _rightX + _rightOffset.value(), _rightY + _bottomOffset.value(), _rightW, _rightH );
+		
+		// draw darker color overlay
+		_overlayOpacity.update();
+		DrawUtil.setDrawCorner(pg);
+		pg.fill( TinkerBotColors.DOOR_GAME_OVER_OVERLAY, _overlayOpacity.value() * 255f );
+		pg.rect(0, 0, pg.width, pg.height);
 	}
 
 	public void show() {
@@ -69,6 +80,9 @@ public class TinkerBotClosingDoors {
 		_rightOffset.setTarget(0);
 		_bottomOffset.setCurrent( _rightH );
 		_bottomOffset.setTarget(0);
+		
+		_overlayOpacity.setCurrent(0);
+		_overlayOpacity.setTarget(0.7f);
 	}
 
 	public void hide() {
@@ -80,6 +94,9 @@ public class TinkerBotClosingDoors {
 		_rightOffset.setTarget( _rightW );
 		_bottomOffset.setCurrent( _rightH );
 		_bottomOffset.setTarget( _rightH );
+
+		_overlayOpacity.setCurrent(0);
+		_overlayOpacity.setTarget(0);
 	}
 
 }
