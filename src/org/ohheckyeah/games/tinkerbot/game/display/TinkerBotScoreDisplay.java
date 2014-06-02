@@ -54,7 +54,7 @@ extends TinkerBotBaseDisplay {
 		
 		// draw score text
 		easeScore();
-		pg.image( _scoreText.getTextPImage(), p.scaleH(1009), p.scaleH(9), _scoreText.getTextPImage().width, _scoreText.getTextPImage().height );
+		pg.image( _scoreText.getTextPImage(), p.scaleH(1009), p.scaleH(7), _scoreText.getTextPImage().width, _scoreText.getTextPImage().height );
 
 		pg.popMatrix();
 	}

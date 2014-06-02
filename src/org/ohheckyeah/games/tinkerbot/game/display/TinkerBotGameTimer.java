@@ -69,7 +69,7 @@ extends TinkerBotBaseDisplay {
 		pg.shape( p.gameGraphics.timeBg, p.scaleH(752), 0, p.scaleH(p.gameGraphics.timeBg.width), p.scaleH(p.gameGraphics.timeBg.height) );
 		int time = ( _curGameTime <= 0 ) ? 0 : _curGameTime;
 		_timerFontRenderer.updateText( StringFormatter.timeFromMilliseconds( time, false) );
-		pg.image( _timerFontRenderer.getTextPImage(), p.scaleH(768), p.scaleH(9), _timerFontRenderer.getTextPImage().width, _timerFontRenderer.getTextPImage().height );
+		pg.image( _timerFontRenderer.getTextPImage(), p.scaleH(768), p.scaleH(7), _timerFontRenderer.getTextPImage().width, _timerFontRenderer.getTextPImage().height );
 		
 		pg.popMatrix();
 	}
