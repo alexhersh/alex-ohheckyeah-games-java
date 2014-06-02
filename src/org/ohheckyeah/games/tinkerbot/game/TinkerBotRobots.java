@@ -96,7 +96,7 @@ public class TinkerBotRobots {
 		_readyForNewLevel = true;
 		
 		_gunXHidden = p.scaleV(-50);
-		_gunXIncOpen = p.scaleV(1);
+		_gunXIncOpen = p.scaleV(2);
 		_gunXIncClose = p.scaleV(3);
 		_gunX = new LinearFloat(_gunXHidden, _gunXIncOpen);
 		
