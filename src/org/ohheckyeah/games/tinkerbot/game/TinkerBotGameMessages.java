@@ -24,6 +24,7 @@ public class TinkerBotGameMessages {
 	protected float _messageWinnerX = 0;
 	protected ElasticFloat _messageWinScale = new ElasticFloat(0, 0.71f, 0.16f);
 	protected ElasticFloat _messageFailScale = new ElasticFloat(0, 0.71f, 0.16f);
+	protected ElasticFloat _messageGameOverScale = new ElasticFloat(0, 0.71f, 0.16f);
 
 	protected int _winFailTime = 0;
 	
@@ -46,6 +47,7 @@ public class TinkerBotGameMessages {
 		_messageCountdownScale.update();
 		_messageWinScale.update();
 		_messageFailScale.update();
+		_messageGameOverScale.update();
 		
 		if( _winFailTime != 0 && p.millis() > _winFailTime + 2000 ) {
 			_winFailTime = 0;
@@ -64,6 +66,9 @@ public class TinkerBotGameMessages {
 		}
 		if( _messageWinScale.val() > 0.1 ) {
 			pg.shape( p.gameGraphics.textWin, _messageX, _messageYShowingCenter, p.svgWidth(p.gameGraphics.textWin) * _messageWinScale.val(), p.svgHeight(p.gameGraphics.textWin) * _messageWinScale.val() );
+		}
+		if( _messageGameOverScale.val() > 0.1 ) {
+			pg.shape( p.gameGraphics.textGameOver, _messageX, _messageYShowingCenter, p.svgWidth(p.gameGraphics.textGameOver) * _messageGameOverScale.val(), p.svgHeight(p.gameGraphics.textGameOver) * _messageGameOverScale.val() );
 		}
 	}
 	
@@ -100,6 +105,13 @@ public class TinkerBotGameMessages {
 	}
 	public void hideWin() {
 		_messageWinScale.setTarget(0f);
+	}
+	
+	public void showGameOver() {
+		_messageGameOverScale.setTarget(1);
+	}
+	public void hideGameOver() {
+		_messageGameOverScale.setTarget(0);
 	}
 	
 	

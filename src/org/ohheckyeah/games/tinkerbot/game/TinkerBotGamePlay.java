@@ -134,16 +134,19 @@ public class TinkerBotGamePlay {
 	}
 	
 	public void animateToGameOverState() {
-		_levelTimer.hide();
-		_scoreDisplay.hide();
-		_gameTimer.hide();
 		for( TinkerBotPlayer player: _players ) player.gameOver();
+		_levelTimer.reset();
 		_robots.hide();
 		_dashedLine.hide();
 		_closingDoors.show();
+		_gameMessages.showGameOver();
 	}
 	
 	public void animateToPostGameOverState() {
+		_levelTimer.hide();
+		_scoreDisplay.hide();
+		_gameTimer.hide();
+		_gameMessages.hideGameOver();
 	}
 	
 	public void animateToPlayerDetection() {

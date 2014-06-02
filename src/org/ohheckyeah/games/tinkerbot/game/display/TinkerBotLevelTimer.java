@@ -15,12 +15,16 @@ extends TinkerBotBaseDisplay {
 	protected int _curBars;
 	protected int _startTime;
 	
-	
 	public TinkerBotLevelTimer() {
 		super();
 	}
 	
 	public void startTimer() {
+		_startTime = p.millis();
+		_curBars = 0;
+	}
+	
+	public void stopTimer() {
 		_startTime = p.millis();
 		_curBars = 0;
 	}
