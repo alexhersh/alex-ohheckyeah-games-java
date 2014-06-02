@@ -69,6 +69,10 @@ public class TinkerBotPlayer {
 		return _position;
 	}
 	
+	public int playerX() {
+		return _playerX;
+	}
+	
 	public void resetDetection() {
 		_detectedPlayer = false;
 		_hasPlayer = false;

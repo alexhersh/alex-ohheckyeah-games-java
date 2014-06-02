@@ -191,7 +191,7 @@ public class TinkerBotGamePlay {
 			_controlsActive = false;
 			_levelTimer.reset();
 			_background.levelEnd();
-			_robots.shootBeam( _curGoalPosition );
+			_robots.shootBeam( _curGoalPosition, pg.width, 0 );
 			_scoreDisplay.addScore();
 		}
 	}
@@ -201,9 +201,23 @@ public class TinkerBotGamePlay {
 			_controlsActive = false;
 			_levelTimer.reset();
 			_background.levelEnd();
-			_robots.shootBeam( _curGoalPosition );
+			_robots.shootBeam( _curGoalPosition, getLeftmostPlayerError(), getRightmostPlayerError() );
 			_isError = true;
 		}
+	}
+	
+	protected float getLeftmostPlayerError() {
+		for( int i=0; i < TinkerBot.NUM_PLAYERS; i++ ) {
+			if( _players[i].position() != _curGoalPosition ) return _players[i].playerX();
+		}
+		return _players[TinkerBot.NUM_PLAYERS - 1].playerX();
+	}
+	
+	protected float getRightmostPlayerError() {
+		for( int i=TinkerBot.NUM_PLAYERS - 1; i >= 0; i-- ) {
+			if( _players[i].position() != _curGoalPosition ) return _players[i].playerX();
+		}
+		return _players[0].playerX();
 	}
 	
 	public void checkPlayersLineup() {
