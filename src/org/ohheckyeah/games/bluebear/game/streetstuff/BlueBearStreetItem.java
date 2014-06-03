@@ -33,7 +33,7 @@ public class BlueBearStreetItem {
 	public boolean kicked = false;
 	public boolean isPerson = false;
 	public boolean isCar = false;
-	protected EasingFloat _scale = new EasingFloat(0, 6);
+	protected EasingFloat _scale = new EasingFloat(0, 10);
 	protected LinearFloat _scaleKick = new LinearFloat(0, 0.025f );
 	
 	public BlueBearStreetItem() {
@@ -57,7 +57,7 @@ public class BlueBearStreetItem {
 		hit = false;
 		showing = true;
 		kicked = false;
-		_scale.setCurrent( (fullScale) ? 1 : 0.6f );
+		_scale.setCurrent( (fullScale) ? 1 : 0f );
 		_scale.setTarget(1);
 		isPerson = ( file.indexOf("Character") != -1 ); //  || file.indexOf("Moose") != -1 
 		isCar = ( file.indexOf("Car") != -1 );
@@ -73,11 +73,11 @@ public class BlueBearStreetItem {
 	
 	public void update( float speed ) {
 		if( kicked == false ) {
+			_scale.update();
 			if( yDrop < 0 ) {
 				yDrop += p.scaleV(9f);
 				if( yDrop > 0 ) yDrop = 0;
 			} else {
-				_scale.update();
 				x -= speed;
 				xStatic -= speed;
 				// special movement

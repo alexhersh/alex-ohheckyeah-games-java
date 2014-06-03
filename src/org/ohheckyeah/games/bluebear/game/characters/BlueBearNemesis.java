@@ -29,7 +29,7 @@ extends BlueBearBasePlayer {
 	protected PShape _beamTube;
 	protected boolean _beamTubeIsDown = false;
 	protected LinearFloat _tubeY = new LinearFloat(0, 2f);
-	protected int TUBE_MOVE_HEIGHT = 8;
+	protected int TUBE_MOVE_HEIGHT = 12;
 
 	protected PShape _faceDefault;
 	protected PShape _faceBeaming;
