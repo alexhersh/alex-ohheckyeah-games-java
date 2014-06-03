@@ -40,7 +40,7 @@ extends BlueBearBasePlayer {
 	protected LinearFloat _beamY = new LinearFloat(0, 5f);
 
 	
-	protected float _scale = 0.7f;
+	protected float _scale = 0.9f;
 	protected float _squirrelShadowOffsetY = -7;
 	protected EasingFloat _floatHeight = new EasingFloat(40, 6);
 	protected EasingFloat _shadowScale = new EasingFloat(1, 6);
