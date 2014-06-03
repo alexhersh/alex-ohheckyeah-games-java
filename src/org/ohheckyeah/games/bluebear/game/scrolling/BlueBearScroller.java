@@ -21,8 +21,8 @@ public class BlueBearScroller {
 	protected ArrayList<PShape> _graphicsOnScreen;
 	protected ArrayList<Integer> _graphicsPadding;
 	protected int _graphicIndex = 0;
-	protected int _graphicsStartX = 0;
-	protected int _graphicsEndX = 0;
+	protected float _graphicsStartX = 0;
+	protected float _graphicsEndX = 0;
 	protected int _graphicRepeats = 0;
 
 	protected float _baseY = 0;
@@ -121,7 +121,7 @@ public class BlueBearScroller {
 		// draw current graphics!
 		DrawUtil.setDrawCorner(pg);
 		pg.pushMatrix();
-		int curX = _graphicsStartX;
+		float curX = _graphicsStartX;
 		for( int i=0; i < _graphicsOnScreen.size(); i++ ) {
 			curGraphic = _graphicsOnScreen.get(i);
 			pg.shape( curGraphic, curX, _baseY - svgHeight(curGraphic), svgWidth(curGraphic), svgHeight(curGraphic) );
