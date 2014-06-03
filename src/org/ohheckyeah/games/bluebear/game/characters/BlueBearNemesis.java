@@ -218,8 +218,8 @@ extends BlueBearBasePlayer {
 		_beamTube.translate(0, _tubeY.value());
 		
 		// update beam y
-		_beamY.update();
-		_beam.translate(0, _beamY.value());
+//		_beamY.update();
+//		_beam.translate(0, _beamY.value());
 	}
 	
 	protected void tubeDown() {

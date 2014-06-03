@@ -16,6 +16,7 @@ public class BlueBearStreetItem {
 	public float x;
 	public float xStatic;
 	public float y;
+	public float yDrop;
 	public int lane;
 	public float speedX;
 	public float speedY;
@@ -44,6 +45,7 @@ public class BlueBearStreetItem {
 		x = startX;
 		xStatic = startX;
 		y = startY;
+		yDrop = (fullScale) ? 0f : p.scaleV(-80);
 		lane = newLane;
 		speedX = 0;
 		speedY = 0;
@@ -54,7 +56,7 @@ public class BlueBearStreetItem {
 		hit = false;
 		showing = true;
 		kicked = false;
-		_scale.setCurrent( (fullScale) ? 1 : 0 );
+		_scale.setCurrent( (fullScale) ? 1 : 0.6f );
 		_scale.setTarget(1);
 		isPerson = ( file.indexOf("Character") != -1 ); //  || file.indexOf("Moose") != -1 
 		isCar = ( file.indexOf("Car") != -1 );
@@ -70,16 +72,21 @@ public class BlueBearStreetItem {
 	
 	public void update( float speed ) {
 		if( kicked == false ) {
-			_scale.update();
-			x -= speed;
-			xStatic -= speed;
-			// special movement
-			if( isCar ) x -= speed * 0.25f; // mo' speed
-			if( isPerson && speed > 1 ) {
-				// every 4 frames, reverse a bit of rotation
-				walkFrames += 0.25f;
-				if( walkFrames % 1 == 0 ) walkRotation *= -1f;
-				x -= speed * 0.1f;
+			if( yDrop < 0 ) {
+				yDrop += p.scaleV(5f);
+				if( yDrop > 0 ) yDrop = 0;
+			} else {
+				_scale.update();
+				x -= speed;
+				xStatic -= speed;
+				// special movement
+				if( isCar ) x -= speed * 0.25f; // mo' speed
+				if( isPerson && speed > 1 ) {
+					// every 4 frames, reverse a bit of rotation
+					walkFrames += 0.25f;
+					if( walkFrames % 1 == 0 ) walkRotation *= -1f;
+					x -= speed * 0.1f;
+				}
 			}
 		} else {
 			_scaleKick.update();

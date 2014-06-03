@@ -117,7 +117,7 @@ public class BlueBearStreetItems {
 				// draw obstacle
 				pg.pushMatrix();
 				int obstacleLane = ( p.gameState() == GameState.GAME_PLAYING ) ? obstacle.lane : 0; // adjust z-depth only during gameply - intro screens should be in front of obstacles
-				pg.translate( obstacle.x, obstacle.y - p.svgHeight(obstacle.graphic) * 0.5f * obstacle.scale(), obstacleLane );
+				pg.translate( obstacle.x, obstacle.y + obstacle.yDrop - p.svgHeight(obstacle.graphic) * 0.5f * obstacle.scale(), obstacleLane );
 				pg.rotate( obstacle.rotation );
 				if( flipped && ( obstacle.x > bearCenter || obstacle.isPerson == false ) ) pg.scale(-1, 1, 1);
 				if( obstacle.isPerson == true ) pg.rotate( obstacle.walkRotation );
