@@ -16,7 +16,8 @@ public class BlueBearScoreDisplay {
 	protected PGraphics pg;
 	
 	protected int _score = 0;
-	protected int _health = 5;
+	protected int _maxHealth = 10;
+	protected int _health = _maxHealth;
 	
 	protected CustomFontText2D _scoreText;
 	protected EasingFloat _scoreEaser;
@@ -41,8 +42,8 @@ public class BlueBearScoreDisplay {
 	}
 	
 	public int addHealth() {
-		_health += 1;
-		if( _health > 5 ) _health = 5;
+		_health += 2;
+		if( _health > _maxHealth ) _health = _maxHealth;
 		return _health;
 	}
 	
@@ -54,7 +55,7 @@ public class BlueBearScoreDisplay {
 	
 	public void reset() {
 		_score = 0;
-		_health = 5;
+		_health = _maxHealth;
 		if( _scoreText != null ) {
 			_scoreText.updateText( ""+_score );
 			_scoreEaser.setCurrent(0);
