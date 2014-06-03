@@ -86,7 +86,7 @@ public class BlueBearGamePlay {
 	protected boolean _gameplayStarted = false;
 	
 	protected float _launchTime = 0;
-	protected float LAUNCH_TIME = 700;
+	protected float LAUNCH_TIME = 1500;
 	protected BlueBearStreetItems _obstacles;
 	protected BlueBearStreetItems _goodies;
 
@@ -326,7 +326,7 @@ public class BlueBearGamePlay {
 	
 	public void launchObstacle() {
 		// launch obstacle
-		_obstacles.launch( _nemesis.launchX(), _nemesis.launchY(), _nemesis.lane() );
+		_obstacles.launch( _nemesis.launchX(), _nemesis.launchY(), _nemesis.lane(), false );
 		p.sounds.playSound( BlueBearSounds.LAUNCH );
 	}
 	
@@ -336,9 +336,10 @@ public class BlueBearGamePlay {
 		while( goodieLane == _nemesis.lane() ) {
 			goodieLane = BlueBearScreenPositions.randomLane();
 		}
-		float goodieOffsetX = _obstacles.obstacleSpacing();
-		if( goodieOffsetX == 0 ) goodieOffsetX = p.scaleV(200);
-		_goodies.launch( _nemesis.launchX() + goodieOffsetX + goodieOffsetX / 2f, BlueBearScreenPositions.LANES_Y[goodieLane], goodieLane );
+//		float goodieOffsetX = _obstacles.obstacleSpacing();
+//		if( goodieOffsetX == 0 ) goodieOffsetX = p.scaleV(200);
+//		_goodies.launch( _nemesis.launchX() + goodieOffsetX + goodieOffsetX / 2f, BlueBearScreenPositions.LANES_Y[goodieLane], goodieLane );
+		_goodies.launch( pg.width + p.scaleV(50), BlueBearScreenPositions.LANES_Y[goodieLane], goodieLane, true );
 	}
 	
 	protected void checkObstacleCollisions() {
@@ -411,8 +412,8 @@ public class BlueBearGamePlay {
 		_buildings.update(speed);
 		_sidewalk.update(speed);
 		
-		_obstacles.update(speed, true, _bear.x());
 		_goodies.update(speed, false, _bear.x());
+		_obstacles.update(speed, true, _bear.x());
 		
 		_countdownDisplay.updateWithNumber(_countdownTime);
 		_scoreDisplay.update();

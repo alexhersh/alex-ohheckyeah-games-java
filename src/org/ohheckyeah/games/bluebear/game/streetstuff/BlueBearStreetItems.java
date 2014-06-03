@@ -59,11 +59,11 @@ public class BlueBearStreetItems {
 		return _obstacleSpacing;
 	}
 
-	public void launch( float launchX, float launchY, int lane ) {
+	public void launch( float launchX, float launchY, int lane, boolean fullScale ) {
 		if( _graphicPool == null ) return;
 		_launchIndex = (_launchIndex < _obstacles.size() - 1) ? _launchIndex + 1 : 0;
 		_poolIndex = (_poolIndex < _graphicPool.length - 1) ? _poolIndex + 1 : 0;
-		_obstacles.get(_launchIndex).reset( _graphicPool[_poolIndex], _graphicPoolFiles[_poolIndex], launchX, launchY, lane );
+		_obstacles.get(_launchIndex).reset( _graphicPool[_poolIndex], _graphicPoolFiles[_poolIndex], launchX, launchY, lane, fullScale );
 		
 		// once we've launched 2 obstacles, calculate the spacing for goodies
 		if( _obstacleSpacing == 0 && _launchIndex > 1 ) {

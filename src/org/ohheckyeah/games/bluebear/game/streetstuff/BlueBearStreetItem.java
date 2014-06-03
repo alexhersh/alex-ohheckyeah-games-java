@@ -38,7 +38,7 @@ public class BlueBearStreetItem {
 		p = (BlueBear)P.p;
 	}
 	
-	public void reset( PShape svg, String file, float startX, float startY, int newLane ) {
+	public void reset( PShape svg, String file, float startX, float startY, int newLane, boolean fullScale ) {
 		graphic = svg;
 		fileName = file;
 		x = startX;
@@ -54,7 +54,7 @@ public class BlueBearStreetItem {
 		hit = false;
 		showing = true;
 		kicked = false;
-		_scale.setCurrent(0);
+		_scale.setCurrent( (fullScale) ? 1 : 0 );
 		_scale.setTarget(1);
 		isPerson = ( file.indexOf("Character") != -1 ); //  || file.indexOf("Moose") != -1 
 		isCar = ( file.indexOf("Car") != -1 );
