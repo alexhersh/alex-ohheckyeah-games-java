@@ -24,6 +24,7 @@ public class BlueBearGameMessages {
 	protected float _messageWinnerX = 0;
 	protected ElasticFloat _messageWinY = new ElasticFloat(_messageYHidden, 0.71f, 0.16f);
 	protected ElasticFloat _messageLoseY = new ElasticFloat(_messageYHidden, 0.71f, 0.16f);
+	protected ElasticFloat _instructionsScale = new ElasticFloat(0, 0.71f, 0.16f);
 
 	public BlueBearGameMessages() {
 		p = (BlueBear) P.p;
@@ -44,6 +45,7 @@ public class BlueBearGameMessages {
 		_messageCountdownY.update();
 		_messageWinY.update();
 		_messageLoseY.update();
+		_instructionsScale.update();
 
 		if( _messageWaitingY.val() > 0 ) {
 			pg.shape( p.gameGraphics.textStepIntoZones, _messageX, _messageWaitingY.val(), p.svgWidth(p.gameGraphics.textStepIntoZones), p.svgHeight(p.gameGraphics.textStepIntoZones) );
@@ -57,6 +59,13 @@ public class BlueBearGameMessages {
 		if( _messageWinY.val() > 0 ) {
 			pg.shape( p.gameGraphics.textWin, _messageX, _messageWinY.val(), p.svgWidth(p.gameGraphics.textWin), p.svgHeight(p.gameGraphics.textWin) );
 		}
+		if( _instructionsScale.val() > 0.05f ) {
+			pg.pushMatrix();
+			pg.translate(0, 0, 4); // solves a weird layering/clipping issue since bear/squirrel on closer z-depth to camera
+			pg.shape( p.gameGraphics.instructionBear, pg.width * 0.3f, _messageYShowingCenter, p.scaleH(p.gameGraphics.instructionBear.width) * _instructionsScale.val(), p.scaleH(p.gameGraphics.instructionBear.height) * _instructionsScale.val() );
+			pg.shape( p.gameGraphics.instructionsSquirrel, pg.width * 0.7f, _messageYShowingCenter, p.scaleH(p.gameGraphics.instructionsSquirrel.width) * _instructionsScale.val(), p.scaleH(p.gameGraphics.instructionsSquirrel.height) * _instructionsScale.val() );
+			pg.popMatrix();
+		}
 	}
 	
 	public void showWaiting() {
@@ -66,10 +75,10 @@ public class BlueBearGameMessages {
 		_messageWaitingY.setTarget(_messageYHidden);
 	}
 	
-	public void showCountdown() {
+	public void showGetReady() {
 		_messageCountdownY.setTarget(_messageYShowingCenter);
 	}
-	public void hideCountdown() {
+	public void hideGetReady() {
 		_messageCountdownY.setTarget(_messageYHidden);
 	}
 	
@@ -88,6 +97,13 @@ public class BlueBearGameMessages {
 	}
 	public void hideWin() {
 		_messageWinY.setTarget(_messageYHidden);
+	}
+	
+	public void showInstructions() {
+		_instructionsScale.setTarget(1);
+	}
+	public void hideInstructions() {
+		_instructionsScale.setTarget(0);
 	}
 	
 	

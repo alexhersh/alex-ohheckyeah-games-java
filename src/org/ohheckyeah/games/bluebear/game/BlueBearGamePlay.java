@@ -82,7 +82,7 @@ public class BlueBearGamePlay {
 	protected BlueBearGameMessages _gameMessages;
 
 	public float SPEED = 10;
-	protected LinearFloat _scrollSpeed = new LinearFloat(0,0.2f);
+	protected LinearFloat _scrollSpeed = new LinearFloat(0,0.15f);
 	protected boolean _gameplayStarted = false;
 	
 	protected float _launchTime = 0;
@@ -222,7 +222,7 @@ public class BlueBearGamePlay {
 		_bear.prepareForGameplay();
 		_nemesis.prepareForGameplay();
 		_gameMessages.hideWaiting();
-		_gameMessages.showCountdown();
+		_gameMessages.showGetReady();
 	}
 	
 	public void showCountdown( int countdownTime ) {
@@ -232,6 +232,7 @@ public class BlueBearGamePlay {
 	
 	public void hideCountdown() {
 		_countdownDisplay.hide();
+		_gameMessages.showInstructions();
 	}
 	
 	public void updateCountdown( int countdownTime ) {
@@ -240,7 +241,7 @@ public class BlueBearGamePlay {
 	
 	// handle game states ----------------
 	public void animateToGameState() {
-		_gameMessages.hideCountdown();
+		_gameMessages.hideGetReady();
 	}
 	
 	public void animateToPostGameOverState() {
@@ -299,6 +300,7 @@ public class BlueBearGamePlay {
 			_launchTime = p.millis();
 			_bear.startGameplay();
 			_nemesis.startGameplay();
+			_gameMessages.hideInstructions();
 		}
 	}
 	
