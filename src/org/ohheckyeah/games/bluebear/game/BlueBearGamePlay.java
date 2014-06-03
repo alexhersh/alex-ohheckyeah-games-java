@@ -81,7 +81,7 @@ public class BlueBearGamePlay {
 	protected BlueBearWinScreen _winScreen;
 	protected BlueBearGameMessages _gameMessages;
 
-	protected float SPEED = 10;
+	public float SPEED = 10;
 	protected LinearFloat _scrollSpeed = new LinearFloat(0,0.2f);
 	protected boolean _gameplayStarted = false;
 	

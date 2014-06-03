@@ -17,6 +17,8 @@ extends BlueBearBasePlayer {
 	BlueBearGamePlay _gamePlay;
 	protected PShape _squirrel;
 	
+	protected float _curSpeed = 0;
+	
 	protected PShape _flameLarge;
 	protected PShape _flameSmall;
 	protected boolean _flameIsLarge = false;
@@ -89,12 +91,13 @@ extends BlueBearBasePlayer {
 		_shadowPosition.setTargetY( BlueBearScreenPositions.LANES_Y[lane] );
 		_laneScale.setTarget(1f + lane * 0.1f);
 		super.setLane( lane );
-		if( laneChanged ) launch();
+		if( laneChanged && _curSpeed > _gamePlay.SPEED * 0.9f ) launch();
 	}
 	
 	public void reset() {
 		_launchTime = 0;
 		_launchQueued = false;
+		_curSpeed = 0;
 	}
 	
 	public void startMoving() {
@@ -149,6 +152,7 @@ extends BlueBearBasePlayer {
 	}
 	
 	protected void updateGameplay(float speed) {
+		_curSpeed = speed;
 		updateLaunchMode();
 		
 		// responsive sizing/placement		
