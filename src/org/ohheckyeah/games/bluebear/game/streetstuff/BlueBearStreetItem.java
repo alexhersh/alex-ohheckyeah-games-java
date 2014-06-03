@@ -1,6 +1,7 @@
 package org.ohheckyeah.games.bluebear.game.streetstuff;
 
 import org.ohheckyeah.games.bluebear.BlueBear;
+import org.ohheckyeah.games.bluebear.game.characters.BlueBearNemesis;
 
 import processing.core.PShape;
 
@@ -45,7 +46,7 @@ public class BlueBearStreetItem {
 		x = startX;
 		xStatic = startX;
 		y = startY;
-		yDrop = (fullScale) ? 0f : p.scaleV(-80);
+		yDrop = (fullScale) ? 0f : p.scaleV(-BlueBearNemesis.BASE_FLY_HEIGHT * 0.8f);
 		lane = newLane;
 		speedX = 0;
 		speedY = 0;
@@ -73,7 +74,7 @@ public class BlueBearStreetItem {
 	public void update( float speed ) {
 		if( kicked == false ) {
 			if( yDrop < 0 ) {
-				yDrop += p.scaleV(5f);
+				yDrop += p.scaleV(9f);
 				if( yDrop > 0 ) yDrop = 0;
 			} else {
 				_scale.update();

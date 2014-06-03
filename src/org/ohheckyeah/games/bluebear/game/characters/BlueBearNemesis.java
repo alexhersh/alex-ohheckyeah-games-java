@@ -44,8 +44,8 @@ extends BlueBearBasePlayer {
 	protected float _squirrelShadowOffsetY = -7;
 	protected EasingFloat _floatHeight = new EasingFloat(40, 6);
 	protected EasingFloat _shadowScale = new EasingFloat(1, 6);
-	protected float _baseFlyHeight = 80;
-	protected float _launchFlyHeight = 100;
+	public static float BASE_FLY_HEIGHT = 100;
+	protected float _launchFlyHeight = 130;
 	protected float _launchTime = 0;
 	protected boolean _launchUp = false;
 	protected boolean _launchQueued = false;
@@ -59,7 +59,7 @@ extends BlueBearBasePlayer {
 		setLane( _lane );
 		_characterPosition.setCurrentY( BlueBearScreenPositions.LANES_Y[_lane] );
 		
-		_baseFlyHeight = p.scaleV(_baseFlyHeight);
+		BASE_FLY_HEIGHT = p.scaleV(BASE_FLY_HEIGHT);
 		_launchFlyHeight = p.scaleV(_launchFlyHeight);
 		_squirrelShadowOffsetY = p.scaleV(_squirrelShadowOffsetY);
 		
@@ -173,7 +173,7 @@ extends BlueBearBasePlayer {
 		
 		// float the squirrel
 		float floatOsc = ( _flameIsOn == false ) ? P.sin(p.millis() * 0.005f) : 0f;
-		float flyHeight = ( _launchUp == true ) ? _launchFlyHeight : _baseFlyHeight + floatOsc * p.scaleV(9f);
+		float flyHeight = ( _launchUp == true ) ? _launchFlyHeight : BASE_FLY_HEIGHT + floatOsc * p.scaleV(9f);
 		flyHeight *= _laneScale.value();
 		_floatHeight.setTarget( flyHeight );
 		_floatHeight.update();
