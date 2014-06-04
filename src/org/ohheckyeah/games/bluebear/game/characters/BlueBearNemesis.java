@@ -29,7 +29,7 @@ extends BlueBearBasePlayer {
 	
 	protected PShape _beamTube;
 	protected boolean _beamTubeIsDown = false;
-	protected LinearFloat _tubeY = new LinearFloat(0, 2f);
+	protected LinearFloat _tubeY;
 	protected int TUBE_MOVE_HEIGHT = 12;
 
 	protected PShape _faceDefault;
@@ -38,7 +38,7 @@ extends BlueBearBasePlayer {
 	
 	protected PShape _beam;
 	protected int BEAM_MOVE_HEIGHT = 30;
-	protected LinearFloat _beamY = new LinearFloat(0, 5f);
+	protected LinearFloat _beamY;
 
 	
 	protected float _scale = 0.9f;
@@ -67,6 +67,9 @@ extends BlueBearBasePlayer {
 	}
 	
 	protected void initSquirrel() {
+		_tubeY = new LinearFloat(0, p.scaleV(2));
+		_beamY = new LinearFloat(0, p.scaleV(5));
+		
 		_squirrel = p.gameGraphics.squirrel;
 		
 		_flameLarge = _squirrel.getChild("flame-large");

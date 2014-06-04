@@ -84,7 +84,7 @@ public class BlueBearGamePlay {
 	public int GAME_SECONDS;
 	public float SPEED = 10;
 	protected float _scrollSpeedInc = 0.15f;
-	protected LinearFloat _scrollSpeed = new LinearFloat(0,_scrollSpeedInc);
+	protected LinearFloat _scrollSpeed;
 	protected boolean _gameplayStarted = false;
 	
 	protected float _launchTime = 0;
@@ -101,6 +101,8 @@ public class BlueBearGamePlay {
 		_isRemoteKinect = isRemoteKinect;
 		
 		SPEED = p.scaleV(SPEED);
+		_scrollSpeedInc = p.scaleV(_scrollSpeedInc);
+		_scrollSpeed = new LinearFloat( 0, _scrollSpeedInc );
 		buildNeighborhoods();
 		_neighborhoodTime = p.appConfig.getInt( "neighborhood_seconds", 12 ) * 1000;
 		GAME_SECONDS = p.appConfig.getInt( "neighborhood_seconds", 12 ) * _neighborhoods.length;
@@ -389,7 +391,7 @@ public class BlueBearGamePlay {
 	
 	protected void checkStopSpeed() {
 		if( _winScreen.isOutOfRunway() ) {
-			_scrollSpeed.setInc(1f);
+			_scrollSpeed.setInc(p.scaleV(1f));
 			_scrollSpeed.setTarget(0);
 		}
 		if( _winTime != 0 && p.millis() > _winTime + 1500 ) {
