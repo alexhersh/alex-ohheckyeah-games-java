@@ -127,7 +127,7 @@ extends BlueBearBasePlayer {
 	}
 	
 	protected boolean launchDone() {
-		return p.millis() > _launchTime + 900;
+		return p.millis() > _launchTime + 1000;
 	}
 	
 	public void reset() {
