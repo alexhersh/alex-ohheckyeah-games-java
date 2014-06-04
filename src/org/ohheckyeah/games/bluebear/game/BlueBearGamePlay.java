@@ -416,10 +416,10 @@ public class BlueBearGamePlay {
 	protected void drawGraphicsLayers() {
 		float speed = _scrollSpeed.value();
 		_backgroundColor.update();
-		_clouds.update(speed);
 		_groundColor.update();
 		
 		_skyline.update(speed);
+		_clouds.update(speed);
 		_road.update(speed);
 		_background.update(speed);
 		_buildings.update(speed);
