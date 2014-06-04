@@ -6,6 +6,7 @@ import processing.core.PGraphics;
 import processing.core.PShape;
 
 import com.haxademic.core.app.P;
+import com.haxademic.core.draw.util.DrawUtil;
 
 public class BlueBearWinScreen {
 
@@ -26,10 +27,16 @@ public class BlueBearWinScreen {
 	
 	public void update( float speed ) {
 		if( _isWin == true ) {
+			DrawUtil.setDrawCorner(pg);
 			_x -= speed;
 			pg.shape( _endScrollPiece, _x, 0, p.svgWidth(_endScrollPiece), p.svgHeight(_endScrollPiece) );
 		}
 	}
+	
+	public boolean isOutOfRunway() {
+		return ( _x < pg.width - p.svgWidth(_endScrollPiece) + p.scaleV(100) );
+	}
+	
 	
 	public void reset() {
 		_isWin = false;

@@ -82,7 +82,8 @@ public class BlueBearGamePlay {
 	protected BlueBearGameMessages _gameMessages;
 
 	public float SPEED = 10;
-	protected LinearFloat _scrollSpeed = new LinearFloat(0,0.15f);
+	protected float _scrollSpeedInc = 0.15f;
+	protected LinearFloat _scrollSpeed = new LinearFloat(0,_scrollSpeedInc);
 	protected boolean _gameplayStarted = false;
 	
 	protected float _launchTime = 0;
@@ -190,6 +191,7 @@ public class BlueBearGamePlay {
 	}
 	
 	public void startGame() {
+		_scrollSpeed.setInc(_scrollSpeedInc);
 		_scrollSpeed.setTarget(SPEED);
 		_gameStartTime = p.millis();
 		_bear.startMoving();
@@ -381,9 +383,12 @@ public class BlueBearGamePlay {
 	}
 	
 	protected void checkStopSpeed() {
+		if( _winScreen.isOutOfRunway() ) {
+			_scrollSpeed.setInc(1f);
+			_scrollSpeed.setTarget(0);
+		}
 		if( _winTime != 0 && p.millis() > _winTime + 1500 ) {
 			_bear.winJump();
-			_scrollSpeed.setTarget(0);
 			_gameMessages.showWin();
 			_winTime = 0;
 		}
@@ -418,11 +423,11 @@ public class BlueBearGamePlay {
 		_goodies.update(speed, false, _bear.x());
 		_obstacles.update(speed, true, _bear.x());
 		
+		_winScreen.update(speed);
 		_countdownDisplay.updateWithNumber(_countdownTime);
 		_scoreDisplay.update();
 		_playerDetectBackground.update();
 		_loseScreen.update();
-		_winScreen.update(speed);
 
 		_bear.update(speed);
 		_nemesis.update(speed);
