@@ -22,6 +22,8 @@ public class BlueBearNeighborhood {
 	public String[] sidewalkFiles;
 	public PShape[] roadPool;
 	public String[] roadFiles;
+	public PShape[] cloudsPool;
+	public String[] cloudsFiles;
 	public PShape[] obstaclePool;
 	public String[] obstacleFiles;
 	public PShape[] goodiePool;
@@ -41,6 +43,8 @@ public class BlueBearNeighborhood {
 		sidewalkFiles = curGraphicsFiles;
 		roadPool = loadScrollingGraphics( "games/bluebear/svg/neighborhoods/"+ directory +"/road/" );
 		roadFiles = curGraphicsFiles;
+		cloudsPool = loadScrollingGraphics( "games/bluebear/svg/neighborhoods/"+ directory +"/clouds/" );
+		cloudsFiles = curGraphicsFiles;
 		obstaclePool = loadScrollingGraphics( "games/bluebear/svg/neighborhoods/"+ directory +"/obstacles/" );
 		obstacleFiles = curGraphicsFiles;
 		goodiePool = loadScrollingGraphics( "games/bluebear/svg/scene/goodies/" );

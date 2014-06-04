@@ -68,8 +68,8 @@ public class BlueBearGamePlay {
 	protected BlueBearGround _groundColor;
 	protected BlueBearScrollerRoad _road;
 	protected BlueBearScrollerBackground _background;
-	protected BlueBearScrollerClouds _clouds;
 	protected BlueBearScrollerSkyline _skyline;
+	protected BlueBearScrollerClouds _clouds;
 	protected BlueBearScrollerBuildings _buildings;
 	protected BlueBearScrollerSidewalk _sidewalk;
 	protected BlueBearScreenPositions _positions;
@@ -124,9 +124,9 @@ public class BlueBearGamePlay {
 		_road = new BlueBearScrollerRoad();
 		_backgroundColor = new BlueBearBackground();
 		_groundColor = new BlueBearGround();
-		_clouds = new BlueBearScrollerClouds();
 		_background = new BlueBearScrollerBackground();
 		_skyline = new BlueBearScrollerSkyline();
+		_clouds = new BlueBearScrollerClouds();
 		_buildings = new BlueBearScrollerBuildings();
 		_sidewalk = new BlueBearScrollerSidewalk();
 		
@@ -160,6 +160,7 @@ public class BlueBearGamePlay {
 		_road.reset();
 		_background.reset();
 		_skyline.reset();
+		_clouds.reset();
 		_buildings.reset();
 		_sidewalk.reset();
 
@@ -182,6 +183,7 @@ public class BlueBearGamePlay {
 		_road.setGraphicPool( _curNeighborhood.roadPool, _curNeighborhood.roadFiles );
 		_background.setGraphicPool( _curNeighborhood.backgroundPool, _curNeighborhood.backgroundFiles );
 		_skyline.setGraphicPool( _curNeighborhood.skylinePool, _curNeighborhood.skylineFiles );
+		_clouds.setGraphicPool( _curNeighborhood.cloudsPool, _curNeighborhood.cloudsFiles );
 		_buildings.setGraphicPool( _curNeighborhood.buildingsPool, _curNeighborhood.buildingsFiles );
 		_sidewalk.setGraphicPool( _curNeighborhood.sidewalkPool, _curNeighborhood.sidewalkFiles );
 	}
@@ -414,9 +416,9 @@ public class BlueBearGamePlay {
 	protected void drawGraphicsLayers() {
 		float speed = _scrollSpeed.value();
 		_backgroundColor.update();
+		_clouds.update(speed);
 		_groundColor.update();
 		
-		_clouds.update(speed);
 		_skyline.update(speed);
 		_road.update(speed);
 		_background.update(speed);
