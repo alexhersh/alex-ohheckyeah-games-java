@@ -18,7 +18,8 @@ extends BlueBearBasePlayer {
 	protected PShape _squirrel;
 	
 	protected float _curSpeed = 0;
-	
+	protected int _laneQueued = -1;
+
 	protected PShape _flameLarge;
 	protected PShape _flameSmall;
 	protected boolean _flameIsLarge = false;
@@ -48,7 +49,6 @@ extends BlueBearBasePlayer {
 	protected float _launchFlyHeight = 130;
 	protected float _launchTime = 0;
 	protected boolean _launchUp = false;
-	protected boolean _launchQueued = false;
 
 	public BlueBearNemesis( BlueBearPlayerControls playerControls, BlueBearGamePlay gamePlay ) {
 		super( playerControls, 0.7f, 20 );
@@ -85,21 +85,6 @@ extends BlueBearBasePlayer {
 		_beam.translate(0, 0);
 	}
 	
-	public void setLane( int lane ) {
-		boolean laneChanged = ( lane != _lane );
-		_characterPosition.setTargetY( BlueBearScreenPositions.LANES_Y[lane] );
-		_shadowPosition.setTargetY( BlueBearScreenPositions.LANES_Y[lane] );
-		_laneScale.setTarget(1f + lane * 0.1f);
-		super.setLane( lane );
-		if( laneChanged && _curSpeed > _gamePlay.SPEED * 0.9f ) launch();
-	}
-	
-	public void reset() {
-		_launchTime = 0;
-		_launchQueued = false;
-		_curSpeed = 0;
-	}
-	
 	public void startMoving() {
 		_flameIsOn = true;
 		_flameSmall.translate(-FLAME_SHOW_WIDTH, 0);
@@ -117,26 +102,61 @@ extends BlueBearBasePlayer {
 	public void gameOver() {
 	}
 	
-	public boolean launchQueued() {
-		return _launchQueued;
+	public void setLane( int lane ) {
+		boolean laneChanged = ( lane != _lane );
+		if( laneChanged ) {
+			if( launchDone() ) {
+				updateLane( lane );
+			} else {
+				_laneQueued = lane;
+			}
+		} else {
+			_laneQueued = -1; // cancel lane change queue if player switched back to currently-launching lane
+		}
 	}
 	
-	public void launch() {
-		if( p.millis() < _launchTime + 750 ) {
-			_launchQueued = true;
-		} else {
-			_launchQueued = false;
-			_launchUp = true;
-			_launchTime = p.millis();
-			_gamePlay.launchObstacle();
-			tubeDown();
+	protected void updateLane( int lane ) {
+		_laneQueued = -1;
+		_characterPosition.setTargetY( BlueBearScreenPositions.LANES_Y[lane] );
+		_shadowPosition.setTargetY( BlueBearScreenPositions.LANES_Y[lane] );
+		_laneScale.setTarget(1f + lane * 0.1f);
+		super.setLane( lane );
+		
+		boolean readyToDrop = _curSpeed > _gamePlay.SPEED * 0.9f;
+		if( readyToDrop ) launch();
+	}
+	
+	protected boolean launchDone() {
+		return p.millis() > _launchTime + 900;
+	}
+	
+	public void reset() {
+		_launchTime = 0;
+		_curSpeed = 0;
+		_laneQueued = -1;
+	}
+	
+	// override base character class for special case of waiting to drop in between lane changes
+	public void prepareForGameplay() {
+		_lane = 0;
+		updateLane( 0 );
+	}
+
+	
+	protected void launch() {
+		_launchUp = true;
+		_launchTime = p.millis();
+		_gamePlay.launchObstacle();
+		tubeDown();
+	}
+	
+	protected void updateLaneQueued() {
+		if( _laneQueued != -1 && launchDone() ) {
+			updateLane( _laneQueued );
 		}
 	}
 	
 	protected void updateLaunchMode() {
-		if( _launchQueued == true ) {
-			launch();
-		}
 		if( _launchUp == true && p.millis() > _launchTime + 300 ) {
 			_launchUp = false;
 			tubeUp();
@@ -153,6 +173,7 @@ extends BlueBearBasePlayer {
 	
 	protected void updateGameplay(float speed) {
 		_curSpeed = speed;
+		updateLaneQueued();
 		updateLaunchMode();
 		
 		// responsive sizing/placement		
