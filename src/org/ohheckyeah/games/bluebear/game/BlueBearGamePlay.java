@@ -81,6 +81,7 @@ public class BlueBearGamePlay {
 	protected BlueBearWinScreen _winScreen;
 	protected BlueBearGameMessages _gameMessages;
 
+	public int GAME_SECONDS;
 	public float SPEED = 10;
 	protected float _scrollSpeedInc = 0.15f;
 	protected LinearFloat _scrollSpeed = new LinearFloat(0,_scrollSpeedInc);
@@ -99,9 +100,10 @@ public class BlueBearGamePlay {
 		_kinectGrid = kinectGrid;
 		_isRemoteKinect = isRemoteKinect;
 		
-		_neighborhoodTime = p.appConfig.getInt( "neighborhood_seconds", 12 ) * 1000;
 		SPEED = p.scaleV(SPEED);
 		buildNeighborhoods();
+		_neighborhoodTime = p.appConfig.getInt( "neighborhood_seconds", 12 ) * 1000;
+		GAME_SECONDS = p.appConfig.getInt( "neighborhood_seconds", 12 ) * _neighborhoods.length;
 		buildGraphicsLayers();
 		
 		reset();
@@ -134,6 +136,7 @@ public class BlueBearGamePlay {
 		_nemesis = new BlueBearNemesis( new BlueBearPlayerControls(_kinectGrid.getRegion(1), _isRemoteKinect), this );
 		_playerDetectBackground = new BlueBearPlayerDetectionBg();
 		_scoreDisplay = new BlueBearScoreDisplay();
+		_scoreDisplay.reset(GAME_SECONDS);
 		_countdownDisplay = new BlueBearCountdownDisplay();
 		_loseScreen = new BlueBearLoseScreen();
 		_winScreen = new BlueBearWinScreen();
@@ -150,7 +153,7 @@ public class BlueBearGamePlay {
 		_goodies.reset();
 		_bear.reset();
 		_nemesis.reset();
-		_scoreDisplay.reset();
+		_scoreDisplay.reset(GAME_SECONDS);
 		_loseScreen.reset();
 		_winScreen.reset();
 		
@@ -425,7 +428,7 @@ public class BlueBearGamePlay {
 		
 		_winScreen.update(speed);
 		_countdownDisplay.updateWithNumber(_countdownTime);
-		_scoreDisplay.update();
+		_scoreDisplay.update(p.millis() - _gameStartTime);
 		_playerDetectBackground.update();
 		_loseScreen.update();
 
