@@ -18,7 +18,6 @@ public class BlueBearTracking {
 	protected String cameraImageDir = outputDir + "camera/";
 	protected String trackingFileDir = outputDir + "text/";
 	protected String trackingGamesFilePath = trackingFileDir + "bluebear-game-history.csv";
-	protected String trackingPlayersFilePath = trackingFileDir + "bluebear-player-history.csv";
 	
 	public BlueBearTracking() {
 		initTrackingFile();
@@ -31,32 +30,23 @@ public class BlueBearTracking {
 		if( FileUtil.fileOrPathExists( trackingFileDir ) == false ) FileUtil.createDir( trackingFileDir );
 		// create csv files with headers
 		if( FileUtil.fileOrPathExists( trackingGamesFilePath ) == false ) {
-			FileUtil.writeTextToFile( trackingGamesFilePath, "Date,Number of Players,Winner Indexes,Winner Score,Low Score" + "\n" );
-		}
-		if( FileUtil.fileOrPathExists( trackingPlayersFilePath ) == false ) {
-			FileUtil.writeTextToFile( trackingPlayersFilePath, "Date,Player Index,Score,Win,Character" + "\n" );
+			FileUtil.writeTextToFile( trackingGamesFilePath, "Date,Game Length,Remaining Time,Score,Remaining Health,Obstacles Hit,Obstacles Dropped,Bear Lane Changes,Coins Collected,Honeypots Collected" + "\n" );
 		}
 	}
 	
-	public void trackGameResult( String date, int numPlayers, String winIndexes, int winScore, int lowScore ) {
+	public void trackGameResult( String date, int gameLengthSeconds, int remainingSeconds, int score, int remainingHealth, int obstaclesHit, int obstaclesDropped, int bearLaneChanges, int coinsGrabbed, int honeypotsGrabbed ) {
 		FileUtil.appendTextToFile( 
 				trackingGamesFilePath, 
 				date +","+ 
-				numPlayers +","+ 
-				winIndexes +","+ 
-				winScore +","+ 
-				lowScore + "\n" 
-		);
-	}
-	
-	public void trackPlayerResult( String date, int gameIndex, int score, boolean didWin, String characterName ) {
-		FileUtil.appendTextToFile( 
-				trackingPlayersFilePath, 
-				date +","+ 
-				gameIndex +","+ 
+				gameLengthSeconds +","+ 
+				remainingSeconds +","+ 
 				score +","+ 
-				didWin +","+ 
-				characterName + "\n" 
+				remainingHealth +","+ 
+				obstaclesHit +","+ 
+				obstaclesDropped +","+ 
+				bearLaneChanges +","+ 
+				coinsGrabbed +","+ 
+				honeypotsGrabbed + "\n" 
 		);
 	}
 	

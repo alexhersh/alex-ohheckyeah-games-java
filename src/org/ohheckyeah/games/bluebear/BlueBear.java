@@ -211,27 +211,15 @@ extends OHYBaseGame
 	}
 	
 	protected void setGameStateGameOver() {
-		// set up tracking vars
-		String winIndexes = "";
-	    Date gameDate = new Date();
-	    _trackingDateStr = gameDate.toString();
-
-		// find high/low score
-	    int highScore = 0;
-	    int lowScore = 999999;
-		// show overall game message
-	    //		if( numWinners == 1 ) {
-	    //			_gameMessages.showWinner();
-	    //		} else {
-	    //			_gameMessages.showTie();
-	    //		}
-
 		// set time to advance back to intro screen
 		_gameOverTime = p.millis();
 		_gameOverRecorded = false;
-
+		
+		// set up tracking vars
+	    Date gameDate = new Date();
+	    _trackingDateStr = gameDate.toString();
 		// track gameplay!
-		_tracking.trackGameResult(_trackingDateStr, 1, winIndexes, highScore, lowScore);
+		_tracking.trackGameResult(_trackingDateStr, _gamePlay.GAME_SECONDS, _gamePlay.remainingSeconds(), _gamePlay.score(), _gamePlay.health(), _gamePlay.obstaclesHit(), _gamePlay.obstaclesLaunched(), _gamePlay.bearLaneChanges(), _gamePlay.coinsCollected(), _gamePlay.honeyPotsCollected());
 	}
 
 	protected void runGameStateGameOver() {

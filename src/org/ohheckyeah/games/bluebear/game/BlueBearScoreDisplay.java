@@ -52,9 +52,17 @@ public class BlueBearScoreDisplay {
 		return _score;
 	}
 	
+	public int score() {
+		return _score;
+	}
+	
 	public int addHealth() {
 		_health += 2;
 		if( _health > _maxHealth ) _health = _maxHealth;
+		return _health;
+	}
+	
+	public int health() {
 		return _health;
 	}
 	

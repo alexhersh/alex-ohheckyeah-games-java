@@ -30,6 +30,7 @@ extends BlueBearBasePlayer {
 	protected boolean _winJump = false;
 	protected boolean _didLose = false;
 	protected boolean _loseSad = false;
+	protected int _laneChanges = 0;
 
 	public BlueBearCharacter( BlueBearPlayerControls playerControls ) {
 		super( playerControls, 0.3f, 0 );
@@ -61,9 +62,11 @@ extends BlueBearBasePlayer {
 		_didWin = false;
 		_didLose = false;
 		_winWalkProgress = 0;
+		_laneChanges = 0;
 	}
 	
 	public void setLane( int lane ) {
+		if( _lane != lane ) _laneChanges++;
 		_characterPosition.setTargetY( BlueBearScreenPositions.LANES_Y[lane] );
 		_shadowPosition.setTargetY( BlueBearScreenPositions.LANES_Y[lane] + _bearShadowOffsetY );
 		_laneScale.setTarget(1f + lane * 0.1f);
@@ -89,6 +92,11 @@ extends BlueBearBasePlayer {
 	public float y() {
 		return _characterPosition.y();
 	}
+	
+	public int laneChanges() {
+		return _laneChanges;
+	}
+
 	public void prepareForGameplay() {
 		super.prepareForGameplay();
 		_winJump = false;

@@ -92,6 +92,11 @@ public class BlueBearGamePlay {
 	protected BlueBearStreetItems _obstacles;
 	protected BlueBearStreetItems _goodies;
 
+	protected int _obstaclesHit;
+	protected int _obstaclesLaunched;
+	protected int _coinsCollected;
+	protected int _honeyPotsCollected;
+	
 	
 	public BlueBearGamePlay( KinectRegionGrid kinectGrid, boolean isRemoteKinect ) {
 		p = (BlueBear) P.p;
@@ -169,6 +174,11 @@ public class BlueBearGamePlay {
 		setLevel(0);
 		_gameplayStarted = false;
 		_gameMessages.hideWin();
+		
+		_obstaclesHit = 0;
+		_obstaclesLaunched = 0;
+		_coinsCollected = 0;
+		_honeyPotsCollected = 0;
 	}
 	
 	protected void setLevel( int index ) {
@@ -189,7 +199,40 @@ public class BlueBearGamePlay {
 		_buildings.setGraphicPool( _curNeighborhood.buildingsPool, _curNeighborhood.buildingsFiles );
 		_sidewalk.setGraphicPool( _curNeighborhood.sidewalkPool, _curNeighborhood.sidewalkFiles );
 	}
+	
+	// tracking helpers
+	public int remainingSeconds() {
+		return GAME_SECONDS - P.round((p.millis() - _gameStartTime) / 1000f);
+	}
 		
+	public int score() {
+		return _scoreDisplay.score();
+	}
+	
+	public int health() {
+		return _scoreDisplay.health();
+	}
+	
+	public int obstaclesHit() {
+		return _obstaclesHit;
+	}
+	
+	public int obstaclesLaunched() {
+		return _obstaclesLaunched;
+	}
+	
+	public int coinsCollected() {
+		return _coinsCollected;
+	}
+	
+	public int honeyPotsCollected() {
+		return _honeyPotsCollected;
+	}
+	
+	public int bearLaneChanges() {
+		return _bear.laneChanges();
+	}
+	
 	// start/end game methods ------------
 	public void startPlayerDetection() {
 		_playerDetectBackground.show();
@@ -340,6 +383,7 @@ public class BlueBearGamePlay {
 		// launch obstacle
 		_obstacles.launch( _nemesis.launchX(), _nemesis.launchY(), _nemesis.lane(), false );
 		p.sounds.playSound( BlueBearSounds.LAUNCH );
+		_obstaclesLaunched++;
 	}
 	
 	protected void launchGoodie() {
@@ -359,6 +403,7 @@ public class BlueBearGamePlay {
 		if( didHit != null ) {
 			didHit.kick( _bear.x() < didHit.x );
 			_bear.hit();
+			_obstaclesHit++;
 			p.sounds.playSound( BlueBearSounds.HIT );
 			boolean gameOver = _scoreDisplay.hit() == 0;
 			if( gameOver ) {
@@ -375,9 +420,11 @@ public class BlueBearGamePlay {
 			if( didHit.fileName.indexOf("health") == -1 ) {
 				_scoreDisplay.addScore();
 				p.sounds.playSound( BlueBearSounds.SCORE );
+				_coinsCollected++;
 			} else {
 				_scoreDisplay.addHealth();
 				p.sounds.playSound( BlueBearSounds.HEALTH_UP );
+				_honeyPotsCollected++;
 			}
 		}
 	}
