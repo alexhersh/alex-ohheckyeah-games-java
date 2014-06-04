@@ -231,7 +231,7 @@ extends OHYBaseGame
 		}
 		// take a screenshot & kinect image
 		if( p.kinectWrapper != null && p.kinectWrapper.isActive() ) {
-			if( p.millis() > _gameOverTime + 1000 && _gameOverRecorded == false ) {
+			if( p.millis() > _gameOverTime + 3000 && _gameOverRecorded == false ) {
 				_gameOverRecorded = true;
 				_tracking.saveCameraImage( _trackingDateStr );
 			}
