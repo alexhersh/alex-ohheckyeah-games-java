@@ -69,7 +69,7 @@ extends OHYBaseGame
 				
 		loadMedia();
 		
-		_introScreens = new BlueBearIntroScreens( _appConfig.getString( "sponsor_images", null ) );
+		_introScreens = new BlueBearIntroScreens( p.appConfig.getString( "sponsor_images", null ) );
 		
 		// set flags and props	
 		_gamePlay = new BlueBearGamePlay( _kinectGrid, _isRemoteKinect );

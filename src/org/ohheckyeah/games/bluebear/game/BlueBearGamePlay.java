@@ -52,7 +52,7 @@ public class BlueBearGamePlay {
 	protected int _countdownTime = 0;
 	protected boolean _countdownShowing = false;
 	protected int _gameStartTime = 0;
-	protected int _neighborhoodTime = 15 * 1000;
+	protected int _neighborhoodTime;
 	protected float _winTime = 0;
 	protected float _loseTime = 0;
 	protected int GAME_OVER_WIN_TIME = 7500;
@@ -98,6 +98,7 @@ public class BlueBearGamePlay {
 		_kinectGrid = kinectGrid;
 		_isRemoteKinect = isRemoteKinect;
 		
+		_neighborhoodTime = p.appConfig.getInt( "neighborhood_seconds", 12 ) * 1000;
 		SPEED = p.scaleV(SPEED);
 		buildNeighborhoods();
 		buildGraphicsLayers();
