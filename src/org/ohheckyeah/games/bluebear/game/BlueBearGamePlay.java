@@ -12,7 +12,6 @@ import org.ohheckyeah.games.bluebear.assets.neighborhoods.BlueBearNeighborhoodMo
 import org.ohheckyeah.games.bluebear.game.characters.BlueBearCharacter;
 import org.ohheckyeah.games.bluebear.game.characters.BlueBearNemesis;
 import org.ohheckyeah.games.bluebear.game.characters.BlueBearPlayerControls;
-import org.ohheckyeah.games.bluebear.game.characters.BlueBearPlayerDetectionBg;
 import org.ohheckyeah.games.bluebear.game.gameover.BlueBearLoseScreen;
 import org.ohheckyeah.games.bluebear.game.gameover.BlueBearWinScreen;
 import org.ohheckyeah.games.bluebear.game.nonscrolling.BlueBearBackground;
@@ -27,6 +26,7 @@ import org.ohheckyeah.games.bluebear.game.streetstuff.BlueBearStreetItem;
 import org.ohheckyeah.games.bluebear.game.streetstuff.BlueBearStreetItems;
 import org.ohheckyeah.games.bluebear.game.text.BlueBearCountdownDisplay;
 import org.ohheckyeah.games.bluebear.game.text.BlueBearGameMessages;
+import org.ohheckyeah.games.bluebear.screens.BlueBearPlayerDetectionBg;
 import org.ohheckyeah.shared.app.OHYBaseGame.GameState;
 
 import processing.core.PGraphics;

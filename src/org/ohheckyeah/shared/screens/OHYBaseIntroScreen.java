@@ -13,6 +13,8 @@ public class OHYBaseIntroScreen {
 	public PGraphics pg;
 	public PGraphics canvas;
 	
+	protected int _showTime;
+	
 	public OHYBaseIntroScreen() {
 		p = (OHYBaseGame) P.p;
 		pg = p.pg;
@@ -33,4 +35,11 @@ public class OHYBaseIntroScreen {
 	public void update() {
 	}
 
+	public void animateIn() {
+		_showTime = p.millis();
+	}
+	
+	public void animateOut() {
+	}
+	
 }

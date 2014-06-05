@@ -2,18 +2,16 @@ package org.ohheckyeah.games.tinkerbot.screens;
 
 import org.ohheckyeah.games.tinkerbot.TinkerBot;
 import org.ohheckyeah.games.tinkerbot.assets.TinkerBotColors;
-
-import processing.core.PGraphics;
+import org.ohheckyeah.shared.screens.OHYBaseIntroScreen;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.draw.util.DrawUtil;
-import com.haxademic.core.draw.util.OpenGLUtil;
 import com.haxademic.core.math.easing.ElasticFloat;
 
-public class TinkerBotTitleScreen {
+public class TinkerBotTitleScreen
+extends OHYBaseIntroScreen {
 	
 	protected TinkerBot p;
-	public PGraphics pg;
 	public boolean _bgCached = false;
 	
 	protected int _bgColor;
@@ -22,52 +20,51 @@ public class TinkerBotTitleScreen {
 	protected ElasticFloat _logoRot = new ElasticFloat(0, 0.75f, 0.1f);
 	
 	public TinkerBotTitleScreen() {
+		super();
 		p = (TinkerBot) P.p;
-		pg = p.createGraphics( p.width, p.height, P.OPENGL );
-		pg.smooth(OpenGLUtil.SMOOTH_MEDIUM);
+		
+		_bgColor = TinkerBotColors.TITLE_SCREEN_BG;
 	}
 	
 	public void reset() {
-		_bgColor = TinkerBotColors.TITLE_SCREEN_BG;
+	}
+	
+	public void animateIn() {
 		_logoScale.setValue(0);
 		_logoScale.setTarget(1);
 		_logoRot.setValue(-P.TWO_PI * 2f);
 		_logoRot.setTarget(0);
 	}
 	
-	public void outroDown() {
-		_logoScale.setTarget(1);
-	}
-	
-	public void outroUp() {
+	public void animateOut() {
 		_logoScale.setTarget(0);
 	}
 	
 	public void update() {
-		pg.beginDraw();
-		pg.clear();
+		canvas.beginDraw();
+		canvas.clear();
 		
 		drawBackground();
 		drawLogo();
 		
-		pg.endDraw();
+		canvas.endDraw();
 	}
 	
 	protected void drawBackground() {
-		DrawUtil.setDrawCenter(pg);
-		pg.image( p.gameGraphics.gameplayBackgroundImage, pg.width * 0.5f, pg.height * 0.5f, p.gameGraphics.gameplayBackgroundImage.width, p.gameGraphics.gameplayBackgroundImage.height );
+		DrawUtil.setDrawCenter(canvas);
+		canvas.image( p.gameGraphics.gameplayBackgroundImage, canvas.width * 0.5f, canvas.height * 0.5f, p.gameGraphics.gameplayBackgroundImage.width, p.gameGraphics.gameplayBackgroundImage.height );
 	}
 	
 	protected void drawLogo() {
-		DrawUtil.setDrawCenter(pg);
+		DrawUtil.setDrawCenter(canvas);
 		_logoScale.update();
 		_logoRot.update();
 		if( _logoScale.val() > 0 ) {
-			pg.pushMatrix();
-			pg.translate( pg.width * 0.5f, pg.height * 0.5f );
-			pg.rotate( _logoRot.val() );
-			pg.shape( p.gameGraphics.tinkerBotLogo, 0, 0, p.scaleV(p.gameGraphics.tinkerBotLogo.width) * _logoScale.val(), p.scaleV(p.gameGraphics.tinkerBotLogo.height) * _logoScale.val() );
-			pg.popMatrix();
+			canvas.pushMatrix();
+			canvas.translate( canvas.width * 0.5f, canvas.height * 0.5f );
+			canvas.rotate( _logoRot.val() );
+			canvas.shape( p.gameGraphics.tinkerBotLogo, 0, 0, p.scaleV(p.gameGraphics.tinkerBotLogo.width) * _logoScale.val(), p.scaleV(p.gameGraphics.tinkerBotLogo.height) * _logoScale.val() );
+			canvas.popMatrix();
 		}
 	}
 	

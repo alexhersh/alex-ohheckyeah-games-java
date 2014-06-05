@@ -1,4 +1,4 @@
-package org.ohheckyeah.games.bluebear.game.characters;
+package org.ohheckyeah.games.bluebear.screens;
 
 import org.ohheckyeah.games.bluebear.BlueBear;
 import org.ohheckyeah.games.bluebear.assets.BlueBearColors;
@@ -14,7 +14,7 @@ public class BlueBearPlayerDetectionBg {
 	protected BlueBear p;
 	protected PGraphics pg;
 	
-	protected EasingFloat _backgroundY = new EasingFloat(0, 6);
+	protected EasingFloat _backgroundY = new EasingFloat(0, 5);
 	protected EasingFloat _floorY = new EasingFloat(0, 8);
 
 	public BlueBearPlayerDetectionBg() {

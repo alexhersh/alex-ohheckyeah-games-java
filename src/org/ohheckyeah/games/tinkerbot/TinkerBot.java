@@ -9,8 +9,9 @@ import org.ohheckyeah.games.tinkerbot.game.TinkerBotGamePlay;
 import org.ohheckyeah.games.tinkerbot.game.TinkerBotLayout;
 import org.ohheckyeah.games.tinkerbot.game.TinkerBotTracking;
 import org.ohheckyeah.games.tinkerbot.game.display.TinkerBotGameTimer;
-import org.ohheckyeah.games.tinkerbot.screens.TinkerBotIntroScreens;
+import org.ohheckyeah.games.tinkerbot.screens.TinkerBotTitleScreen;
 import org.ohheckyeah.shared.app.OHYBaseGame;
+import org.ohheckyeah.shared.screens.OHYIntroScreens;
 
 import processing.core.PApplet;
 
@@ -52,9 +53,6 @@ extends OHYBaseGame
 	protected int _countdownSeconds = 3;
 	protected int _lastCountdownTime = 0;
 
-	// non-gameplay screens
-	protected TinkerBotIntroScreens _introScreens;
-
 	
 	public void setup() {
 		super.setup( "tinkerbot.properties", 864, 1536 );
@@ -68,8 +66,8 @@ extends OHYBaseGame
 				
 		loadMedia();
 		
-		_introScreens = new TinkerBotIntroScreens( _appConfig.getString( "sponsor_images", null ) );
-		
+		_introScreens = new OHYIntroScreens( new TinkerBotTitleScreen() );
+
 		// set flags and props	
 		_gameLayout = new TinkerBotLayout();
 		_gamePlay = new TinkerBotGamePlay( _kinectGrid, _isRemoteKinect );
@@ -96,7 +94,7 @@ extends OHYBaseGame
 	
 	public void setGameState( GameState state ) {
 		_gameStateQueued = state;
-		// P.println("GameState: ",_gameStateQueued);
+		 P.println("GameState: ",_gameStateQueued);
 	}
 	
 	protected void swapGameState() {
@@ -141,7 +139,7 @@ extends OHYBaseGame
 		updateGameplay();
 		_introScreens.update();
 		DrawUtil.setDrawCorner(pg);
-		pg.image( _introScreens.pg, 0, 0, _introScreens.pg.width, _introScreens.pg.height );
+		pg.image( _introScreens.canvas, 0, 0, _introScreens.canvas.width, _introScreens.canvas.height );
 	}
 
 	protected void setGameStateIntroOutro() {

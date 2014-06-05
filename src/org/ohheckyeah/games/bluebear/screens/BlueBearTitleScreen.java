@@ -3,30 +3,23 @@ package org.ohheckyeah.games.bluebear.screens;
 import org.ohheckyeah.games.bluebear.BlueBear;
 import org.ohheckyeah.games.bluebear.assets.BlueBearColors;
 import org.ohheckyeah.games.bluebear.assets.BlueBearGraphics;
-
-import processing.core.PGraphics;
+import org.ohheckyeah.shared.screens.OHYBaseIntroScreen;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.draw.util.DrawUtil;
-import com.haxademic.core.draw.util.OpenGLUtil;
 import com.haxademic.core.math.easing.ElasticFloat;
 
-public class BlueBearTitleScreen {
+public class BlueBearTitleScreen
+extends OHYBaseIntroScreen {
 	
 	protected BlueBear p;
-	public PGraphics pg;
-	public PGraphics canvas;
-	
 	protected int _bgColor;
 	
 	protected ElasticFloat _logoY = new ElasticFloat(0, 0.75f, 0.1f);
 	
 	public BlueBearTitleScreen() {
+		super();
 		p = (BlueBear) P.p;
-		pg = p.pg;
-		
-		canvas = p.createGraphics( pg.width, pg.height, P.OPENGL );
-		canvas.smooth(OpenGLUtil.SMOOTH_MEDIUM);
 	}
 	
 	public void reset() {
@@ -35,11 +28,11 @@ public class BlueBearTitleScreen {
 		_logoY.setTarget(canvas.height / 2f);
 	}
 	
-	public void outroDown() {
+	public void animateIn() {
 		_logoY.setTarget(canvas.height / 2f + p.scaleV(150f));
 	}
 	
-	public void outroUp() {
+	public void animateOut() {
 		_logoY.setTarget( -canvas.height );
 	}
 	

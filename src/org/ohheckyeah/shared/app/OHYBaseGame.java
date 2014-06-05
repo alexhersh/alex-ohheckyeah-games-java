@@ -1,11 +1,13 @@
 package org.ohheckyeah.shared.app;
 
 import org.ohheckyeah.shared.assets.OHYGraphics;
+import org.ohheckyeah.shared.screens.OHYIntroScreens;
 
 import processing.core.PGraphics;
 import processing.core.PShape;
 
 import com.haxademic.core.app.P;
+import com.haxademic.core.debug.DebugUtil;
 import com.haxademic.core.draw.util.OpenGLUtil;
 import com.haxademic.core.system.FileUtil;
 
@@ -43,8 +45,9 @@ extends OHYKinectApp {
 		PLAYER_LOCKED
 	}
 
-	// media
+	// media / screens
 	public OHYGraphics ohyGraphics;
+	protected OHYIntroScreens _introScreens;
 
 	
 	// shared setup methods --------------------------------------------------------------------------------------------
@@ -63,7 +66,9 @@ extends OHYKinectApp {
 	// Getters ---------------------------------------------------------------------------------------------------------
 	
 	public GameState gameState() { return _gameState; }
-
+	public void setGameState( GameState state ) {
+		DebugUtil.printErr("override setGameState()");
+	}
 	
 	// Responsive scaling & canvas --------------------------------------------------------------------------------------
 	

@@ -8,26 +8,26 @@ import com.haxademic.core.draw.util.DrawUtil;
 import com.haxademic.core.system.FileUtil;
 
 
-public class OHYPartnersCreditsScreen
+public class OHYSponsorsScreen
 extends OHYBaseIntroScreen {
 
 	
 	protected int _bgColor = OHYColors.INTRO_SCREENS_BG;
 	
-	protected PImage _partnerImage;
+	protected PImage _sponsorImage;
 	protected float _sponsorScale = 0;
 	protected boolean _drawn = false;
 	
-	public OHYPartnersCreditsScreen() {
+	public OHYSponsorsScreen() {
 		super();
 		
-		String partnersImagePath = p.appConfig.getString("partners_image", null);
-		if( partnersImagePath != null ) {
-			_partnerImage = p.loadImage( FileUtil.getHaxademicDataPath() + partnersImagePath );
+		String sponsorsImagePath = p.appConfig.getString("sponsors_image", null);
+		if( sponsorsImagePath != null ) {
+			_sponsorImage = p.loadImage( FileUtil.getHaxademicDataPath() + sponsorsImagePath );
 			
-			// letterbox partners to fill screen
-			float imageFillRatioW = (float) pg.width / _partnerImage.width;
-			float imageFillRatioH = (float) pg.height / _partnerImage.height;
+			// letterbox sponsors to fill screen
+			float imageFillRatioW = (float) pg.width / _sponsorImage.width;
+			float imageFillRatioH = (float) pg.height / _sponsorImage.height;
 			_sponsorScale = (imageFillRatioW > imageFillRatioH) ? imageFillRatioH : imageFillRatioW;
 		}
 	}
@@ -62,7 +62,7 @@ extends OHYBaseIntroScreen {
 	protected void drawPartners() {
 		canvas.pushMatrix();
 		canvas.translate( canvas.width/2, canvas.height * 0.5f );
-		canvas.image( _partnerImage, 0, 0, _partnerImage.width * _sponsorScale, _partnerImage.height * _sponsorScale );
+		canvas.image( _sponsorImage, 0, 0, _sponsorImage.width * _sponsorScale, _sponsorImage.height * _sponsorScale );
 		canvas.popMatrix();
 	}
 	

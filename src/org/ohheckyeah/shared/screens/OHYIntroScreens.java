@@ -1,9 +1,8 @@
 package org.ohheckyeah.shared.screens;
 
-import org.ohheckyeah.games.bluebear.BlueBear;
-import org.ohheckyeah.games.bluebear.assets.BlueBearColors;
-import org.ohheckyeah.games.bluebear.screens.BlueBearTitleScreen;
+import org.ohheckyeah.shared.app.OHYBaseGame;
 import org.ohheckyeah.shared.app.OHYBaseGame.GameState;
+import org.ohheckyeah.shared.assets.OHYColors;
 
 import processing.core.PGraphics;
 
@@ -14,54 +13,55 @@ import com.haxademic.core.math.easing.EasingFloat;
 
 public class OHYIntroScreens {
 
-	protected BlueBear p;
+	protected OHYBaseGame p;
 	public PGraphics pg;
 	public PGraphics canvas;
 	
-	protected EasingFloat _drawYOffset = new EasingFloat(0, 6);
+	protected EasingFloat _drawYOffset = new EasingFloat(0, 5);
 	
 	protected OHYBaseIntroScreen _screens[];
-	
-	protected BlueBearTitleScreen _logoScreen;
-	protected OHYPartnersCreditsScreen _partnerCreditsScreen;
-	protected OHYHugItOutScreen _hugItOutScreen;
-	
-	public enum Screen {
-	    HUG_IT_OUT, TITLE, CREDITS, DONE 
-	}
-	protected Screen _mode;
+	protected int _numScreens;
+	protected int _screenIndex;
+	protected int SCREEN_TIME = 2 * 1000;
+	protected boolean _outroReady = false;
 	
 	protected int _bgColor;
 	
 	protected int _introScreensStartTime = 0;
 
-	public OHYIntroScreens() {
-		p = (BlueBear) P.p;
+	public OHYIntroScreens( OHYBaseIntroScreen titleScreen ) {
+		p = (OHYBaseGame) P.p;
 		pg = p.pg;
 
 		canvas = p.createGraphics( pg.width, pg.height, P.OPENGL );
 		canvas.smooth(OpenGLUtil.SMOOTH_LOW);
+		_bgColor = OHYColors.INTRO_SCREENS_BG;
 		
-		_screens = new OHYBaseIntroScreen[1];
-		// build sub-screens
-		_logoScreen = new BlueBearTitleScreen();
-		_partnerCreditsScreen = new OHYPartnersCreditsScreen();
-		_hugItOutScreen = new OHYHugItOutScreen();
+		// hug-it-out, title, partners, (sponsors,) onereach-dial
+		String sponsorsImagePath = p.appConfig.getString("sponsors_image", null);
+		if( sponsorsImagePath == null ) {
+			_screens = new OHYBaseIntroScreen[]{
+					new OHYHugItOutScreen(),
+					titleScreen,
+					new OHYPartnersCreditsScreen()
+			};
+		} else {
+			_screens = new OHYBaseIntroScreen[]{
+					new OHYHugItOutScreen(),
+					titleScreen,
+					new OHYPartnersCreditsScreen()
+			};
+		}
+		_numScreens = _screens.length;
 		
 		reset();
 	}
 	
 	public void reset() {
-		_bgColor = BlueBearColors.INTRO_SCREENS_BG;
+		_screenIndex = 0;
 		_introScreensStartTime = p.millis();
+		for( OHYBaseIntroScreen screen : _screens ) screen.reset();
 		
-		_logoScreen.reset();
-		_partnerCreditsScreen.reset();
-		_hugItOutScreen.reset();
-		
-		_introScreensStartTime = p.millis();
-		
-		_mode = Screen.HUG_IT_OUT;
 		_drawYOffset.setCurrent(pg.height);
 		_drawYOffset.setTarget(0);
 	}
@@ -71,54 +71,45 @@ public class OHYIntroScreens {
 		
 		canvas.beginDraw();
 		canvas.clear();
-		
 		drawSubScreens();
-		
 		canvas.endDraw();
 
 		advanceScreens();
 	}
 	
 	protected void advanceScreens() {
-		if( _mode == Screen.HUG_IT_OUT && p.millis() > _introScreensStartTime + 1000 ) {
-			_mode = Screen.TITLE;
-			_drawYOffset.setTarget(-pg.height);
-			p.sounds.playIntro();
-			_logoScreen.reset();
+		// tell current screen to outro before the next comes in
+		if( _outroReady == false && p.millis() > _introScreensStartTime + SCREEN_TIME - 400 ) {
+			_outroReady = true;
+			if( _screenIndex < _numScreens ) _screens[_screenIndex].animateOut();
 		}
-		if( _mode == Screen.TITLE && p.millis() > _introScreensStartTime + 2500 && p.millis() < _introScreensStartTime + 2600 ) {
-			_logoScreen.outroDown();
+		
+		// switch to next screen when time is up
+		if( p.millis() > _introScreensStartTime + SCREEN_TIME ) {
+			_introScreensStartTime = p.millis();
+			_screenIndex++;
+			_outroReady = false;
+			if( _screenIndex < _numScreens ) _screens[_screenIndex].animateIn();
+			if( _screenIndex == _numScreens ) p.setGameState( GameState.GAME_INTRO_OUTRO ); // tell app we're about to slide away to reveal game
+			_drawYOffset.setTarget(-pg.height * _screenIndex);
 		}
-		if( _mode == Screen.TITLE && p.millis() > _introScreensStartTime + 2600 && p.millis() < _introScreensStartTime + 3000 ) {
-			_logoScreen.outroUp();
-		}
-		if( _mode == Screen.TITLE && p.millis() > _introScreensStartTime + 3000 ) {
-			_mode = Screen.CREDITS;
-			_drawYOffset.setTarget(-pg.height * 2f);
-		}
-		if( _mode == Screen.CREDITS && p.millis() > _introScreensStartTime + 4000 ) {
-			_mode = Screen.DONE;
-			_drawYOffset.setTarget(-pg.height * 3f);
-			p.setGameState( GameState.GAME_INTRO_OUTRO );
-		}
-		if( _mode == Screen.DONE && _drawYOffset.value() < _drawYOffset.target() + 0.1f ) {
+		
+		// once last screen is finished scrolling away, we're done!
+		if( _screenIndex >= _numScreens && _drawYOffset.value() < -canvas.height * _numScreens ) {
 			p.setGameState( GameState.GAME_WAITING_FOR_PLAYERS );
 		}
 	}
 	
 	protected void drawSubScreens() {
-		DrawUtil.setDrawCenter(canvas);
-		if( _drawYOffset.value() > -pg.height + 1 ) {
-			_hugItOutScreen.update();
-			canvas.image( _hugItOutScreen.canvas, canvas.width/2f, canvas.height/2f + 0 + _drawYOffset.value(), _hugItOutScreen.canvas.width, _hugItOutScreen.canvas.height );
-		}
-		if( _drawYOffset.value() > -pg.height * 2 + 1 && _drawYOffset.value() < -1 ) {
-			_logoScreen.update();
-			canvas.image( _logoScreen.canvas, canvas.width/2f, canvas.height/2f + canvas.height + _drawYOffset.value(), _logoScreen.canvas.width, _logoScreen.canvas.height );
-		}
-		if( _drawYOffset.value() < -pg.height - 1 ) {
-			_partnerCreditsScreen.update();
-			canvas.image( _partnerCreditsScreen.canvas, canvas.width/2f, canvas.height/2f + canvas.height * 2 + _drawYOffset.value(), _partnerCreditsScreen.canvas.width, _partnerCreditsScreen.canvas.height );
+		DrawUtil.setDrawCorner(canvas);
+		OHYBaseIntroScreen screen;
+		for (int i=0; i < _screens.length; i++) {
+			float screenY = _drawYOffset.value() + canvas.height * i;
+			screen = _screens[i];
+			if( screenY > -pg.height && screenY < pg.height ) {
+				screen.update();
+				canvas.image( screen.canvas, 0, screenY, screen.canvas.width, screen.canvas.height );
+			}
 		}
 	}
 		

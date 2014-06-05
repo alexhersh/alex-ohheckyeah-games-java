@@ -7,6 +7,7 @@ import org.ohheckyeah.games.bluebear.assets.BlueBearGraphics;
 import org.ohheckyeah.games.bluebear.assets.BlueBearSounds;
 import org.ohheckyeah.games.bluebear.game.BlueBearGamePlay;
 import org.ohheckyeah.games.bluebear.game.BlueBearTracking;
+import org.ohheckyeah.games.bluebear.screens.BlueBearTitleScreen;
 import org.ohheckyeah.shared.app.OHYBaseGame;
 import org.ohheckyeah.shared.screens.OHYIntroScreens;
 
@@ -51,9 +52,6 @@ extends OHYBaseGame
 	protected int _countdownSeconds = 3;
 	protected int _lastCountdownTime = 0;
 
-	// non-gameplay screens
-	protected OHYIntroScreens _introScreens;
-
 	
 	public void setup() {
 		super.setup( "bluebear.properties", 630, 1536 );
@@ -67,7 +65,7 @@ extends OHYBaseGame
 				
 		loadMedia();
 		
-		_introScreens = new OHYIntroScreens();
+		_introScreens = new OHYIntroScreens( new BlueBearTitleScreen() );
 		
 		// set flags and props	
 		_gamePlay = new BlueBearGamePlay( _kinectGrid, _isRemoteKinect );
