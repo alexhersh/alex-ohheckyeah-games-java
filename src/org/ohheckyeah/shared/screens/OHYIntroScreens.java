@@ -61,6 +61,7 @@ public class OHYIntroScreens {
 		_screenIndex = 0;
 		_introScreensStartTime = p.millis();
 		for( OHYBaseIntroScreen screen : _screens ) screen.reset();
+		_screens.get(0).animateIn();
 		
 		_drawYOffset.setCurrent(pg.height);
 		_drawYOffset.setTarget(0);
@@ -79,7 +80,7 @@ public class OHYIntroScreens {
 	
 	protected void advanceScreens() {
 		// tell current screen to outro before the next comes in
-		if( _outroReady == false && p.millis() > _introScreensStartTime + SCREEN_TIME - 400 ) {
+		if( _outroReady == false && p.millis() > _introScreensStartTime + SCREEN_TIME - 600 ) {
 			_outroReady = true;
 			if( _screenIndex < _numScreens ) _screens.get(_screenIndex).animateOut();
 		}
