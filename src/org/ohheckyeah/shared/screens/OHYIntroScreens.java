@@ -1,5 +1,7 @@
 package org.ohheckyeah.shared.screens;
 
+import java.util.ArrayList;
+
 import org.ohheckyeah.shared.app.OHYBaseGame;
 import org.ohheckyeah.shared.app.OHYBaseGame.GameState;
 import org.ohheckyeah.shared.assets.OHYColors;
@@ -19,7 +21,7 @@ public class OHYIntroScreens {
 	
 	protected EasingFloat _drawYOffset = new EasingFloat(0, 5);
 	
-	protected OHYBaseIntroScreen _screens[];
+	protected ArrayList<OHYBaseIntroScreen> _screens;
 	protected int _numScreens;
 	protected int _screenIndex;
 	protected int SCREEN_TIME = 2 * 1000;
@@ -37,22 +39,20 @@ public class OHYIntroScreens {
 		canvas.smooth(OpenGLUtil.SMOOTH_LOW);
 		_bgColor = OHYColors.INTRO_SCREENS_BG;
 		
-		// hug-it-out, title, partners, (sponsors,) onereach-dial
+		SCREEN_TIME = p.appConfig.getInt("intro_screens_time", SCREEN_TIME) * 1000;
+		
+		// conditionally build array of intro screens
 		String sponsorsImagePath = p.appConfig.getString("sponsors_image", null);
-		if( sponsorsImagePath == null ) {
-			_screens = new OHYBaseIntroScreen[]{
-					new OHYHugItOutScreen(),
-					titleScreen,
-					new OHYPartnersCreditsScreen()
-			};
-		} else {
-			_screens = new OHYBaseIntroScreen[]{
-					new OHYHugItOutScreen(),
-					titleScreen,
-					new OHYPartnersCreditsScreen()
-			};
-		}
-		_numScreens = _screens.length;
+		boolean hasTextMessageLineService = p.appConfig.getBoolean("has_onereach", false);
+		
+		_screens = new ArrayList<OHYBaseIntroScreen>();
+		_screens.add( new OHYHugItOutScreen() );
+		if( hasTextMessageLineService ) _screens.add( new OHYOnereachScreen() );
+		_screens.add( titleScreen );
+		_screens.add( new OHYPartnersCreditsScreen() );
+		if( sponsorsImagePath != null ) _screens.add( new OHYSponsorsScreen() );
+
+		_numScreens = _screens.size();
 		
 		reset();
 	}
@@ -81,7 +81,7 @@ public class OHYIntroScreens {
 		// tell current screen to outro before the next comes in
 		if( _outroReady == false && p.millis() > _introScreensStartTime + SCREEN_TIME - 400 ) {
 			_outroReady = true;
-			if( _screenIndex < _numScreens ) _screens[_screenIndex].animateOut();
+			if( _screenIndex < _numScreens ) _screens.get(_screenIndex).animateOut();
 		}
 		
 		// switch to next screen when time is up
@@ -89,13 +89,13 @@ public class OHYIntroScreens {
 			_introScreensStartTime = p.millis();
 			_screenIndex++;
 			_outroReady = false;
-			if( _screenIndex < _numScreens ) _screens[_screenIndex].animateIn();
+			if( _screenIndex < _numScreens ) _screens.get(_screenIndex).animateIn();
 			if( _screenIndex == _numScreens ) p.setGameState( GameState.GAME_INTRO_OUTRO ); // tell app we're about to slide away to reveal game
 			_drawYOffset.setTarget(-pg.height * _screenIndex);
 		}
 		
 		// once last screen is finished scrolling away, we're done!
-		if( _screenIndex >= _numScreens && _drawYOffset.value() < -canvas.height * _numScreens ) {
+		if( _drawYOffset.value() < -canvas.height * _numScreens + 1 ) {
 			p.setGameState( GameState.GAME_WAITING_FOR_PLAYERS );
 		}
 	}
@@ -103,9 +103,9 @@ public class OHYIntroScreens {
 	protected void drawSubScreens() {
 		DrawUtil.setDrawCorner(canvas);
 		OHYBaseIntroScreen screen;
-		for (int i=0; i < _screens.length; i++) {
+		for (int i=0; i < _numScreens; i++) {
 			float screenY = _drawYOffset.value() + canvas.height * i;
-			screen = _screens[i];
+			screen = _screens.get(i);
 			if( screenY > -pg.height && screenY < pg.height ) {
 				screen.update();
 				canvas.image( screen.canvas, 0, screenY, screen.canvas.width, screen.canvas.height );

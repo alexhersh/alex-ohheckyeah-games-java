@@ -54,14 +54,14 @@ extends OHYBaseIntroScreen {
 	
 	protected void drawMessage() {
 		canvas.pushMatrix();
-		canvas.translate( canvas.width/2, canvas.height * 0.2f );
+		canvas.translate( canvas.width * 0.5f, canvas.height * 0.2f );
 		// canvas.shape( p.ohyGraphics.textBroughtToYou, 0, 0, p.svgWidth(p.ohyGraphics.textBroughtToYou), p.svgHeight(p.ohyGraphics.textBroughtToYou) );
 		canvas.popMatrix();
 	}
 	
 	protected void drawPartners() {
 		canvas.pushMatrix();
-		canvas.translate( canvas.width/2, canvas.height * 0.5f );
+		canvas.translate( canvas.width * 0.5f, canvas.height * 0.5f );
 		canvas.image( _sponsorImage, 0, 0, _sponsorImage.width * _sponsorScale, _sponsorImage.height * _sponsorScale );
 		canvas.popMatrix();
 	}

@@ -31,7 +31,7 @@ extends OHYBaseIntroScreen {
 	
 	public void animateIn() {
 		_logoScale.setValue(0);
-		_logoScale.setTarget(1);
+		_logoScale.setTarget(1.3f);
 		_logoRot.setValue(-P.TWO_PI * 2f);
 		_logoRot.setTarget(0);
 	}

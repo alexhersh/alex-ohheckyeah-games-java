@@ -27,7 +27,7 @@ extends OHYBaseIntroScreen {
 		_messages.add( "Everybody wins, sometimes" );
 		
 		int fontSize = 80;
-		_text = new OHYTextMessage( _messages.get(0), p.scaleV(fontSize), pg.width, p.scaleV(fontSize) * 1.5f, 0 );
+		_text = new OHYTextMessage( _messages.get(0), p.scaleV(fontSize), pg.width, p.scaleV(fontSize) * 1.5f );
 	}
 	
 	public void reset() {
@@ -64,7 +64,7 @@ extends OHYBaseIntroScreen {
 	
 	protected void drawMessage() {
 		canvas.pushMatrix();
-		canvas.translate( canvas.width/2, canvas.height * 0.4f );
+		canvas.translate( canvas.width * 0.5f, canvas.height * 0.4f );
 		canvas.image( _text.image(), 0, 0, _text.image().width, _text.image().height );
 		canvas.popMatrix();
 	}
