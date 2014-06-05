@@ -1,5 +1,6 @@
 package org.ohheckyeah.shared.screens;
 
+import org.ohheckyeah.shared.OHYTextMessage;
 import org.ohheckyeah.shared.assets.OHYColors;
 
 import processing.core.PImage;
@@ -13,14 +14,20 @@ extends OHYBaseIntroScreen {
 
 	
 	protected int _bgColor = OHYColors.INTRO_SCREENS_BG;
-	
+	protected OHYTextMessage _text;
 	protected PImage _sponsorImage;
 	protected float _sponsorScale = 0;
-	protected boolean _drawn = false;
+	protected float yMove = 0;
+	protected float yMoveInc = 0;
+	protected float yCurMoveInc = 0;
 	
 	public OHYSponsorsScreen() {
 		super();
-		
+		loadSponsorsImage();
+		buildText();
+	}
+	
+	protected void loadSponsorsImage() {
 		String sponsorsImagePath = p.appConfig.getString("sponsors_image", null);
 		if( sponsorsImagePath != null ) {
 			_sponsorImage = p.loadImage( FileUtil.getHaxademicDataPath() + sponsorsImagePath );
@@ -32,36 +39,48 @@ extends OHYBaseIntroScreen {
 		}
 	}
 	
+	protected void buildText() {
+		float fontSize = 80;
+		_text = new OHYTextMessage( "Extra hugs to:", p.scaleV(fontSize), pg.width, p.scaleV(fontSize) * 1.5f );
+	}
+	
 	public void reset() {
 		
 	}
 	
+	public void animateIn() {
+		yMove = canvas.height * 0.3f + _text.image().height;
+		yMoveInc = p.scaleV(0.17f);
+		yCurMoveInc = yMoveInc;
+	}
+	
 	public void update() {
-		if( _drawn ) return;
+		if( yMove > 0 ) {
+			yMove -= yCurMoveInc;
+			yCurMoveInc += yMoveInc;
+		}
 		
 		canvas.beginDraw();
 		canvas.clear();
-		
 		DrawUtil.setDrawCenter(canvas);
 		
 		canvas.background(_bgColor);
-//		drawMessage();
-		if( _sponsorScale != 0 ) drawPartners();
+		drawSponsors();
+		drawMessage();
 		
 		canvas.endDraw();
-		_drawn = true;
 	}
 	
 	protected void drawMessage() {
 		canvas.pushMatrix();
-		canvas.translate( canvas.width * 0.5f, canvas.height * 0.2f );
-		// canvas.shape( p.ohyGraphics.textBroughtToYou, 0, 0, p.svgWidth(p.ohyGraphics.textBroughtToYou), p.svgHeight(p.ohyGraphics.textBroughtToYou) );
+		canvas.translate( canvas.width * 0.5f, yMove - _text.image().height );
+		canvas.image( _text.image(), 0, 0, _text.image().width, _text.image().height );
 		canvas.popMatrix();
 	}
 	
-	protected void drawPartners() {
+	protected void drawSponsors() {
 		canvas.pushMatrix();
-		canvas.translate( canvas.width * 0.5f, canvas.height * 0.5f );
+		canvas.translate( canvas.width * 0.5f, canvas.height * 0.5f + yMove );
 		canvas.image( _sponsorImage, 0, 0, _sponsorImage.width * _sponsorScale, _sponsorImage.height * _sponsorScale );
 		canvas.popMatrix();
 	}
