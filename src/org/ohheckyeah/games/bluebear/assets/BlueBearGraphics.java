@@ -1,6 +1,6 @@
 package org.ohheckyeah.games.bluebear.assets;
 
-import org.ohheckyeah.games.bluebear.BlueBear;
+import org.ohheckyeah.shared.app.OHYBaseGame;
 
 import processing.core.PGraphics;
 import processing.core.PShape;
@@ -83,7 +83,7 @@ public class BlueBearGraphics {
 		font = FileUtil.getHaxademicDataPath() + "fonts/nunito/Nunito-Bold.ttf";
 	}
 
-	public static void drawBgDots( BlueBear p, PGraphics pg, int dotColor ) {
+	public static void drawBgDots( OHYBaseGame p, PGraphics pg, int dotColor ) {
 		float _bgDotSize = p.scaleV(45);
 		float _bgDotSpaceX = p.scaleV(130);
 		float _bgDotSpaceY = p.scaleV(110);

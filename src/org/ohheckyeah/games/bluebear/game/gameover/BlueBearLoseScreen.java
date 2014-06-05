@@ -29,7 +29,7 @@ public class BlueBearLoseScreen {
 	}
 	
 	protected void buildLoseScreenBackdrop() {
-		_backdrop = p.createGraphics( p.width, p.height, P.OPENGL );
+		_backdrop = p.createGraphics( pg.width, pg.height, P.OPENGL );
 		_backdrop.smooth(OpenGLUtil.SMOOTH_HIGH);
 
 		_backdrop.beginDraw();

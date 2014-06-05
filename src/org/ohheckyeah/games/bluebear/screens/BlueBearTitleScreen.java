@@ -15,6 +15,7 @@ public class BlueBearTitleScreen {
 	
 	protected BlueBear p;
 	public PGraphics pg;
+	public PGraphics canvas;
 	
 	protected int _bgColor;
 	
@@ -22,47 +23,49 @@ public class BlueBearTitleScreen {
 	
 	public BlueBearTitleScreen() {
 		p = (BlueBear) P.p;
-		pg = p.createGraphics( p.width, p.height, P.OPENGL );
-		pg.smooth(OpenGLUtil.SMOOTH_MEDIUM);
+		pg = p.pg;
+		
+		canvas = p.createGraphics( pg.width, pg.height, P.OPENGL );
+		canvas.smooth(OpenGLUtil.SMOOTH_MEDIUM);
 	}
 	
 	public void reset() {
 		_bgColor = BlueBearColors.TITLE_SCREEN_BG;
-		_logoY.setValue(pg.height + p.svgHeight(p.gameGraphics.blueBearLogo));
-		_logoY.setTarget(pg.height / 2f);
+		_logoY.setValue(canvas.height + p.svgHeight(p.gameGraphics.blueBearLogo));
+		_logoY.setTarget(canvas.height / 2f);
 	}
 	
 	public void outroDown() {
-		_logoY.setTarget(pg.height / 2f + p.scaleV(150f));
+		_logoY.setTarget(canvas.height / 2f + p.scaleV(150f));
 	}
 	
 	public void outroUp() {
-		_logoY.setTarget( -pg.height );
+		_logoY.setTarget( -canvas.height );
 	}
 	
 	public void update() {
-		pg.beginDraw();
+		canvas.beginDraw();
 		
-		pg.background( _bgColor );
-		BlueBearGraphics.drawBgDots( p, pg, BlueBearColors.TITLE_SCREEN_DOTS );
+		canvas.background( _bgColor );
+		BlueBearGraphics.drawBgDots( p, canvas, BlueBearColors.TITLE_SCREEN_DOTS );
 		drawLogo();
 		drawBorder();
 		
-		pg.endDraw();
+		canvas.endDraw();
 	}
 	
 	protected void drawBorder() {
-		DrawUtil.setDrawCorner(pg);
-		pg.stroke( BlueBearColors.TITLE_SCREEN_BORDER );
-		pg.strokeWeight( p.scaleV(40) );
-		pg.noFill();
-		pg.rect( 0, 0, pg.width, pg.height );
+		DrawUtil.setDrawCorner(canvas);
+		canvas.stroke( BlueBearColors.TITLE_SCREEN_BORDER );
+		canvas.strokeWeight( p.scaleV(40) );
+		canvas.noFill();
+		canvas.rect( 0, 0, canvas.width, canvas.height );
 	}
 	
 	protected void drawLogo() {
-		DrawUtil.setDrawCenter(pg);
+		DrawUtil.setDrawCenter(canvas);
 		_logoY.update();
-		pg.shape( p.gameGraphics.blueBearLogo, pg.width * 0.5f, _logoY.val(), p.scaleV(p.gameGraphics.blueBearLogo.width), p.scaleV(p.gameGraphics.blueBearLogo.height) );
+		canvas.shape( p.gameGraphics.blueBearLogo, canvas.width * 0.5f, _logoY.val(), p.scaleV(p.gameGraphics.blueBearLogo.width), p.scaleV(p.gameGraphics.blueBearLogo.height) );
 	}
 	
 }

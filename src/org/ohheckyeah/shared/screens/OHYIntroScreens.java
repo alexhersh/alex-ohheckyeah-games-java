@@ -1,9 +1,9 @@
-package org.ohheckyeah.games.tinkerbot.screens;
+package org.ohheckyeah.shared.screens;
 
+import org.ohheckyeah.games.bluebear.BlueBear;
 import org.ohheckyeah.games.bluebear.assets.BlueBearColors;
-import org.ohheckyeah.games.tinkerbot.TinkerBot;
+import org.ohheckyeah.games.bluebear.screens.BlueBearTitleScreen;
 import org.ohheckyeah.shared.app.OHYBaseGame.GameState;
-import org.ohheckyeah.shared.screens.OHYHugItOutScreen;
 
 import processing.core.PGraphics;
 
@@ -12,17 +12,18 @@ import com.haxademic.core.draw.util.DrawUtil;
 import com.haxademic.core.draw.util.OpenGLUtil;
 import com.haxademic.core.math.easing.EasingFloat;
 
-public class TinkerBotIntroScreens {
+public class OHYIntroScreens {
 
-	protected TinkerBot p;
+	protected BlueBear p;
 	public PGraphics pg;
+	public PGraphics canvas;
 	
-	public int bgPadX;
-	public int bgPadY;
 	protected EasingFloat _drawYOffset = new EasingFloat(0, 6);
 	
-	protected TinkerBotTitleScreen _logoScreen;
-	protected TinkerBotCreditsScreen _creditsScreen;
+	protected OHYBaseIntroScreen _screens[];
+	
+	protected BlueBearTitleScreen _logoScreen;
+	protected OHYPartnersCreditsScreen _partnerCreditsScreen;
 	protected OHYHugItOutScreen _hugItOutScreen;
 	
 	public enum Screen {
@@ -34,25 +35,20 @@ public class TinkerBotIntroScreens {
 	
 	protected int _introScreensStartTime = 0;
 
-	public TinkerBotIntroScreens( String sponsorsImagePath ) {
-		p = (TinkerBot) P.p;
+	public OHYIntroScreens() {
+		p = (BlueBear) P.p;
+		pg = p.pg;
 
-		pg = p.createGraphics( p.width, p.height, P.OPENGL );
-		pg.smooth(OpenGLUtil.SMOOTH_MEDIUM);
+		canvas = p.createGraphics( pg.width, pg.height, P.OPENGL );
+		canvas.smooth(OpenGLUtil.SMOOTH_LOW);
 		
-		bgPadX = (int) p.scaleV(20);
-		bgPadY = (int) p.scaleV(20);
-		
+		_screens = new OHYBaseIntroScreen[1];
 		// build sub-screens
-		_logoScreen = new TinkerBotTitleScreen();
-		_creditsScreen = new TinkerBotCreditsScreen( sponsorsImagePath );
+		_logoScreen = new BlueBearTitleScreen();
+		_partnerCreditsScreen = new OHYPartnersCreditsScreen();
 		_hugItOutScreen = new OHYHugItOutScreen();
 		
 		reset();
-	}
-	
-	public int bgPadY() {
-		return bgPadY;
 	}
 	
 	public void reset() {
@@ -60,26 +56,25 @@ public class TinkerBotIntroScreens {
 		_introScreensStartTime = p.millis();
 		
 		_logoScreen.reset();
-		_creditsScreen.reset();
+		_partnerCreditsScreen.reset();
 		_hugItOutScreen.reset();
 		
 		_introScreensStartTime = p.millis();
 		
 		_mode = Screen.HUG_IT_OUT;
-		_drawYOffset.setCurrent(p.height);
+		_drawYOffset.setCurrent(pg.height);
 		_drawYOffset.setTarget(0);
 	}
 	
 	public void update() {
 		_drawYOffset.update();
 		
-		pg.beginDraw();
-		pg.clear();
+		canvas.beginDraw();
+		canvas.clear();
 		
-		drawWhiteBg();
 		drawSubScreens();
 		
-		pg.endDraw();
+		canvas.endDraw();
 
 		advanceScreens();
 	}
@@ -87,7 +82,7 @@ public class TinkerBotIntroScreens {
 	protected void advanceScreens() {
 		if( _mode == Screen.HUG_IT_OUT && p.millis() > _introScreensStartTime + 1000 ) {
 			_mode = Screen.TITLE;
-			_drawYOffset.setTarget(-p.height);
+			_drawYOffset.setTarget(-pg.height);
 			p.sounds.playIntro();
 			_logoScreen.reset();
 		}
@@ -99,11 +94,11 @@ public class TinkerBotIntroScreens {
 		}
 		if( _mode == Screen.TITLE && p.millis() > _introScreensStartTime + 3000 ) {
 			_mode = Screen.CREDITS;
-			_drawYOffset.setTarget(-p.height * 2f);
+			_drawYOffset.setTarget(-pg.height * 2f);
 		}
 		if( _mode == Screen.CREDITS && p.millis() > _introScreensStartTime + 4000 ) {
 			_mode = Screen.DONE;
-			_drawYOffset.setTarget(-p.height * 3f);
+			_drawYOffset.setTarget(-pg.height * 3f);
 			p.setGameState( GameState.GAME_INTRO_OUTRO );
 		}
 		if( _mode == Screen.DONE && _drawYOffset.value() < _drawYOffset.target() + 0.1f ) {
@@ -111,26 +106,19 @@ public class TinkerBotIntroScreens {
 		}
 	}
 	
-	protected void drawWhiteBg() {
-		DrawUtil.setDrawCorner(pg);
-		pg.fill( _bgColor );
-		pg.noStroke();
-		pg.rect( bgPadX, bgPadY + _drawYOffset.value(), pg.width - bgPadX * 2, pg.height * 3 - bgPadY * 2 );
-	}
-	
 	protected void drawSubScreens() {
-		DrawUtil.setDrawCenter(pg);
-		if( _drawYOffset.value() > -p.height + 1 ) {
+		DrawUtil.setDrawCenter(canvas);
+		if( _drawYOffset.value() > -pg.height + 1 ) {
 			_hugItOutScreen.update();
-			pg.image( _hugItOutScreen.canvas, pg.width/2f, pg.height/2f + 0 + _drawYOffset.value(), _hugItOutScreen.canvas.width, _hugItOutScreen.canvas.height );
+			canvas.image( _hugItOutScreen.canvas, canvas.width/2f, canvas.height/2f + 0 + _drawYOffset.value(), _hugItOutScreen.canvas.width, _hugItOutScreen.canvas.height );
 		}
-		if( _drawYOffset.value() > -p.height * 2 + 1 && _drawYOffset.value() < -1 ) {
+		if( _drawYOffset.value() > -pg.height * 2 + 1 && _drawYOffset.value() < -1 ) {
 			_logoScreen.update();
-			pg.image( _logoScreen.pg, pg.width/2f, pg.height/2f + pg.height + _drawYOffset.value(), _logoScreen.pg.width, _logoScreen.pg.height );
+			canvas.image( _logoScreen.canvas, canvas.width/2f, canvas.height/2f + canvas.height + _drawYOffset.value(), _logoScreen.canvas.width, _logoScreen.canvas.height );
 		}
-		if( _drawYOffset.value() < -p.height - 1 ) {
-			_creditsScreen.update();
-			pg.image( _creditsScreen.pg, pg.width/2f, pg.height/2f + pg.height * 2 + _drawYOffset.value(), _creditsScreen.pg.width, _creditsScreen.pg.height );
+		if( _drawYOffset.value() < -pg.height - 1 ) {
+			_partnerCreditsScreen.update();
+			canvas.image( _partnerCreditsScreen.canvas, canvas.width/2f, canvas.height/2f + canvas.height * 2 + _drawYOffset.value(), _partnerCreditsScreen.canvas.width, _partnerCreditsScreen.canvas.height );
 		}
 	}
 		

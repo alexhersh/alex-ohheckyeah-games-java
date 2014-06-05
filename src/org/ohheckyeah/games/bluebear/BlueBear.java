@@ -7,8 +7,8 @@ import org.ohheckyeah.games.bluebear.assets.BlueBearGraphics;
 import org.ohheckyeah.games.bluebear.assets.BlueBearSounds;
 import org.ohheckyeah.games.bluebear.game.BlueBearGamePlay;
 import org.ohheckyeah.games.bluebear.game.BlueBearTracking;
-import org.ohheckyeah.games.bluebear.screens.BlueBearIntroScreens;
 import org.ohheckyeah.shared.app.OHYBaseGame;
+import org.ohheckyeah.shared.screens.OHYIntroScreens;
 
 import processing.core.PApplet;
 
@@ -33,10 +33,8 @@ extends OHYBaseGame
 	// dimensions
 	protected float _gameOrigHeight = 630.0f;
 
-	// graphics
+	// assets
 	public BlueBearGraphics gameGraphics;
-
-	// audio 
 	public BlueBearSounds sounds; 
 
 
@@ -54,7 +52,7 @@ extends OHYBaseGame
 	protected int _lastCountdownTime = 0;
 
 	// non-gameplay screens
-	protected BlueBearIntroScreens _introScreens;
+	protected OHYIntroScreens _introScreens;
 
 	
 	public void setup() {
@@ -69,7 +67,7 @@ extends OHYBaseGame
 				
 		loadMedia();
 		
-		_introScreens = new BlueBearIntroScreens( p.appConfig.getString( "sponsor_images", null ) );
+		_introScreens = new OHYIntroScreens();
 		
 		// set flags and props	
 		_gamePlay = new BlueBearGamePlay( _kinectGrid, _isRemoteKinect );
@@ -141,7 +139,7 @@ extends OHYBaseGame
 		updateGameplay();
 		_introScreens.update();
 		DrawUtil.setDrawCorner(pg);
-		pg.image( _introScreens.pg, 0, 0, _introScreens.pg.width, _introScreens.pg.height );
+		pg.image( _introScreens.canvas, 0, 0, _introScreens.canvas.width, _introScreens.canvas.height );
 	}
 
 	protected void setGameStateIntroOutro() {

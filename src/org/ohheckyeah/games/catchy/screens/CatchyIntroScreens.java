@@ -3,7 +3,7 @@ package org.ohheckyeah.games.catchy.screens;
 import org.ohheckyeah.games.catchy.Catchy;
 import org.ohheckyeah.games.catchy.assets.CatchyColors;
 import org.ohheckyeah.shared.app.OHYBaseGame.GameState;
-import org.ohheckyeah.shared.OHYHugItOutScreen;
+import org.ohheckyeah.shared.screens.OHYHugItOutScreen;
 
 import processing.core.PGraphics;
 
@@ -122,7 +122,7 @@ public class CatchyIntroScreens {
 		int drawYRound = P.round(_drawYOffset.value());
 		if( drawYRound > -p.height + 1 ) {
 			_hugItOutScreen.update();
-			pg.image( _hugItOutScreen.pg, pg.width/2f, pg.height/2f + 0 + drawYRound, _hugItOutScreen.pg.width, _hugItOutScreen.pg.height );
+			pg.image( _hugItOutScreen.canvas, pg.width/2f, pg.height/2f + 0 + drawYRound, _hugItOutScreen.canvas.width, _hugItOutScreen.canvas.height );
 		}
 		if( drawYRound > -p.height * 2 + 1 && drawYRound < -1 ) {
 			_logoScreen.update();
