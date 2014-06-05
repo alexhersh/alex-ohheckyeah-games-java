@@ -17,15 +17,12 @@ public class OHYTextMessage {
 	
 	CustomFontText2D messageFontRenderer;
 	float _fontSize;
-	float _lineWidth;
 
-	public OHYTextMessage( String text, float fontSize, float baseWidth, float baseHeight, float lineWidth ) {
+	public OHYTextMessage( String text, float fontSize, float baseWidth, float baseHeight ) {
 		p = (OHYBaseGame) P.p;
 		
 		_fontSize = fontSize;
-		_lineWidth = lineWidth;
 		
-		// build text 
 		messageFontRenderer = new CustomFontText2D( p, p.ohyGraphics.font, p.scaleV(fontSize), OHYColors.MAIN_TEXT_COLOR, CustomFontText2D.ALIGN_CENTER, (int) p.scaleV(baseWidth), (int)p.scaleV(fontSize * 2) );
 		messageFontRenderer.updateText( text );
 
@@ -37,12 +34,15 @@ public class OHYTextMessage {
 		canvas.beginDraw();
 		canvas.clear();
 
+		// draw text
 		DrawUtil.setDrawCenter( canvas );
 		float centerX = canvas.width/2f;
 		canvas.image( messageFontRenderer.getTextPImage(), centerX, p.scaleV(_fontSize/2f), messageFontRenderer.getTextPImage().width, messageFontRenderer.getTextPImage().height );
 
+		// draw underline
 		canvas.fill(0);
-		canvas.rect( centerX, canvas.height - p.scaleV(10)/2f, p.scaleV(_lineWidth), p.scaleV(10) );
+		float lineW = messageFontRenderer.getRightmostPixel() - messageFontRenderer.getLeftmostPixel();
+		canvas.rect( centerX, canvas.height - p.scaleV(10)/2f, lineW, p.scaleV(10) );
 
 		canvas.endDraw();
 	}
