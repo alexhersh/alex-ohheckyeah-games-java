@@ -25,11 +25,10 @@ extends OHYBaseIntroScreen {
 	public void reset() {
 		_bgColor = BlueBearColors.TITLE_SCREEN_BG;
 		_logoY.setValue(canvas.height + p.svgHeight(p.gameGraphics.blueBearLogo));
-		_logoY.setTarget(canvas.height / 2f);
 	}
 	
 	public void animateIn() {
-		_logoY.setTarget(canvas.height / 2f + p.scaleV(150f));
+		_logoY.setTarget(canvas.height / 2f);
 	}
 	
 	public void animateOut() {
@@ -58,7 +57,8 @@ extends OHYBaseIntroScreen {
 	protected void drawLogo() {
 		DrawUtil.setDrawCenter(canvas);
 		_logoY.update();
-		canvas.shape( p.gameGraphics.blueBearLogo, canvas.width * 0.5f, _logoY.val(), p.scaleV(p.gameGraphics.blueBearLogo.width), p.scaleV(p.gameGraphics.blueBearLogo.height) );
+		float logoScale = 1.25f;
+		canvas.shape( p.gameGraphics.blueBearLogo, canvas.width * 0.5f, _logoY.val(), p.scaleH(p.gameGraphics.blueBearLogo.width) * logoScale, p.scaleH(p.gameGraphics.blueBearLogo.height) * logoScale );
 	}
 	
 }
