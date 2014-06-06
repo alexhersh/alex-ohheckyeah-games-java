@@ -15,7 +15,7 @@ public class CatchyGraphics {
 	public CatchyCharacterDefinition blueSquid, greenPanner, pinkEye, wheelieRobot, birdie, bowl;
 	
 	public ArrayList<PShape> droppables;
-	public PShape apple, coin, diamond, iceCreamCone;
+	public PShape apple, coin, diamond, iceCreamCone, candy;
 	public ArrayList<PShape> droppablesBad;
 	public PShape bomb, brick, dirtySock, sword;
 	public PShape grass, bushSmall, bushLarge, mountain, shadow, dropperReady, dropperAlmost, dropperDrop, waitingSpinner;
@@ -46,12 +46,14 @@ public class CatchyGraphics {
 		coin = P.p.loadShape( FileUtil.getHaxademicDataPath() + "games/catchy/svg/droppables/coin.svg" );
 		diamond = P.p.loadShape( FileUtil.getHaxademicDataPath() + "games/catchy/svg/droppables/diamond.svg" );
 		iceCreamCone = P.p.loadShape( FileUtil.getHaxademicDataPath() + "games/catchy/svg/droppables/ice-cream-cone.svg" );
+		candy = P.p.loadShape( FileUtil.getHaxademicDataPath() + "games/catchy/svg/droppables/candy.svg" );
 
 		droppables = new ArrayList<PShape>();
 		droppables.add(apple);
 		droppables.add(coin);
 		droppables.add(diamond);
 		droppables.add(iceCreamCone);
+		droppables.add(candy);
 		
 		bomb = P.p.loadShape( FileUtil.getHaxademicDataPath() + "games/catchy/svg/droppables/bomb.svg" );
 		brick = P.p.loadShape( FileUtil.getHaxademicDataPath() + "games/catchy/svg/droppables/brick.svg" );
