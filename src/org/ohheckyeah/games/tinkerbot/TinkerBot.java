@@ -30,6 +30,7 @@ extends OHYBaseGame
 	 */
 	public static void main(String args[]) {
 		_isFullScreen = true;
+		_hasChrome = false;
 		PApplet.main(new String[] { "--hide-stop", "--bgcolor=000000", "org.ohheckyeah.games.tinkerbot.TinkerBot" });
 	}
 
