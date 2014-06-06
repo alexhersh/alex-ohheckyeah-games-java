@@ -33,7 +33,7 @@ public class TinkerBotGameMessages {
 		pg = p.pg;
 		
 		// calculate responsive sizes
-		_messageX = p.width / 2f;
+		_messageX = pg.width / 2f;
 		_messageYHidden = p.scaleV(-250);
 		_messageYShowing = pg.height * .2f;
 		_messageYShowingCenter = pg.height * .5f;

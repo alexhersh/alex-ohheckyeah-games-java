@@ -57,8 +57,9 @@ extends OHYKinectApp {
 	public void setup( String propertiesFile, int gameOriginalHeight, int gameOriginalWidth ) {
 		_customPropsFile = FileUtil.getHaxademicDataPath() + "properties/" + propertiesFile;
 		super.setup();
-		gameScaleV = (float) p.height / (float) gameOriginalHeight;
-		gameScaleH = (float) p.width / (float) gameOriginalWidth;
+		buildCanvas();
+		gameScaleV = (float) pg.height / (float) gameOriginalHeight;
+		gameScaleH = (float) pg.width / (float) gameOriginalWidth;
 		ohyGraphics = new OHYGraphics();
 		setKinectProperties();
 		setRemoteKinectProperties();
@@ -82,12 +83,12 @@ extends OHYKinectApp {
 		return input * gameScaleH;
 	}
 	
-	public int svgWidth( PShape shape ) {
-		return P.round(scaleV(shape.width));
+	public float svgWidth( PShape shape ) {
+		return scaleV(shape.width);
 	}
 	
-	public int svgHeight( PShape shape ) {
-		return P.round(scaleV(shape.height));
+	public float svgHeight( PShape shape ) {
+		return scaleV(shape.height);
 	}
 
 	protected void buildCanvas() {

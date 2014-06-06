@@ -74,10 +74,7 @@ extends OHYBaseGame
 	}
 
 	public void initGame() {
-		buildCanvas();
-
 		timeFactor = new TimeFactoredFps( p, 50 );
-				
 		loadMedia();
 		
 		// set flags and props	

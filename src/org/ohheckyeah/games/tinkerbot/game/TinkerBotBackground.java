@@ -26,10 +26,10 @@ public class TinkerBotBackground {
 		pg = p.pg;
 		
 		
-		_mask = p.createGraphics( p.width, p.height, P.OPENGL );
+		_mask = p.createGraphics( pg.width, pg.height, P.OPENGL );
 		_mask.smooth(OpenGLUtil.SMOOTH_MEDIUM);
 
-		_bg = p.createGraphics( p.width, p.height, P.OPENGL );
+		_bg = p.createGraphics( pg.width, pg.height, P.OPENGL );
 		_bg.smooth(OpenGLUtil.SMOOTH_MEDIUM);
 
 		showFullMask();

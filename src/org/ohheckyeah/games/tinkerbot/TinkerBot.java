@@ -60,10 +60,7 @@ extends OHYBaseGame
 	}
 
 	public void initGame() {
-		buildCanvas();
-
 		timeFactor = new TimeFactoredFps( p, 50 );
-				
 		loadMedia();
 		
 		_introScreens = new OHYIntroScreens( new TinkerBotTitleScreen() );
