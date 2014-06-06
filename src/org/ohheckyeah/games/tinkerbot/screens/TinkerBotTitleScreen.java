@@ -59,7 +59,7 @@ extends OHYBaseIntroScreen {
 		DrawUtil.setDrawCenter(canvas);
 		_logoScale.update();
 		_logoRot.update();
-		if( _logoScale.val() > 0 ) {
+		if( _logoScale.val() > 0.1f ) {
 			canvas.pushMatrix();
 			canvas.translate( canvas.width * 0.5f, canvas.height * 0.5f );
 			canvas.rotate( _logoRot.val() );

@@ -274,6 +274,7 @@ public class TinkerBotGamePlay {
 		if( p.gameState() == GameState.GAME_PLAYING ) {
 			if( _gameTimer.isGameOver() == true && _robots.isAnimating() == false ) {
 				p.setGameState( GameState.GAME_OVER );
+				p.sounds.playGameOver();
 			}
 		}
 	}

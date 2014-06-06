@@ -1,6 +1,7 @@
 package org.ohheckyeah.shared.app;
 
 import org.ohheckyeah.shared.assets.OHYGraphics;
+import org.ohheckyeah.shared.assets.OHYSounds;
 import org.ohheckyeah.shared.screens.OHYIntroScreens;
 
 import processing.core.PGraphics;
@@ -47,6 +48,7 @@ extends OHYKinectApp {
 
 	// media / screens
 	public OHYGraphics ohyGraphics;
+	public OHYSounds ohySounds;
 	protected OHYIntroScreens _introScreens;
 
 	

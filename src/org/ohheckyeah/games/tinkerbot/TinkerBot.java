@@ -76,7 +76,7 @@ extends OHYBaseGame
 	}
 	
 	protected void loadMedia() {
-		sounds = new TinkerBotSounds();
+		ohySounds = sounds = new TinkerBotSounds();
 		gameGraphics = new TinkerBotGraphics();
 		
 //		gameGraphics.shuffleCharacters();

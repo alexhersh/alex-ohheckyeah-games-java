@@ -74,7 +74,7 @@ extends OHYBaseGame
 	}
 	
 	protected void loadMedia() {
-		sounds = new BlueBearSounds();
+		ohySounds = sounds = new BlueBearSounds();
 		gameGraphics = new BlueBearGraphics();
 //		gameGraphics.shuffleCharacters();
 	}
@@ -130,7 +130,6 @@ extends OHYBaseGame
 	
 	protected void setGameStateIntro() {
 		_introScreens.reset();
-		sounds.playOHY();
 	}
 
 	protected void runGameStateIntro() {
@@ -141,7 +140,6 @@ extends OHYBaseGame
 	}
 
 	protected void setGameStateIntroOutro() {
-		sounds.fadeOutIntro();
 		_gamePlay.reset();
 		_gamePlay.startPlayerDetection();
 	}

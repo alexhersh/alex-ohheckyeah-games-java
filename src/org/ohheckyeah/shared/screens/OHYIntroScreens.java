@@ -26,6 +26,7 @@ public class OHYIntroScreens {
 	protected int _screenIndex;
 	protected int SCREEN_TIME = 2 * 1000;
 	protected boolean _outroReady = false;
+	protected OHYBaseIntroScreen _titleScreen;
 	
 	protected int _bgColor;
 	
@@ -48,13 +49,12 @@ public class OHYIntroScreens {
 		_screens = new ArrayList<OHYBaseIntroScreen>();
 		_screens.add( new OHYHugItOutScreen() );
 		if( hasTextMessageLineService ) _screens.add( new OHYOnereachScreen() );
+		_titleScreen = titleScreen;
 		if( titleScreen != null ) _screens.add( titleScreen );
 		_screens.add( new OHYPartnersCreditsScreen() );
 		if( sponsorsImagePath != null ) _screens.add( new OHYSponsorsScreen() );
 
 		_numScreens = _screens.size();
-		
-		reset();
 	}
 	
 	public void reset() {
@@ -65,6 +65,8 @@ public class OHYIntroScreens {
 		
 		_drawYOffset.setCurrent(pg.height);
 		_drawYOffset.setTarget(0);
+		
+		p.ohySounds.playOHY();
 	}
 	
 	public void update() {
@@ -90,8 +92,14 @@ public class OHYIntroScreens {
 			_introScreensStartTime = p.millis();
 			_screenIndex++;
 			_outroReady = false;
-			if( _screenIndex < _numScreens ) _screens.get(_screenIndex).animateIn();
-			if( _screenIndex == _numScreens ) p.setGameState( GameState.GAME_INTRO_OUTRO ); // tell app we're about to slide away to reveal game
+			if( _screenIndex < _numScreens ) {
+				_screens.get(_screenIndex).animateIn();
+				if( _screens.get(_screenIndex) == _titleScreen ) p.ohySounds.playIntro(); 
+			}
+			if( _screenIndex == _numScreens ) {
+				p.setGameState( GameState.GAME_INTRO_OUTRO ); // tell app we're about to slide away to reveal game
+				p.ohySounds.fadeOutIntro();
+			}
 			_drawYOffset.setTarget(-pg.height * _screenIndex);
 		}
 		

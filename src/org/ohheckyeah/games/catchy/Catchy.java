@@ -105,7 +105,7 @@ extends OHYBaseGame
 	}
 	
 	protected void loadMedia() {
-		sounds = new CatchySounds();		
+		ohySounds = sounds = new CatchySounds();
 		gameGraphics = new CatchyGraphics();
 		gameGraphics.shuffleCharacters();
 	}
@@ -188,7 +188,6 @@ extends OHYBaseGame
 		gameGraphics.shuffleCharacters();
 		_dividerYOffset.setCurrent(pg.height);
 		_dividerYOffset.setTarget(pg.height);
-		sounds.playOHY();
 	}
 
 	protected void runGameStateIntro() {
@@ -202,7 +201,6 @@ extends OHYBaseGame
 
 	protected void setGameStateIntroOutro() {
 		_dividerYOffset.setTarget( 0 );
-		sounds.fadeOutIntro();
 	}
 	
 	protected void setGameStateWaitingForPlayers() {
