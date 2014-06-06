@@ -43,7 +43,7 @@ public class CatchyDroppable {
 	public CatchyDroppable( CatchyGamePlay catchyGamePlay, boolean isBad ) {
 		p = (Catchy)P.p;
 		this.catchyGamePlay = catchyGamePlay;
-		pg = catchyGamePlay.pg;
+		pg = catchyGamePlay.canvas;
 		
 		_isBad = isBad;
 		_groundY = pg.height - p.scaleV(60);

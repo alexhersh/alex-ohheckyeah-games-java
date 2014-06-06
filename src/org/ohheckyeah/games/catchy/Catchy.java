@@ -10,14 +10,14 @@ import org.ohheckyeah.games.catchy.game.CatchyGameMessages;
 import org.ohheckyeah.games.catchy.game.CatchyGamePlay;
 import org.ohheckyeah.games.catchy.game.CatchyGameTimer;
 import org.ohheckyeah.games.catchy.game.CatchyTracking;
-import org.ohheckyeah.games.catchy.screens.CatchyIntroScreens;
+import org.ohheckyeah.games.catchy.screens.CatchyTitleScreen;
 import org.ohheckyeah.shared.app.OHYBaseGame;
+import org.ohheckyeah.shared.screens.OHYIntroScreens;
 
 import processing.core.PApplet;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.draw.util.DrawUtil;
-import com.haxademic.core.draw.util.OpenGLUtil;
 import com.haxademic.core.math.easing.EasingFloat;
 import com.haxademic.core.system.TimeFactoredFps;
 
@@ -34,7 +34,7 @@ extends OHYBaseGame
 	 * @param args
 	 */
 	public static void main(String args[]) {
-		_isFullScreen = true;
+		// _isFullScreen = true;
 		PApplet.main(new String[] { "--hide-stop", "--bgcolor=000000", "org.ohheckyeah.games.catchy.Catchy" });
 	}
 
@@ -42,7 +42,7 @@ extends OHYBaseGame
 
 	// graphics
 	public CatchyGraphics gameGraphics;
-	protected EasingFloat _dividerYOffset = new EasingFloat(0, 6);
+	protected EasingFloat _dividerYOffset = new EasingFloat(0, 5);
 
 	// audio 
 	public CatchySounds sounds; 
@@ -64,7 +64,6 @@ extends OHYBaseGame
 	protected int _lastCountdownTime = 0;
 
 	// non-gameplay screens
-	protected CatchyIntroScreens _introScreens;
 	protected CatchyGameMessages _gameMessages;
 	
 	
@@ -75,20 +74,21 @@ extends OHYBaseGame
 	}
 
 	public void initGame() {
-		p.smooth( OpenGLUtil.SMOOTH_MEDIUM );
+		buildCanvas();
 
 		timeFactor = new TimeFactoredFps( p, 50 );
 				
 		loadMedia();
 		
-		_introScreens = new CatchyIntroScreens( _appConfig.getString( "sponsor_images", null ) );
-		_gameMessages = new CatchyGameMessages();
-		
 		// set flags and props	
 		buildGameplays();
 		buildGameTimer();
-		setInitialGameState();
 		_tracking = new CatchyTracking();
+		
+		_introScreens = new OHYIntroScreens( new CatchyTitleScreen() );
+		_gameMessages = new CatchyGameMessages();
+		
+		setInitialGameState();
 	}
 	
 	protected void buildGameTimer() {
@@ -97,7 +97,7 @@ extends OHYBaseGame
 	}
 	
 	protected void buildGameplays() {
-		_gameWidth = P.ceil( p.width / (float) NUM_PLAYERS );
+		_gameWidth = P.ceil( pg.width / (float) NUM_PLAYERS );
 		_gamePlays = new ArrayList<CatchyGamePlay>();
 		for( int i=0; i < NUM_PLAYERS; i++ ) {
 			_gamePlays.add( new CatchyGamePlay( i, _gameWidth, _kinectGrid.getRegion(i), _isRemoteKinect ) );
@@ -186,8 +186,8 @@ extends OHYBaseGame
 	protected void setGameStateIntro() {
 		_introScreens.reset();
 		gameGraphics.shuffleCharacters();
-		_dividerYOffset.setCurrent(p.height - _introScreens.bgPadY());
-		_dividerYOffset.setTarget(p.height - _introScreens.bgPadY());
+		_dividerYOffset.setCurrent(pg.height);
+		_dividerYOffset.setTarget(pg.height);
 		sounds.playOHY();
 	}
 
@@ -195,13 +195,13 @@ extends OHYBaseGame
 		if( _gameState == GameState.GAME_INTRO_OUTRO ) {
 			updateGameplays();
 		}
-		DrawUtil.setDrawCorner(p);
+		DrawUtil.setDrawCorner(pg);
 		_introScreens.update();
-		p.image( _introScreens.pg, 0, 0, _introScreens.pg.width, _introScreens.pg.height );
+		pg.image( _introScreens.canvas, 0, 0, _introScreens.canvas.width, _introScreens.canvas.height );
 	}
 
 	protected void setGameStateIntroOutro() {
-		_dividerYOffset.setTarget( -_introScreens.bgPadY() );
+		_dividerYOffset.setTarget( 0 );
 		sounds.fadeOutIntro();
 	}
 	
@@ -366,7 +366,7 @@ extends OHYBaseGame
 	protected void setGameStateGameOverOutro() {
 		_gameMessages.hideWinner();
 		_gameMessages.hideTie();
-		_dividerYOffset.setTarget( -p.height * 2f );
+		_dividerYOffset.setTarget( -pg.height * 2f );
 		for( int i=0; i < NUM_PLAYERS; i++ ) {
 			_gamePlays.get( i ).animateToHiddenState();
 		}
@@ -376,28 +376,27 @@ extends OHYBaseGame
 	
 	public void drawApp() {
 		super.drawApp();
-		
-		p.background( CatchyColors.STAGE_BG );
-
-		// update timing
 		timeFactor.update();
-		// P.println("target_fps: "+timeFactor.targetFps()+" / actual_fps: "+timeFactor.actualFps()+" / timeFactor: "+timeFactor.multiplier());
-		
+		p.background( CatchyColors.STAGE_BG );
+		DrawUtil.setDrawCorner(p);
+		pg.beginDraw();
+		pg.background( CatchyColors.STAGE_BG );
+		pg.noStroke();
 		runGameState();
+		pg.endDraw();
+		p.image(pg, 0, 0, pg.width, pg.height);
 	}
 	
 	protected void updateGameplays() {
 		// update and draw gamePlays
-		DrawUtil.setDrawCorner(p);
+		DrawUtil.setDrawCorner(pg);
 		for( int i=0; i < NUM_PLAYERS; i++ ) {
 			CatchyGamePlay gamePlay = _gamePlays.get(i); 
 			gamePlay.update();
-			p.image( gamePlay.pg, _gameWidth * i, 0, _gameWidth, p.height);
+			pg.image( gamePlay.canvas, _gameWidth * i, 0, _gameWidth, pg.height);
 		}
 		
 		drawGameDividersAndTimers();
-		
-		// draw in-game messages
 		_gameMessages.update();
 	}
 	
@@ -407,26 +406,26 @@ extends OHYBaseGame
 		for( int i=0; i < NUM_PLAYERS; i++ ) {
 			if(i > 0) {
 				// draw white borders
-				DrawUtil.setDrawCorner(p);
-				p.fill(255);
-				p.noStroke();
+				DrawUtil.setDrawCorner(pg);
+				pg.fill(255);
+				pg.noStroke();
 				float dividerX = _gameWidth * i - gameGraphics.gameDivider.width * 0.5f;
-				float dividerH = ( gameScaleV > 1 ) ? scaleV( gameGraphics.gameDivider.height + _introScreens.bgPadY() * 2f ) : gameGraphics.gameDivider.height + _introScreens.bgPadY() * 2f;
-				p.shape( gameGraphics.gameDivider, dividerX, _dividerYOffset.value(), gameGraphics.gameDivider.width, dividerH );
+				float dividerH = ( gameScaleV > 1 ) ? scaleV( gameGraphics.gameDivider.height ) : gameGraphics.gameDivider.height;
+				pg.shape( gameGraphics.gameDivider, dividerX, _dividerYOffset.value(), gameGraphics.gameDivider.width, dividerH );
 				// draw timers
-				DrawUtil.setDrawCenter(p);
-				p.pushMatrix();
-				p.translate( dividerX, p.height - ( scaleV(gameGraphics.timerBanner.height) ) / 1.7f );
+				DrawUtil.setDrawCenter(pg);
+				pg.pushMatrix();
+				pg.translate( dividerX, pg.height - ( scaleV(gameGraphics.timerBanner.height) ) / 1.7f );
 				gameTimer.drawTimer();
-				p.popMatrix();
+				pg.popMatrix();
 			}
 			if(i == 0 && NUM_PLAYERS == 1) {
 				// draw timers
-				DrawUtil.setDrawCenter(p);
-				p.pushMatrix();
-				p.translate( p.width - scaleV(100), 30 );
+				DrawUtil.setDrawCenter(pg);
+				pg.pushMatrix();
+				pg.translate( pg.width - scaleV(100), 30 );
 				gameTimer.drawTimer();
-				p.popMatrix();
+				pg.popMatrix();
 			}
 		}
 	}

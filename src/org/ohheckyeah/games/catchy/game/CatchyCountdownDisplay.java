@@ -24,7 +24,7 @@ public class CatchyCountdownDisplay {
 	public CatchyCountdownDisplay( CatchyGamePlay catchyGamePlay ) {
 		p = (Catchy)P.p;
 		this.catchyGamePlay = catchyGamePlay;
-		pg = catchyGamePlay.pg;
+		pg = catchyGamePlay.canvas;
 
 		_countdownFontRenderer = new CustomFontText2D( p, p.gameGraphics.font, p.scaleV(120), CatchyColors.MAIN_TEXT_COLOR, CustomFontText2D.ALIGN_CENTER, (int)p.scaleV(150), (int)p.scaleV(150) );
 	}
@@ -45,7 +45,7 @@ public class CatchyCountdownDisplay {
 			DrawUtil.setDrawCenter( pg );
 			pg.pushMatrix();
 	
-			pg.translate( catchyGamePlay.gameHalfWidth, p.height / 2f );
+			pg.translate( catchyGamePlay.gameHalfWidth, pg.height / 2f );
 			
 			pg.scale( _scale.val() );
 			pg.noStroke();

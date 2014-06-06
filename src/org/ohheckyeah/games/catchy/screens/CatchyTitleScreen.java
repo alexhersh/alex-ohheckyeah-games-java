@@ -4,22 +4,16 @@ import java.util.ArrayList;
 
 import org.ohheckyeah.games.catchy.Catchy;
 import org.ohheckyeah.games.catchy.assets.CatchyColors;
-
-import processing.core.PGraphics;
+import org.ohheckyeah.shared.screens.OHYBaseIntroScreen;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.draw.util.DrawUtil;
-import com.haxademic.core.draw.util.OpenGLUtil;
 import com.haxademic.core.math.easing.ElasticFloat;
 
-public class CatchyTitleScreen {
+public class CatchyTitleScreen
+extends OHYBaseIntroScreen {
 	
 	protected Catchy p;
-	public int titleWidth;
-	public int titleHeight;
-	public int borderWidth;
-	public int borderHeight;
-	public PGraphics pg;
 	
 	protected int _bgColor;
 	protected int _borderColor;
@@ -31,14 +25,8 @@ public class CatchyTitleScreen {
 	protected int _confettiLaunchIndex = 0;
 
 	public CatchyTitleScreen() {
+		super();
 		p = (Catchy) P.p;
-		titleWidth = p.width - (int) p.scaleV(140);
-		titleHeight = p.height - (int) p.scaleV(120);
-		borderWidth = p.width - (int) p.scaleV(40);
-		borderHeight = p.height - (int) p.scaleV(20);
-
-		pg = p.createGraphics( titleWidth, titleHeight, P.OPENGL );
-		pg.smooth(OpenGLUtil.SMOOTH_MEDIUM);
 		
 		_confetti = new ArrayList<ConfettiParticle>();
 		for( int i=0; i < 100; i++ ) {
@@ -48,22 +36,21 @@ public class CatchyTitleScreen {
 	
 	public void reset() {
 		_bgColor = CatchyColors.TITLE_SCREEN_BG;
-		_borderColor = CatchyColors.TITLE_SCREEN_BORDER;
 		_logoScale.setValue(0);
 		_logoScale.setTarget(1);
 	}
 	
 	public void update() {
-		pg.beginDraw();
+		canvas.beginDraw();
 		
 		// set game bg
-		pg.background( _bgColor );
+		canvas.background( _bgColor );
 		
 		drawConfetti();
 		drawLogo();
 		drawBorder();
 		
-		pg.endDraw();
+		canvas.endDraw();
 	}
 	
 	protected void drawConfetti() {
@@ -74,14 +61,14 @@ public class CatchyTitleScreen {
 		// launch new confetti
 		if( p.millis() > _confettiLaunchTime + 1000 ) {
 			float spacing = p.scaleV(200);
-			for( float x = -spacing; x < pg.width + spacing; x += spacing ) {
+			for( float x = -spacing; x < canvas.width + spacing; x += spacing ) {
 				// cycle confetti index
 				_confettiLaunchIndex++;
 				if( _confettiLaunchIndex >= _confetti.size() ) _confettiLaunchIndex = 0;
 				
 				// launch new particles with randomness relative to screen size
-				float floatXRange = p.width / 36f; 
-				float floatYRange = p.height / 6f; 
+				float floatXRange = canvas.width / 36f; 
+				float floatYRange = canvas.height / 6f; 
 				_confetti.get( _confettiLaunchIndex ).launchAt(x + p.random(-floatXRange,floatXRange), p.random(-floatYRange*2,-floatYRange) );
 			}
 			_confettiLaunchTime = p.millis();
@@ -89,18 +76,23 @@ public class CatchyTitleScreen {
 	}
 	
 	protected void drawLogo() {
-		DrawUtil.setDrawCenter(pg);
+		DrawUtil.setDrawCenter(canvas);
 		_logoScale.update();
-		pg.shape( p.gameGraphics.catchyLogo, pg.width * 0.5f, pg.height * 0.5f, p.gameGraphics.catchyLogo.width * p.scaleV(_logoScale.val()), p.gameGraphics.catchyLogo.height * p.scaleV(_logoScale.val()) );
+		canvas.shape( p.gameGraphics.catchyLogo, canvas.width * 0.5f, canvas.height * 0.5f, p.scaleH(p.gameGraphics.catchyLogo.width * _logoScale.val()), p.scaleH(p.gameGraphics.catchyLogo.height * _logoScale.val()) );
 	}
 	
 	protected void drawBorder() {
 		// draw border
-		DrawUtil.setDrawCorner(pg);
-		pg.noFill();
-		pg.stroke( _borderColor );
-		pg.strokeWeight( 12 );
-		pg.rect(0, 0, pg.width, pg.height);
+		DrawUtil.setDrawCorner(canvas);
+		canvas.noFill();
+		
+		canvas.stroke( CatchyColors.TITLE_SCREEN_BORDER );
+		canvas.strokeWeight( p.scaleV(120) );
+		canvas.rect(0, 0, canvas.width, canvas.height);
+		
+		canvas.stroke( CatchyColors.INTRO_SCREENS_BG );
+		canvas.strokeWeight( p.scaleV(60) );
+		canvas.rect(0, 0, canvas.width, canvas.height);
 	}
 	
 	public class ConfettiParticle {
@@ -136,14 +128,14 @@ public class CatchyTitleScreen {
 				float xOsc = 6 * P.sin(_incSpeed * p.millis());
 				float yOsc = 2 * P.cos(_incSpeed * p.millis());
 						
-				DrawUtil.setDrawCenter(pg);
-				pg.pushMatrix();
-				pg.translate(_x + xOsc, _y + yOsc);
-				pg.rotateZ(_rot);
-				pg.shape( p.gameGraphics.logoConfetti, 0, 0, scaledW, scaledH );
-				pg.popMatrix();
+				DrawUtil.setDrawCenter(canvas);
+				canvas.pushMatrix();
+				canvas.translate(_x + xOsc, _y + yOsc);
+				canvas.rotateZ(_rot);
+				canvas.shape( p.gameGraphics.logoConfetti, 0, 0, scaledW, scaledH );
+				canvas.popMatrix();
 				
-				if( _y > pg.height + 20 ) {
+				if( _y > canvas.height + 20 ) {
 					active = false;
 				}
 			}

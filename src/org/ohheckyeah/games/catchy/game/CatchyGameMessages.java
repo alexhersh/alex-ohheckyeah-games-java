@@ -2,6 +2,8 @@ package org.ohheckyeah.games.catchy.game;
 
 import org.ohheckyeah.games.catchy.Catchy;
 
+import processing.core.PGraphics;
+
 import com.haxademic.core.app.P;
 import com.haxademic.core.draw.util.DrawUtil;
 import com.haxademic.core.math.easing.ElasticFloat;
@@ -9,6 +11,7 @@ import com.haxademic.core.math.easing.ElasticFloat;
 public class CatchyGameMessages {
 	
 	protected Catchy p;
+	protected PGraphics pg;
 	
 	protected float _messageX = 0;
 	protected float _messageYHidden = -150;
@@ -27,11 +30,12 @@ public class CatchyGameMessages {
 
 	public CatchyGameMessages() {
 		p = (Catchy)P.p;
+		pg = p.pg;
 		
 		// calculate responsive sizes
-		_messageX = p.width / 2f;
+		_messageX = pg.width / 2f;
 		_messageYHidden = p.scaleV(-150);
-		_messageYShowing = p.height * .2f;
+		_messageYShowing = pg.height * .2f;
 		
 	}
 	
@@ -42,35 +46,35 @@ public class CatchyGameMessages {
 		_messageTieY.update();
 
 		if( _playerDetectionText != null && _messageWaitingY.val() > 0 ) {
-			DrawUtil.setDrawCenter(p);
-			p.pushMatrix();
-			p.translate( _messageX, _messageWaitingY.val() );
-			p.image( _playerDetectionText.image(), 0, 0, _playerDetectionText.image().width, _playerDetectionText.image().height );
-			p.popMatrix();
+			DrawUtil.setDrawCenter(pg);
+			pg.pushMatrix();
+			pg.translate( _messageX, _messageWaitingY.val() );
+			pg.image( _playerDetectionText.image(), 0, 0, _playerDetectionText.image().width, _playerDetectionText.image().height );
+			pg.popMatrix();
 		}
 
 		if( _countdownText != null && _messageCountdownY.val() > 0 ) {
-			DrawUtil.setDrawCenter(p);
-			p.pushMatrix();
-			p.translate( _messageX, _messageCountdownY.val() );
-			p.image( _countdownText.image(), 0, 0, _countdownText.image().width, _countdownText.image().height );
-			p.popMatrix();
+			DrawUtil.setDrawCenter(pg);
+			pg.pushMatrix();
+			pg.translate( _messageX, _messageCountdownY.val() );
+			pg.image( _countdownText.image(), 0, 0, _countdownText.image().width, _countdownText.image().height );
+			pg.popMatrix();
 		}
 
 		if( _winnerText != null && _messageWinnerY.val() > 0 ) {
-			DrawUtil.setDrawCenter(p);
-			p.pushMatrix();
-			p.translate( _messageWinnerX, _messageWinnerY.val() );
-			p.image( _winnerText.image(), 0, 0, _winnerText.image().width, _winnerText.image().height );
-			p.popMatrix();
+			DrawUtil.setDrawCenter(pg);
+			pg.pushMatrix();
+			pg.translate( _messageWinnerX, _messageWinnerY.val() );
+			pg.image( _winnerText.image(), 0, 0, _winnerText.image().width, _winnerText.image().height );
+			pg.popMatrix();
 		}
 		
 		if( _tieText != null && _messageTieY.val() > 0 ) {
-			DrawUtil.setDrawCenter(p);
-			p.pushMatrix();
-			p.translate( _messageX, _messageTieY.val() );
-			p.image( _tieText.image(), 0, 0, _tieText.image().width, _tieText.image().height );
-			p.popMatrix();
+			DrawUtil.setDrawCenter(pg);
+			pg.pushMatrix();
+			pg.translate( _messageX, _messageTieY.val() );
+			pg.image( _tieText.image(), 0, 0, _tieText.image().width, _tieText.image().height );
+			pg.popMatrix();
 		}
 	}
 	

@@ -36,7 +36,7 @@ public class OHYIntroScreens {
 		pg = p.pg;
 
 		canvas = p.createGraphics( pg.width, pg.height, P.OPENGL );
-		canvas.smooth(OpenGLUtil.SMOOTH_LOW);
+		canvas.smooth(OpenGLUtil.SMOOTH_MEDIUM);
 		_bgColor = OHYColors.INTRO_SCREENS_BG;
 		
 		SCREEN_TIME = p.appConfig.getInt("intro_screens_time", SCREEN_TIME) * 1000;
@@ -48,7 +48,7 @@ public class OHYIntroScreens {
 		_screens = new ArrayList<OHYBaseIntroScreen>();
 		_screens.add( new OHYHugItOutScreen() );
 		if( hasTextMessageLineService ) _screens.add( new OHYOnereachScreen() );
-		_screens.add( titleScreen );
+		if( titleScreen != null ) _screens.add( titleScreen );
 		_screens.add( new OHYPartnersCreditsScreen() );
 		if( sponsorsImagePath != null ) _screens.add( new OHYSponsorsScreen() );
 

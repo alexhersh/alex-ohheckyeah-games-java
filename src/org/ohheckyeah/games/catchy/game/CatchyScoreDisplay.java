@@ -31,7 +31,7 @@ public class CatchyScoreDisplay {
 	public CatchyScoreDisplay( CatchyGamePlay catchyGamePlay ) {
 		p = (Catchy)P.p;
 		this.catchyGamePlay = catchyGamePlay;
-		pg = catchyGamePlay.pg;
+		pg = catchyGamePlay.canvas;
 		
 		
 		_scoreFontRenderer = new CustomFontText2D( p, p.gameGraphics.font, p.scaleV(36), CatchyColors.MAIN_TEXT_COLOR, CustomFontText2D.ALIGN_CENTER, (int)p.scaleV(80), (int)p.scaleV(80) );

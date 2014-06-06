@@ -29,7 +29,7 @@ public class CatchyWaitingSpinner {
 	public CatchyWaitingSpinner( CatchyGamePlay catchyGamePlay ) {
 		p = (Catchy)P.p;
 		this.catchyGamePlay = catchyGamePlay;
-		pg = catchyGamePlay.pg;
+		pg = catchyGamePlay.canvas;
 		
 		// calculate responsive sizes
 		_spinnerX = catchyGamePlay.gameHalfWidth;

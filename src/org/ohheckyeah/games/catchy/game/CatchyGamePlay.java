@@ -36,6 +36,7 @@ public class CatchyGamePlay {
 	protected boolean _countdownShowing = false;
 	
 	public PGraphics pg;
+	public PGraphics canvas;
 	
 	protected int _bgColor;
 	protected CatchyCharacter _character;
@@ -56,14 +57,15 @@ public class CatchyGamePlay {
 	
 	public CatchyGamePlay( int gameIndex, int gameWidth, KinectRegion kinectRegion, boolean isRemoteKinect ) {
 		p = (Catchy) P.p;
+		pg = p.pg;
 		this.gameIndex = gameIndex;
 		this.gameWidth = gameWidth;
 		this.gameHalfWidth = Math.round( gameWidth / 2f );
 		_kinectRegion = kinectRegion;
 		_isRemoteKinect = isRemoteKinect;
 		
-		pg = p.createGraphics( gameWidth, p.height, P.OPENGL );
-		pg.smooth(OpenGLUtil.SMOOTH_MEDIUM);
+		canvas = p.createGraphics( gameWidth, pg.height, P.OPENGL );
+		canvas.smooth(OpenGLUtil.SMOOTH_MEDIUM);
 		
 		_easedControlX = new EasingFloat( 0.5f, 6f );
 		_autoControl = p.random(0.001f, 0.005f);
@@ -199,11 +201,11 @@ public class CatchyGamePlay {
 	}
 	
 	public void update() {
-		pg.beginDraw();
-		pg.background( _bgColor );
+		canvas.beginDraw();
+		canvas.background( _bgColor );
 		updateControls();
 		drawGraphicsLayers();
-		pg.endDraw();
+		canvas.endDraw();
 	}
 	
 	protected void updateControls() {
@@ -256,7 +258,7 @@ public class CatchyGamePlay {
 	
 	// draw graphics ------------------------------------------------------------------
 	protected void drawGraphicsLayers() {
-		DrawUtil.setDrawCenter(pg);
+		DrawUtil.setDrawCenter(canvas);
 		_mountain.update(_playerOffset);
 		_grass.update(_playerOffset);
 		_character.update(_playerOffset);

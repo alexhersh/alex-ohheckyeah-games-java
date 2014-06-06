@@ -41,12 +41,14 @@ extends OHYBaseIntroScreen {
 		canvas.clear();
 		canvas.background( OHYColors.INTRO_SCREENS_BG_BLUE );
 		
+		// draw instructions
 		DrawUtil.setDrawCenter(canvas);
 		canvas.pushMatrix();
 		canvas.translate( canvas.width * 0.5f, canvas.height * 0.5f );
 		canvas.shape( _textNumberText, 0, 0, _textNumberText.width * _letterboxScale, _textNumberText.height * _letterboxScale );
 		canvas.popMatrix();
 		
+		// draw onereach logo
 		DrawUtil.setDrawCorner(canvas);
 		float logoScale = 0.3f;
 		float logoW = p.scaleV(_logo.width) * logoScale;

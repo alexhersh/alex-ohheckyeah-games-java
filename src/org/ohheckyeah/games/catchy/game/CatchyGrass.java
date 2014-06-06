@@ -20,7 +20,7 @@ public class CatchyGrass {
 	public CatchyGrass( CatchyGamePlay catchyGamePlay ) {
 		p = (Catchy)P.p;
 		this.catchyGamePlay = catchyGamePlay;
-		pg = catchyGamePlay.pg;
+		pg = catchyGamePlay.canvas;
 		
 	}
 	

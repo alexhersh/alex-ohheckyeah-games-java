@@ -24,7 +24,7 @@ public class CatchyMountainAndBushes {
 	public CatchyMountainAndBushes( CatchyGamePlay catchyGamePlay ) {
 		p = (Catchy)P.p;
 		this.catchyGamePlay = catchyGamePlay;
-		pg = catchyGamePlay.pg;
+		pg = catchyGamePlay.canvas;
 		
 		_scale = new EasingFloat(0, 4);
 		_bushesOffsetY = p.scaleV(28);

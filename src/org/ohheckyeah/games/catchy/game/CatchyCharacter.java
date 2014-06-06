@@ -45,7 +45,7 @@ public class CatchyCharacter {
 	public CatchyCharacter( CatchyGamePlay catchyGamePlay ) {
 		p = (Catchy)P.p;
 		this.catchyGamePlay = catchyGamePlay;
-		pg = catchyGamePlay.pg;
+		pg = catchyGamePlay.canvas;
 		
 		_color = p.color(0);
 	}

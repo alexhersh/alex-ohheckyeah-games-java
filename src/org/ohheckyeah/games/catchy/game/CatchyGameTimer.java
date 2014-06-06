@@ -4,6 +4,8 @@ import org.ohheckyeah.games.catchy.Catchy;
 import org.ohheckyeah.games.catchy.assets.CatchyColors;
 import org.ohheckyeah.shared.app.OHYBaseGame.GameState;
 
+import processing.core.PGraphics;
+
 import com.haxademic.core.app.P;
 import com.haxademic.core.draw.text.CustomFontText2D;
 import com.haxademic.core.math.easing.EasingFloat;
@@ -12,6 +14,7 @@ import com.haxademic.core.text.StringFormatter;
 public class CatchyGameTimer {
 	
 	protected Catchy p;
+	protected PGraphics pg;
 	protected int _gameStartTime = 0;
 	protected int _gameEndTime = 0;
 	protected int _curGameTime = 0;
@@ -26,6 +29,8 @@ public class CatchyGameTimer {
 
 	public CatchyGameTimer( int gameSeconds ) {
 		p = (Catchy)P.p;
+		pg = p.pg;
+		
 		_timerFontRenderer = new CustomFontText2D( p, p.gameGraphics.font, p.scaleV(60), CatchyColors.MAIN_TEXT_COLOR, CustomFontText2D.ALIGN_LEFT, (int) p.scaleV(p.gameGraphics.timerBanner.width), (int)p.scaleV(80) );
 		
 		GAME_LENGTH_SECONDS = gameSeconds;
@@ -70,15 +75,15 @@ public class CatchyGameTimer {
 	public void drawTimer() {
 		_offsetY.update();
 		
-		p.pushMatrix();
-		p.translate( 0, _offsetY.value() );
+		pg.pushMatrix();
+		pg.translate( 0, _offsetY.value() );
 		
-		p.shape( p.gameGraphics.timerBanner, 0, 0, p.scaleV(p.gameGraphics.timerBanner.width), p.scaleV(p.gameGraphics.timerBanner.height) );
+		pg.shape( p.gameGraphics.timerBanner, 0, 0, p.scaleV(p.gameGraphics.timerBanner.width), p.scaleV(p.gameGraphics.timerBanner.height) );
 		int time = ( _curGameTime <= 0 ) ? 0 : _curGameTime;
 		_timerFontRenderer.updateText( StringFormatter.timeFromMilliseconds( time, false) );
-		p.image( _timerFontRenderer.getTextPImage(), p.scaleV(55), p.scaleV(9), _timerFontRenderer.getTextPImage().width, _timerFontRenderer.getTextPImage().height );
+		pg.image( _timerFontRenderer.getTextPImage(), p.scaleV(55), p.scaleV(9), _timerFontRenderer.getTextPImage().width, _timerFontRenderer.getTextPImage().height );
 		
-		p.popMatrix();
+		pg.popMatrix();
 	}
 		
 	/**

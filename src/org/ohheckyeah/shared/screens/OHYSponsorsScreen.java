@@ -24,7 +24,6 @@ extends OHYBaseIntroScreen {
 	public OHYSponsorsScreen() {
 		super();
 		loadSponsorsImage();
-		buildText();
 	}
 	
 	protected void loadSponsorsImage() {
@@ -39,16 +38,12 @@ extends OHYBaseIntroScreen {
 		}
 	}
 	
-	protected void buildText() {
-		float fontSize = 80;
-		_text = new OHYTextMessage( "Extra hugs to:", p.scaleV(fontSize), pg.width, p.scaleV(fontSize) * 1.5f );
-	}
-	
 	public void reset() {
 		
 	}
 	
 	public void animateIn() {
+		if( _text == null ) _text = buildIntroText( "Extra hugs to:" );
 		yMove = canvas.height * 0.3f + _text.image().height;
 		yMoveInc = p.scaleV(0.17f);
 		yCurMoveInc = yMoveInc;

@@ -23,10 +23,10 @@ public class OHYTextMessage {
 		
 		_fontSize = fontSize;
 		
-		messageFontRenderer = new CustomFontText2D( p, p.ohyGraphics.font, p.scaleV(fontSize), OHYColors.MAIN_TEXT_COLOR, CustomFontText2D.ALIGN_CENTER, (int) p.scaleV(baseWidth), (int)p.scaleV(fontSize * 2) );
+		messageFontRenderer = new CustomFontText2D( p, p.ohyGraphics.font, (int) fontSize, OHYColors.MAIN_TEXT_COLOR, CustomFontText2D.ALIGN_CENTER, (int) baseWidth, (int) fontSize * 2 );
 		messageFontRenderer.updateText( text );
 
-		canvas = p.createGraphics( (int) p.scaleV(baseWidth), (int) p.scaleV(baseHeight), P.OPENGL );
+		canvas = p.createGraphics( (int) baseWidth, (int) baseHeight, P.OPENGL );
 		redraw();
 	}
 	
@@ -37,12 +37,12 @@ public class OHYTextMessage {
 		// draw text
 		DrawUtil.setDrawCenter( canvas );
 		float centerX = canvas.width/2f;
-		canvas.image( messageFontRenderer.getTextPImage(), centerX, p.scaleV(_fontSize/2f), messageFontRenderer.getTextPImage().width, messageFontRenderer.getTextPImage().height );
+		canvas.image( messageFontRenderer.getTextPImage(), centerX, _fontSize/2f, messageFontRenderer.getTextPImage().width, messageFontRenderer.getTextPImage().height );
 
 		// draw underline
-		canvas.fill(0);
-		float lineW = messageFontRenderer.getRightmostPixel() - messageFontRenderer.getLeftmostPixel();
-		canvas.rect( centerX, canvas.height - p.scaleV(10)/2f, lineW, p.scaleV(10) );
+//		canvas.fill(0);
+//		float lineW = messageFontRenderer.getRightmostPixel() - messageFontRenderer.getLeftmostPixel();
+//		canvas.rect( centerX, canvas.height - p.scaleV(10)/2f, lineW, p.scaleV(10) );
 
 		canvas.endDraw();
 	}

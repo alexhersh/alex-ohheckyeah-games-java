@@ -94,7 +94,7 @@ extends OHYBaseGame
 	
 	public void setGameState( GameState state ) {
 		_gameStateQueued = state;
-		 P.println("GameState: ",_gameStateQueued);
+		 // P.println("GameState: ",_gameStateQueued);
 	}
 	
 	protected void swapGameState() {

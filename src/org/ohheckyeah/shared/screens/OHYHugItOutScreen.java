@@ -20,18 +20,21 @@ extends OHYBaseIntroScreen {
 	
 	public OHYHugItOutScreen() {
 		super();
-
+		buildText();
+	}
+	
+	protected void buildText() {
 		_messages = new ArrayList<String>();
 		_messages.add( "#OhHeckYeah" );
 		_messages.add( "Now hug it out" );
-		_messages.add( "How about a high five?" );
-		_messages.add( "Oh. Heck. Yeah." );
-		_messages.add( "Meet someone new today!" );
 		_messages.add( "Nice match!" );
+		_messages.add( "Oh. Heck. Yeah." );
+		_messages.add( "How about a high five?" );
+		_messages.add( "Meet someone new today!" );
 		_messages.add( "Everybody wins, sometimes" );
+		_messages.add( "Shake hands, good sports!" );
 		
-		int fontSize = 80;
-		_text = new OHYTextMessage( _messages.get(0), p.scaleV(fontSize), pg.width, p.scaleV(fontSize) * 1.5f );
+		_text = buildIntroText( _messages.get(0) );
 	}
 	
 	public void reset() {
@@ -46,9 +49,9 @@ extends OHYBaseIntroScreen {
 		_textY.setCurrent( canvas.height * 0.7f );
 		_textY.setTarget( canvas.height * 0.4f );
 		_logoScale.setCurrent(0);
-		_logoScale.setTarget(1f);
-		_logoY.setCurrent(canvas.height * 0.75f);
-		_logoY.setTarget(canvas.height * 0.75f);
+		_logoScale.setTarget(1.4f);
+		_logoY.setCurrent(canvas.height * 0.7f);
+		_logoY.setTarget(canvas.height * 0.7f);
 	}
 	
 	public void animateOut() {
@@ -58,6 +61,10 @@ extends OHYBaseIntroScreen {
 	}
 	
 	public void update() {
+		if(p.frameCount == 4) {
+			buildText();
+		}
+		
 		// no need to update since we've cached the screen
 		_textY.update();
 		_logoScale.update();

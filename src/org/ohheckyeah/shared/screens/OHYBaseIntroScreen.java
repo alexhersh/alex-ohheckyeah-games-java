@@ -1,5 +1,6 @@
 package org.ohheckyeah.shared.screens;
 
+import org.ohheckyeah.shared.OHYTextMessage;
 import org.ohheckyeah.shared.app.OHYBaseGame;
 
 import processing.core.PGraphics;
@@ -19,17 +20,16 @@ public class OHYBaseIntroScreen {
 		p = (OHYBaseGame) P.p;
 		pg = p.pg;
 		
-		canvas = p.createGraphics( p.width, p.height, P.OPENGL );
+		canvas = p.createGraphics( pg.width, pg.height, P.OPENGL );
 		canvas.smooth(OpenGLUtil.SMOOTH_MEDIUM);
+	}
+	
+	protected OHYTextMessage buildIntroText( String text ) {
+		float fontSize = p.scaleH(80);
+		return new OHYTextMessage( text, fontSize, pg.width, fontSize * 2f );
 	}
 
 	public void reset() {
-//		// draw message once, each time the text changes
-//		canvas.beginDraw();
-//		canvas.clear();
-//		canvas.background(255);
-//
-//		canvas.endDraw();
 	}
 	
 	public void update() {

@@ -42,7 +42,7 @@ public class CatchyDropper {
 	public CatchyDropper( CatchyGamePlay catchyGamePlay ) {
 		p = (Catchy)P.p;
 		this.catchyGamePlay = catchyGamePlay;
-		pg = catchyGamePlay.pg;
+		pg = catchyGamePlay.canvas;
 		_positionX = new EasingFloat(0,5);
 		_positionY = new EasingFloat(0,4);
 		_dropper = p.gameGraphics.dropperReady;
