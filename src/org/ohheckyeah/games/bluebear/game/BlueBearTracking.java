@@ -1,34 +1,22 @@
 package org.ohheckyeah.games.bluebear.game;
 
-import java.text.SimpleDateFormat;
-import java.util.Locale;
+import org.ohheckyeah.shared.OHYGameTracking;
 
-import com.haxademic.core.app.P;
 import com.haxademic.core.system.FileUtil;
 
-public class BlueBearTracking {
+public class BlueBearTracking
+extends OHYGameTracking {
 	
-	// format for RFC 1123 date string -- "Sun, 06 Nov 1994 08:49:37 GMT"
-	// we force our locale here as all http dates are in english
-	private final static Locale loc = Locale.US;
-	private final static String rfc1123Pattern ="EEE, dd MMM yyyyy HH:mm:ss z";
-	public final static SimpleDateFormat rfc1123Format = new SimpleDateFormat(rfc1123Pattern, loc);
-
-	protected String outputDir = FileUtil.getHaxademicOutputPath() + "games/bluebear/";
-	protected String cameraImageDir = outputDir + "camera/";
-	protected String trackingFileDir = outputDir + "text/";
-	protected String trackingGamesFilePath = trackingFileDir + "bluebear-game-history.csv";
+	protected String trackingGamesFilePath;
 	
 	public BlueBearTracking() {
+		super("bluebear");
 		initTrackingFile();
 	}
 	
 	protected void initTrackingFile() {
-		// create directory if it doesn't exist
-		if( FileUtil.fileOrPathExists( outputDir ) == false ) FileUtil.createDir( outputDir );
-		if( FileUtil.fileOrPathExists( cameraImageDir ) == false ) FileUtil.createDir( cameraImageDir );
-		if( FileUtil.fileOrPathExists( trackingFileDir ) == false ) FileUtil.createDir( trackingFileDir );
 		// create csv files with headers
+		trackingGamesFilePath = trackingTextDir + "bluebear-game-history.csv";
 		if( FileUtil.fileOrPathExists( trackingGamesFilePath ) == false ) {
 			FileUtil.writeTextToFile( trackingGamesFilePath, "Date,Game Length,Remaining Time,Score,Remaining Health,Obstacles Hit,Obstacles Dropped,Bear Lane Changes,Coins Collected,Honeypots Collected" + "\n" );
 		}
@@ -48,10 +36,5 @@ public class BlueBearTracking {
 				coinsGrabbed +","+ 
 				honeypotsGrabbed + "\n" 
 		);
-	}
-	
-	public void saveCameraImage( String date ) {
-		// save rgb kinect image with the game timestamp
-		P.p.kinectWrapper.getRgbImage().save( cameraImageDir + "/" + date + ".png" );
 	}
 }

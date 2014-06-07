@@ -1,38 +1,27 @@
 package org.ohheckyeah.games.catchy.game;
 
-import java.text.SimpleDateFormat;
-import java.util.Locale;
+import org.ohheckyeah.shared.OHYGameTracking;
 
-import com.haxademic.core.app.P;
 import com.haxademic.core.system.FileUtil;
 
-public class CatchyTracking {
+public class CatchyTracking
+extends OHYGameTracking {
 	
-	// format for RFC 1123 date string -- "Sun, 06 Nov 1994 08:49:37 GMT"
-	// we force our locale here as all http dates are in english
-	private final static Locale loc = Locale.US;
-	private final static String rfc1123Pattern ="EEE, dd MMM yyyyy HH:mm:ss z";
-	public final static SimpleDateFormat rfc1123Format = new SimpleDateFormat(rfc1123Pattern, loc);
-
-	protected String outputDir = FileUtil.getHaxademicOutputPath() + "games/catchy/";
-	protected String cameraImageDir = outputDir + "camera/";
-	protected String trackingFileDir = outputDir + "text/";
-	protected String trackingGamesFilePath = trackingFileDir + "catchy-game-history.csv";
-	protected String trackingPlayersFilePath = trackingFileDir + "catchy-player-history.csv";
+	protected String trackingGamesFilePath;
+	protected String trackingPlayersFilePath;
 	
 	public CatchyTracking() {
+		super("catchy");
 		initTrackingFile();
 	}
 	
 	protected void initTrackingFile() {
-		// create directory if it doesn't exist
-		if( FileUtil.fileOrPathExists( outputDir ) == false ) FileUtil.createDir( outputDir );
-		if( FileUtil.fileOrPathExists( cameraImageDir ) == false ) FileUtil.createDir( cameraImageDir );
-		if( FileUtil.fileOrPathExists( trackingFileDir ) == false ) FileUtil.createDir( trackingFileDir );
 		// create csv files with headers
+		trackingGamesFilePath = trackingTextDir + "catchy-game-history.csv";
 		if( FileUtil.fileOrPathExists( trackingGamesFilePath ) == false ) {
 			FileUtil.writeTextToFile( trackingGamesFilePath, "Date,Number of Players,Winner Indexes,Winner Score,Low Score" + "\n" );
 		}
+		trackingPlayersFilePath = trackingTextDir + "catchy-player-history.csv";
 		if( FileUtil.fileOrPathExists( trackingPlayersFilePath ) == false ) {
 			FileUtil.writeTextToFile( trackingPlayersFilePath, "Date,Player Index,Score,Win,Character" + "\n" );
 		}
@@ -58,10 +47,5 @@ public class CatchyTracking {
 				didWin +","+ 
 				characterName + "\n" 
 		);
-	}
-	
-	public void saveCameraImage( String date ) {
-		// save rgb kinect image with the game timestamp
-		P.p.kinectWrapper.getRgbImage().save( cameraImageDir + "/" + date + ".png" );
 	}
 }
