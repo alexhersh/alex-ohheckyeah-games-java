@@ -36,7 +36,12 @@ extends OHYBaseGame
 	public static void main(String args[]) {
 		// _isFullScreen = true;
 		_hasChrome = false;
-		PApplet.main(new String[] { "--hide-stop", "--bgcolor=000000", "org.ohheckyeah.games.catchy.Catchy" });
+		boolean isSecondScreen = false;
+		if( isSecondScreen ) {
+			PApplet.main(new String[] { "--hide-stop", "--bgcolor=000000", "--location=-1280,0", "--display=1", "org.ohheckyeah.games.catchy.Catchy" });		// requires hiding os x 2nd screen menu bar: http://www.cultofmac.com/255910/hide-the-menu-bar-on-your-secondary-monitor-with-mavericks-os-x-tips/
+		} else {
+			PApplet.main(new String[] { "--hide-stop", "--bgcolor=000000", "org.ohheckyeah.games.catchy.Catchy" });
+		}
 	}
 
 	protected int _gameWidth = 0;
@@ -66,7 +71,6 @@ extends OHYBaseGame
 
 	// non-gameplay screens
 	protected CatchyGameMessages _gameMessages;
-	
 	
 	
 	public void setup() {
