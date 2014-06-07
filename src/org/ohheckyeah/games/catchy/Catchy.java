@@ -412,9 +412,10 @@ extends OHYBaseGame
 				DrawUtil.setDrawCorner(pg);
 				pg.fill(255);
 				pg.noStroke();
-				float dividerX = _gameWidth * i - gameGraphics.gameDivider.width * 0.5f;
-				float dividerH = ( gameScaleV > 1 ) ? scaleV( gameGraphics.gameDivider.height ) : gameGraphics.gameDivider.height;
-				pg.shape( gameGraphics.gameDivider, dividerX, _dividerYOffset.value(), gameGraphics.gameDivider.width, dividerH );
+				float dividerX = _gameWidth * i - scaleV(gameGraphics.gameDivider.width) * 0.5f;
+//				float dividerH = ( gameScaleV > 1 ) ? scaleV( gameGraphics.gameDivider.height ) : gameGraphics.gameDivider.height;
+				pg.shape( gameGraphics.gameDivider, dividerX, _dividerYOffset.value(), scaleV(gameGraphics.gameDivider.width), scaleV(gameGraphics.gameDivider.height) );
+				
 				// draw timers
 				DrawUtil.setDrawCenter(pg);
 				pg.pushMatrix();
