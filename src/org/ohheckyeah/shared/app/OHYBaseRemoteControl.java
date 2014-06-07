@@ -30,7 +30,9 @@ extends OHYKinectApp {
 		for( int i=0; i < NUM_PLAYERS; i++ ) {
 			kinectRegion = _kinectGrid.getRegion(i);
 			if( i > 0 ) kinectOutput += DATA_GRID_DELIMITER; 
-			kinectOutput += kinectRegion.controlX() + DATA_REGION_DELIMITER + kinectRegion.controlZ() + DATA_REGION_DELIMITER + kinectRegion.pixelCount();
+			float controlZ = kinectRegion.controlZ();
+			if( p.kinectWrapper.isMirrored() == false ) controlZ = kinectRegion.controlZ() * -1f;
+			kinectOutput += kinectRegion.controlX() + DATA_REGION_DELIMITER + controlZ + DATA_REGION_DELIMITER + kinectRegion.pixelCount();
 		}
 		return kinectOutput;
 	}

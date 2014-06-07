@@ -161,7 +161,8 @@ public class TinkerBotPlayer {
 	
 	public void updateControls() {
 		if( p.kinectWrapper != null || _isRemoteKinect == true ) {
-			float controlZ = ( p.kinectWrapper.isMirrored() == true ) ? _kinectRegion.controlZ() : _kinectRegion.controlZ() * -1f;
+			float controlZ = _kinectRegion.controlZ();
+			if( p.kinectWrapper != null && p.kinectWrapper.isMirrored() == false ) controlZ = _kinectRegion.controlZ() * -1f;
 			// _position = P.round( NUM_POSITIONS * MathUtil.getPercentWithinRange( -0.5f, 0.5f, controlZ ) );
 			// turn -0.5, 0.5 into number of positions int
 			_position = P.round( P.map( controlZ, -0.5f, 0.5f, -TinkerBotLayout.HALF_POSITIONS * 0.1f, TinkerBotLayout.HALF_POSITIONS * 0.1f ) * 10 );
