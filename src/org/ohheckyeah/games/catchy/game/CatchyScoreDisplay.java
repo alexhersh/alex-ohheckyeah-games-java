@@ -27,6 +27,11 @@ public class CatchyScoreDisplay {
 	protected float _scoreYHiding;
 	
 	protected boolean _isRightSide = false;
+	
+	protected float _sizeScale = 1.35f;
+	protected float _sizeLargeBg = 80f * _sizeScale;
+	protected float _sizeSmallCircle = 60f * _sizeScale;
+	protected float _sizeFont = 36 * _sizeScale;
 
 	public CatchyScoreDisplay( CatchyGamePlay catchyGamePlay ) {
 		p = (Catchy)P.p;
@@ -34,11 +39,11 @@ public class CatchyScoreDisplay {
 		pg = catchyGamePlay.canvas;
 		
 		
-		_scoreFontRenderer = new CustomFontText2D( p, p.gameGraphics.font, p.scaleV(36), CatchyColors.MAIN_TEXT_COLOR, CustomFontText2D.ALIGN_CENTER, (int)p.scaleV(80), (int)p.scaleV(80) );
+		_scoreFontRenderer = new CustomFontText2D( p, p.gameGraphics.font, p.scaleV(_sizeFont), CatchyColors.MAIN_TEXT_COLOR, CustomFontText2D.ALIGN_CENTER, (int)p.scaleV(_sizeLargeBg), (int)p.scaleV(_sizeLargeBg) );
 		_scoreEaser = new EasingFloat(0,5);
 		
 		_scoreYShowing = p.scaleV(68f);
-		_scoreYHiding = p.scaleV(-60f);
+		_scoreYHiding = p.scaleV(-_sizeLargeBg);
 		_scoreY = new EasingFloat(_scoreYHiding,5);
 		_scoreScale = new EasingFloat(1,7);
 		
@@ -104,27 +109,27 @@ public class CatchyScoreDisplay {
 		pg.noStroke();
 		
 		if( _isRightSide == false ) {
-			pg.translate( p.scaleV(71f * _scoreScale.value()), _scoreY.value() * _scoreScale.value() );
+			pg.translate( p.scaleV(71f * _scoreScale.value()) * _sizeScale, _scoreY.value() * _scoreScale.value() * _sizeScale );
 		} else {
-			pg.translate( pg.width - p.scaleV(71f * _scoreScale.value()), _scoreY.value() * _scoreScale.value() );
+			pg.translate( pg.width - p.scaleV(71f * _scoreScale.value()) * _sizeScale, _scoreY.value() * _scoreScale.value() * _sizeScale );
 		}
 		pg.scale( _scoreScale.value() );
 		
 		// draw shadow
 		pg.fill(0, 25);
-		pg.ellipse( p.scaleV(-6f), p.scaleV(11f), p.scaleV(80f), p.scaleV(80f) );
+		pg.ellipse( p.scaleV(-6f * _sizeScale), p.scaleV(11f * _sizeScale), p.scaleV(_sizeLargeBg), p.scaleV(_sizeLargeBg) );
 		
 		// draw large bg
 		pg.fill( _color );
-		pg.ellipse( 0, 0, p.scaleV(80f), p.scaleV(80f) );
+		pg.ellipse( 0, 0, p.scaleV(_sizeLargeBg), p.scaleV(_sizeLargeBg) );
 		
 		// draw small shadow
 		pg.fill(0, 25);
-		pg.ellipse( 0, p.scaleV(3f), p.scaleV(60f), p.scaleV(60f) );
+		pg.ellipse( 0, p.scaleV(3f * _sizeScale), p.scaleV(_sizeSmallCircle), p.scaleV(_sizeSmallCircle) );
 		
 		// draw small shadow
 		pg.fill(255);
-		pg.ellipse( 0, 0, p.scaleV(60f), p.scaleV(60f) );
+		pg.ellipse( 0, 0, p.scaleV(_sizeSmallCircle), p.scaleV(_sizeSmallCircle) );
 		
 		// draw text score
 		pg.image( 
