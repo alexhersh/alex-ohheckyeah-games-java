@@ -12,6 +12,7 @@ import org.ohheckyeah.games.catchy.game.CatchyGameTimer;
 import org.ohheckyeah.games.catchy.game.CatchyTracking;
 import org.ohheckyeah.games.catchy.screens.CatchyTitleScreen;
 import org.ohheckyeah.shared.app.OHYBaseGame;
+import org.ohheckyeah.shared.app.OHYBaseRemoteControl;
 import org.ohheckyeah.shared.screens.OHYIntroScreens;
 
 import processing.core.PApplet;
@@ -355,10 +356,12 @@ extends OHYBaseGame
 			setGameState( GameState.GAME_INTRO );
 		}
 		// take a screenshot & kinect image
-		if( p.kinectWrapper != null && p.kinectWrapper.isActive() ) {
-			if( p.millis() > _gameOverTime + 1000 && _gameOverRecorded == false ) {
-				_gameOverRecorded = true;
+		if( p.millis() > _gameOverTime + 1000 && _gameOverRecorded == false ) {
+			_gameOverRecorded = true;
+			if( p.kinectWrapper != null && p.kinectWrapper.isActive() ) {
 				_tracking.saveCameraImage( _trackingDateStr );
+			} else {
+				_udp.send( OHYBaseRemoteControl.ACTION_TAKE_PHOTO + _trackingDateStr, _senderIp, _senderPort );	// send the  photo message back to the remote
 			}
 		}
 	}

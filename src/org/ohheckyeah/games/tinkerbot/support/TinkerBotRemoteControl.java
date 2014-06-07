@@ -1,6 +1,7 @@
 package org.ohheckyeah.games.tinkerbot.support;
 
 import org.ohheckyeah.games.tinkerbot.assets.TinkerBotColors;
+import org.ohheckyeah.games.tinkerbot.game.TinkerBotTracking;
 import org.ohheckyeah.shared.app.OHYBaseRemoteControl;
 
 import processing.core.PApplet;
@@ -22,7 +23,7 @@ extends OHYBaseRemoteControl
 	}
 
 	public void setup() {
-		super.setup( "tinkerbot.properties" );
+		super.setup( "tinkerbot.properties", new TinkerBotTracking() );
 		_logo = p.loadShape( FileUtil.getHaxademicDataPath() + "games/tinkerbot/svg/shell/tinker-bot-logo.svg" );
 	}
 	

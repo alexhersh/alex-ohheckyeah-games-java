@@ -1,5 +1,7 @@
 package org.ohheckyeah.shared.app;
 
+import org.ohheckyeah.shared.OHYGameTracking;
+
 import com.haxademic.core.app.P;
 import com.haxademic.core.hardware.kinect.KinectRegion;
 import com.haxademic.core.system.FileUtil;
@@ -10,8 +12,12 @@ extends OHYKinectApp {
 
 	public static final String DATA_GRID_DELIMITER = "~";
 	public static final String DATA_REGION_DELIMITER = ":";
+	public static final String ACTION_TAKE_PHOTO = "photo:";
 	
-	public void setup( String propertiesFile ) {
+	protected OHYGameTracking _tracking;
+	
+	public void setup( String propertiesFile, OHYGameTracking tracking ) {
+		_tracking = tracking;
 		if( propertiesFile != null ) _customPropsFile = FileUtil.getHaxademicDataPath() + "properties/" + propertiesFile;
 		super.setup();
 		setKinectProperties();
@@ -40,6 +46,17 @@ extends OHYKinectApp {
 	protected void sendKinectGrid( String kinectData ) {
 		if( _remoteDebugging == true ) P.println("sending data: = "+kinectData);
 		_udp.send( kinectData, _receiverIp, _receiverPort );
+	}
+
+	public void receive( byte[] data, String ip, int port ) {
+		String message = new String( data );
+		if( _remoteDebugging == true ) P.println( "received: \""+message+"\" from "+ip+" on port "+port );
+		
+		if( message.indexOf(ACTION_TAKE_PHOTO) != -1 ) {
+			if( _tracking != null ) {
+				_tracking.saveCameraImage( message.replace(ACTION_TAKE_PHOTO, "") );
+			}
+		}
 	}
 
 }

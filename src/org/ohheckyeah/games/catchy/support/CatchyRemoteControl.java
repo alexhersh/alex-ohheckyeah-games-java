@@ -1,6 +1,7 @@
 package org.ohheckyeah.games.catchy.support;
 
 import org.ohheckyeah.games.catchy.assets.CatchyColors;
+import org.ohheckyeah.games.catchy.game.CatchyTracking;
 import org.ohheckyeah.shared.app.OHYBaseRemoteControl;
 
 import processing.core.PApplet;
@@ -22,7 +23,7 @@ extends OHYBaseRemoteControl
 	}
 
 	public void setup() {
-		super.setup( "catchy.properties" );
+		super.setup( "catchy.properties", new CatchyTracking() );
 		_logo = p.loadShape( FileUtil.getHaxademicDataPath() + "games/catchy/svg/shell/catchy-logo.svg" );
 	}
 	

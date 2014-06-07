@@ -1,6 +1,7 @@
 package org.ohheckyeah.games.bluebear.support;
 
 import org.ohheckyeah.games.bluebear.assets.BlueBearColors;
+import org.ohheckyeah.games.bluebear.game.BlueBearTracking;
 import org.ohheckyeah.shared.app.OHYBaseRemoteControl;
 
 import processing.core.PApplet;
@@ -22,7 +23,7 @@ extends OHYBaseRemoteControl
 	}
 
 	public void setup() {
-		super.setup( "bluebear.properties" );
+		super.setup( "bluebear.properties", new BlueBearTracking() );
 		_logo = p.loadShape( FileUtil.getHaxademicDataPath() + "games/bluebear/svg/shell/big-blue-logo.svg" );
 	}
 	
