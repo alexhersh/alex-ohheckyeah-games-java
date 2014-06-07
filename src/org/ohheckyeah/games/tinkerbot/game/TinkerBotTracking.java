@@ -14,7 +14,7 @@ public class TinkerBotTracking {
 	private final static String rfc1123Pattern ="EEE, dd MMM yyyyy HH:mm:ss z";
 	public final static SimpleDateFormat rfc1123Format = new SimpleDateFormat(rfc1123Pattern, loc);
 
-	protected String outputDir = FileUtil.getHaxademicDataPath() + "games/tinkerbot/output/";
+	protected String outputDir = FileUtil.getHaxademicOutputPath() + "games/tinkerbot/";
 	protected String cameraImageDir = outputDir + "camera/";
 	protected String trackingFileDir = outputDir + "text/";
 	protected String trackingGamesFilePath = trackingFileDir + "tinkerbot-game-history.csv";

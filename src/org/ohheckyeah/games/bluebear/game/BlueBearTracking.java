@@ -14,7 +14,7 @@ public class BlueBearTracking {
 	private final static String rfc1123Pattern ="EEE, dd MMM yyyyy HH:mm:ss z";
 	public final static SimpleDateFormat rfc1123Format = new SimpleDateFormat(rfc1123Pattern, loc);
 
-	protected String outputDir = FileUtil.getHaxademicDataPath() + "games/bluebear/output/";
+	protected String outputDir = FileUtil.getHaxademicOutputPath() + "games/bluebear/";
 	protected String cameraImageDir = outputDir + "camera/";
 	protected String trackingFileDir = outputDir + "text/";
 	protected String trackingGamesFilePath = trackingFileDir + "bluebear-game-history.csv";

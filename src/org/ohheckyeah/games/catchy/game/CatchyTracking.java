@@ -14,7 +14,7 @@ public class CatchyTracking {
 	private final static String rfc1123Pattern ="EEE, dd MMM yyyyy HH:mm:ss z";
 	public final static SimpleDateFormat rfc1123Format = new SimpleDateFormat(rfc1123Pattern, loc);
 
-	protected String outputDir = FileUtil.getHaxademicDataPath() + "games/catchy/output/";
+	protected String outputDir = FileUtil.getHaxademicOutputPath() + "games/catchy/";
 	protected String cameraImageDir = outputDir + "camera/";
 	protected String trackingFileDir = outputDir + "text/";
 	protected String trackingGamesFilePath = trackingFileDir + "catchy-game-history.csv";
