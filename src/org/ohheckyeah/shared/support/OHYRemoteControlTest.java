@@ -23,7 +23,7 @@ extends OHYBaseRemoteControl
 	}
 	
 	public void setup() {
-		super.setup( null );
+		super.setup( null, null );
 	}
 	
 	public void drawApp() {
