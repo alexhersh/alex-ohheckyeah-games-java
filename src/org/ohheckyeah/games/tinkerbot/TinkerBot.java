@@ -34,9 +34,9 @@ extends OHYBaseGame
 		_hasChrome = false;
 		boolean isSecondScreen = false;
 		if( isSecondScreen ) {
-			PApplet.main(new String[] { "--hide-stop", "--bgcolor=000000", "--location=-1280,0", "--display=1", "org.ohheckyeah.games.tinkerbot.TinkerBot" });		// requires hiding os x 2nd screen menu bar: http://www.cultofmac.com/255910/hide-the-menu-bar-on-your-secondary-monitor-with-mavericks-os-x-tips/
+			PApplet.main(new String[] { "--hide-stop", "--bgcolor=000000", "--location=-1280,0", "--display=1", TinkerBot.class.getName() });		// requires hiding os x 2nd screen menu bar: http://www.cultofmac.com/255910/hide-the-menu-bar-on-your-secondary-monitor-with-mavericks-os-x-tips/
 		} else {
-			PApplet.main(new String[] { "--hide-stop", "--bgcolor=000000", "org.ohheckyeah.games.tinkerbot.TinkerBot" });
+			PApplet.main(new String[] { "--hide-stop", "--bgcolor=000000", TinkerBot.class.getName() });
 		}
 	}
 

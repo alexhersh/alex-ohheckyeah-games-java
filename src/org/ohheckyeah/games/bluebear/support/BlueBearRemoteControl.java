@@ -19,7 +19,7 @@ extends OHYBaseRemoteControl
 	
 	public static void main(String args[]) {
 		_isFullScreen = true;
-		PApplet.main(new String[] { "--hide-stop", "--bgcolor=000000", "org.ohheckyeah.games.bluebear.support.BlueBearRemoteControl" });
+		PApplet.main(new String[] { "--hide-stop", "--bgcolor=000000", BlueBearRemoteControl.class.getName() });
 	}
 
 	public void setup() {

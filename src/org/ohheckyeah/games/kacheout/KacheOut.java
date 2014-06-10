@@ -34,7 +34,7 @@ extends PAppletHax
 	 */
 	public static void main(String args[]) {
 		_isFullScreen = true;
-		PApplet.main(new String[] { "--hide-stop", "--bgcolor=000000", "org.ohheckyeah.games.kacheout.KacheOut" });
+		PApplet.main(new String[] { "--hide-stop", "--bgcolor=000000", KacheOut.class.getName() });
 	}
 
 	// input
