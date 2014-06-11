@@ -380,14 +380,14 @@ extends OHYBaseGame
 	public void drawApp() {
 		super.drawApp();
 		timeFactor.update();
-		p.background( CatchyColors.STAGE_BG );
+		p.background( 0 );
 		DrawUtil.setDrawCorner(p);
 		pg.beginDraw();
 		pg.background( CatchyColors.STAGE_BG );
 		pg.noStroke();
 		runGameState();
 		pg.endDraw();
-		p.image(pg, 0, 0, pg.width, pg.height);
+		drawCanvasToScreen();
 	}
 	
 	protected void updateGameplays() {

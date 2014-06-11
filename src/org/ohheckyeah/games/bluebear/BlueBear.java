@@ -258,8 +258,7 @@ extends OHYBaseGame
 		runGameState();
 		pg.endDraw();
 		
-		// draw canvas to screen
-		p.image(pg, 0, 0, pg.width, pg.height);
+		drawCanvasToScreen();
 	}
 	
 	protected void updateGameplay() {

@@ -9,6 +9,7 @@ import processing.core.PShape;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.debug.DebugUtil;
+import com.haxademic.core.draw.mesh.PGraphicsKeystone;
 import com.haxademic.core.draw.util.OpenGLUtil;
 import com.haxademic.core.system.FileUtil;
 
@@ -21,6 +22,7 @@ extends OHYKinectApp {
 	
 	// game canvas & responsive scale
 	public PGraphics pg;
+	public PGraphicsKeystone _pgKeystone;
 	public float gameScaleV = 1;
 	public float gameScaleH = 1;
 
@@ -94,6 +96,15 @@ extends OHYKinectApp {
 	protected void buildCanvas() {
 		pg = p.createGraphics( p.width, p.height, P.OPENGL );
 		pg.smooth(OpenGLUtil.SMOOTH_MEDIUM);
+		if( p.appConfig.getBoolean( "keystones", false ) == true ) _pgKeystone = new PGraphicsKeystone( p, pg, 13f );
 	}
 	
+	protected void drawCanvasToScreen() {
+		if( _pgKeystone == null ) {
+			p.image(pg, 0, 0, pg.width, pg.height);
+		} else {
+			p.noStroke();
+			_pgKeystone.update(p.g, true);
+		}
+	}
 }
