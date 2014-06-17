@@ -4,6 +4,7 @@ import org.ohheckyeah.shared.OHYGameTracking;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.hardware.kinect.KinectRegion;
+import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.system.FileUtil;
 
 @SuppressWarnings("serial")
@@ -38,7 +39,7 @@ extends OHYKinectApp {
 			if( i > 0 ) kinectOutput += DATA_GRID_DELIMITER; 
 			float controlZ = kinectRegion.controlZ();
 			if( p.kinectWrapper.isMirrored() == false ) controlZ = kinectRegion.controlZ() * -1f;
-			kinectOutput += kinectRegion.controlX() + DATA_REGION_DELIMITER + controlZ + DATA_REGION_DELIMITER + kinectRegion.pixelCount();
+			kinectOutput += MathUtil.roundToPrecision( kinectRegion.controlX(), 3 ) + DATA_REGION_DELIMITER + MathUtil.roundToPrecision( controlZ, 3 ) + DATA_REGION_DELIMITER + kinectRegion.pixelCount();
 		}
 		return kinectOutput;
 	}
