@@ -57,7 +57,7 @@ public class BlueBearBasePlayer {
 				case PLAYER_DETECTED:
 					_waitingSpinner.playerEntered();
 					p.sounds.playSound( BlueBearSounds.STEP_IN );
-					_detectedOsc = MathUtil.randRangeDecimel(0, P.TWO_PI);
+					_detectedOsc = MathUtil.randRangeDecimal(0, P.TWO_PI);
 					break;
 				case PLAYER_LOST:
 					_waitingSpinner.playerLeft();

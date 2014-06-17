@@ -187,7 +187,7 @@ public class TinkerBotPlayer {
 		// set error rotation when error first happens in a level
 		if( isError == true ) {
 			if( _wasError == false ) {
-				_errorRotation = MathUtil.randRangeDecimel(-0.1f, 0.1f);
+				_errorRotation = MathUtil.randRangeDecimal(-0.1f, 0.1f);
 			}
 		} else {
 			_errorRotation = 0;

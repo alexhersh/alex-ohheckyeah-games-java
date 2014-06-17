@@ -110,7 +110,7 @@ public class CatchyMountainAndBushes {
 		_bushSmallX = MathUtil.randRange( 0, catchyGamePlay.gameWidth );
 		_bushLargeX = MathUtil.randRange( 0, catchyGamePlay.gameWidth );
 		
-		_scale.setTarget( MathUtil.randRangeDecimel(0.9f, 1.1f) );
+		_scale.setTarget( MathUtil.randRangeDecimal(0.9f, 1.1f) );
 	}
 	
 	public void setWinState( boolean didWin ) {

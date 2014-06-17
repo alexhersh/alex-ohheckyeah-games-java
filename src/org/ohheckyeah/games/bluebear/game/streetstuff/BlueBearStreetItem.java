@@ -122,10 +122,10 @@ public class BlueBearStreetItem {
 		kicked = true;
 		_scaleKick.setCurrent(1);
 		_scaleKick.setTarget(0);
-		rotationSpeed = MathUtil.randRangeDecimel( -0.1f, 0.1f );
-		speedX = p.scaleV( MathUtil.randRangeDecimel(8, 16) );
+		rotationSpeed = MathUtil.randRangeDecimal( -0.1f, 0.1f );
+		speedX = p.scaleV( MathUtil.randRangeDecimal(8, 16) );
 		if( !kickRight ) speedX *= -1;
-		speedY = p.scaleV( MathUtil.randRangeDecimel(-30, -18) );
+		speedY = p.scaleV( MathUtil.randRangeDecimal(-30, -18) );
 	}
 	
 	public void recycle() {
