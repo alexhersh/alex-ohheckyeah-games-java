@@ -26,6 +26,7 @@ public class OHYGameTracking {
 		trackingTextDir = outputDir + "text/";
 		
 		// create directory if it doesn't exist
+		if( FileUtil.fileOrPathExists( FileUtil.getHaxademicOutputPath() ) == false ) FileUtil.createDir( FileUtil.getHaxademicOutputPath() );
 		if( FileUtil.fileOrPathExists( trackingOutputDir ) == false ) FileUtil.createDir( trackingOutputDir );
 		if( FileUtil.fileOrPathExists( outputDir ) == false ) FileUtil.createDir( outputDir );
 		if( FileUtil.fileOrPathExists( cameraImageDir ) == false ) FileUtil.createDir( cameraImageDir );
