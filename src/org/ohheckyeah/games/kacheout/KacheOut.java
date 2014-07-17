@@ -33,8 +33,14 @@ extends PAppletHax
 	 * @param args
 	 */
 	public static void main(String args[]) {
-		_isFullScreen = true;
-		PApplet.main(new String[] { "--hide-stop", "--bgcolor=000000", KacheOut.class.getName() });
+		_isFullScreen = false;
+		_hasChrome = false;
+		boolean isSecondScreen = false;
+		if( isSecondScreen ) {
+			PApplet.main(new String[] { "--hide-stop", "--bgcolor=000000", "--location=-1280,0", "--display=1", KacheOut.class.getName() });		// requires hiding os x 2nd screen menu bar: http://www.cultofmac.com/255910/hide-the-menu-bar-on-your-secondary-monitor-with-mavericks-os-x-tips/
+		} else {
+			PApplet.main(new String[] { "--hide-stop", "--bgcolor=000000", KacheOut.class.getName() });
+		}
 	}
 
 	// input
