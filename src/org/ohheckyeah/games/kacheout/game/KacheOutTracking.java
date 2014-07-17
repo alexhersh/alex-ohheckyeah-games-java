@@ -18,16 +18,17 @@ extends OHYGameTracking {
 		// create csv files with headers
 		trackingGamesFilePath = trackingTextDir + "kacheout-game-history.csv";
 		if( FileUtil.fileOrPathExists( trackingGamesFilePath ) == false ) {
-			FileUtil.writeTextToFile( trackingGamesFilePath, "Date,Number of Players,Winner Index,Game Time" + "\n" );
+			FileUtil.writeTextToFile( trackingGamesFilePath, "Date,Number of Players,Winner Index,Loser Blocks Left,Game Time" + "\n" );
 		}
 	}
 	
-	public void trackGameResult( String date, int numPlayers, String winIndexes, int gameTime ) {
+	public void trackGameResult( String date, int numPlayers, String winIndexes, int blocksLeft, int gameTime ) {
 		FileUtil.appendTextToFile( 
 				trackingGamesFilePath, 
 				date +","+ 
 				numPlayers +","+ 
 				winIndexes +","+ 
+				blocksLeft +","+ 
 				gameTime + "\n" 
 		);
 	}

@@ -55,6 +55,7 @@ extends OHYKinectApp
 	// tracking
 	protected KacheOutTracking _tracking;
 	protected String _trackingDateStr;
+	protected int _loserBlocksLeft = 0;
 	
 	// audio
 	public AudioPool sounds;
@@ -263,6 +264,7 @@ extends OHYKinectApp
 			soundtrack.playNext();
 			_gameStartTime = p.millis();
 		} else if( _gameState == GAME_OVER ) {
+		    _loserBlocksLeft = P.max(_player1.numActiveBlocks(), _player2.numActiveBlocks());
 			for( int i=0; i < NUM_PLAYERS; i++ ) _gamePlays.get( i ).gameOver();
 			soundtrack.stop();
 			sounds.playSound( WIN_SOUND );
@@ -328,11 +330,15 @@ extends OHYKinectApp
 		    
 		    // store data
 		    String winIndexes = "";
-		    if(_player1.didWin() == true && _player2.didWin() == true) winIndexes = "0,1";
-		    else if(_player1.didWin() == true) winIndexes = "0";
-		    else if(_player2.didWin() == true) winIndexes = "1";
+		    if(_player1.didWin() == true && _player2.didWin() == true) {
+		    	winIndexes = "0,1";
+		    } else if(_player1.didWin() == true) {
+		    	winIndexes = "0";
+		    } else if(_player2.didWin() == true) {
+		    	winIndexes = "1";
+		    }
 		    
-		    _tracking.trackGameResult(_trackingDateStr, 2, winIndexes, P.round((p.millis() - _gameStartTime)/1000));
+		    _tracking.trackGameResult(_trackingDateStr, 2, winIndexes, _loserBlocksLeft, P.round((p.millis() - _gameStartTime)/1000));
 		    
 		    // take photo
 			_tracking.saveCameraImage(_trackingDateStr);

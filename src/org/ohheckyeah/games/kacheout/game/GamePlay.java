@@ -56,6 +56,7 @@ public class GamePlay {
 	protected int _countdownFrames = 0;
 	protected boolean _hasClearedBoard = false;
 	protected boolean _didWin = false;
+	protected int _numActiveBlocks = 999;
 	protected ElasticFloat _gameOverTextScale;
 	protected int _gameOverFrameCount = 0;
 	protected int _gameNum = 0;
@@ -121,6 +122,10 @@ public class GamePlay {
 	
 	public boolean didWin() {
 		return _didWin;
+	}
+	
+	public int numActiveBlocks() {
+		return _numActiveBlocks;
 	}
 	
 	public boolean hasClearedBoard() {
@@ -239,15 +244,15 @@ public class GamePlay {
 		
 		// draw the blocks
 		int index = 0;
-		int numActiveBlocks = 0;
+		_numActiveBlocks = 0;
 		for (int i = 0; i < _cols; i++) {
 			for (int j = 0; j < _rows; j++) {
 				_invaders.get( index ).display();
-				numActiveBlocks += _invaders.get( index ).numActiveBlocks();
+				_numActiveBlocks += _invaders.get( index ).numActiveBlocks();
 				index++;
 			}
 		}
-		if( numActiveBlocks == 0 ) _hasClearedBoard = true;
+		if( _numActiveBlocks == 0 ) _hasClearedBoard = true;
 		p.popMatrix();
 		
 //		OpenGLUtil.enableBlending( p, false );
@@ -263,7 +268,6 @@ public class GamePlay {
 			drawDebugLines();
 			drawPlayerKinectPoints();
 		}
-		
 	}
 	
 	protected void drawSpecialModes() {
