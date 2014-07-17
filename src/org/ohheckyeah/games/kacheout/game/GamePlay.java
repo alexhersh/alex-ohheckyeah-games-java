@@ -119,6 +119,10 @@ public class GamePlay {
 		_gameNum++;
 	}
 	
+	public boolean didWin() {
+		return _didWin;
+	}
+	
 	public boolean hasClearedBoard() {
 		return _hasClearedBoard;
 	}

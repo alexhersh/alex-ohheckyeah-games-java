@@ -1,8 +1,10 @@
 package org.ohheckyeah.games.kacheout;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 import org.ohheckyeah.games.kacheout.game.GamePlay;
+import org.ohheckyeah.games.kacheout.game.KacheOutTracking;
 import org.ohheckyeah.games.kacheout.game.Soundtrack;
 import org.ohheckyeah.games.kacheout.media.AssetLoader;
 import org.ohheckyeah.games.kacheout.screens.IntroScreen;
@@ -50,6 +52,10 @@ extends OHYKinectApp
 	public static int KINECT_BOTTOM = 150;
 	protected boolean _isDebuggingKinect = false;
 
+	// tracking
+	protected KacheOutTracking _tracking;
+	protected String _trackingDateStr;
+	
 	// audio
 	public AudioPool sounds;
 	public Soundtrack soundtrack;
@@ -108,6 +114,7 @@ extends OHYKinectApp
 	public static String SFX_DOWN = "SFX_DOWN";
 	
 	// game state
+	protected int _gameStartTime;
 	protected int _curMode;
 	protected ColorGroup _gameColors;
 	protected final int NUM_PLAYERS = 2;
@@ -153,6 +160,9 @@ extends OHYKinectApp
 		AssetLoader loader = new AssetLoader();
 		loader.createMeshPool();
 		loader.loadAudio( sounds );		
+		
+		_tracking = new KacheOutTracking();
+
 		
 		_screenIntro = new IntroScreen( _appConfig.getString("sponsor_images", "" ) );
 		
@@ -251,6 +261,7 @@ extends OHYKinectApp
 				_gamePlays.get( i ).launchBall();
 			}
 			soundtrack.playNext();
+			_gameStartTime = p.millis();
 		} else if( _gameState == GAME_OVER ) {
 			for( int i=0; i < NUM_PLAYERS; i++ ) _gamePlays.get( i ).gameOver();
 			soundtrack.stop();
@@ -311,6 +322,20 @@ extends OHYKinectApp
 		}
 		if( takeScreenShot == true ) {
 			// PhotoBooth.snapGamePhoto( p, _stageWidth, _stageHeight );
+			// track game!
+		    Date gameDate = new Date();
+		    _trackingDateStr = gameDate.toString();
+		    
+		    // store data
+		    String winIndexes = "";
+		    if(_player1.didWin() == true && _player2.didWin() == true) winIndexes = "0,1";
+		    else if(_player1.didWin() == true) winIndexes = "0";
+		    else if(_player2.didWin() == true) winIndexes = "1";
+		    
+		    _tracking.trackGameResult(_trackingDateStr, 2, winIndexes, P.round((p.millis() - _gameStartTime)/1000));
+		    
+		    // take photo
+			_tracking.saveCameraImage(_trackingDateStr);
 		}
 		// check for complete
 		for( int i=0; i < NUM_PLAYERS; i++ ) {
