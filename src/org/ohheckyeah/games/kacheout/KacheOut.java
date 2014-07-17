@@ -6,11 +6,11 @@ import org.ohheckyeah.games.kacheout.game.GamePlay;
 import org.ohheckyeah.games.kacheout.game.Soundtrack;
 import org.ohheckyeah.games.kacheout.media.AssetLoader;
 import org.ohheckyeah.games.kacheout.screens.IntroScreen;
+import org.ohheckyeah.shared.app.OHYKinectApp;
 
 import processing.core.PApplet;
 
 import com.haxademic.core.app.P;
-import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.audio.AudioPool;
 import com.haxademic.core.cameras.CameraDefault;
 import com.haxademic.core.cameras.common.ICamera;
@@ -21,7 +21,7 @@ import com.haxademic.core.hardware.kinect.KinectWrapper;
 import com.haxademic.core.system.FileUtil;
 
 public class KacheOut
-extends PAppletHax  
+extends OHYKinectApp  
 {
 	/**
 	 * 
@@ -134,6 +134,7 @@ extends PAppletHax
 		_customPropsFile = FileUtil.getHaxademicDataPath() + "properties/kacheout.properties";
 		_useLegacyAudio = true;
 		super.setup();
+		setKinectProperties();	// replace with BaseGame setup in the future
 		initGame();
 	}
 
@@ -168,8 +169,8 @@ extends PAppletHax
 		int KINECT_PLAYER_GAP = p.appConfig.getInt( "kinect_player_gap", 0 );
 
 		float kinectRangeWidth = KinectWrapper.KWIDTH / 2f - KINECT_PLAYER_GAP / 2f;
-		_player1 = new GamePlay( 0, 0, _gameWidth, new FloatRange( 0, kinectRangeWidth ) );
-		_player2 = new GamePlay( 1, _gameWidth, _gameWidth * 2, new FloatRange( KinectWrapper.KWIDTH - kinectRangeWidth, KinectWrapper.KWIDTH ) );
+		_player1 = new GamePlay( 0, 0, _gameWidth, new FloatRange( 0, kinectRangeWidth ), _kinectGrid.getRegion(0) );
+		_player2 = new GamePlay( 1, _gameWidth, _gameWidth * 2, new FloatRange( KinectWrapper.KWIDTH - kinectRangeWidth, KinectWrapper.KWIDTH ), _kinectGrid.getRegion(1) );
 		_gamePlays = new ArrayList<GamePlay>();
 		_gamePlays.add( _player1 );
 		_gamePlays.add( _player2 );
@@ -265,6 +266,8 @@ extends PAppletHax
 	// FRAME LOOP --------------------------------------------------------------------------------------
 	
 	public void drawApp() {
+		super.drawApp();
+		
 		p.resetMatrix(); // why did I ever decide to do this?! :(
 		DrawUtil.resetGlobalProps( p );
 		p.resetMatrix();

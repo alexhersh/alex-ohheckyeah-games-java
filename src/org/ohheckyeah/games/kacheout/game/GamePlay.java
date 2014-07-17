@@ -10,6 +10,7 @@ import toxi.color.TColor;
 import com.haxademic.core.app.P;
 import com.haxademic.core.data.FloatRange;
 import com.haxademic.core.draw.util.DrawUtil;
+import com.haxademic.core.hardware.kinect.KinectRegion;
 import com.haxademic.core.hardware.kinect.KinectWrapper;
 import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.math.easing.EasingFloat;
@@ -34,10 +35,11 @@ public class GamePlay {
 	// controls
 	protected float K_PIXEL_SKIP = 6;
 	protected FloatRange _kinectRange;
-	protected FloatRange _kinectCurrent;
 	protected boolean _isKinectReversed = true;
 	protected EasingFloat _gameRotation = new EasingFloat( 0, 10 );
 	protected EasingFloat _gameBaseY = new EasingFloat( 0, 7 );
+	
+	protected KinectRegion _kinectRegion;
 	
 	// colors
 	protected TColor _winColor = new TColor( TColor.GREEN );
@@ -59,14 +61,14 @@ public class GamePlay {
 	protected int _gameNum = 0;
 
 	
-	public GamePlay( int gameIndex, int gameLeft, int gameRight, FloatRange kinectRange ) {
+	public GamePlay( int gameIndex, int gameLeft, int gameRight, FloatRange kinectRange, KinectRegion kinectRegion ) {
 		p = (KacheOut) P.p;
 		_gameIndex = gameIndex;
 		_gameLeft = gameLeft;
 		_gameRight = gameRight;
 		_gameWidth = gameRight - gameLeft;
 		_kinectRange = kinectRange;
-		_kinectCurrent = new FloatRange( -1, -1 );
+		_kinectRegion = kinectRegion;
 		
 		// create blocks
 		_invaders = new ArrayList<Invader>();
@@ -168,25 +170,7 @@ public class GamePlay {
 	}
 	
 	protected void findKinectCenterX() {
-		// loop through point grid and skip over pixels on an interval, finding the horizonal extents of an object in the appropriate range
-		int pixelDepth;
-		float minX = -1f;
-		float maxX = -1f;
-		
-		// loop through kinect data within player's control range
-		for ( int x = (int)_kinectRange.min(); x < (int)_kinectRange.max(); x += K_PIXEL_SKIP ) {
-			for ( int y = KacheOut.KINECT_TOP; y < KacheOut.KINECT_BOTTOM; y += K_PIXEL_SKIP ) { // only use the vertical middle portion of the kinect data
-				pixelDepth = p.kinectWrapper.getMillimetersDepthForKinectPixel( x, y );
-				if( pixelDepth != 0 && pixelDepth > KacheOut.KINECT_MIN_DIST && pixelDepth < KacheOut.KINECT_MAX_DIST ) {
-					// keep track of kinect range
-					if( minX == -1 || x < minX ) minX = x;
-					if( maxX == -1 || x > maxX ) maxX = x;
-				}
-			}
-		}
-		_kinectCurrent.set( minX, maxX );
-		
-		if( minX != -1 && maxX != -1 ) {
+		if( _kinectRegion.pixelCount() > 10 ) {
 			detectPlayerReady();
 		} else {
 			_playerDetectedFrames = 0;
@@ -218,10 +202,11 @@ public class GamePlay {
 				paddleX = 0.5f;
 				inputDetected = true;
 			} else {
-				if( _kinectCurrent.center() != -1 ) {
-					paddleX = MathUtil.getPercentWithinRange( _kinectRange.min(), _kinectRange.max(), _kinectCurrent.center() );
+//				if( _kinectCurrent.center() != -1 ) {
+//					paddleX = MathUtil.getPercentWithinRange( _kinectRange.min(), _kinectRange.max(), _kinectCurrent.center() );
+					paddleX = 0.5f + _kinectRegion.controlX() * 1.3f;
 					inputDetected = true;
-				}
+//				}
 			}
 			if( inputDetected == true ) _paddle.setTargetXByPercent( 1f - paddleX );
 		} else if( p.leapMotion != null ) {
@@ -422,10 +407,10 @@ public class GamePlay {
 		p.rect(_kinectRange.min(), 0, 2, p.stageHeight());
 		p.rect(_kinectRange.max(), 0, 2, p.stageHeight());
 		p.fill( 255, 0, 0, 127 );
-		p.rect(_kinectCurrent.min(), 0, 2, p.stageHeight());
-		p.rect(_kinectCurrent.max(), 0, 2, p.stageHeight());
+//		p.rect(_kinectCurrent.min(), 0, 2, p.stageHeight());
+//		p.rect(_kinectCurrent.max(), 0, 2, p.stageHeight());
 		p.fill( 0, 255, 0, 127 );
-		p.rect(_kinectCurrent.center(), 0, 2, p.stageHeight());
+//		p.rect(_kinectCurrent.center(), 0, 2, p.stageHeight());
 		p.popMatrix();
 	}
 	
