@@ -361,7 +361,7 @@ extends OHYBaseGame
 			if( p.kinectWrapper != null && p.kinectWrapper.isActive() ) {
 				_tracking.saveCameraImage( _trackingDateStr );
 			} else {
-				_udp.send( OHYBaseRemoteControl.ACTION_TAKE_PHOTO + _trackingDateStr, _senderIp, _senderPort );	// send the  photo message back to the remote
+				if(_udp != null) _udp.send( OHYBaseRemoteControl.ACTION_TAKE_PHOTO + _trackingDateStr, _senderIp, _senderPort );	// send the  photo message back to the remote
 			}
 		}
 	}
