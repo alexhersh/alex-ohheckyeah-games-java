@@ -48,7 +48,6 @@ extends PAppletHax
 	public static float KINECT_MAX_DIST = 2000;
 	public static int KINECT_TOP = 0;
 	public static int KINECT_BOTTOM = 150;
-	public static float KINECT_GAP_PERCENT = 0.5f;
 	protected boolean _isDebuggingKinect = false;
 
 	// audio
@@ -166,8 +165,9 @@ extends PAppletHax
 		KINECT_MAX_DIST = _appConfig.getInt( "kinect_max_mm", 2000 );
 		KINECT_TOP = _appConfig.getInt( "kinect_top_pixel", 240 );
 		KINECT_BOTTOM = _appConfig.getInt( "kinect_bottom_pixel", 400 );
-		
-		float kinectRangeWidth = KinectWrapper.KWIDTH / 2f * KINECT_GAP_PERCENT;
+		int KINECT_PLAYER_GAP = p.appConfig.getInt( "kinect_player_gap", 0 );
+
+		float kinectRangeWidth = KinectWrapper.KWIDTH / 2f - KINECT_PLAYER_GAP / 2f;
 		_player1 = new GamePlay( 0, 0, _gameWidth, new FloatRange( 0, kinectRangeWidth ) );
 		_player2 = new GamePlay( 1, _gameWidth, _gameWidth * 2, new FloatRange( KinectWrapper.KWIDTH - kinectRangeWidth, KinectWrapper.KWIDTH ) );
 		_gamePlays = new ArrayList<GamePlay>();
