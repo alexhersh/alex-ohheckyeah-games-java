@@ -103,7 +103,7 @@ extends OHYBaseGame
 		_gameWidth = P.ceil( pg.width / (float) NUM_PLAYERS );
 		_gamePlays = new ArrayList<CatchyGamePlay>();
 		for( int i=0; i < NUM_PLAYERS; i++ ) {
-			_gamePlays.add( new CatchyGamePlay( i, _gameWidth, _joysticks.getRegion(i), _isRemoteKinect ) );
+			_gamePlays.add( new CatchyGamePlay( i, _gameWidth, _joysticks.getRegion(i), _isRemoteControl ) );
 		}
 	}
 	

@@ -21,8 +21,8 @@ extends OHYKinectApp {
 		_tracking = tracking;
 		if( propertiesFile != null ) _customPropsFile = FileUtil.getHaxademicDataPath() + "properties/" + propertiesFile;
 		super.setup();
-		setKinectProperties();
-		setRemoteKinectProperties();
+		setInputProperties();
+		setRemoteControlProperties();
 		initSenderUDP();
 	}
 	
@@ -35,7 +35,7 @@ extends OHYKinectApp {
 		String kinectOutput = "";
 		KinectRegion kinectRegion = null;
 		for( int i=0; i < NUM_PLAYERS; i++ ) {
-			kinectRegion = _kinectGrid.getRegion(i);
+			kinectRegion = (KinectRegion) _joysticks.getRegion(i);
 			if( i > 0 ) kinectOutput += DATA_GRID_DELIMITER; 
 			float controlZ = kinectRegion.controlZ();
 			if( p.kinectWrapper.isMirrored() == false ) controlZ = kinectRegion.controlZ() * -1f;

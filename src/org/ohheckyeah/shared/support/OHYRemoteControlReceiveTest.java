@@ -24,8 +24,8 @@ extends OHYKinectApp
 	
 	public void setup() {
 		super.setup();
-		setKinectProperties();
-		setRemoteKinectProperties();
+		setInputProperties();
+		setRemoteControlProperties();
 		initReceiverUDP();
 	}
 	

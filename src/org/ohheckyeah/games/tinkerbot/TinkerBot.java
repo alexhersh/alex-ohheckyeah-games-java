@@ -74,7 +74,7 @@ extends OHYBaseGame
 
 		// set flags and props	
 		_gameLayout = new TinkerBotLayout();
-		_gamePlay = new TinkerBotGamePlay( _joysticks, _isRemoteKinect );
+		_gamePlay = new TinkerBotGamePlay( _joysticks, _isRemoteControl );
 		setInitialGameState();
 		_tracking = new TinkerBotTracking();
 	}

@@ -72,7 +72,7 @@ extends OHYBaseGame
 		_introScreens = new OHYIntroScreens( new BlueBearTitleScreen() );
 		
 		// set flags and props	
-		_gamePlay = new BlueBearGamePlay( _joysticks, _isRemoteKinect );
+		_gamePlay = new BlueBearGamePlay( _joysticks, _isRemoteControl );
 		setInitialGameState();
 		_tracking = new BlueBearTracking();
 	}

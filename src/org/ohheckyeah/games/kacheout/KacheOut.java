@@ -138,7 +138,7 @@ extends OHYKinectApp
 		_customPropsFile = FileUtil.getHaxademicDataPath() + "properties/kacheout.properties";
 		_useLegacyAudio = true;
 		super.setup();
-		setKinectProperties();	// replace with BaseGame setup in the future
+		setInputProperties();	// replace with BaseGame setup in the future
 		initGame();
 	}
 
