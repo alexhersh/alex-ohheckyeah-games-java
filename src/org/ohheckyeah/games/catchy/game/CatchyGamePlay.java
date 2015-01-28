@@ -28,7 +28,6 @@ public class CatchyGamePlay {
 	protected boolean _gameIsActive = false;
 	
 	protected IJoystickControl _joystick;
-	protected boolean _isRemoteKinect;
 	protected boolean _hasPlayer = false;
 	protected boolean _detectedPlayer = false;
 	protected int _detectedPlayerTime = 0;
@@ -55,14 +54,13 @@ public class CatchyGamePlay {
 	
 	protected CatchyScoreDisplay _score;
 	
-	public CatchyGamePlay( int gameIndex, int gameWidth, IJoystickControl joystick, boolean isRemoteKinect ) {
+	public CatchyGamePlay( int gameIndex, int gameWidth, IJoystickControl joystick ) {
 		p = (Catchy) P.p;
 		pg = p.pg;
 		this.gameIndex = gameIndex;
 		this.gameWidth = gameWidth;
 		this.gameHalfWidth = Math.round( gameWidth / 2f );
 		_joystick = joystick;
-		_isRemoteKinect = isRemoteKinect;
 		
 		canvas = p.createGraphics( gameWidth, pg.height, P.OPENGL );
 		canvas.smooth(OpenGLUtil.SMOOTH_MEDIUM);
@@ -214,15 +212,8 @@ public class CatchyGamePlay {
 			if( _gameIsActive == false ) {
 				detectPlayers();
 			} else {
-				if( p.kinectWrapper != null || p.leapMotion != null || _isRemoteKinect == true ) {
-					if(_joystick.isActive() == true) {
-						_easedControlX.setTarget( _joystick.controlX() );
-					}
-				} else {
-					if( _isRemoteKinect == false ) {
-						// fake test controls
-						_easedControlX.setTarget( P.sin(p.millis() * _autoControl) );
-					}
+				if(_joystick.isActive() == true) {
+					_easedControlX.setTarget( _joystick.controlX() );
 				}
 			}
 		}
@@ -233,14 +224,14 @@ public class CatchyGamePlay {
 	
 	protected void detectPlayers() {
 		if( _detectedPlayer == false ) {
-			if( _joystick.isActive() == true || (p.leapMotion == null && p.kinectWrapper == null && _isRemoteKinect == false) ) {
+			if( _joystick.isActive() == true ) {
 				_detectedPlayerTime = p.millis();
 				_detectedPlayer = true;
 				_waitingSpinner.playerEntered();
 				p.sounds.playSound( CatchySounds.STEP_IN );
 			}
 		} else {
-			if( _joystick.isActive() == false && (p.leapMotion != null || (p.kinectWrapper != null || _isRemoteKinect == true)) ) {
+			if( _joystick.isActive() == false ) {
 				_detectedPlayer = false;
 				_hasPlayer = false;
 				_waitingSpinner.playerLeft();

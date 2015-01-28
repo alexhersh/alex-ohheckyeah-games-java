@@ -5,7 +5,7 @@ import com.haxademic.core.system.FileUtil;
 
 @SuppressWarnings("serial")
 public class OHYBaseInputConfig
-extends OHYKinectApp {
+extends OHYPhysicalApp {
 
 	protected void overridePropsFile() {
 //		_appConfig.setProperty( "kinect_active", "true" );

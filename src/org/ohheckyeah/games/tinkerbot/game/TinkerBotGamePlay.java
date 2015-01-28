@@ -22,7 +22,6 @@ public class TinkerBotGamePlay {
 	protected IJoystickCollection _joysticksGrid;
 	protected boolean _gameIsActive = false;
 	
-	protected boolean _isRemoteKinect;
 	protected int _playersDetectedTime = 0;
 	protected int _countdownTime = 0;
 	protected boolean _countdownShowing = false;
@@ -48,12 +47,11 @@ public class TinkerBotGamePlay {
 	protected int _curGoalPosition = 999;
 
 	
-	public TinkerBotGamePlay( IJoystickCollection kinectGrid, boolean isRemoteKinect ) {
+	public TinkerBotGamePlay(IJoystickCollection kinectGrid) {
 		p = (TinkerBot) P.p;
 		pg = p.pg;
 		
 		_joysticksGrid = kinectGrid;
-		_isRemoteKinect = isRemoteKinect;
 		
 		buildGraphicsLayers();
 		
@@ -66,7 +64,7 @@ public class TinkerBotGamePlay {
 		float detectionSpacing = 1f / ( OHYBaseGame.NUM_PLAYERS + 1 ); // +2 from last index for spacing on the sides
 		float playerSpacing = 1f / ( OHYBaseGame.NUM_PLAYERS + 3 ); // +4 from last index for spacing on the sides
 		_players = new TinkerBotPlayer[OHYBaseGame.NUM_PLAYERS];
-		for( int i=0; i < OHYBaseGame.NUM_PLAYERS; i++ ) _players[i] = new TinkerBotPlayer(_joysticksGrid.getRegion(i), _isRemoteKinect, (float) (i+1) * detectionSpacing, (float) (i+2) * playerSpacing );
+		for( int i=0; i < OHYBaseGame.NUM_PLAYERS; i++ ) _players[i] = new TinkerBotPlayer(_joysticksGrid.getRegion(i), (float) (i+1) * detectionSpacing, (float) (i+2) * playerSpacing );
 		_robots = new TinkerBotRobots();
 		_scoreDisplay = new TinkerBotScoreDisplay();
 		_gameTimer = new TinkerBotGameTimer( this, p.appConfig.getInt( "game_seconds", 30 ) );

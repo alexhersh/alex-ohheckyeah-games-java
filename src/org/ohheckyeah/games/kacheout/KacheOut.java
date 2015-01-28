@@ -8,7 +8,7 @@ import org.ohheckyeah.games.kacheout.game.KacheOutTracking;
 import org.ohheckyeah.games.kacheout.game.Soundtrack;
 import org.ohheckyeah.games.kacheout.media.AssetLoader;
 import org.ohheckyeah.games.kacheout.screens.IntroScreen;
-import org.ohheckyeah.shared.app.OHYKinectApp;
+import org.ohheckyeah.shared.app.OHYPhysicalApp;
 
 import processing.core.PApplet;
 
@@ -23,7 +23,7 @@ import com.haxademic.core.hardware.kinect.KinectWrapper;
 import com.haxademic.core.system.FileUtil;
 
 public class KacheOut
-extends OHYKinectApp  
+extends OHYPhysicalApp  
 {
 	/**
 	 * 

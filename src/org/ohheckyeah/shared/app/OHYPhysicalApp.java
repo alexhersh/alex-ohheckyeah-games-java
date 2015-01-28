@@ -5,13 +5,14 @@ import hypermedia.net.UDP;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.data.ConvertUtil;
+import com.haxademic.core.hardware.joystick.AutoTesterJoysticksCollection;
+import com.haxademic.core.hardware.joystick.BaseJoysticksCollection;
 import com.haxademic.core.hardware.joystick.IJoystickCollection;
-import com.haxademic.core.hardware.kinect.KinectRegion;
 import com.haxademic.core.hardware.kinect.KinectRegionGrid;
 import com.haxademic.core.hardware.leap.LeapRegionGrid;
 
 @SuppressWarnings("serial")
-public class OHYKinectApp
+public class OHYPhysicalApp
 extends PAppletHax {
 
 	// Kinect input ----------------------------------------------------------------------------------------------
@@ -42,9 +43,9 @@ extends PAppletHax {
 		} else if(_appConfig.getBoolean("leap_active", false) == true) {
 			_joysticks = new LeapRegionGrid(NUM_PLAYERS, 1, 1, 0.2f);
 		} else if(_appConfig.getBoolean("kinect_remote_active", false) == true) {
-//			_joysticks = new RemoteControlJoysticks(NUM_PLAYERS, 1, 1, 0.2f);
+			_joysticks = (new BaseJoysticksCollection()).createJoysticks(NUM_PLAYERS);
 		} else {
-//			_joysticks = new TestAutoJoysticks();
+			_joysticks = new AutoTesterJoysticksCollection(NUM_PLAYERS);
 		}
 	}
 	
@@ -93,7 +94,7 @@ extends PAppletHax {
 			String[] kinectPlayerData = remoteKinectPlayersData[i].split( OHYBaseRemoteControl.DATA_REGION_DELIMITER );
 			_joysticks.getRegion(i).controlX( ConvertUtil.stringToFloat( kinectPlayerData[0].trim() ) );
 			_joysticks.getRegion(i).controlZ( ConvertUtil.stringToFloat( kinectPlayerData[1].trim() ) );
-			((KinectRegion)_joysticks.getRegion(i)).pixelCount( ConvertUtil.stringToInt( kinectPlayerData[2].trim() ) );
+			_joysticks.getRegion(i).isActive( ConvertUtil.stringToBoolean( kinectPlayerData[2].trim() ) );
 		}
 	}
 

@@ -9,7 +9,7 @@ import com.haxademic.core.system.FileUtil;
 
 @SuppressWarnings("serial")
 public class OHYBaseRemoteControl
-extends OHYKinectApp {
+extends OHYPhysicalApp {
 
 	public static final String DATA_GRID_DELIMITER = "~";
 	public static final String DATA_REGION_DELIMITER = ":";
@@ -39,7 +39,8 @@ extends OHYKinectApp {
 			if( i > 0 ) kinectOutput += DATA_GRID_DELIMITER; 
 			float controlZ = kinectRegion.controlZ();
 			if( p.kinectWrapper.isMirrored() == false ) controlZ = kinectRegion.controlZ() * -1f;
-			kinectOutput += MathUtil.roundToPrecision( kinectRegion.controlX(), 3 ) + DATA_REGION_DELIMITER + MathUtil.roundToPrecision( controlZ, 3 ) + DATA_REGION_DELIMITER + kinectRegion.pixelCount();
+			String isActiveBoolStr = (kinectRegion.isActive() == true) ? "true" : "false";
+			kinectOutput += MathUtil.roundToPrecision( kinectRegion.controlX(), 3 ) + DATA_REGION_DELIMITER + MathUtil.roundToPrecision( controlZ, 3 ) + DATA_REGION_DELIMITER + isActiveBoolStr;
 		}
 		return kinectOutput;
 	}

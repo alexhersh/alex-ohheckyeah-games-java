@@ -21,7 +21,6 @@ public class TinkerBotPlayer {
 	protected PGraphics pg;
 
 	protected IJoystickControl _joystick;
-	protected boolean _isRemoteKinect = false;
 
 	protected TinkerBotWaitingSpinner _waitingSpinner;
 	protected PShape _detectionSvg;
@@ -45,12 +44,11 @@ public class TinkerBotPlayer {
 	protected float _errorRotation = 0;
 
 
-	public TinkerBotPlayer( IJoystickControl kinectRegion, boolean isRemoteKinect, float xPositionDetection, float xPosition ) {
+	public TinkerBotPlayer( IJoystickControl joystick, float xPositionDetection, float xPosition ) {
 		p = (TinkerBot)P.p;
 		pg = p.pg;
 
-		_joystick = kinectRegion;
-		_isRemoteKinect = isRemoteKinect;
+		_joystick = joystick;
 
 		_playerDetectionX = P.round( pg.width * xPositionDetection );
 		_waitingSpinner = new TinkerBotWaitingSpinner( _playerDetectionX );
@@ -105,13 +103,13 @@ public class TinkerBotPlayer {
 		PlayerDetectedState curState = null;
 		if( p.gameState() != GameState.GAME_WAITING_FOR_PLAYERS ) return curState; 
 		if( _detectedPlayer == false ) {
-			if( _joystick.isActive() == true || (p.leapMotion == null && p.kinectWrapper == null && _isRemoteKinect == false) ) {
+			if( _joystick.isActive() == true ) {
 				_detectedPlayerTime = p.millis();
 				_detectedPlayer = true;
 				curState = PlayerDetectedState.PLAYER_DETECTED;
 			}
 		} else {
-			if( _joystick.isActive() == false && (p.leapMotion != null || (p.kinectWrapper != null || _isRemoteKinect == true)) ) {
+			if( _joystick.isActive() == false ) {
 				_detectedPlayer = false;
 				_hasPlayer = false;
 				curState = PlayerDetectedState.PLAYER_LOST;
@@ -160,24 +158,13 @@ public class TinkerBotPlayer {
 	}
 	
 	public void updateControls() {
-		if( p.kinectWrapper != null || p.leapMotion != null || _isRemoteKinect == true ) {
-			if(_joystick.isActive() == true) {
-				float controlZ = _joystick.controlZ();
-				if( (p.kinectWrapper != null && p.kinectWrapper.isMirrored() == false) || p.leapMotion != null ) controlZ = _joystick.controlZ() * -1f;
-				// _position = P.round( NUM_POSITIONS * MathUtil.getPercentWithinRange( -0.5f, 0.5f, controlZ ) );
-				// turn -0.5, 0.5 into number of positions int
-				_position = P.round( P.map( controlZ, -0.5f, 0.5f, -TinkerBotLayout.HALF_POSITIONS * 0.1f, TinkerBotLayout.HALF_POSITIONS * 0.1f ) * 10 );
-				_playerY.setTarget( TinkerBotLayout.yForPosition( _position ) );
-			}
-		} else {
-			if( _isRemoteKinect == false ) {
-				// fake test controls
-				if( p.millis() > _autoControlTime + 1000 ) {
-					_autoControlTime = p.millis();
-					_position = TinkerBotLayout.randomPosition( _position );
-					_playerY.setTarget( TinkerBotLayout.yForPosition( _position ) );
-				}
-			}
+		if(_joystick.isActive() == true) {
+			float controlZ = _joystick.controlZ();
+			if( (p.kinectWrapper != null && p.kinectWrapper.isMirrored() == false) || p.leapMotion != null ) controlZ = _joystick.controlZ() * -1f;
+			// _position = P.round( NUM_POSITIONS * MathUtil.getPercentWithinRange( -0.5f, 0.5f, controlZ ) );
+			// turn -1, 1 into number of positions int
+			_position = P.round( P.map( controlZ, -1f, 1f, -TinkerBotLayout.HALF_POSITIONS * 0.1f, TinkerBotLayout.HALF_POSITIONS * 0.1f ) * 10 );
+			_playerY.setTarget( TinkerBotLayout.yForPosition( _position ) );
 		}
 	}
 	

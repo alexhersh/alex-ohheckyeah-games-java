@@ -11,7 +11,6 @@ public class BlueBearPlayerControls {
 
 	protected BlueBear p;
 	protected IJoystickControl _joystick;
-	protected boolean _isRemoteKinect = false;
 	protected boolean _controlsActive = false;
 	protected boolean _hasPlayer = false;
 	protected boolean _detectedPlayer = false;
@@ -23,10 +22,9 @@ public class BlueBearPlayerControls {
 	public final static int LANE_BOTTOM = 2;
 	protected int _lane = 0;
 	
-	public BlueBearPlayerControls( IJoystickControl kinectRegion, boolean isRemoteKinect ) {
+	public BlueBearPlayerControls( IJoystickControl kinectRegion ) {
 		p = (BlueBear) P.p;
 		_joystick = kinectRegion;
-		_isRemoteKinect = isRemoteKinect;
 	}
 	
 	public boolean detectedPlayer() {
@@ -47,25 +45,15 @@ public class BlueBearPlayerControls {
 	}
 	
 	public void updateControls() {
-		if( p.kinectWrapper != null || p.leapMotion != null || _isRemoteKinect == true ) {
-			if(_joystick.isActive() == true) {
-				float controlZ = _joystick.controlZ();
-				if( p.leapMotion != null || (p.kinectWrapper != null && p.kinectWrapper.isMirrored() == false) ) controlZ = _joystick.controlZ() * -1f;
-				if( controlZ < -0.1666 ) {				
-					_lane = LANE_TOP;
-				} else if( controlZ > 0.1666 ) {
-					_lane = LANE_BOTTOM;
-				} else {
-					_lane = LANE_MIDDLE;
-				}
-			}
-		} else {
-			if( _isRemoteKinect == false ) {
-				// fake test controls
-				if( p.millis() > _autoControlTime + 1500 ) {
-					_autoControlTime = p.millis();
-					_lane = MathUtil.randRange(0, 2);
-				}
+		if(_joystick.isActive() == true) {
+			float controlZ = _joystick.controlZ();
+			if( p.leapMotion != null || (p.kinectWrapper != null && p.kinectWrapper.isMirrored() == false) ) controlZ = _joystick.controlZ() * -1f;
+			if( controlZ < -0.1666 ) {				
+				_lane = LANE_TOP;
+			} else if( controlZ > 0.1666 ) {
+				_lane = LANE_BOTTOM;
+			} else {
+				_lane = LANE_MIDDLE;
 			}
 		}
 	}
@@ -73,13 +61,13 @@ public class BlueBearPlayerControls {
 	public PlayerDetectedState detectPlayer() {
 		PlayerDetectedState curState = null; // PlayerDetectedState.PLAYER_WAITING;
 		if( _detectedPlayer == false ) {
-			if( _joystick.isActive() == true || (p.leapMotion == null && p.kinectWrapper == null && _isRemoteKinect == false) ) {
+			if( _joystick.isActive() == true ) {
 				_detectedPlayerTime = p.millis();
 				_detectedPlayer = true;
 				curState = PlayerDetectedState.PLAYER_DETECTED;
 			}
 		} else {
-			if( _joystick.isActive() == false && (p.leapMotion != null || (p.kinectWrapper != null || _isRemoteKinect == true)) ) {
+			if( _joystick.isActive() == false ) {
 				_detectedPlayer = false;
 				_hasPlayer = false;
 				curState = PlayerDetectedState.PLAYER_LOST;

@@ -1,13 +1,13 @@
 package org.ohheckyeah.shared.support;
 
-import org.ohheckyeah.shared.app.OHYKinectApp;
+import org.ohheckyeah.shared.app.OHYPhysicalApp;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.draw.util.DrawUtil;
 
 @SuppressWarnings("serial")
 public class OHYRemoteControlReceiveTest
-extends OHYKinectApp  
+extends OHYPhysicalApp  
 {
 
 	protected void overridePropsFile() {

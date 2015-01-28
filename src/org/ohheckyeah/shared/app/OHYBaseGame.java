@@ -15,7 +15,7 @@ import com.haxademic.core.system.FileUtil;
 
 @SuppressWarnings("serial")
 public class OHYBaseGame
-extends OHYKinectApp {
+extends OHYPhysicalApp {
 	
 	// debug 
 	protected boolean _isDebugging = false;

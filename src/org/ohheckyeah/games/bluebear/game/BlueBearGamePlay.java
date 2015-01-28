@@ -47,7 +47,6 @@ public class BlueBearGamePlay {
 	
 	protected BlueBearPlayerDetectionBg _playerDetectBackground;
 	
-	protected boolean _isRemoteKinect;
 	protected int _playersDetectedTime = 0;
 	protected int _countdownTime = 0;
 	protected boolean _countdownShowing = false;
@@ -98,12 +97,11 @@ public class BlueBearGamePlay {
 	protected int _honeyPotsCollected;
 	
 	
-	public BlueBearGamePlay( IJoystickCollection joysticks, boolean isRemoteKinect ) {
+	public BlueBearGamePlay( IJoystickCollection joysticks ) {
 		p = (BlueBear) P.p;
 		pg = p.pg;
 		
 		_joysticks = joysticks;
-		_isRemoteKinect = isRemoteKinect;
 		
 		SPEED = p.scaleH(SPEED);
 		_scrollSpeedInc = p.scaleV(_scrollSpeedInc);
@@ -139,8 +137,8 @@ public class BlueBearGamePlay {
 		
 		_obstacles = new BlueBearStreetItems();
 		_goodies = new BlueBearStreetItems();
-		_bear = new BlueBearCharacter( new BlueBearPlayerControls(_joysticks.getRegion(0), _isRemoteKinect) );
-		_nemesis = new BlueBearNemesis( new BlueBearPlayerControls(_joysticks.getRegion(1), _isRemoteKinect), this );
+		_bear = new BlueBearCharacter( new BlueBearPlayerControls(_joysticks.getRegion(0)) );
+		_nemesis = new BlueBearNemesis( new BlueBearPlayerControls(_joysticks.getRegion(1)), this );
 		_playerDetectBackground = new BlueBearPlayerDetectionBg();
 		_scoreDisplay = new BlueBearScoreDisplay();
 		_scoreDisplay.reset(GAME_SECONDS);
