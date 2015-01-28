@@ -2,7 +2,7 @@
 OhHeckYeah
 ==========
 
-The [OhHeckYeah](http://ohheckyeah.com) video games, written with Java & [Procesing](http://processing.org), built on top of [Haxademic](https://github.com/cacheflowe/haxademic-2/).
+The [OhHeckYeah](http://ohheckyeah.com) video games, written with Java & [Procesing](http://processing.org), built on top of [Haxademic](https://github.com/cacheflowe/haxademic/).
 
 ===
 
