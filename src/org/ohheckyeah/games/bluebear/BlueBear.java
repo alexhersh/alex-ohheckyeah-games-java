@@ -28,7 +28,7 @@ extends OHYBaseGame
 	 * @param args
 	 */
 	public static void main(String args[]) {
-		// _isFullScreen = true;
+		_isFullScreen = true;
 		_hasChrome = false;
 		boolean isSecondScreen = false;
 		if( isSecondScreen ) {
@@ -72,7 +72,7 @@ extends OHYBaseGame
 		_introScreens = new OHYIntroScreens( new BlueBearTitleScreen() );
 		
 		// set flags and props	
-		_gamePlay = new BlueBearGamePlay( _kinectGrid, _isRemoteKinect );
+		_gamePlay = new BlueBearGamePlay( _joysticks, _isRemoteKinect );
 		setInitialGameState();
 		_tracking = new BlueBearTracking();
 	}

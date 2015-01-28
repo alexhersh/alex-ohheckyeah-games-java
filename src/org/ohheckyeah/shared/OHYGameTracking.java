@@ -35,6 +35,7 @@ public class OHYGameTracking {
 	
 	public void saveCameraImage( String date ) {
 		// save rgb kinect image with the game timestamp
+		if(P.p.kinectWrapper == null) return;
 		P.p.kinectWrapper.getRgbImage().save( cameraImageDir + "/" + date + ".png" );
 	}
 

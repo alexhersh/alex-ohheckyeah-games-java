@@ -30,7 +30,7 @@ extends OHYBaseGame
 	 * @param args
 	 */
 	public static void main(String args[]) {
-		// _isFullScreen = true;
+		_isFullScreen = true;
 		_hasChrome = false;
 		boolean isSecondScreen = false;
 		if( isSecondScreen ) {
@@ -74,7 +74,7 @@ extends OHYBaseGame
 
 		// set flags and props	
 		_gameLayout = new TinkerBotLayout();
-		_gamePlay = new TinkerBotGamePlay( _kinectGrid, _isRemoteKinect );
+		_gamePlay = new TinkerBotGamePlay( _joysticks, _isRemoteKinect );
 		setInitialGameState();
 		_tracking = new TinkerBotTracking();
 	}

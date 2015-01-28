@@ -10,7 +10,7 @@ import processing.core.PShape;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.draw.util.DrawUtil;
-import com.haxademic.core.hardware.kinect.KinectRegion;
+import com.haxademic.core.hardware.joystick.IJoystickControl;
 import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.math.easing.EasingFloat;
 
@@ -20,7 +20,7 @@ public class TinkerBotPlayer {
 	protected TinkerBot p;
 	protected PGraphics pg;
 
-	protected KinectRegion _kinectRegion;
+	protected IJoystickControl _joystick;
 	protected boolean _isRemoteKinect = false;
 
 	protected TinkerBotWaitingSpinner _waitingSpinner;
@@ -45,11 +45,11 @@ public class TinkerBotPlayer {
 	protected float _errorRotation = 0;
 
 
-	public TinkerBotPlayer( KinectRegion kinectRegion, boolean isRemoteKinect, float xPositionDetection, float xPosition ) {
+	public TinkerBotPlayer( IJoystickControl kinectRegion, boolean isRemoteKinect, float xPositionDetection, float xPosition ) {
 		p = (TinkerBot)P.p;
 		pg = p.pg;
 
-		_kinectRegion = kinectRegion;
+		_joystick = kinectRegion;
 		_isRemoteKinect = isRemoteKinect;
 
 		_playerDetectionX = P.round( pg.width * xPositionDetection );
@@ -105,13 +105,13 @@ public class TinkerBotPlayer {
 		PlayerDetectedState curState = null;
 		if( p.gameState() != GameState.GAME_WAITING_FOR_PLAYERS ) return curState; 
 		if( _detectedPlayer == false ) {
-			if( _kinectRegion.pixelCount() >= KINECT_PIXEL_DETECT_THRESH || (p.kinectWrapper == null && _isRemoteKinect == false) ) {
+			if( _joystick.isActive() == true || (p.leapMotion == null && p.kinectWrapper == null && _isRemoteKinect == false) ) {
 				_detectedPlayerTime = p.millis();
 				_detectedPlayer = true;
 				curState = PlayerDetectedState.PLAYER_DETECTED;
 			}
 		} else {
-			if( _kinectRegion.pixelCount() < KINECT_PIXEL_DETECT_THRESH && (p.kinectWrapper != null || _isRemoteKinect == true) ) {
+			if( _joystick.isActive() == false && (p.leapMotion != null || (p.kinectWrapper != null || _isRemoteKinect == true)) ) {
 				_detectedPlayer = false;
 				_hasPlayer = false;
 				curState = PlayerDetectedState.PLAYER_LOST;
@@ -160,13 +160,15 @@ public class TinkerBotPlayer {
 	}
 	
 	public void updateControls() {
-		if( p.kinectWrapper != null || _isRemoteKinect == true ) {
-			float controlZ = _kinectRegion.controlZ();
-			if( p.kinectWrapper != null && p.kinectWrapper.isMirrored() == false ) controlZ = _kinectRegion.controlZ() * -1f;
-			// _position = P.round( NUM_POSITIONS * MathUtil.getPercentWithinRange( -0.5f, 0.5f, controlZ ) );
-			// turn -0.5, 0.5 into number of positions int
-			_position = P.round( P.map( controlZ, -0.5f, 0.5f, -TinkerBotLayout.HALF_POSITIONS * 0.1f, TinkerBotLayout.HALF_POSITIONS * 0.1f ) * 10 );
-			_playerY.setTarget( TinkerBotLayout.yForPosition( _position ) );
+		if( p.kinectWrapper != null || p.leapMotion != null || _isRemoteKinect == true ) {
+			if(_joystick.isActive() == true) {
+				float controlZ = _joystick.controlZ();
+				if( (p.kinectWrapper != null && p.kinectWrapper.isMirrored() == false) || p.leapMotion != null ) controlZ = _joystick.controlZ() * -1f;
+				// _position = P.round( NUM_POSITIONS * MathUtil.getPercentWithinRange( -0.5f, 0.5f, controlZ ) );
+				// turn -0.5, 0.5 into number of positions int
+				_position = P.round( P.map( controlZ, -0.5f, 0.5f, -TinkerBotLayout.HALF_POSITIONS * 0.1f, TinkerBotLayout.HALF_POSITIONS * 0.1f ) * 10 );
+				_playerY.setTarget( TinkerBotLayout.yForPosition( _position ) );
+			}
 		} else {
 			if( _isRemoteKinect == false ) {
 				// fake test controls

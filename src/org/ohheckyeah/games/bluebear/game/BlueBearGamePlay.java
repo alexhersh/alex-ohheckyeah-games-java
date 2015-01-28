@@ -32,7 +32,7 @@ import org.ohheckyeah.shared.app.OHYBaseGame.GameState;
 import processing.core.PGraphics;
 
 import com.haxademic.core.app.P;
-import com.haxademic.core.hardware.kinect.KinectRegionGrid;
+import com.haxademic.core.hardware.joystick.IJoystickCollection;
 import com.haxademic.core.math.easing.LinearFloat;
 
 public class BlueBearGamePlay {
@@ -40,7 +40,7 @@ public class BlueBearGamePlay {
 	protected BlueBear p;
 	protected PGraphics pg;
 
-	protected KinectRegionGrid _kinectGrid;
+	protected IJoystickCollection _joysticks;
 	protected boolean _gameIsActive = false;
 	protected boolean _gameShouldEnd = false;
 	protected boolean _gameLose = false;
@@ -98,14 +98,14 @@ public class BlueBearGamePlay {
 	protected int _honeyPotsCollected;
 	
 	
-	public BlueBearGamePlay( KinectRegionGrid kinectGrid, boolean isRemoteKinect ) {
+	public BlueBearGamePlay( IJoystickCollection joysticks, boolean isRemoteKinect ) {
 		p = (BlueBear) P.p;
 		pg = p.pg;
 		
-		_kinectGrid = kinectGrid;
+		_joysticks = joysticks;
 		_isRemoteKinect = isRemoteKinect;
 		
-		SPEED = p.scaleV(SPEED);
+		SPEED = p.scaleH(SPEED);
 		_scrollSpeedInc = p.scaleV(_scrollSpeedInc);
 		_scrollSpeed = new LinearFloat( 0, _scrollSpeedInc );
 		buildNeighborhoods();
@@ -139,8 +139,8 @@ public class BlueBearGamePlay {
 		
 		_obstacles = new BlueBearStreetItems();
 		_goodies = new BlueBearStreetItems();
-		_bear = new BlueBearCharacter( new BlueBearPlayerControls(_kinectGrid.getRegion(0), _isRemoteKinect) );
-		_nemesis = new BlueBearNemesis( new BlueBearPlayerControls(_kinectGrid.getRegion(1), _isRemoteKinect), this );
+		_bear = new BlueBearCharacter( new BlueBearPlayerControls(_joysticks.getRegion(0), _isRemoteKinect) );
+		_nemesis = new BlueBearNemesis( new BlueBearPlayerControls(_joysticks.getRegion(1), _isRemoteKinect), this );
 		_playerDetectBackground = new BlueBearPlayerDetectionBg();
 		_scoreDisplay = new BlueBearScoreDisplay();
 		_scoreDisplay.reset(GAME_SECONDS);

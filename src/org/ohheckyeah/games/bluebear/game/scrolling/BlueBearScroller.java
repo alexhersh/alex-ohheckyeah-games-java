@@ -98,6 +98,7 @@ public class BlueBearScroller {
 		// add new graphics to fill up the screen
 		if( _graphicPool != null && _graphicPool.length > 0 ) {
 			PShape newGraphic = null;
+//			String newGraphicFile = null;
 			int newPad = 0;
 			while( _graphicsEndX < pg.width ) {
 				// only show certain files once!
@@ -115,6 +116,11 @@ public class BlueBearScroller {
 				_graphicsEndX += svgWidth(newGraphic) + newPad;
 				_graphicsOnScreen.add(newGraphic);
 				_graphicsPadding.add(newPad);
+//				// randomly flip characters on street
+//				newGraphicFile = _graphicPoolFiles[_graphicIndex];
+//				if( newGraphicFile.indexOf("Character") != -1 ) {
+//					if( MathUtil.randBoolean(p) == true ) newGraphic.rotateY( P.PI );
+//				}
 			}
 		}
 		

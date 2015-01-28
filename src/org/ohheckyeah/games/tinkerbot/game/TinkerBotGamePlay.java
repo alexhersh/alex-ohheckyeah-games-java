@@ -12,14 +12,14 @@ import org.ohheckyeah.shared.app.OHYBaseGame.GameState;
 import processing.core.PGraphics;
 
 import com.haxademic.core.app.P;
-import com.haxademic.core.hardware.kinect.KinectRegionGrid;
+import com.haxademic.core.hardware.joystick.IJoystickCollection;
 
 public class TinkerBotGamePlay {
 	
 	protected TinkerBot p;
 	protected PGraphics pg;
 
-	protected KinectRegionGrid _kinectGrid;
+	protected IJoystickCollection _joysticksGrid;
 	protected boolean _gameIsActive = false;
 	
 	protected boolean _isRemoteKinect;
@@ -48,11 +48,11 @@ public class TinkerBotGamePlay {
 	protected int _curGoalPosition = 999;
 
 	
-	public TinkerBotGamePlay( KinectRegionGrid kinectGrid, boolean isRemoteKinect ) {
+	public TinkerBotGamePlay( IJoystickCollection kinectGrid, boolean isRemoteKinect ) {
 		p = (TinkerBot) P.p;
 		pg = p.pg;
 		
-		_kinectGrid = kinectGrid;
+		_joysticksGrid = kinectGrid;
 		_isRemoteKinect = isRemoteKinect;
 		
 		buildGraphicsLayers();
@@ -66,7 +66,7 @@ public class TinkerBotGamePlay {
 		float detectionSpacing = 1f / ( OHYBaseGame.NUM_PLAYERS + 1 ); // +2 from last index for spacing on the sides
 		float playerSpacing = 1f / ( OHYBaseGame.NUM_PLAYERS + 3 ); // +4 from last index for spacing on the sides
 		_players = new TinkerBotPlayer[OHYBaseGame.NUM_PLAYERS];
-		for( int i=0; i < OHYBaseGame.NUM_PLAYERS; i++ ) _players[i] = new TinkerBotPlayer(_kinectGrid.getRegion(i), _isRemoteKinect, (float) (i+1) * detectionSpacing, (float) (i+2) * playerSpacing );
+		for( int i=0; i < OHYBaseGame.NUM_PLAYERS; i++ ) _players[i] = new TinkerBotPlayer(_joysticksGrid.getRegion(i), _isRemoteKinect, (float) (i+1) * detectionSpacing, (float) (i+2) * playerSpacing );
 		_robots = new TinkerBotRobots();
 		_scoreDisplay = new TinkerBotScoreDisplay();
 		_gameTimer = new TinkerBotGameTimer( this, p.appConfig.getInt( "game_seconds", 30 ) );

@@ -12,7 +12,7 @@ import processing.core.PGraphics;
 import com.haxademic.core.app.P;
 import com.haxademic.core.draw.util.DrawUtil;
 import com.haxademic.core.draw.util.OpenGLUtil;
-import com.haxademic.core.hardware.kinect.KinectRegion;
+import com.haxademic.core.hardware.joystick.IJoystickControl;
 import com.haxademic.core.math.easing.EasingFloat;
 
 public class CatchyGamePlay {
@@ -27,7 +27,7 @@ public class CatchyGamePlay {
 	protected boolean _controlsActive = false;
 	protected boolean _gameIsActive = false;
 	
-	protected KinectRegion _kinectRegion;
+	protected IJoystickControl _joystick;
 	protected boolean _isRemoteKinect;
 	protected boolean _hasPlayer = false;
 	protected boolean _detectedPlayer = false;
@@ -55,13 +55,13 @@ public class CatchyGamePlay {
 	
 	protected CatchyScoreDisplay _score;
 	
-	public CatchyGamePlay( int gameIndex, int gameWidth, KinectRegion kinectRegion, boolean isRemoteKinect ) {
+	public CatchyGamePlay( int gameIndex, int gameWidth, IJoystickControl joystick, boolean isRemoteKinect ) {
 		p = (Catchy) P.p;
 		pg = p.pg;
 		this.gameIndex = gameIndex;
 		this.gameWidth = gameWidth;
 		this.gameHalfWidth = Math.round( gameWidth / 2f );
-		_kinectRegion = kinectRegion;
+		_joystick = joystick;
 		_isRemoteKinect = isRemoteKinect;
 		
 		canvas = p.createGraphics( gameWidth, pg.height, P.OPENGL );
@@ -212,10 +212,12 @@ public class CatchyGamePlay {
 		if( _controlsActive == true ) {
 			// update player control for character
 			if( _gameIsActive == false ) {
-				detectKinectPlayers();
+				detectPlayers();
 			} else {
-				if( p.kinectWrapper != null || _isRemoteKinect == true ) {
-					_easedControlX.setTarget( _kinectRegion.controlX() * 2f );					
+				if( p.kinectWrapper != null || p.leapMotion != null || _isRemoteKinect == true ) {
+					if(_joystick.isActive() == true) {
+						_easedControlX.setTarget( _joystick.controlX() );
+					}
 				} else {
 					if( _isRemoteKinect == false ) {
 						// fake test controls
@@ -229,16 +231,16 @@ public class CatchyGamePlay {
 		_playerOffset = gameHalfWidth * curControlX;
 	}
 	
-	protected void detectKinectPlayers() {
+	protected void detectPlayers() {
 		if( _detectedPlayer == false ) {
-			if( _kinectRegion.pixelCount() >= 20 || (p.kinectWrapper == null && _isRemoteKinect == false) ) {
+			if( _joystick.isActive() == true || (p.leapMotion == null && p.kinectWrapper == null && _isRemoteKinect == false) ) {
 				_detectedPlayerTime = p.millis();
 				_detectedPlayer = true;
 				_waitingSpinner.playerEntered();
 				p.sounds.playSound( CatchySounds.STEP_IN );
 			}
 		} else {
-			if( _kinectRegion.pixelCount() < 20 && (p.kinectWrapper != null || _isRemoteKinect == true) ) {
+			if( _joystick.isActive() == false && (p.leapMotion != null || (p.kinectWrapper != null || _isRemoteKinect == true)) ) {
 				_detectedPlayer = false;
 				_hasPlayer = false;
 				_waitingSpinner.playerLeft();

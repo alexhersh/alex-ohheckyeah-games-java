@@ -4,13 +4,13 @@ import org.ohheckyeah.games.bluebear.BlueBear;
 import org.ohheckyeah.shared.app.OHYBaseGame.PlayerDetectedState;
 
 import com.haxademic.core.app.P;
-import com.haxademic.core.hardware.kinect.KinectRegion;
+import com.haxademic.core.hardware.joystick.IJoystickControl;
 import com.haxademic.core.math.MathUtil;
 
 public class BlueBearPlayerControls {
 
 	protected BlueBear p;
-	protected KinectRegion _kinectRegion;
+	protected IJoystickControl _joystick;
 	protected boolean _isRemoteKinect = false;
 	protected boolean _controlsActive = false;
 	protected boolean _hasPlayer = false;
@@ -23,9 +23,9 @@ public class BlueBearPlayerControls {
 	public final static int LANE_BOTTOM = 2;
 	protected int _lane = 0;
 	
-	public BlueBearPlayerControls( KinectRegion kinectRegion, boolean isRemoteKinect ) {
+	public BlueBearPlayerControls( IJoystickControl kinectRegion, boolean isRemoteKinect ) {
 		p = (BlueBear) P.p;
-		_kinectRegion = kinectRegion;
+		_joystick = kinectRegion;
 		_isRemoteKinect = isRemoteKinect;
 	}
 	
@@ -47,15 +47,17 @@ public class BlueBearPlayerControls {
 	}
 	
 	public void updateControls() {
-		if( p.kinectWrapper != null || _isRemoteKinect == true ) {
-			float controlZ = _kinectRegion.controlZ();
-			if( p.kinectWrapper != null && p.kinectWrapper.isMirrored() == false ) controlZ = _kinectRegion.controlZ() * -1f;
-			if( controlZ < -0.1666 ) {				
-				_lane = LANE_TOP;
-			} else if( controlZ > 0.1666 ) {
-				_lane = LANE_BOTTOM;
-			} else {
-				_lane = LANE_MIDDLE;
+		if( p.kinectWrapper != null || p.leapMotion != null || _isRemoteKinect == true ) {
+			if(_joystick.isActive() == true) {
+				float controlZ = _joystick.controlZ();
+				if( p.leapMotion != null || (p.kinectWrapper != null && p.kinectWrapper.isMirrored() == false) ) controlZ = _joystick.controlZ() * -1f;
+				if( controlZ < -0.1666 ) {				
+					_lane = LANE_TOP;
+				} else if( controlZ > 0.1666 ) {
+					_lane = LANE_BOTTOM;
+				} else {
+					_lane = LANE_MIDDLE;
+				}
 			}
 		} else {
 			if( _isRemoteKinect == false ) {
@@ -67,17 +69,17 @@ public class BlueBearPlayerControls {
 			}
 		}
 	}
-	
+
 	public PlayerDetectedState detectPlayer() {
 		PlayerDetectedState curState = null; // PlayerDetectedState.PLAYER_WAITING;
 		if( _detectedPlayer == false ) {
-			if( _kinectRegion.pixelCount() >= 20 || (p.kinectWrapper == null && _isRemoteKinect == false) ) {
+			if( _joystick.isActive() == true || (p.leapMotion == null && p.kinectWrapper == null && _isRemoteKinect == false) ) {
 				_detectedPlayerTime = p.millis();
 				_detectedPlayer = true;
 				curState = PlayerDetectedState.PLAYER_DETECTED;
 			}
 		} else {
-			if( _kinectRegion.pixelCount() < 20 && (p.kinectWrapper != null || _isRemoteKinect == true) ) {
+			if( _joystick.isActive() == false && (p.leapMotion != null || (p.kinectWrapper != null || _isRemoteKinect == true)) ) {
 				_detectedPlayer = false;
 				_hasPlayer = false;
 				curState = PlayerDetectedState.PLAYER_LOST;

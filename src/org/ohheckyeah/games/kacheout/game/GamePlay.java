@@ -4,19 +4,15 @@ import java.util.ArrayList;
 
 import org.ohheckyeah.games.kacheout.KacheOut;
 
-import processing.core.PVector;
 import toxi.color.TColor;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.data.FloatRange;
 import com.haxademic.core.draw.util.DrawUtil;
-import com.haxademic.core.hardware.kinect.KinectRegion;
-import com.haxademic.core.hardware.kinect.KinectWrapper;
+import com.haxademic.core.hardware.joystick.IJoystickControl;
 import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.math.easing.EasingFloat;
 import com.haxademic.core.math.easing.ElasticFloat;
-
-import de.voidplus.leapmotion.Hand;
 
 public class GamePlay {
 	protected KacheOut p;
@@ -33,13 +29,10 @@ public class GamePlay {
 	protected ArrayList<Invader> _invaders;
 	
 	// controls
-	protected float K_PIXEL_SKIP = 6;
-	protected FloatRange _kinectRange;
-	protected boolean _isKinectReversed = true;
 	protected EasingFloat _gameRotation = new EasingFloat( 0, 10 );
 	protected EasingFloat _gameBaseY = new EasingFloat( 0, 7 );
 	
-	protected KinectRegion _kinectRegion;
+	protected IJoystickControl _joystick;
 	
 	// colors
 	protected TColor _winColor = new TColor( TColor.GREEN );
@@ -62,14 +55,13 @@ public class GamePlay {
 	protected int _gameNum = 0;
 
 	
-	public GamePlay( int gameIndex, int gameLeft, int gameRight, FloatRange kinectRange, KinectRegion kinectRegion ) {
+	public GamePlay( int gameIndex, int gameLeft, int gameRight, FloatRange kinectRange, IJoystickControl joystick ) {
 		p = (KacheOut) P.p;
 		_gameIndex = gameIndex;
 		_gameLeft = gameLeft;
 		_gameRight = gameRight;
 		_gameWidth = gameRight - gameLeft;
-		_kinectRange = kinectRange;
-		_kinectRegion = kinectRegion;
+		_joystick = joystick;
 		
 		// create blocks
 		_invaders = new ArrayList<Invader>();
@@ -178,15 +170,15 @@ public class GamePlay {
 		p.popMatrix();
 	}
 	
-	protected void findKinectCenterX() {
-		if( _kinectRegion.pixelCount() > 10 ) {
-			detectPlayerReady();
+	protected void detectPlayer() {
+		if( _joystick.isActive() == true ) {
+			playerIsReady();
 		} else {
 			_playerDetectedFrames = 0;
 		}
 	}
 	
-	protected void detectPlayerReady() {
+	protected void playerIsReady() {
 		// recognize that a player is in the area
 		if( _playerReady == false ) {
 			_playerDetectedFrames++;
@@ -204,33 +196,17 @@ public class GamePlay {
 		// update keyboard or Kinect, and pass the value to the paddle
 		float paddleX = 0.5f;
 		boolean inputDetected = false;
-		if( p.kinectWrapper != null && p.kinectWrapper.isActive() == true ) {
-			findKinectCenterX();
+		if( p.leapMotion != null || (p.kinectWrapper != null && p.kinectWrapper.isActive() == true) ) {
+			detectPlayer();
 			// send kinect data to games - calculate based off number of games vs. kinect width
-			if( _playerReady == false ) {	// _kinectCurrent.center() == -1 || 
+			if( _playerReady == false ) { 
 				paddleX = 0.5f;
 				inputDetected = true;
-			} else {
-//				if( _kinectCurrent.center() != -1 ) {
-//					paddleX = MathUtil.getPercentWithinRange( _kinectRange.min(), _kinectRange.max(), _kinectCurrent.center() );
-					paddleX = 0.5f + _kinectRegion.controlX() * 1.3f;
-					inputDetected = true;
-//				}
+			} else if( _joystick.isActive() == true ) {
+				paddleX = 0.5f + _joystick.controlX() * 0.8f;
+				inputDetected = true;
 			}
 			if( inputDetected == true ) _paddle.setTargetXByPercent( 1f - paddleX );
-		} else if( p.leapMotion != null ) {
-			float leapFactor = ((float)p.width/(float)KinectWrapper.KWIDTH);
-		    for(Hand hand : p.leapMotion.getHands()){
-		        PVector handPosition = hand.getPosition();
-		        float leftHandBounds = _kinectRange.min() * leapFactor;
-		        float rightHandBounds = _kinectRange.max() * leapFactor;
-
-		        if( handPosition.x > leftHandBounds && handPosition.x < rightHandBounds ) {
-		        	_paddle.setTargetXByPercent( 1f - MathUtil.getPercentWithinRange( leftHandBounds, rightHandBounds, handPosition.x ) );
-		        	detectPlayerReady();
-		        }
-//		        P.println("handPosition.x = "+handPosition.x);
-		    }
 		} else {
 			_paddle.setTargetXByPercent( 1f - MathUtil.getPercentWithinRange( 0, p.gameWidth(), p.mouseX ) );
 		}
@@ -238,9 +214,6 @@ public class GamePlay {
 	
 	protected void drawGameObjects() {
 		p.pushMatrix();
-		
-//		OpenGLUtil.enableBlending( p, true );
-//		OpenGLUtil.setBlendMode( p, OpenGLUtil.ADDITIVE );
 		
 		// draw the blocks
 		int index = 0;
@@ -254,19 +227,12 @@ public class GamePlay {
 		}
 		if( _numActiveBlocks == 0 ) _hasClearedBoard = true;
 		p.popMatrix();
-		
-//		OpenGLUtil.enableBlending( p, false );
-//		OpenGLUtil.setBlendMode( p, OpenGLUtil.NORMAL );
-		
+				
 		// draw other objects
 		_paddle.display();
 		_walls.display();
 		if( p.gameState() == KacheOut.GAME_ON ) {
 			_ball.display( _paddle );
-		}
-		if( p.isDebugging() == true ) {
-			drawDebugLines();
-			drawPlayerKinectPoints();
 		}
 	}
 	
@@ -385,40 +351,6 @@ public class GamePlay {
 		}
 
 		// make sure we didn't jack anything up elsewhere
-		p.popMatrix();
-	}
-	
-	protected void drawPlayerKinectPoints() {
-		// draw point cloud
-		p.pushMatrix();
-		DrawUtil.setCenter( p );
-//		float xTravel = p.gameWidth() - KinectWrapper.KWIDTH;
-		float scale = 1;
-		p.translate( -KinectWrapper.KWIDTH/2f, 0, -1000 );
-//		float scale = 100f;	// 22f
-//		p.translate( (_gameIndex*60f) + -_paddle.xPosPercent() * 50f, 26, -400 );
-		
-		if( p.kinectWrapper != null ) p.kinectWrapper.drawPointCloudForRect( p, true, 8, 0.5f, scale, KacheOut.KINECT_MIN_DIST, KacheOut.KINECT_MAX_DIST, KacheOut.KINECT_TOP, (int)_kinectRange.max(), KacheOut.KINECT_BOTTOM, (int)_kinectRange.min() );
-		p.popMatrix();
-		
-//		p.image(p.kinectWrapper.getRgbImage(),0,0);
-//		p.image(p.kinectWrapper.getIRImage(),0,0);
-//		p.image(p.kinectWrapper.getDepthImage(),0,0);
-	}
-	
-	protected void drawDebugLines() {
-		// draw debug positioning vertical lines
-		p.pushMatrix();
-		DrawUtil.setCenter( p );
-		p.translate( -KinectWrapper.KWIDTH/2, 0, -700 );
-		p.fill( 255, 255, 255, 127 );
-		p.rect(_kinectRange.min(), 0, 2, p.stageHeight());
-		p.rect(_kinectRange.max(), 0, 2, p.stageHeight());
-		p.fill( 255, 0, 0, 127 );
-//		p.rect(_kinectCurrent.min(), 0, 2, p.stageHeight());
-//		p.rect(_kinectCurrent.max(), 0, 2, p.stageHeight());
-		p.fill( 0, 255, 0, 127 );
-//		p.rect(_kinectCurrent.center(), 0, 2, p.stageHeight());
 		p.popMatrix();
 	}
 	

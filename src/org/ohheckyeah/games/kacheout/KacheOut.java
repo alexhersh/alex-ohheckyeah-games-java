@@ -35,7 +35,7 @@ extends OHYKinectApp
 	 * @param args
 	 */
 	public static void main(String args[]) {
-		_isFullScreen = false;
+		_isFullScreen = true;
 		_hasChrome = false;
 		boolean isSecondScreen = false;
 		if( isSecondScreen ) {
@@ -50,7 +50,6 @@ extends OHYKinectApp
 	public static float KINECT_MAX_DIST = 2000;
 	public static int KINECT_TOP = 0;
 	public static int KINECT_BOTTOM = 150;
-	protected boolean _isDebuggingKinect = false;
 
 	// tracking
 	protected KacheOutTracking _tracking;
@@ -61,10 +60,7 @@ extends OHYKinectApp
 	public AudioPool sounds;
 	public Soundtrack soundtrack;
 	
-	// debug 
-	protected boolean _isDebugging = false;
-	
-	// dimensions and stuff
+	// dimensions 
 	protected int _stageWidth;
 	protected int _stageHeight;	
 	protected int _gameWidth;
@@ -180,8 +176,8 @@ extends OHYKinectApp
 		int KINECT_PLAYER_GAP = p.appConfig.getInt( "kinect_player_gap", 0 );
 
 		float kinectRangeWidth = KinectWrapper.KWIDTH / 2f - KINECT_PLAYER_GAP / 2f;
-		_player1 = new GamePlay( 0, 0, _gameWidth, new FloatRange( 0, kinectRangeWidth ), _kinectGrid.getRegion(0) );
-		_player2 = new GamePlay( 1, _gameWidth, _gameWidth * 2, new FloatRange( KinectWrapper.KWIDTH - kinectRangeWidth, KinectWrapper.KWIDTH ), _kinectGrid.getRegion(1) );
+		_player1 = new GamePlay( 0, 0, _gameWidth, new FloatRange( 0, kinectRangeWidth ), _joysticks.getRegion(0) );
+		_player2 = new GamePlay( 1, _gameWidth, _gameWidth * 2, new FloatRange( KinectWrapper.KWIDTH - kinectRangeWidth, KinectWrapper.KWIDTH ), _joysticks.getRegion(1) );
 		_gamePlays = new ArrayList<GamePlay>();
 		_gamePlays.add( _player1 );
 		_gamePlays.add( _player2 );
@@ -210,18 +206,6 @@ extends OHYKinectApp
 	public void beatDetect( int isKickCount, int isSnareCount, int isHatCount, int isOnsetCount ) {
 	}
 	
-	// INPUT --------------------------------------------------------------------------------------
-
-	protected void handleInput( boolean isMidi ) {
-		super.handleInput( isMidi );
-		if ( p.key == 'd' || p.key == 'D' ) {
-			_isDebugging = !_isDebugging;
-			if( kinectWrapper != null ) {
-				kinectWrapper.enableRGB( !_isDebugging );
-				kinectWrapper.enableDepth( !_isDebugging );
-			}
-		}
-	}
 	
 	// PUBLIC ACCESSORS FOR GAME OBJECTS --------------------------------------------------------------------------------------
 	public int gameWidth() { return _gameWidth; }
@@ -230,7 +214,6 @@ extends OHYKinectApp
 	public float gameBaseZ() { return -_stageHeight; }
 	public int gameState() { return _gameState; }
 	public ColorGroup gameColors() { return _gameColors; }
-	public boolean isDebugging() { return _isDebugging; }
 	
 	
 	// GAME LOGIC --------------------------------------------------------------------------------------
@@ -269,11 +252,6 @@ extends OHYKinectApp
 			soundtrack.stop();
 			sounds.playSound( WIN_SOUND );
 		}
-		// mute sounds while stress-testing
-		if( _isDebugging == true ) {
-//			sounds.mute( true );
-//			soundtrack.mute( true );
-		}
 	}
 		
 	// FRAME LOOP --------------------------------------------------------------------------------------
@@ -301,8 +279,6 @@ extends OHYKinectApp
 			updateGames();
 			p.popMatrix();
 		}
-		
-		if( _isDebugging == true ) displayDebug();
 	}
 	
 	protected void checkGameStart() {
@@ -350,35 +326,7 @@ extends OHYKinectApp
 			}
 		}
 	}
-	
-	protected void displayDebug() {
-//		debugCameraPos();
-//		drawDebug();
-		
-		if( p.frameCount % ( _fps * 60 ) == 0 ) {
-			P.println( "time: "+P.minute()+":"+P.second() );
-		}
-		if( p.frameCount % ( _fps * 15 ) == 0 ) {
-			if( _gameState == GAME_INSTRUCTIONS ) {
-				setGameMode( GAME_COUNTDOWN );
-			}
-		}
-	}
-	
-	protected void drawDebug() {
-		// draw depth image
-		DrawUtil.setCenter( p );
-		p.translate( 0, 0, -1350 );
-		p.fill(255, 255);
-		p.noStroke();
-		p.rect(0, 0, KinectWrapper.KWIDTH*1.1f, KinectWrapper.KHEIGHT*1.1f);
-		p.translate( 0, 0, 100 );
-		p.rotateY( (float)Math.PI );
-//		p.image( _kinectWrapper.getDepthImage(), 0, 0, _kinectWrapper.KWIDTH, _kinectWrapper.KHEIGHT );
-		p.image( kinectWrapper.getDepthImage(), 0, 0, _stageWidth, _stageHeight );
-
-	}
-	
+			
 	// Visual fun
 	protected void pickNewColors() {
 		// get themed colors
