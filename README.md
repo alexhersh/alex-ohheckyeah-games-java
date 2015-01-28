@@ -27,11 +27,19 @@ The [OhHeckYeah](http://ohheckyeah.com) video games, written with Java & [Proces
 		* If you have a model 1473 Kinect camera, you might try [this build](http://intermedia.itu.dk/1473/) of the SimpleOpenNI library, but this isn't guaranteed to work
 * [Download](https://github.com/voidplus/leap-motion-processing/archive/master.zip) and install the latest Leap Motion for Processing library.
 	* Unzip and copy the `leap-motion-processing` directory into your project's `lib` folder
+	* This directory should be renamed to `LeapMotionForProcessing`
+	* Right-click the project root folder and click **Properties**
+		* Click the **Java Build Path** section, and click the **Libraries** tab
+		* Click the accordion arrow next to `LeapJava.jar` and `LeapMotionForProcessing.jar`
+			* For each, select `Native Library Location`, then the `Edit...` buttons to the right
+			* Click `External Folder...` and find the directory with the c++ libraries for your platform. For OS X, it would look something like: `ohheckyeah-games-java/lib/LeapMotionForProcessing/library/macosx`
+	* Make sure you've installed the latest Leap Motion software from the system control panel and turn on auto-updates
+	* Also make sure to install the latest Leap Motion [SDK](https://developer.leapmotion.com/downloads)
 * In the **Package Explorer** in Eclipse, right-click the `lib` directory and select **Refresh**. This will let Eclipse know that you've added the appropriate libraries on your file system.
-* Make sure you're compiling with Java 1.6:
+* Make sure you're compiling with Java 1.7:
 	* Right-click the `ohheckyeah-games-java` project in the **Package Explorer** or **Navigator** window and click **Properties**
 	* Click the **Java Compiler** section and check the **Enable project specific settings** box on the right
-	* Select **1.6** as your **Compiler compliance level**, if possible
+	* Select **1.7** as your **Compiler compliance level**, if possible
 	* If "Configure the **Installed JREs**" is shown at the bottom of this window, click that, make sure the **1.6** item is checked, then click OK.
 * Right-click on a any of the games within `src` and choose **Run As -> Java Applet** from the menu. Hopefully you're seeing something awesome at this point.
 
