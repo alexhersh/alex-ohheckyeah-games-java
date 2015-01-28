@@ -43,8 +43,13 @@ The [OhHeckYeah](http://ohheckyeah.com) video games, written with Java & [Proces
 	* If "Configure the **Installed JREs**" is shown at the bottom of this window, click that, make sure the **1.6** item is checked, then click OK.
 * If you're using a Leap Motion controller, make sure you're compiling with Java SE 7 (1.7):
 	* In **Run Configurations** for your application, click the **JRE** tab and select **Alternate JRE**, then select **Java SE 7** from the dropdown
+* Right-click on any of the games' main .java files within `src/org/ohheckyeah/games` (**Catchy.java**, for example) and choose **Run As -> Java Application** from the menu. This will create a run configuration for the game, but you'll likely crash due to running out of memory.
+* In **Run Configurations**, select your app and add the following **VM Arguments** when running the Java Application to increase memory allocated to your app. This is a minimum of 1gb and a maximum of 2gb of RAM:
+	* `-Xms1G`
+	* `-Xmx2G`
+* Run the application again, and you should hopefully have a game running, with mock controls.
+* Find the game's .properties file in `data/properties` to turn on a hardware controller by setting `kinect_active` or `leap_active` to true
 
-* Right-click on any of the games within `src` and choose **Run As -> Java Applet** from the menu. Hopefully you're seeing something awesome at this point.
 
 OhHeckYeah uses the following Java & Processing libraries, which I've included in this repository unless they're too big:
 
@@ -59,11 +64,6 @@ OhHeckYeah uses the following Java & Processing libraries, which I've included i
 * [UDP Processing Library](http://ubaa.net/shared/processing/udp/)
 * [ControlP5](http://www.sojamo.de/libraries/controlP5/)
 * [Leap Motion for Processing](https://github.com/voidplus/leap-motion-processing/)
-
-Use the following VM Arguments when running the Java Application to increase memory allocated to your app
-
-* `-Xms1024M`
-* `-Xmx2048M`
 
 General Use / Tips
 
