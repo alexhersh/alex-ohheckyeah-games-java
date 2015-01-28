@@ -36,12 +36,15 @@ The [OhHeckYeah](http://ohheckyeah.com) video games, written with Java & [Proces
 	* Make sure you've installed the latest Leap Motion software from the system control panel and turn on auto-updates
 	* Also make sure to install the latest Leap Motion [SDK](https://developer.leapmotion.com/downloads)
 * In the **Package Explorer** in Eclipse, right-click the `lib` directory and select **Refresh**. This will let Eclipse know that you've added the appropriate libraries on your file system.
-* Make sure you're compiling with Java 1.7:
+* Make sure you're compiling with at least Java SE 6 (1.6):
 	* Right-click the `ohheckyeah-games-java` project in the **Package Explorer** or **Navigator** window and click **Properties**
 	* Click the **Java Compiler** section and check the **Enable project specific settings** box on the right
-	* Select **1.7** as your **Compiler compliance level**, if possible
+	* Select **1.6** as your **Compiler compliance level**, if possible
 	* If "Configure the **Installed JREs**" is shown at the bottom of this window, click that, make sure the **1.6** item is checked, then click OK.
-* Right-click on a any of the games within `src` and choose **Run As -> Java Applet** from the menu. Hopefully you're seeing something awesome at this point.
+* If you're using a Leap Motion controller, make sure you're compiling with Java SE 7 (1.7):
+	* In **Run Configurations** for your application, click the **JRE** tab and select **Alternate JRE**, then select **Java SE 7** from the dropdown
+
+* Right-click on any of the games within `src` and choose **Run As -> Java Applet** from the menu. Hopefully you're seeing something awesome at this point.
 
 OhHeckYeah uses the following Java & Processing libraries, which I've included in this repository unless they're too big:
 
