@@ -30,16 +30,8 @@
 	<classpathentry kind="lib" path="lib/geomerative/library/batikfont.jar"/>
 	<classpathentry kind="lib" path="lib/geomerative/library/geomerative.jar"/>
 	<classpathentry kind="lib" path="lib/OBJLoader/library/OBJLoader.jar"/>
-	<classpathentry kind="lib" path="lib/LeapMotionForProcessing/library/LeapJava.jar">
-		<attributes>
-			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="/Users/cacheflowe/Documents/workspace/ohheckyeah/ohheckyeah-games-java/lib/LeapMotionForProcessing/library/macosx"/>
-		</attributes>
-	</classpathentry>
-	<classpathentry kind="lib" path="lib/LeapMotionForProcessing/library/LeapMotionForProcessing.jar" sourcepath="lib/LeapMotionForProcessing/src">
-		<attributes>
-			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="/Users/cacheflowe/Documents/workspace/ohheckyeah/ohheckyeah-games-java/lib/LeapMotionForProcessing/library/macosx"/>
-		</attributes>
-	</classpathentry>
+	<classpathentry kind="lib" path="lib/LeapMotionForProcessing/library/LeapJava.jar"/>
+	<classpathentry kind="lib" path="lib/LeapMotionForProcessing/library/LeapMotionForProcessing.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/J2SE-1.5"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
