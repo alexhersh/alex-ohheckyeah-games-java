@@ -12,7 +12,8 @@ The [OhHeckYeah](http://ohheckyeah.com) video games, written with Java & [Proces
 	* `defaults write com.apple.finder AppleShowAllFiles YES`
 * Download the standard Eclipse IDE for Java development, and the Java Development Kit itself:
 	* [Eclipse (standard 32-bit)](http://www.eclipse.org/)
-	* [Java for OS X](http://support.apple.com/kb/DL1572) or [JDK for Windows and other platforms](http://www.oracle.com/technetwork/java/javase/downloads/index.html)
+	* [Java for OS X](http://support.apple.com/kb/DL1572) and  or [JDK for Windows and other platforms](http://www.oracle.com/technetwork/java/javase/downloads/index.html)
+	* You'll also need [Java 7](http://www.oracle.com/technetwork/java/javase/downloads/jdk7-downloads-1880260.html) or [Java 8](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html) if you want to use the Leap Motion. After installing these later JDK libraries, click **Eclipse -> Preferences** then **Java -> Installed JREs**, and click **Search...** to have Eclipse find the newly-installed library.
 * Clone or [download](https://github.com/ohheckyeah/ohheckyeah-games-java/archive/master.zip) the `ohheckyeah-games-java` project
 * Open Eclipse and: **File -> Import -> General / Existing Projects into Workspace**
 	* Choose the `ohheckyeah-games-java` directory that you cloned/downloaded, press **Finish**, and the project should be ready to use, albeit with some errors.
@@ -35,16 +36,17 @@ The [OhHeckYeah](http://ohheckyeah.com) video games, written with Java & [Proces
 			* Click `External Folder...` and find the directory with the c++ libraries for your platform. For OS X, it would look something like: `ohheckyeah-games-java/lib/LeapMotionForProcessing/library/macosx`
 	* Make sure you've installed the latest Leap Motion software from the system control panel and turn on auto-updates
 	* Also make sure to install the latest Leap Motion [SDK](https://developer.leapmotion.com/downloads)
+	* Run the Leap Motion app, calibrate your Leap, and make sure that the red Infrared lights are turned on and that the unit is running
 * In the **Package Explorer** in Eclipse, right-click the `lib` directory and select **Refresh**. This will let Eclipse know that you've added the appropriate libraries on your file system.
 * Make sure you're compiling with at least Java SE 6 (1.6):
 	* Right-click the `ohheckyeah-games-java` project in the **Package Explorer** or **Navigator** window and click **Properties**
 	* Click the **Java Compiler** section and check the **Enable project specific settings** box on the right
 	* Select **1.6** as your **Compiler compliance level**, if possible
 	* If "Configure the **Installed JREs**" is shown at the bottom of this window, click that, make sure the **1.6** item is checked, then click OK.
-* If you're using a Leap Motion controller, make sure you're compiling with Java SE 7 (1.7):
-	* In **Run Configurations** for your application, click the **JRE** tab and select **Alternate JRE**, then select **Java SE 7** from the dropdown
+* If you're using a Leap Motion controller, make sure you're compiling with Java SE 7 (1.7) or Java SE 8 (1.8):
+	* In **Run Configurations** for your application, click the **JRE** tab and select **Alternate JRE**, then select **Java SE 7** or **Java SE 8** from the dropdown
 * Right-click on any of the games' main .java files within `src/org/ohheckyeah/games` (**Catchy.java**, for example) and choose **Run As -> Java Application** from the menu. This will create a run configuration for the game, but you'll likely crash due to running out of memory.
-* In **Run Configurations**, select your app and add the following **VM Arguments** when running the Java Application to increase memory allocated to your app. This is a minimum of 1gb and a maximum of 2gb of RAM:
+* In **Run -> Run Configurations**, select your app and add the following **VM Arguments** when running the Java Application to increase memory allocated to your app. This is a minimum of 1gb and a maximum of 2gb of RAM:
 	* `-Xms1G`
 	* `-Xmx2G`
 * Run the application again, and you should hopefully have a game running, with mock controls.
