@@ -1,5 +1,7 @@
 package org.ohheckyeah.shared.app;
 
+import java.io.File;
+
 import org.ohheckyeah.shared.assets.OHYGraphics;
 import org.ohheckyeah.shared.assets.OHYSounds;
 import org.ohheckyeah.shared.screens.OHYIntroScreens;
@@ -57,7 +59,7 @@ extends OHYPhysicalApp {
 	// shared setup methods --------------------------------------------------------------------------------------------
 	
 	public void setup( String propertiesFile, int gameOriginalHeight, int gameOriginalWidth ) {
-		_customPropsFile = FileUtil.getHaxademicDataPath() + "properties/" + propertiesFile;
+		_customPropsFile = FileUtil.getHaxademicDataPath() + "properties" + File.separator + propertiesFile;
 		super.setup();
 		buildCanvas();
 		gameScaleV = (float) pg.height / (float) gameOriginalHeight;

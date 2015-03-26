@@ -1,5 +1,6 @@
 package org.ohheckyeah.games.tinkerbot;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import org.ohheckyeah.games.tinkerbot.assets.TinkerBotColors;
@@ -213,8 +214,9 @@ extends OHYBaseGame
 	protected void setGameStateGameOver() {
 		_gamePlay.animateToGameOverState();
 		// set up tracking vars
-	    Date gameDate = new Date();
-	    _trackingDateStr = gameDate.toString();
+		SimpleDateFormat format = new SimpleDateFormat("E_MMM-dd-yyyy_HH-mm-ss");
+		Date gameDate = new Date();
+	    _trackingDateStr = format.format(gameDate);
 
 		// set time to advance back to intro screen
 		_gameOverTime = p.millis();

@@ -1,5 +1,6 @@
 package org.ohheckyeah.games.kacheout;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -19,7 +20,7 @@ import com.haxademic.core.cameras.common.ICamera;
 import com.haxademic.core.data.FloatRange;
 import com.haxademic.core.draw.color.ColorGroup;
 import com.haxademic.core.draw.util.DrawUtil;
-import com.haxademic.core.hardware.kinect.KinectWrapper;
+import com.haxademic.core.hardware.kinect.*;
 import com.haxademic.core.system.FileUtil;
 
 public class KacheOut
@@ -301,8 +302,9 @@ extends OHYPhysicalApp
 		if( takeScreenShot == true ) {
 			// PhotoBooth.snapGamePhoto( p, _stageWidth, _stageHeight );
 			// track game!
-		    Date gameDate = new Date();
-		    _trackingDateStr = gameDate.toString();
+			SimpleDateFormat format = new SimpleDateFormat("E_MMM-dd-yyyy_HH-mm-ss");
+			Date gameDate = new Date();
+		    _trackingDateStr =  format.format(gameDate);
 		    
 		    // store data
 		    String winIndexes = "";

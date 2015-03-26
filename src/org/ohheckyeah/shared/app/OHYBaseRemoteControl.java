@@ -1,5 +1,7 @@
 package org.ohheckyeah.shared.app;
 
+import java.io.File;
+
 import org.ohheckyeah.shared.OHYGameTracking;
 
 import com.haxademic.core.app.P;
@@ -19,7 +21,7 @@ extends OHYPhysicalApp {
 	
 	public void setup( String propertiesFile, OHYGameTracking tracking ) {
 		_tracking = tracking;
-		if( propertiesFile != null ) _customPropsFile = FileUtil.getHaxademicDataPath() + "properties/" + propertiesFile;
+		if( propertiesFile != null ) _customPropsFile = FileUtil.getHaxademicDataPath() + "properties" + File.separator + propertiesFile;
 		super.setup();
 		setInputProperties();
 		setRemoteControlProperties();

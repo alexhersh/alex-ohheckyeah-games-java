@@ -2,6 +2,8 @@ package org.ohheckyeah.games.catchy;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 
 import org.ohheckyeah.games.catchy.assets.CatchyColors;
 import org.ohheckyeah.games.catchy.assets.CatchyGraphics;
@@ -298,8 +300,9 @@ extends OHYBaseGame
 	protected void setGameStateGameOver() {
 		// set up tracking vars
 		String winIndexes = "";
-	    Date gameDate = new Date();
-	    _trackingDateStr = gameDate.toString();
+		SimpleDateFormat format = new SimpleDateFormat("E_MMM-dd-yyyy_HH-mm-ss");
+		Date gameDate = new Date();
+	    _trackingDateStr =  format.format(gameDate);
 
 		// find high/low score
 	    int highScore = 0;

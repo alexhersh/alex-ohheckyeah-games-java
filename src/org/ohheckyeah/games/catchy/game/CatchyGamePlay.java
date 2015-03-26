@@ -51,6 +51,10 @@ public class CatchyGamePlay {
 	protected int _droppableIndex = 0;
 	protected int _numDroppables = CatchyGameTimer.GAME_LENGTH_SECONDS;
 	protected float _percentBadDroppables = 0.2f;
+	protected float _initDropSpeed=1;
+	protected float _droppableSpeed = 4.0f;
+	protected float _dropSpeedBump = 0.5f; //The drop speed increments when changing speeds
+	protected boolean _droppableSpeedAdaptive = false;
 	
 	protected CatchyScoreDisplay _score;
 	
@@ -73,6 +77,10 @@ public class CatchyGamePlay {
 		_mountain = new CatchyMountainAndBushes(this);
 		_dropper = new CatchyDropper(this);
 		_droppables = new ArrayList<CatchyDroppable>();
+		_droppableSpeed = p.appConfig.getFloat("droppables_speed", 4.0f);
+		_initDropSpeed = _droppableSpeed;
+		_droppableSpeedAdaptive = p.appConfig.getBoolean("droppables_speed_adaptive", false);
+		
 		for( int i=0; i < _numDroppables; i++ ) {
 			if( i < _numDroppables * _percentBadDroppables ) { 
 				_droppables.add( new CatchyDroppable(this, true) );
@@ -169,6 +177,7 @@ public class CatchyGamePlay {
 		_character.reset();
 		_score.reset( _character.color() );
 		_dropper.reset();
+		_droppableSpeed = _initDropSpeed;
 		_bushSmallX = p.random( 0, gameWidth );
 		_bushLargeX = p.random( 0, gameWidth );
 		_gameIsActive = false;
@@ -178,7 +187,8 @@ public class CatchyGamePlay {
 	public void launchNewDroppable( float x ) {
 		CatchyDroppable droppable = _droppables.get( _droppableIndex );
 		_droppableIndex = ( _droppableIndex < _droppables.size() - 1 ) ? _droppableIndex + 1 : 0;
-		droppable.reset( x, p.scaleV(40f) );
+		droppable.reset( x, p.scaleV(40f) );	
+		droppable.updateDropSpeed(_droppableSpeed);	
 		p.sounds.playSound( CatchySounds.DROP );
 	}
 	
@@ -188,9 +198,17 @@ public class CatchyGamePlay {
 			if( droppable.isBad() == false ) {
 				_score.addScore(1);
 				_character.catchState( true );
+				if(_droppableSpeedAdaptive)
+				{
+					_droppableSpeed+=_dropSpeedBump;
+				}
 			} else {
 				_score.addScore(-1);
 				_character.catchState( false );
+				if(_droppableSpeedAdaptive && _droppableSpeed > 0.5)
+				{
+					_droppableSpeed-=_dropSpeedBump;
+				}
 			}
 		}
 		if( _character.checkBump(x, y) == true ) {
