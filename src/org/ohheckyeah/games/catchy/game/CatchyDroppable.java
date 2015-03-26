@@ -125,10 +125,15 @@ public class CatchyDroppable {
 		_scale.setTarget(SCALE * 0.5f);
 	}
 	
-	public void bumped() {
-		//		if( _xSpeed == 0 ) { 
-		//			_xSpeed = 10.0f;
-		//		}
+	public void updateDropSpeed(float speed) {
+				if( speed > 0 ) { 
+					_dropSpeed = speed;
+				}
+	}
+	
+	public float getDropSpeed()
+	{
+		return _dropSpeed;
 	}
 	
 	public void setCharacterPosition( float x, float y ) {

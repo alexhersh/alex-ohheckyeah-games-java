@@ -1,5 +1,6 @@
 package org.ohheckyeah.games.bluebear;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import org.ohheckyeah.games.bluebear.assets.BlueBearColors;
@@ -214,8 +215,9 @@ extends OHYBaseGame
 		_gameOverRecorded = false;
 		
 		// set up tracking vars
-	    Date gameDate = new Date();
-	    _trackingDateStr = gameDate.toString();
+		SimpleDateFormat format = new SimpleDateFormat("E_MMM-dd-yyyy_HH-mm-ss");
+		Date gameDate = new Date();
+	    _trackingDateStr =  format.format(gameDate);
 		// track gameplay!
 		_tracking.trackGameResult(_trackingDateStr, _gamePlay.GAME_SECONDS, _gamePlay.remainingSeconds(), _gamePlay.score(), _gamePlay.health(), _gamePlay.obstaclesHit(), _gamePlay.obstaclesLaunched(), _gamePlay.bearLaneChanges(), _gamePlay.coinsCollected(), _gamePlay.honeyPotsCollected());
 	}

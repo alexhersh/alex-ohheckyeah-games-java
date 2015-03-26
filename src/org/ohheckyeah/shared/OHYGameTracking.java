@@ -1,5 +1,6 @@
 package org.ohheckyeah.shared;
 
+import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Locale;
 
@@ -14,16 +15,16 @@ public class OHYGameTracking {
 	private final static String rfc1123Pattern ="EEE, dd MMM yyyyy HH:mm:ss z";
 	public final static SimpleDateFormat rfc1123Format = new SimpleDateFormat(rfc1123Pattern, loc);
 
-	protected String trackingOutputDir = FileUtil.getHaxademicOutputPath() + "games/";
+	protected String trackingOutputDir = FileUtil.getHaxademicOutputPath() + "games" + File.separator;
 	protected String outputDir;
 	protected String cameraImageDir;
 	protected String trackingTextDir;
 
 	public OHYGameTracking( String gameDir ) {
 		// build tracking directory paths
-		outputDir = trackingOutputDir + gameDir + "/";
-		cameraImageDir = outputDir + "camera/";
-		trackingTextDir = outputDir + "text/";
+		outputDir = trackingOutputDir + gameDir + File.separator;
+		cameraImageDir = outputDir + "camera" + File.separator;
+		trackingTextDir = outputDir + "text" + File.separator;
 		
 		// create directory if it doesn't exist
 		if( FileUtil.fileOrPathExists( FileUtil.getHaxademicOutputPath() ) == false ) FileUtil.createDir( FileUtil.getHaxademicOutputPath() );
@@ -36,7 +37,7 @@ public class OHYGameTracking {
 	public void saveCameraImage( String date ) {
 		// save rgb kinect image with the game timestamp
 		if(P.p.kinectWrapper == null) return;
-		P.p.kinectWrapper.getRgbImage().save( cameraImageDir + "/" + date + ".png" );
+		P.p.kinectWrapper.getRgbImage().save( cameraImageDir + File.separator + date + ".png" );
 	}
 
 }
