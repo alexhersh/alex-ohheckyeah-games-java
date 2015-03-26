@@ -20,17 +20,17 @@ import com.haxademic.core.cameras.common.ICamera;
 import com.haxademic.core.data.FloatRange;
 import com.haxademic.core.draw.color.ColorGroup;
 import com.haxademic.core.draw.util.DrawUtil;
-import com.haxademic.core.hardware.kinect.*;
+import com.haxademic.core.hardware.kinect.IKinectWrapper;
 import com.haxademic.core.system.FileUtil;
 
 public class KacheOut
-extends OHYPhysicalApp  
+extends OHYPhysicalApp
 {
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
-	
+
 	/**
 	 * Auto-initialization of the main class.
 	 * @param args
@@ -56,19 +56,19 @@ extends OHYPhysicalApp
 	protected KacheOutTracking _tracking;
 	protected String _trackingDateStr;
 	protected int _loserBlocksLeft = 0;
-	
+
 	// audio
 	public AudioPool sounds;
 	public Soundtrack soundtrack;
-	
-	// dimensions 
+
+	// dimensions
 	protected int _stageWidth;
-	protected int _stageHeight;	
+	protected int _stageHeight;
 	protected int _gameWidth;
 	protected int _numAverages = 32;
 
 	protected ICamera _curCamera = null;
-		
+
 	// mesh IDs
 	public static String CREATE_DENVER_LOGO = "CREATE_DENVER_LOGO";
 	public static String CREATE_DENVER_TEXT = "CREATE_DENVER";
@@ -93,7 +93,7 @@ extends OHYPhysicalApp
 	public static String COUNTDOWN_TEXT_3 = "COUNTDOWN_TEXT_3";
 	public static String WIN_TEXT = "WIN_TEXT";
 	public static String LOSE_TEXT = "LOSE_TEXT";
-	
+
 	// sound IDs
 	public static String PADDLE_BOUNCE = "PADDLE_BOUNCE";
 	public static String WALL_BOUNCE = "WALL_BOUNCE";
@@ -110,7 +110,7 @@ extends OHYPhysicalApp
 	public static String STEP_UP_SOUND = "STEP_UP_SOUND";
 	public static String LOSE_BALL_SOUND = "LOSE_BALL_SOUND";
 	public static String SFX_DOWN = "SFX_DOWN";
-	
+
 	// game state
 	protected int _gameStartTime;
 	protected int _curMode;
@@ -119,10 +119,10 @@ extends OHYPhysicalApp
 	protected ArrayList<GamePlay> _gamePlays;
 	protected GamePlay _player1;
 	protected GamePlay _player2;
-	
+
 	// non-gameplay screens
 	protected IntroScreen _screenIntro;
-	
+
 	// game state
 	protected int _gameState;
 	protected int _gameStateQueued;	// wait until beginning on the next frame to switch modes to avoid mid-frame conflicts
@@ -131,10 +131,10 @@ extends OHYPhysicalApp
 	public static int GAME_INTRO = 5;
 	public static int GAME_INSTRUCTIONS = 6;
 	public static int GAME_COUNTDOWN = 7;
-	
+
 	protected final float CAMERA_Z_WIDTH_MULTIPLIER = 0.888888f;	// 1280x720
 	protected float _cameraZFromHeight = 0;
-	
+
 	public void setup() {
 		_customPropsFile = FileUtil.getHaxademicDataPath() + "properties/kacheout.properties";
 		_useLegacyAudio = true;
@@ -148,26 +148,26 @@ extends OHYPhysicalApp
 		_stageHeight = height;
 		_gameWidth = _stageWidth / NUM_PLAYERS;
 //		_cameraZFromHeight = (float)_stageHeight * CAMERA_Z_WIDTH_MULTIPLIER;
-				
+
 		_audioInput.setNumAverages( _numAverages );
 		_audioInput.setDampening( .13f );
-		
+
 		sounds = new AudioPool( p, p.minim );
 		soundtrack = new Soundtrack();
-		
+
 		AssetLoader loader = new AssetLoader();
 		loader.createMeshPool();
-		loader.loadAudio( sounds );		
-		
+		loader.loadAudio( sounds );
+
 		_tracking = new KacheOutTracking();
 
-		
+
 		_screenIntro = new IntroScreen( _appConfig.getString("sponsor_images", "" ) );
-		
-		// set flags and props	
+
+		// set flags and props
 		pickNewColors();
 		newCamera();
-		
+
 		// default kinect camera distance is for up-close indoor testing. not good for real games - suggested use is 2300-3300
 		// default pixel rows are the center 200 kinect data rows
 		KINECT_MIN_DIST = _appConfig.getInt( "kinect_min_mm", 1500 );
@@ -176,13 +176,13 @@ extends OHYPhysicalApp
 		KINECT_BOTTOM = _appConfig.getInt( "kinect_bottom_pixel", 400 );
 		int KINECT_PLAYER_GAP = p.appConfig.getInt( "kinect_player_gap", 0 );
 
-		float kinectRangeWidth = KinectWrapper.KWIDTH / 2f - KINECT_PLAYER_GAP / 2f;
+		float kinectRangeWidth = IKinectWrapper.KWIDTH / 2f - KINECT_PLAYER_GAP / 2f;
 		_player1 = new GamePlay( 0, 0, _gameWidth, new FloatRange( 0, kinectRangeWidth ), _joysticks.getRegion(0) );
-		_player2 = new GamePlay( 1, _gameWidth, _gameWidth * 2, new FloatRange( KinectWrapper.KWIDTH - kinectRangeWidth, KinectWrapper.KWIDTH ), _joysticks.getRegion(1) );
+		_player2 = new GamePlay( 1, _gameWidth, _gameWidth * 2, new FloatRange( IKinectWrapper.KWIDTH - kinectRangeWidth, IKinectWrapper.KWIDTH ), _joysticks.getRegion(1) );
 		_gamePlays = new ArrayList<GamePlay>();
 		_gamePlays.add( _player1 );
 		_gamePlays.add( _player2 );
-		
+
 		// it's opposite day, since game mode triggers the next action
 		if( _appConfig.getBoolean( "starts_on_game", true ) == true ) {
 			setGameMode( GAME_INSTRUCTIONS );
@@ -190,7 +190,7 @@ extends OHYPhysicalApp
 			setGameMode( GAME_INTRO );
 		}
 	}
-		
+
 	// HAXADEMIC STUFF --------------------------------------------------------------------------------------
 	void newCamera() {
 		_curCamera = new CameraDefault( p, 0, 0, 0 );
@@ -198,7 +198,7 @@ extends OHYPhysicalApp
 		_curCamera.setTarget( _stageWidth/2f, _stageHeight/2f, 0 );
 		_curCamera.reset();
 	}
-	
+
 	protected void debugCameraPos() {
 		P.println(-_stageWidth + p.mouseX*2);
 		_curCamera.setPosition( _stageWidth/2, _stageHeight/2, -_stageWidth + p.mouseX*2 );
@@ -206,8 +206,8 @@ extends OHYPhysicalApp
 
 	public void beatDetect( int isKickCount, int isSnareCount, int isHatCount, int isOnsetCount ) {
 	}
-	
-	
+
+
 	// PUBLIC ACCESSORS FOR GAME OBJECTS --------------------------------------------------------------------------------------
 	public int gameWidth() { return _gameWidth; }
 	public int stageWidth() { return _stageWidth; }
@@ -215,15 +215,15 @@ extends OHYPhysicalApp
 	public float gameBaseZ() { return -_stageHeight; }
 	public int gameState() { return _gameState; }
 	public ColorGroup gameColors() { return _gameColors; }
-	
-	
+
+
 	// GAME LOGIC --------------------------------------------------------------------------------------
-	
+
 	public void setGameMode( int mode ) {
 //		p.println("next mode: "+mode);
 		_gameStateQueued = mode;
 	}
-	
+
 	public void swapGameMode() {
 		_gameState = _gameStateQueued;
 		if( _gameState == GAME_INTRO ) {
@@ -254,21 +254,21 @@ extends OHYPhysicalApp
 			sounds.playSound( WIN_SOUND );
 		}
 	}
-		
+
 	// FRAME LOOP --------------------------------------------------------------------------------------
-	
+
 	public void drawApp() {
 		super.drawApp();
-		
+
 		p.resetMatrix(); // why did I ever decide to do this?! :(
 		DrawUtil.resetGlobalProps( p );
 		p.resetMatrix();
 		DrawUtil.setCenter( p );
 
-		p.shininess(1000f); 
+		p.shininess(1000f);
 		p.lights();
 		p.background(0);
-				
+
 		_curCamera.update();
 
 		if( _gameState != _gameStateQueued ) swapGameMode();
@@ -281,7 +281,7 @@ extends OHYPhysicalApp
 			p.popMatrix();
 		}
 	}
-	
+
 	protected void checkGameStart() {
 		boolean gameIsReady = true;
 		for( int i=0; i < NUM_PLAYERS; i++ ) {
@@ -291,7 +291,7 @@ extends OHYPhysicalApp
 			setGameMode( GAME_COUNTDOWN );
 		}
 	}
-	
+
 	protected void updateGames(){
 		// update all games before checking for complete. also take screenshot if the game's over and the time is right
 		boolean takeScreenShot = false;
@@ -305,7 +305,7 @@ extends OHYPhysicalApp
 			SimpleDateFormat format = new SimpleDateFormat("E_MMM-dd-yyyy_HH-mm-ss");
 			Date gameDate = new Date();
 		    _trackingDateStr =  format.format(gameDate);
-		    
+
 		    // store data
 		    String winIndexes = "";
 		    if(_player1.didWin() == true && _player2.didWin() == true) {
@@ -315,9 +315,9 @@ extends OHYPhysicalApp
 		    } else if(_player2.didWin() == true) {
 		    	winIndexes = "1";
 		    }
-		    
+
 		    _tracking.trackGameResult(_trackingDateStr, 2, winIndexes, _loserBlocksLeft, P.round((p.millis() - _gameStartTime)/1000));
-		    
+
 		    // take photo
 			_tracking.saveCameraImage(_trackingDateStr);
 		}
@@ -328,7 +328,7 @@ extends OHYPhysicalApp
 			}
 		}
 	}
-			
+
 	// Visual fun
 	protected void pickNewColors() {
 		// get themed colors

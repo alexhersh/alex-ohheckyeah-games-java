@@ -212,7 +212,7 @@ public class CatchyGamePlay {
 			}
 		}
 		if( _character.checkBump(x, y) == true ) {
-			droppable.bumped();
+			// droppable.bumped();
 		}
 	}
 	
