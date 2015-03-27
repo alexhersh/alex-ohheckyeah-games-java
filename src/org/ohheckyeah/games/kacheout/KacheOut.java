@@ -20,7 +20,7 @@ import com.haxademic.core.cameras.common.ICamera;
 import com.haxademic.core.data.FloatRange;
 import com.haxademic.core.draw.color.ColorGroup;
 import com.haxademic.core.draw.util.DrawUtil;
-import com.haxademic.core.hardware.kinect.IKinectWrapper;
+import com.haxademic.core.hardware.kinect.KinectSize;
 import com.haxademic.core.system.FileUtil;
 
 public class KacheOut
@@ -176,9 +176,9 @@ extends OHYPhysicalApp
 		KINECT_BOTTOM = _appConfig.getInt( "kinect_bottom_pixel", 400 );
 		int KINECT_PLAYER_GAP = p.appConfig.getInt( "kinect_player_gap", 0 );
 
-		float kinectRangeWidth = IKinectWrapper.KWIDTH / 2f - KINECT_PLAYER_GAP / 2f;
+		float kinectRangeWidth = KinectSize.WIDTH / 2f - KINECT_PLAYER_GAP / 2f;
 		_player1 = new GamePlay( 0, 0, _gameWidth, new FloatRange( 0, kinectRangeWidth ), _joysticks.getRegion(0) );
-		_player2 = new GamePlay( 1, _gameWidth, _gameWidth * 2, new FloatRange( IKinectWrapper.KWIDTH - kinectRangeWidth, IKinectWrapper.KWIDTH ), _joysticks.getRegion(1) );
+		_player2 = new GamePlay( 1, _gameWidth, _gameWidth * 2, new FloatRange( KinectSize.WIDTH - kinectRangeWidth, KinectSize.WIDTH ), _joysticks.getRegion(1) );
 		_gamePlays = new ArrayList<GamePlay>();
 		_gamePlays.add( _player1 );
 		_gamePlays.add( _player2 );
